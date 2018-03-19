@@ -84,7 +84,11 @@ public class GraphicsManager : MonoBehaviour {
 	private UnityAction<CombatUnit,RawImage> combatUnitSetRawImageOffsetForUnitAction;
 	private UnityAction<HexMapTile,Player.Color> hexMapTileUpdateGraphicTileAction;
 	private UnityAction<Colony> colonyAssignColonyGraphicsAction;
-	private UnityAction<HexMapTile,RawImage> hexMapTileSetRawImageOffsetForTileAction;
+
+	//this was removed when I stopped creating a hexMapTile for the planet icons 
+	//private UnityAction<HexMapTile,RawImage> hexMapTileSetRawImageOffsetForTileAction;
+
+	private UnityAction<HexMapTile.TileType,RawImage> hexMapTileTypeSetRawImageOffsetForPlanetIconAction;
 	private UnityAction<MyUnit,RawImage> unitSetRawImageOffsetForUnitTypeAction;
 	private UnityAction<WormholeRotation> wormholeAssignGraphicsAction;
 
@@ -105,7 +109,8 @@ public class GraphicsManager : MonoBehaviour {
 		combatUnitSetRawImageOffsetForUnitAction = (combatUnit,rawImage) => {SetRawImageOffsetForUnit(combatUnit,rawImage);};
 		hexMapTileUpdateGraphicTileAction = (hexMapTile,newColonyColor) => {UpdateGraphicMapTile(hexMapTile);};
 		colonyAssignColonyGraphicsAction = (colony) => {AssignColonyGraphics(colony);};
-		hexMapTileSetRawImageOffsetForTileAction = (hexMapTile,rawImage) => {SetRawImageOffsetForTile(hexMapTile, rawImage);};
+		//hexMapTileSetRawImageOffsetForTileAction = (hexMapTile,rawImage) => {SetRawImageOffsetForTile(hexMapTile, rawImage);};
+		hexMapTileTypeSetRawImageOffsetForPlanetIconAction = (hexMapTileType,rawImage) => {SetRawImageOffsetForPlanetIcon(hexMapTileType, rawImage);};
 		unitSetRawImageOffsetForUnitTypeAction = (myUnit,rawImage) => {SetRawImageOffsetForUnitType(myUnit, rawImage);};
 		wormholeAssignGraphicsAction = (wormhole) => {AssignWormholeGraphics(wormhole);};
 
@@ -157,7 +162,7 @@ public class GraphicsManager : MonoBehaviour {
 		Colony.OnSettleColony.AddListener(colonyAssignColonyGraphicsAction);
 
 		//add listener for setting planet icons
-		uiManager.GetComponent<StatusPanel>().OnSetPlanetIcon.AddListener(hexMapTileSetRawImageOffsetForTileAction);
+		uiManager.GetComponent<StatusPanel>().OnSetPlanetIcon.AddListener(hexMapTileTypeSetRawImageOffsetForPlanetIconAction);
 
 		//add listener to setting purchase ship icons
 		uiManager.GetComponent<PurchaseManager>().OnSetPurchaseShipIcon.AddListener(unitSetRawImageOffsetForUnitTypeAction);
@@ -266,6 +271,16 @@ public class GraphicsManager : MonoBehaviour {
 		HexMapTile.TileType tileType = hexMapTile.tileType;
 
 		//declare atlasCoordinate Vector2 - this is the X-Y coordinate where the tile is on the atlas grid (11 x 11)
+		Vector2 atlasCoordinate = GetAtlasCoordinateForHexMapTileType(tileType);
+
+		return atlasCoordinate;
+
+	}
+
+	//this function takes a hexmap tile type and returns a vector2 for the atlas coordinate
+	private static Vector2 GetAtlasCoordinateForHexMapTileType(HexMapTile.TileType tileType){
+
+		//declare atlasCoordinate Vector2 - this is the X-Y coordinate where the tile is on the atlas grid (11 x 11)
 		Vector2 atlasCoordinate;
 
 		//use switch-cases to define the atlasCoordinate for each TileType
@@ -368,38 +383,25 @@ public class GraphicsManager : MonoBehaviour {
 		case HexMapTile.TileType.Sun:
 			atlasCoordinate = new Vector2 (0, 5);
 			break;
-		case HexMapTile.TileType.SunRay:
-			//the sun ray case is kind of cool - it looks for a sun tile around it to determine
-			//which direction the rays should be going, then grabs the appropriate tile
-			TileMap tileMap = GameObject.Find ("TileMap").GetComponent<TileMap> ();
-			//if hex to the right is the sun, look at rays going to the left in atlas
-			if (tileMap.HexMap [Hex.Neighbor (hexMapTile.hexLocation, 0)].tileType == HexMapTile.TileType.Sun) {
-				atlasCoordinate = new Vector2 (5, 5);
-			}
-			//if hex to the down-right is the sun, look at rays going to the up-left in atlas
-			else if (tileMap.HexMap [Hex.Neighbor (hexMapTile.hexLocation, 1)].tileType == HexMapTile.TileType.Sun) {
-				atlasCoordinate = new Vector2 (6, 5);
-			}
-			//if hex to the down-left is the sun, look at rays going to the up-right in atlas
-			else if (tileMap.HexMap [Hex.Neighbor (hexMapTile.hexLocation, 2)].tileType == HexMapTile.TileType.Sun) {
-				atlasCoordinate = new Vector2 (1, 5);
-			}
-			//if hex to the left is the sun, look at rays going to the right in atlas
-			else if (tileMap.HexMap [Hex.Neighbor (hexMapTile.hexLocation, 3)].tileType == HexMapTile.TileType.Sun) {
-				atlasCoordinate = new Vector2 (2, 5);
-			}
-			//if hex to the up-left is the sun, look at rays going to the down-right in atlas
-			else if (tileMap.HexMap [Hex.Neighbor (hexMapTile.hexLocation, 4)].tileType == HexMapTile.TileType.Sun) {
-				atlasCoordinate = new Vector2 (3, 5);
-			}
-			//if hex to the up-right is the sun, look at rays going to the down-left in atlas
-			else if (tileMap.HexMap [Hex.Neighbor (hexMapTile.hexLocation, 5)].tileType == HexMapTile.TileType.Sun) {
-				atlasCoordinate = new Vector2 (4, 5);
-			}
-			else{
-				atlasCoordinate = new Vector2 (4, 10);
-			}
+		case HexMapTile.TileType.SunRayUpRight:
+			atlasCoordinate = new Vector2 (1, 5);
 			break;
+		case HexMapTile.TileType.SunRayRight:
+			atlasCoordinate = new Vector2 (2, 5);
+			break;
+		case HexMapTile.TileType.SunRayDownRight:
+			atlasCoordinate = new Vector2 (3, 5);
+			break;
+		case HexMapTile.TileType.SunRayDownLeft:
+			atlasCoordinate = new Vector2 (4, 5);
+			break;
+		case HexMapTile.TileType.SunRayLeft:
+			atlasCoordinate = new Vector2 (5, 5);
+			break;
+		case HexMapTile.TileType.SunRayUpLeft:
+			atlasCoordinate = new Vector2 (6, 5);
+			break;
+
 		default:
 			atlasCoordinate = new Vector2 (4, 10);
 			break;
@@ -408,8 +410,6 @@ public class GraphicsManager : MonoBehaviour {
 		return atlasCoordinate;
 
 	}
-
-
 
 
 
@@ -881,6 +881,26 @@ public class GraphicsManager : MonoBehaviour {
 
 	}
 
+	//this function will set the RawImage offset for a planet icon
+	private void SetRawImageOffsetForPlanetIcon(HexMapTile.TileType planetName, RawImage rawImage){
+
+		//get the atlas coordinate for the tileType
+		Vector2 atlasCoordinate = GetAtlasCoordinateForHexMapTileType(planetName);
+
+		//check to make sure rawImage is not null
+		if (rawImage != null) {
+
+			//set the rawImage UV Rect based on the atlas coordinate
+			rawImage.uvRect = new Rect (atlasCoordinate.x / tilesPerRow, atlasCoordinate.y / tilesPerRow, 1.0f / tilesPerRow, 1.0f / tilesPerRow);
+
+		} else {
+
+			Debug.LogError ("The RawImage passed to SetRawImageOffsetForTile() is null");
+
+		}
+
+	}
+
 
 	//this function will take a combat unit as input and return a GameGraphics.MyUnit as output
 	private MyUnit GetCombatUnitMyUnit(CombatUnit combatUnit){
@@ -1296,7 +1316,7 @@ public class GraphicsManager : MonoBehaviour {
 			uiManager.GetComponent<UnitPanel>().OnSetHighlightedUnit.RemoveListener(combatUnitSetRawImageOffsetForUnitAction);
 
 			//remove listener for setting planet icons
-			uiManager.GetComponent<StatusPanel>().OnSetPlanetIcon.RemoveListener(hexMapTileSetRawImageOffsetForTileAction);
+			uiManager.GetComponent<StatusPanel>().OnSetPlanetIcon.RemoveListener(hexMapTileTypeSetRawImageOffsetForPlanetIconAction);
 
 			//remove listener to setting purchase ship icons
 			uiManager.GetComponent<PurchaseManager>().OnSetPurchaseShipIcon.RemoveListener(unitSetRawImageOffsetForUnitTypeAction);

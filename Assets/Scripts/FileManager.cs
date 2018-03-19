@@ -3239,6 +3239,9 @@ public class FileManager : MonoBehaviour  {
 		//add listener to the same file saved event
 		uiManager.GetComponent<FileSaveWindow>().OnFileSaveYesClickedSameFile.AddListener(stringSaveGameAction);
 
+		//add listener for the file overwrite event
+		uiManager.GetComponent<FileOverwritePrompt>().OnFileOverwriteYesClicked.AddListener(stringSaveGameAction);
+
 		//add a listener to the delete file confirmed event
 		uiManager.GetComponent<FileLoadWindow>().OnFileConfirmedDelete.AddListener(stringDeleteGameAction);
 
@@ -3436,8 +3439,14 @@ public class FileManager : MonoBehaviour  {
 			//remove listener to the same file saved event
 			uiManager.GetComponent<FileSaveWindow>().OnFileSaveYesClickedSameFile.RemoveListener(stringSaveGameAction);
 
+			//remove listener for the file overwrite event
+			uiManager.GetComponent<FileOverwritePrompt>().OnFileOverwriteYesClicked.RemoveListener(stringSaveGameAction);
+
 			//remove a listener to the delete file confirmed event
 			uiManager.GetComponent<FileLoadWindow>().OnFileConfirmedDelete.RemoveListener(stringDeleteGameAction);
+
+			//remove listener to the file load event
+			uiManager.GetComponent<FileLoadWindow>().OnFileLoadYesClicked.RemoveListener(stringLoadGameAction);
 
 		}
 

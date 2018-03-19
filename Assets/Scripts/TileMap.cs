@@ -325,13 +325,24 @@ public class TileMap : MonoBehaviour {
 		List<Hex> SunTiles = new List<Hex>();
 		SunTiles.Add (new Hex (8, 15, -23));
 
-		List<Hex> SunRayTiles = new List<Hex>();
-		SunRayTiles.Add (new Hex (8, 16, -24));
-		SunRayTiles.Add (new Hex (9, 15, -24));
-		SunRayTiles.Add (new Hex (9, 14, -23));
-		SunRayTiles.Add (new Hex (8, 14, -22));
-		SunRayTiles.Add (new Hex (7, 15, -22));
-		SunRayTiles.Add (new Hex (7, 16, -23));
+		List<Hex> SunRayTilesUpRight = new List<Hex>();
+		SunRayTilesUpRight.Add (new Hex (8, 16, -24));
+
+		List<Hex> SunRayTilesRight = new List<Hex>();
+		SunRayTilesRight.Add (new Hex (9, 15, -24));
+
+
+		List<Hex> SunRayTilesDownRight = new List<Hex>();
+		SunRayTilesDownRight.Add (new Hex (9, 14, -23));
+
+		List<Hex> SunRayTilesDownLeft = new List<Hex>();
+		SunRayTilesDownLeft.Add (new Hex (8, 14, -22));
+
+		List<Hex> SunRayTilesLeft = new List<Hex>();
+		SunRayTilesLeft.Add (new Hex (7, 15, -22));
+
+		List<Hex> SunRayTilesUpLeft = new List<Hex>();
+		SunRayTilesUpLeft.Add (new Hex (7, 16, -23));
 
 		List<Hex> NeutralStarbaseTiles = new List<Hex>();
 		NeutralStarbaseTiles.Add (new Hex (2, 9, -11));
@@ -403,8 +414,23 @@ public class TileMap : MonoBehaviour {
 				else if (SunTiles.Contains (hexArray [hexArrayIndex])) {
 					currentHexTileType = HexMapTile.TileType.Sun;
 				} 
-				else if (SunRayTiles.Contains (hexArray [hexArrayIndex])) {
-					currentHexTileType = HexMapTile.TileType.SunRay;
+				else if (SunRayTilesUpRight.Contains (hexArray [hexArrayIndex])) {
+					currentHexTileType = HexMapTile.TileType.SunRayUpRight;
+				} 
+				else if (SunRayTilesRight.Contains (hexArray [hexArrayIndex])) {
+					currentHexTileType = HexMapTile.TileType.SunRayRight;
+				} 
+				else if (SunRayTilesDownRight.Contains (hexArray [hexArrayIndex])) {
+					currentHexTileType = HexMapTile.TileType.SunRayDownRight;
+				} 
+				else if (SunRayTilesDownLeft.Contains (hexArray [hexArrayIndex])) {
+					currentHexTileType = HexMapTile.TileType.SunRayDownLeft;
+				} 
+				else if (SunRayTilesLeft.Contains (hexArray [hexArrayIndex])) {
+					currentHexTileType = HexMapTile.TileType.SunRayLeft;
+				} 
+				else if (SunRayTilesUpLeft.Contains (hexArray [hexArrayIndex])) {
+					currentHexTileType = HexMapTile.TileType.SunRayUpLeft;
 				} 
 				else if (NeutralStarbaseTiles.Contains (hexArray [hexArrayIndex])) {
 					currentHexTileType = HexMapTile.TileType.NeutralStarbase;
@@ -416,7 +442,7 @@ public class TileMap : MonoBehaviour {
 
 				//the new dictionary is a dictionary of HexMapTiles - the tile will store game data in addition to just the hex location
 				HexMap.Add(hexArray [hexArrayIndex],new HexMapTile(hexArray [hexArrayIndex],hexArrayIndex,this,currentHexTileType));
-
+				//Debug.Log("hexArrayIndex + " + hexArrayIndex + ", tiletype: " + currentHexTileType);
 				hexArrayIndex++;
 			}
 		}

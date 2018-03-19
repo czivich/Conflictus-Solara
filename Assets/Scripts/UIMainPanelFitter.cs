@@ -174,10 +174,16 @@ public class UIMainPanelFitter : MonoBehaviour {
 					float anchorToMove = pixelsToMove / mainCameraWidthInPixels;
 
 					//move the anchor min x and anchor max x by the anchorToMove value
-					UIPanels [i].GetComponent<RectTransform> ().anchorMin = new Vector2(0.5f + anchorToMove, UIPanels [i].GetComponent<RectTransform> ().anchorMin.y);
-					UIPanels [i].GetComponent<RectTransform> ().anchorMax = new Vector2(0.5f + anchorToMove, UIPanels [i].GetComponent<RectTransform> ().anchorMax.y);
+					UIPanels [i].GetComponent<RectTransform> ().anchorMin = new Vector2 (0.5f + anchorToMove, UIPanels [i].GetComponent<RectTransform> ().anchorMin.y);
+					UIPanels [i].GetComponent<RectTransform> ().anchorMax = new Vector2 (0.5f + anchorToMove, UIPanels [i].GetComponent<RectTransform> ().anchorMax.y);
 
 				}
+
+			} else {
+
+				//else, if there is enough room, we need to re-center the panels
+				UIPanels [i].GetComponent<RectTransform> ().anchorMin = new Vector2 (0.5f,UIPanels [i].GetComponent<RectTransform> ().anchorMin.y);
+				UIPanels [i].GetComponent<RectTransform> ().anchorMax = new Vector2 (0.5f,UIPanels [i].GetComponent<RectTransform> ().anchorMax.y);
 
 			}
 

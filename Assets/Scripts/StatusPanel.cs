@@ -63,7 +63,7 @@ public class StatusPanel : MonoBehaviour {
 	private Color selectedButtonColor = new Color (240.0f / 255.0f, 240.0f / 255.0f, 20.0f / 255.0f, 255.0f / 255.0f); 
 
 	//variable to hold the tileMap
-	private TileMap tileMap;
+	//private TileMap tileMap;
 
 	//variable to hold the gameManager
 	private GameManager gameManager;
@@ -107,7 +107,7 @@ public class StatusPanel : MonoBehaviour {
 	//event to send tile and rawImage
 	public rawImageEvent OnSetPlanetIcon = new rawImageEvent();
 
-	public class rawImageEvent : UnityEvent<HexMapTile,RawImage>{}; 
+	public class rawImageEvent : UnityEvent<HexMapTile.TileType,RawImage>{}; 
 
 	//event to send tile and rawImage
 	public rawImageShipEvent OnSetShipIcon = new rawImageShipEvent();
@@ -122,7 +122,7 @@ public class StatusPanel : MonoBehaviour {
 	public void Init () {
 		
 		//get the tileMap
-		tileMap = GameObject.FindGameObjectWithTag("TileMap").GetComponent<TileMap>();
+		//tileMap = GameObject.FindGameObjectWithTag("TileMap").GetComponent<TileMap>();
 
 		//get the colonyManager
 		colonyManager = GameObject.FindGameObjectWithTag("ColonyManager").GetComponent<ColonyManager>();
@@ -336,7 +336,7 @@ public class StatusPanel : MonoBehaviour {
 			}
 
 			//invoke the rawImage event, converting the planetText string to the tileType enum
-			OnSetPlanetIcon.Invoke(new HexMapTile(new Hex(0,0,0),0,tileMap,(HexMapTile.TileType)Enum.Parse(typeof(HexMapTile.TileType),planetText,true)),rawImage);
+			OnSetPlanetIcon.Invoke((HexMapTile.TileType)Enum.Parse(typeof(HexMapTile.TileType),planetText,true),rawImage);
 
 			//Debug.Log (planetText);
 

@@ -80,7 +80,12 @@ public class HexMapTile{
 		RedStart,
 		BlueStart,
 		Sun,
-		SunRay,
+		SunRayUpRight,
+		SunRayRight,
+		SunRayDownRight,
+		SunRayDownLeft,
+		SunRayLeft,
+		SunRayUpLeft,
 		Asteroid,
 		Mercury,
 		Venus,
@@ -189,7 +194,27 @@ public class HexMapTile{
 			this.movementCost = Mathf.Infinity;
 			this.isPlanet = false;
 			break;
-		case TileType.SunRay:
+		case TileType.SunRayUpRight:
+			this.movementCost = 1.0f;
+			this.isPlanet = false;
+			break;
+		case TileType.SunRayRight:
+			this.movementCost = 1.0f;
+			this.isPlanet = false;
+			break;
+		case TileType.SunRayDownRight:
+			this.movementCost = 1.0f;
+			this.isPlanet = false;
+			break;
+		case TileType.SunRayDownLeft:
+			this.movementCost = 1.0f;
+			this.isPlanet = false;
+			break;
+		case TileType.SunRayLeft:
+			this.movementCost = 1.0f;
+			this.isPlanet = false;
+			break;
+		case TileType.SunRayUpLeft:
 			this.movementCost = 1.0f;
 			this.isPlanet = false;
 			break;
@@ -435,6 +460,8 @@ public class HexMapTile{
 		//check if the current tile is a planet - if not, do nothing
 		if (this.isPlanet == true) {
 
+			//Debug.Log (this.tileType + " (" + this.hexLocation.q + "," + this.hexLocation.r + "," + this.hexLocation.s + ")" );
+
 			//if this is a planet, check to see if there is a unit on it
 			if (this.tileCombatUnit != null) {
 
@@ -526,6 +553,8 @@ public class HexMapTile{
 			break;
 
 		}
+
+		//Debug.Log (this.tileType + " color " + newColonyColor.ToString ());
 
 		//invoke the colonize new planet event
 		OnColonizeNewPlanet.Invoke(this, newColonyColor);

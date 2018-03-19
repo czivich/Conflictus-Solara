@@ -2111,6 +2111,8 @@ public class MessageManager : MonoBehaviour {
 	//this function sends a message to the log announcing a planet colonization
 	private void SendPlanetColonizationMessage(string planetColonized, Player colonizingPlayer){
 
+		//Debug.Log ("colonize");
+
 		//create variable for message log input
 		string newMessage;
 

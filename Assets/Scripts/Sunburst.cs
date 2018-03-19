@@ -50,7 +50,13 @@ public class Sunburst : MonoBehaviour {
 			if (this.GetComponent<Ship> ().owner.color == playerColor) {
 
 				//check if the ship is in a sun ray tile
-				if (tileMap.HexMap [this.GetComponent<Ship> ().currentLocation].tileType == HexMapTile.TileType.SunRay) {
+				if (tileMap.HexMap [this.GetComponent<Ship> ().currentLocation].tileType == HexMapTile.TileType.SunRayUpRight || 
+					tileMap.HexMap [this.GetComponent<Ship> ().currentLocation].tileType == HexMapTile.TileType.SunRayRight ||
+					tileMap.HexMap [this.GetComponent<Ship> ().currentLocation].tileType == HexMapTile.TileType.SunRayDownRight ||
+					tileMap.HexMap [this.GetComponent<Ship> ().currentLocation].tileType == HexMapTile.TileType.SunRayDownLeft ||
+					tileMap.HexMap [this.GetComponent<Ship> ().currentLocation].tileType == HexMapTile.TileType.SunRayLeft || 
+					tileMap.HexMap [this.GetComponent<Ship> ().currentLocation].tileType == HexMapTile.TileType.SunRayUpLeft
+				) {
 
 					//if this ship is in a sunray tile, invoke the event
 					OnSunburstDamageDealt.Invoke (this.GetComponent<CombatUnit> (), sunburstDamage);

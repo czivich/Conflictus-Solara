@@ -64,6 +64,10 @@ public class GraphicsManager : MonoBehaviour {
 		Blank,
 		RedWormhole,
 		BlueWormhole,
+		RedMiniMap,
+		BlueMiniMap,
+		GreenMiniMap,
+		PurpleMiniMap
 	}
 
 	public enum MySquareMaterial{
@@ -179,17 +183,71 @@ public class GraphicsManager : MonoBehaviour {
 	//function to assign graphics to a newly created combatUnit
 	private void AssignNewUnitGraphics(CombatUnit combatUnit){
 
+		//define an array of mesh filters
+		MeshFilter[] newUnitMeshFilters = ((MeshFilter[])combatUnit.GetComponentsInChildren<MeshFilter> ());
+
 		//get the mesh from the new unit
-		Mesh newUnitMesh = ((MeshFilter)combatUnit.GetComponentInChildren<MeshFilter> ()).mesh;
+		Mesh[] newUnitMeshes = new Mesh[newUnitMeshFilters.Length];
 
-		//get the UVs from the new unit
-		Vector2[] newUnitUVs = new Vector2[newUnitMesh.vertices.Length];
+		//assign the meshes from the mesh filters
+		for (int i = 0; i < newUnitMeshFilters.Length; i++) {
 
-		newUnitUVs = SetUVsOfUnit (newUnitMesh, GetCombatUnitMyUnit (combatUnit));
+			newUnitMeshes [i] = newUnitMeshFilters [i].mesh;
 
-		newUnitMesh.uv = newUnitUVs;
+		}
+
+		//create 2D array of UVs
+		Vector2[][] newUnitUVs = new Vector2[newUnitMeshes.Length][];
+
+		//get the UVs from the new unit for the main camera graphics
+		newUnitUVs[0] = SetUVsOfUnit (newUnitMeshes[0], GetCombatUnitMyUnit (combatUnit));
+
+		//get the UVs from the new unit for the minimap camera graphics
+		newUnitUVs[1] = SetUVsOfUnit (newUnitMeshes[1], GetMiniMapMyUnitFromCombatUnit(combatUnit));
+
+		//assign the new UVs back to the mesh
+		for (int i = 0; i < newUnitMeshes.Length; i++) {
+
+			newUnitMeshes [i].uv = newUnitUVs [i];
+
+		}
 
 		return;
+
+	}
+
+	//this function returns the appropriate minimap MyUnit based on the unit color
+	private MyUnit GetMiniMapMyUnitFromCombatUnit(CombatUnit combatUnit){
+
+		//variable to return
+		MyUnit returnMyUnit;
+
+		//switch case based on combatUnitColor
+		switch (combatUnit.owner.color) {
+		 
+		case Player.Color.Red:
+			returnMyUnit = MyUnit.RedMiniMap;
+			break;
+
+		case Player.Color.Blue:
+			returnMyUnit = MyUnit.BlueMiniMap;
+			break;
+
+		case Player.Color.Green:
+			returnMyUnit = MyUnit.GreenMiniMap;
+			break;
+
+		case Player.Color.Purple:
+			returnMyUnit = MyUnit.PurpleMiniMap;
+			break;
+
+		default:
+			returnMyUnit = MyUnit.Blank;
+			break;
+
+		}
+
+		return returnMyUnit;
 
 	}
 
@@ -1249,6 +1307,22 @@ public class GraphicsManager : MonoBehaviour {
 
 		case MyUnit.BlueWormhole:
 			atlasCoordinate = new Vector2 (1, 1);
+			break;
+
+		case MyUnit.RedMiniMap:
+			atlasCoordinate = new Vector2 (2, 1);
+			break;
+
+		case MyUnit.BlueMiniMap:
+			atlasCoordinate = new Vector2 (3, 1);
+			break;
+
+		case MyUnit.GreenMiniMap:
+			atlasCoordinate = new Vector2 (4, 1);
+			break;
+
+		case MyUnit.PurpleMiniMap:
+			atlasCoordinate = new Vector2 (5, 1);
 			break;
 
 		default:

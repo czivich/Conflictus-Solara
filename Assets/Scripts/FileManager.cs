@@ -143,6 +143,7 @@ public class FileManager : MonoBehaviour  {
 		public bool[,] birdOfPreyTractorBeam { get; private set; }
 		public bool[,] birdOfPreyHasRemainingTorpedoAttack { get; private set; }
 		public bool[,] birdOfPreyIsCloaked { get; private set; }
+		public bool[,] birdOfPreyUsedCloakingDeviceThisTurn { get; private set; }
 		//the unit name and serial number variables in CombatUnit can be populated from playerBirdOfPreyNamesPurchased and the array index
 		public bool[,] birdOfPreyTorpedoSectionIsDestroyed { get; private set; }
 		public int[,] birdOfPreyTorpedoSectionShieldsCurrent { get; private set; }
@@ -361,6 +362,7 @@ public class FileManager : MonoBehaviour  {
 			birdOfPreyHexLocation = new Hex[playerArray.Length,GameManager.maxShipsPerClass];
 			birdOfPreyHasRemainingPhasorAttack = new bool[playerArray.Length,GameManager.maxShipsPerClass];
 			birdOfPreyIsCloaked = new bool[playerArray.Length,GameManager.maxShipsPerClass];
+			birdOfPreyUsedCloakingDeviceThisTurn = new bool[playerArray.Length,GameManager.maxShipsPerClass];
 
 			birdOfPreyHasRemainingPhasorAttack = new bool[playerArray.Length,GameManager.maxShipsPerClass];
 			birdOfPreyPhasorSectionIsDestroyed = new bool[playerArray.Length,GameManager.maxShipsPerClass];
@@ -826,6 +828,10 @@ public class FileManager : MonoBehaviour  {
 
 						writer.WriteStartElement ("isCloaked");
 						writer.WriteValue (birdOfPreyIsCloaked [i, j].ToString ().ToLowerInvariant());
+						writer.WriteEndElement ();
+
+						writer.WriteStartElement ("usedCloakingDeviceThisTurn");
+						writer.WriteValue (birdOfPreyUsedCloakingDeviceThisTurn [i, j].ToString ().ToLowerInvariant());
 						writer.WriteEndElement ();
 
 						//close combat unit
@@ -2064,6 +2070,9 @@ public class FileManager : MonoBehaviour  {
 							//read element for isCloaked
 							birdOfPreyIsCloaked [i, j] = reader.ReadElementContentAsBoolean ();
 
+							//read element for usedCloakingDeviceThisTurn
+							birdOfPreyUsedCloakingDeviceThisTurn [i, j] = reader.ReadElementContentAsBoolean ();
+
 							//the end element is the CombatUnit
 							reader.ReadEndElement ();
 
@@ -2998,6 +3007,7 @@ public class FileManager : MonoBehaviour  {
 						birdOfPreyHexLocation [i, combatUnit.serialNumber] = combatUnit.currentLocation;
 						birdOfPreyHasRemainingPhasorAttack [i, combatUnit.serialNumber] = combatUnit.hasRemainingPhasorAttack;
 						birdOfPreyIsCloaked [i, combatUnit.serialNumber] = combatUnit.GetComponent<CloakingDevice> ().isCloaked;
+						birdOfPreyUsedCloakingDeviceThisTurn [i, combatUnit.serialNumber] = combatUnit.GetComponent<CloakingDevice> ().usedCloakingDeviceThisTurn;
 						birdOfPreyPhasorSectionIsDestroyed[i,combatUnit.serialNumber] = combatUnit.GetComponent<PhasorSection>().isDestroyed;
 						birdOfPreyPhasorSectionShieldsCurrent[i,combatUnit.serialNumber] = combatUnit.GetComponent<PhasorSection>().shieldsCurrent;
 						birdOfPreyUsedPhasorsThisTurn[i,combatUnit.serialNumber] = combatUnit.GetComponent<PhasorSection>().usedPhasorsThisTurn;

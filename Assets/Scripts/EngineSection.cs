@@ -1490,6 +1490,9 @@ public class EngineSection : MonoBehaviour {
 
 					}
 
+					//restore the movement range
+					RestoreMovementRange(this.GetComponent<Ship>());
+
 				}
 
 			}

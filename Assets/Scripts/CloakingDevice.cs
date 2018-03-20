@@ -37,7 +37,7 @@ public class CloakingDevice : MonoBehaviour {
 	private UnityAction<CombatUnit> combatUnitCombatUnitDestroyedAction;
 	private UnityAction<CombatUnit> combatUnitEngageCloakingDeviceAction;
 	private UnityAction<CombatUnit> combatUnitDisengageCloakingDeviceAction;
-
+	private UnityAction<CombatUnit,FileManager.SaveGameData> saveDataResolveLoadedUnitAction;
 
 	// Use this for initialization
 	public void Init () {
@@ -47,6 +47,7 @@ public class CloakingDevice : MonoBehaviour {
 		combatUnitCombatUnitDestroyedAction = (unitDestroyed) => {CombatUnitDestroyed (unitDestroyed);};
 		combatUnitEngageCloakingDeviceAction = (combatUnit) => {EngageCloakingDevice(combatUnit);};
 		combatUnitDisengageCloakingDeviceAction = (combatUnit) => {DisengageCloakingDevice (combatUnit);};
+		saveDataResolveLoadedUnitAction = (combatUnit,saveGameData) => {ResolveLoadedUnit(combatUnit,saveGameData);};
 
 		//get the managers
 		gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
@@ -67,6 +68,9 @@ public class CloakingDevice : MonoBehaviour {
 		uiManager.GetComponent<CloakingDeviceMenu>().OnTurnOnCloakingDevice.AddListener(combatUnitEngageCloakingDeviceAction);
 		uiManager.GetComponent<CloakingDeviceMenu>().OnTurnOffCloakingDevice.AddListener(combatUnitDisengageCloakingDeviceAction);
 
+		//add listener for loading a unit
+		//add listener for creating unit from load
+		CombatUnit.OnCreateLoadedUnit.AddListener(saveDataResolveLoadedUnitAction);
 
 	}
 
@@ -132,6 +136,48 @@ public class CloakingDevice : MonoBehaviour {
 		if (currentTurn == this.GetComponent<Ship>().owner.color) {
 
 			this.usedCloakingDeviceThisTurn = false;
+
+		}
+
+	}
+
+	//this function resolves the loaded unit
+	private void ResolveLoadedUnit(CombatUnit combatUnit, FileManager.SaveGameData saveGameData){
+		
+		//first, check that the unit matches
+		if (this.GetComponent<CombatUnit> () == combatUnit) {
+
+			//if we have the right unit, use the saveGameData to set values
+			//need to find the index of the player colors from the saveGameData file
+			for (int i = 0; i < GameManager.numberPlayers; i++) {
+
+				//check if the color matches
+				if (saveGameData.playerColor [i] == combatUnit.owner.color) {
+
+					//we have found the right index for this player
+					//we know that this has to be a bird of prey, since only a bird of prey has a cloaking device
+
+					//set the cloaking device status
+					this.isCloaked = saveGameData.birdOfPreyIsCloaked [i, combatUnit.serialNumber];
+					this.usedCloakingDeviceThisTurn = saveGameData.birdOfPreyUsedCloakingDeviceThisTurn [i, combatUnit.serialNumber];
+
+					if (this.isCloaked == true) {
+						
+						//invoke the event
+						OnEngageCloakingDevice.Invoke (this.GetComponent<CombatUnit> ());
+
+					}
+
+					if (this.isCloaked == false) {
+
+						//invoke the event
+						OnDisengageCloakingDevice.Invoke (this.GetComponent<CombatUnit> ());
+
+					}
+
+				}
+
+			}
 
 		}
 

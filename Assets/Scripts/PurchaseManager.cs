@@ -2518,6 +2518,9 @@ public class PurchaseManager : MonoBehaviour {
 			//make the button not interactable if there are no items
 			purchaseItemsButton.interactable = false;
 
+			//change the text
+			purchaseItemsButton.GetComponentInChildren<TextMeshProUGUI> ().text = ("Purchase");
+
 		}
 			
 	}

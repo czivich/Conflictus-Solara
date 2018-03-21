@@ -19,7 +19,7 @@ Platform assembly: C:\Users\Chad Zivich\Documents\Unity Projects\Conflictus-Sola
 Loading C:\Users\Chad Zivich\Documents\Unity Projects\Conflictus-Solara\Conflictus Solara_Data\Managed\UnityEngine.Analytics.dll into Unity Child Domain
 Platform assembly: C:\Users\Chad Zivich\Documents\Unity Projects\Conflictus-Solara\Conflictus Solara_Data\Managed\TextMeshPro.dll (this message is harmless)
 Loading C:\Users\Chad Zivich\Documents\Unity Projects\Conflictus-Solara\Conflictus Solara_Data\Managed\TextMeshPro.dll into Unity Child Domain
-- Completed reload, in  0.329 seconds
+- Completed reload, in  0.083 seconds
 Platform assembly: C:\Users\Chad Zivich\Documents\Unity Projects\Conflictus-Solara\Conflictus Solara_Data\Managed\System.Core.dll (this message is harmless)
 Platform assembly: C:\Users\Chad Zivich\Documents\Unity Projects\Conflictus-Solara\Conflictus Solara_Data\Managed\System.dll (this message is harmless)
 Platform assembly: C:\Users\Chad Zivich\Documents\Unity Projects\Conflictus-Solara\Conflictus Solara_Data\Managed\System.Xml.dll (this message is harmless)
@@ -27,19 +27,13 @@ desktop: 1920x1080 59Hz; virtual: 1920x1080 at 0,0
 <RI> Initializing input.
 <RI> Input initialized.
 <RI> Initialized touch support.
-UnloadTime: 1.478665 ms
+UnloadTime: 1.764817 ms
 Setting up 2 worker threads for Enlighten.
-  Thread -> id: f04 -> priority: 1 
-  Thread -> id: fbc -> priority: 1 
+  Thread -> id: cac -> priority: 1 
+  Thread -> id: 2094 -> priority: 1 
 Unloading 6 Unused Serialized files (Serialized files now loaded: 0)
-UnloadTime: 39.608299 ms
+UnloadTime: 38.355907 ms
 
 Unloading 35 unused Assets to reduce memory usage. Loaded Objects now: 11621.
-Total: 74.173225 ms (FindLiveObjects: 0.908072 ms CreateObjectMapping: 0.283585 ms MarkObjects: 72.471718 ms  DeleteObjects: 0.508571 ms)
-
-Unloading 5 Unused Serialized files (Serialized files now loaded: 0)
-UnloadTime: 221.668930 ms
-
-Unloading 182 unused Assets to reduce memory usage. Loaded Objects now: 11669.
-Total: 110.345566 ms (FindLiveObjects: 1.149312 ms CreateObjectMapping: 0.346461 ms MarkObjects: 108.110252 ms  DeleteObjects: 0.736980 ms)
+Total: 76.743034 ms (FindLiveObjects: 1.004739 ms CreateObjectMapping: 0.293423 ms MarkObjects: 75.225021 ms  DeleteObjects: 0.217714 ms)
 

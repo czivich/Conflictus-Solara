@@ -270,6 +270,7 @@ public class EngineSection : MonoBehaviour {
 	private UnityAction<Dictionary<string,int>,int,CombatUnit> purchaseAddPurchaseItemsAction;
 	private UnityAction<CombatUnit,int> incidentalTakeDamageAction;
 	private UnityAction<CombatUnit,FileManager.SaveGameData> saveDataResolveLoadedUnitAction;
+	private UnityAction clearSelectedUnitCalculateMovementRangeAction;
 
 	public void Init(){
 
@@ -278,7 +279,14 @@ public class EngineSection : MonoBehaviour {
 		shipShowWarpBoosterAction = (ship) => {ShowWarpBooster(ship);};
 		shipRestoreMovementRangeAction = (ship) => {RestoreMovementRange(ship);};
 		playerColorEndTurnAction = (color) => {EndTurn(color);};
-		setSelectedUnitEarlyCalculateMovementRangeAction = () => {CalculateMovementRange(mouseManager.selectedUnit);};
+		setSelectedUnitEarlyCalculateMovementRangeAction = () => {
+
+			//restore the range - I can do this because an engine section component will only be on a ship
+			RestoreMovementRange(mouseManager.selectedUnit.GetComponent<Ship>());
+
+			CalculateMovementRange(mouseManager.selectedUnit);
+		
+		};
 		shipMovementMoveShipAction = (selectedShip,destinationHex,targetedShip) => {MoveShip(selectedShip,destinationHex,targetedShip,null);};
 		attackHitTakeDamageAction = (attackingUnit, targetedUnit, phasorDamage) => {TakeDamage(targetedUnit,phasorDamage);};
 		crystalUsedHealDamageAction = (selectedUnit,targetedUnit,crystalType,shieldsHealed) => {HealDamage(targetedUnit,shieldsHealed);};
@@ -298,6 +306,8 @@ public class EngineSection : MonoBehaviour {
 		purchaseAddPurchaseItemsAction = (purchasedItems,purchasedValue,combatUnit) => {AddPurchasedItems(purchasedItems,combatUnit);};
 		incidentalTakeDamageAction = (combatUnit, damage) => {TakeDamage(combatUnit,damage);};
 		saveDataResolveLoadedUnitAction = (combatUnit,saveGameData) => {ResolveLoadedUnit(combatUnit,saveGameData);};
+		clearSelectedUnitCalculateMovementRangeAction = () => {RestoreMovementRange(this.GetComponent<Ship>());};
+
 
 		//cache the ship that the engine section is attached to
 		thisShip = this.GetComponentInParent<Ship>();
@@ -422,6 +432,9 @@ public class EngineSection : MonoBehaviour {
 
 		//add listener for creating unit from load
 		CombatUnit.OnCreateLoadedUnit.AddListener(saveDataResolveLoadedUnitAction);
+
+		//add listener for clearing selected unit
+		mouseManager.OnClearSelectedUnit.AddListener(clearSelectedUnitCalculateMovementRangeAction);
 
 	}
 
@@ -1538,6 +1551,9 @@ public class EngineSection : MonoBehaviour {
 
 			//remove listener to mouseManager OnSignalMove event
 			mouseManager.OnSignalMovement.RemoveListener (shipMovementMoveShipAction);
+
+			//remove listener for clearing selected unit
+			mouseManager.OnClearSelectedUnit.RemoveListener(clearSelectedUnitCalculateMovementRangeAction);
 
 		}
 

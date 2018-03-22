@@ -30,6 +30,7 @@ TagManager:
   - Background3
   - EmblemParent
   - InactiveUI
+  - SelectedUI
   layers:
   - Default
   - TransparentFX

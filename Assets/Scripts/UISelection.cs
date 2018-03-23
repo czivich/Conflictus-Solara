@@ -10,7 +10,7 @@ using UnityEngine.UI;
 public class UISelection : MonoBehaviour, IPointerEnterHandler, IDeselectHandler, ISelectHandler, IPointerExitHandler
 {
 
-	private Color32 mouseOverHighlightColor = new Color32 (200, 255, 255, 255);
+	private Color32 mouseOverHighlightColor = new Color32 (160, 255, 255, 255);
 	private Color32 defaultColor = new Color32 (255, 255, 255, 255);
 
 	//use this for initialization

@@ -137,6 +137,7 @@ public class MainMenuManager : MonoBehaviour {
 		uiManagerMainMenu.GetComponent<ConfigureLocalGameWindow> ().Init ();
 		uiManagerMainMenu.GetComponent<SceneTransitionFadePanel> ().Init ();
 		uiManagerMainMenu.GetComponent<Settings> ().Init ();
+		uiManagerMainMenu.GetComponent<UINavigationMainMenu> ().Init ();
 
 	}
 

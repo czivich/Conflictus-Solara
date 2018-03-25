@@ -294,7 +294,7 @@ public class FileLoadWindow : MonoBehaviour {
 		//destroy all children of the filelist
 		for(int i = 0; i < fileList.transform.childCount; i++){
 
-			GameObject.Destroy (fileList.transform.GetChild (i).gameObject);
+			GameObject.Destroy(fileList.transform.GetChild (i).gameObject);
 
 		}
 

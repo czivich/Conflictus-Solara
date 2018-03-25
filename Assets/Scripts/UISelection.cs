@@ -93,6 +93,15 @@ public class UISelection : MonoBehaviour, IPointerEnterHandler, IDeselectHandler
 
 	}
 
+	public void OnEnable(){
+		
+		//I want to have these all disabled until specifically turned on - this prevents
+		//them from accidentally still being on after exiting a menu and then coming back to the menu
+		//disable the selectUI image
+		this.gameObject.FindComponentInChildWithTag<Image> ("SelectedUI").enabled = false;
+
+	}
+
 }
 
 

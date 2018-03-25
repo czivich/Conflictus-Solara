@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using TMPro;
 
 public class UINavigationMainMenu : MonoBehaviour {
 
@@ -19,8 +20,14 @@ public class UINavigationMainMenu : MonoBehaviour {
 		MainMenu,
 		NewLocalGame,
 		LoadLocalGame,
+		FileDeletePrompt,
+		Settings,
+		ExitGamePrompt,
 
 	}
+
+	//this bool will wait a frame when needed
+	private int delayLoadFilesWindowCount = 0;
 
 	//this keeps track of what the current UI state is
 	private UIState currentUIState;
@@ -56,6 +63,9 @@ public class UINavigationMainMenu : MonoBehaviour {
 	private Selectable[][] MainMenuGroup;
 	private Selectable[][] NewLocalGameGroup;
 	private Selectable[][] LoadLocalGameGroup;
+	private Selectable[][] FileDeletePromptGroup;
+	private Selectable[][] SettingsGroup;
+	private Selectable[][] ExitGamePromptGroup;
 
 	//these public arrays will hold the different selectables arrays
 	public Selectable[] MainMenuButtons;
@@ -71,10 +81,25 @@ public class UINavigationMainMenu : MonoBehaviour {
 	public Selectable[] LoadLocalGameFiles;
 	public Selectable[] LoadLocalGameButtonsRow;
 
+	public Selectable[] FileDeleteButtons;
 
-	//public scroll bars
-	public Scrollbar LoadGameScrollBar;
+	public Selectable[] SettingsResolutionDropdown;
+	public Selectable[] SettingsResolutionApply;
+	public Selectable[] SettingsFullScreenToggle;
+	public Selectable[] SettingsMouseZoomInversion;
+	public Selectable[] SettingsZoomSensitivity;
+	public Selectable[] SettingsScrollSensitivity;
+	public Selectable[] SettingsMusicVolume;
+	public Selectable[] SettingsSfxVolume;
+	public Selectable[] SettingsButtonsRow;
 
+	public Selectable[] ExitGameButtons;
+
+	//these hold the sliders so I can reference them
+	public Slider ZoomSlider;
+	public Slider ScrollSlider;
+	public Slider MusicVolumeSlider;
+	public Slider SfxVolumeSlider;
 
 	//this array will hold the selectables which are currently being navigated
 	private Selectable[][] currentSelectablesGroup;
@@ -118,6 +143,9 @@ public class UINavigationMainMenu : MonoBehaviour {
 	//this bool determines whether the selectables wrap around
 	private bool selectablesWrap = false;
 
+	//this flag is for whether the cancel button should be ignored for exiting menus
+	private bool ignoreEscape = false;
+
 	//event to announce UIState change
 	public UnityEvent OnUIStateChange = new UnityEvent();
 	public UnityEvent OnSelectablesChange = new UnityEvent();
@@ -129,6 +157,12 @@ public class UINavigationMainMenu : MonoBehaviour {
 	private UnityAction ReturnToMainMenuAction;
 	private UnityAction OpenLoadLocalGameWindowAction;
 	private UnityAction SelectableSetNavigationRulesAction;
+	private UnityAction<string> OpenFileDeletePromptAction;
+	private UnityAction<string> StringReturnToFileLoadWindowAction;
+	private UnityAction OpenSettingsWindowAction;
+	private UnityAction OpenExitGamePromptAction;
+	private UnityAction<string> InputFieldEndEditIgnoreEscapeAction;
+
 
 	// Use this for initialization
 	public void Init () {
@@ -156,6 +190,20 @@ public class UINavigationMainMenu : MonoBehaviour {
 	// Update is called once per frame
 	private void Update () {
 
+		//check if we need to wait a frame for the load local game file list to destroy the old list and repopulate a new list
+		if (delayLoadFilesWindowCount > 0) {
+
+			delayLoadFilesWindowCount--;
+
+			if (delayLoadFilesWindowCount == 0) {
+				
+				CurrentUIState = UIState.LoadLocalGame;
+				return;
+
+			}
+
+		}
+
 		//check if the down arrow is being pressed
 		if (Input.GetKeyDown (KeyCode.DownArrow)) {
 
@@ -175,6 +223,32 @@ public class UINavigationMainMenu : MonoBehaviour {
 			} else if(CurrentUIState == UIState.NewLocalGame && CurrentSelectables == NewLocalGamePlanets){
 
 				uiManager.GetComponent<ConfigureLocalGameWindow> ().decreasePlanetsButton.onClick.Invoke();
+
+
+			} else if(CurrentUIState == UIState.Settings && CurrentSelectables == SettingsResolutionDropdown){
+
+				//adjust the dropdown value
+				AdjustDropdownValueDown(SettingsResolutionDropdown[0].GetComponent<TMP_Dropdown>());
+
+			} else if(CurrentUIState == UIState.Settings && CurrentSelectables == SettingsZoomSensitivity){
+
+				//adjust the dropdown value
+				AdjustSliderValueDown(ZoomSlider);
+
+			} else if(CurrentUIState == UIState.Settings && CurrentSelectables == SettingsScrollSensitivity){
+
+				//adjust the dropdown value
+				AdjustSliderValueDown(ScrollSlider);
+
+			} else if(CurrentUIState == UIState.Settings && CurrentSelectables == SettingsMusicVolume){
+
+				//adjust the dropdown value
+				AdjustSliderValueDown(MusicVolumeSlider);
+
+			} else if(CurrentUIState == UIState.Settings && CurrentSelectables == SettingsSfxVolume){
+
+				//adjust the dropdown value
+				AdjustSliderValueDown(SfxVolumeSlider);
 
 			} 
 
@@ -201,7 +275,32 @@ public class UINavigationMainMenu : MonoBehaviour {
 
 				uiManager.GetComponent<ConfigureLocalGameWindow> ().increasePlanetsButton.onClick.Invoke();
 
-			}
+			} else if(CurrentUIState == UIState.Settings && CurrentSelectables == SettingsResolutionDropdown){
+
+				//adjust the dropdown value
+				AdjustDropdownValueUp(SettingsResolutionDropdown[0].GetComponent<TMP_Dropdown>());
+
+			} else if(CurrentUIState == UIState.Settings && CurrentSelectables == SettingsZoomSensitivity){
+
+				//adjust the dropdown value
+				AdjustSliderValueUp(ZoomSlider);
+
+			} else if(CurrentUIState == UIState.Settings && CurrentSelectables == SettingsScrollSensitivity){
+
+				//adjust the dropdown value
+				AdjustSliderValueUp(ScrollSlider);
+
+			} else if(CurrentUIState == UIState.Settings && CurrentSelectables == SettingsMusicVolume){
+
+				//adjust the dropdown value
+				AdjustSliderValueUp(MusicVolumeSlider);
+
+			} else if(CurrentUIState == UIState.Settings && CurrentSelectables == SettingsSfxVolume){
+
+				//adjust the dropdown value
+				AdjustSliderValueUp(SfxVolumeSlider);
+
+			} 
 
 		}
 
@@ -213,6 +312,26 @@ public class UINavigationMainMenu : MonoBehaviour {
 
 				//if the horizontal cycling is on, advance the selection
 				AdvanceSelectable (false);
+
+			} else if(CurrentUIState == UIState.Settings && CurrentSelectables == SettingsZoomSensitivity){
+
+				//adjust the dropdown value
+				AdjustSliderValueUp(ZoomSlider);
+
+			} else if(CurrentUIState == UIState.Settings && CurrentSelectables == SettingsScrollSensitivity){
+
+				//adjust the dropdown value
+				AdjustSliderValueUp(ScrollSlider);
+
+			} else if(CurrentUIState == UIState.Settings && CurrentSelectables == SettingsMusicVolume){
+
+				//adjust the dropdown value
+				AdjustSliderValueUp(MusicVolumeSlider);
+
+			} else if(CurrentUIState == UIState.Settings && CurrentSelectables == SettingsSfxVolume){
+
+				//adjust the dropdown value
+				AdjustSliderValueUp(SfxVolumeSlider);
 
 			} 
 
@@ -227,7 +346,27 @@ public class UINavigationMainMenu : MonoBehaviour {
 				//if the horizontal cycling is on, advance the selection
 				AdvanceSelectable(true);
 
-			}
+			} else if(CurrentUIState == UIState.Settings && CurrentSelectables == SettingsZoomSensitivity){
+
+				//adjust the dropdown value
+				AdjustSliderValueDown(ZoomSlider);
+
+			} else if(CurrentUIState == UIState.Settings && CurrentSelectables == SettingsScrollSensitivity){
+
+				//adjust the dropdown value
+				AdjustSliderValueDown(ScrollSlider);
+
+			} else if(CurrentUIState == UIState.Settings && CurrentSelectables == SettingsMusicVolume){
+
+				//adjust the dropdown value
+				AdjustSliderValueDown(MusicVolumeSlider);
+
+			} else if(CurrentUIState == UIState.Settings && CurrentSelectables == SettingsSfxVolume){
+
+				//adjust the dropdown value
+				AdjustSliderValueDown(SfxVolumeSlider);
+
+			} 
 
 		}
 
@@ -305,6 +444,48 @@ public class UINavigationMainMenu : MonoBehaviour {
 			}
 
 		}
+
+		//check if the escape key is being pressed
+		if (Input.GetKeyDown (KeyCode.Escape)) {
+
+			//check if we are in the new game window
+			if (CurrentUIState == UIState.NewLocalGame && ignoreEscape == false) {
+
+				//cancel out of the menu
+				uiManager.GetComponent<ConfigureLocalGameWindow> ().cancelButton.onClick.Invoke ();
+
+			} else if (CurrentUIState == UIState.LoadLocalGame) {
+
+				//cancel out of the menu
+				uiManager.GetComponent<FileLoadWindow> ().closeFileLoadWindowButton.onClick.Invoke ();
+
+			} else if (CurrentUIState == UIState.FileDeletePrompt) {
+
+				//cancel out of the menu
+				uiManager.GetComponent<FileDeletePrompt> ().fileDeleteCancelButton.onClick.Invoke ();
+
+			} else if (CurrentUIState == UIState.Settings) {
+
+				//cancel out of the menu
+				uiManager.GetComponent<Settings> ().exitButton.onClick.Invoke ();
+
+			} else if (CurrentUIState == UIState.ExitGamePrompt) {
+
+				//cancel out of the menu
+				uiManager.GetComponent<ExitGamePrompt> ().exitGameCancelButton.onClick.Invoke ();
+
+			} else if (CurrentUIState == UIState.MainMenu) {
+
+				//cancel out of the menu and launch the exit prompt
+				uiManager.GetComponent<ExitGamePrompt> ().exitGameButton.onClick.Invoke ();
+
+			}
+
+		}
+
+		//at the end of a frame, we can stop ignoring escape
+		//if we still need to ignore it, the input field events will trigger again
+		ignoreEscape = false;
 		
 	}
 
@@ -364,6 +545,16 @@ public class UINavigationMainMenu : MonoBehaviour {
 
 		SelectableSetNavigationRulesAction = () => {SetNavigationRulesForSelectables();};
 
+		OpenFileDeletePromptAction = (fileName) => {CurrentUIState = UIState.FileDeletePrompt;};
+
+		StringReturnToFileLoadWindowAction = (fileName) => {delayLoadFilesWindowCount = 2;};
+
+		OpenSettingsWindowAction = () => {CurrentUIState = UIState.Settings;}; 
+
+		OpenExitGamePromptAction = () => {CurrentUIState = UIState.ExitGamePrompt;};
+
+		InputFieldEndEditIgnoreEscapeAction = (eventString) => {ignoreEscape = true;};
+
 	}
 
 	//this function adds event listeners
@@ -392,6 +583,33 @@ public class UINavigationMainMenu : MonoBehaviour {
 		uiManager.GetComponent<FileLoadWindow>().closeFileLoadWindowButton.onClick.AddListener(ReturnToMainMenuAction);
 		uiManager.GetComponent<FileLoadWindow>().fileLoadCancelButton.onClick.AddListener(ReturnToMainMenuAction);
 
+		//add listener for entering the file delete prompt
+		uiManager.GetComponent<FileLoadWindow>().OnFileDeleteYesClicked.AddListener(OpenFileDeletePromptAction);
+
+		//add listeners for exiting the file delete prompt back to the load file window
+		uiManager.GetComponent<FileDeletePrompt>().OnFileDeleteYesClicked.AddListener(StringReturnToFileLoadWindowAction);
+		uiManager.GetComponent<FileDeletePrompt>().OnFileDeleteCancelClicked.AddListener(OpenLoadLocalGameWindowAction);
+
+		//add listeners for entering the settings menu
+		uiManager.GetComponent<Settings>().settingsMenuButton.onClick.AddListener(OpenSettingsWindowAction);
+
+		//add listeners for exiting the settings menu
+		uiManager.GetComponent<Settings>().acceptButton.onClick.AddListener(ReturnToMainMenuAction);
+		uiManager.GetComponent<Settings>().exitButton.onClick.AddListener(ReturnToMainMenuAction);
+
+		//add listener for entering the exit game prompt
+		uiManager.GetComponent<ExitGamePrompt>().exitGameButton.onClick.AddListener(OpenExitGamePromptAction);
+
+		//add listener for exiting the exit game prompt
+		uiManager.GetComponent<ExitGamePrompt>().OnExitGameYesClicked.AddListener(ReturnToMainMenuAction);
+		uiManager.GetComponent<ExitGamePrompt>().OnExitGameCancelClicked.AddListener(ReturnToMainMenuAction);
+
+		//add listeners telling us the input fields just ended edit, so we can ignore hitting escape
+		uiManager.GetComponent<ConfigureLocalGameWindow> ().greenPlayerInputField.onEndEdit.AddListener (InputFieldEndEditIgnoreEscapeAction);
+		uiManager.GetComponent<ConfigureLocalGameWindow> ().redPlayerInputField.onEndEdit.AddListener (InputFieldEndEditIgnoreEscapeAction);
+		uiManager.GetComponent<ConfigureLocalGameWindow> ().purplePlayerInputField.onEndEdit.AddListener (InputFieldEndEditIgnoreEscapeAction);
+		uiManager.GetComponent<ConfigureLocalGameWindow> ().bluePlayerInputField.onEndEdit.AddListener (InputFieldEndEditIgnoreEscapeAction);
+
 	}
 
 	//this function defines the selectables groups
@@ -413,6 +631,24 @@ public class UINavigationMainMenu : MonoBehaviour {
 		LoadLocalGameGroup [0] = LoadLocalGameFiles;
 		LoadLocalGameGroup [1] = LoadLocalGameButtonsRow;
 
+		FileDeletePromptGroup = new Selectable[1][];
+		FileDeletePromptGroup [0] = FileDeleteButtons;
+
+		SettingsGroup = new Selectable[9][];
+		SettingsGroup[0] = SettingsResolutionDropdown;
+		SettingsGroup[1] = SettingsResolutionApply;
+		SettingsGroup[2] = SettingsFullScreenToggle;
+		SettingsGroup[3] = SettingsMouseZoomInversion;
+		SettingsGroup[4] = SettingsZoomSensitivity;
+		SettingsGroup[5] = SettingsScrollSensitivity;
+		SettingsGroup[6] = SettingsMusicVolume;
+		SettingsGroup[7] = SettingsSfxVolume;
+		SettingsGroup[8] = SettingsButtonsRow;
+
+		ExitGamePromptGroup = new Selectable[1][];
+		ExitGamePromptGroup [0] = ExitGameButtons;
+
+		//Debug.Log ("Define Selectables");
 
 	}
 
@@ -480,6 +716,72 @@ public class UINavigationMainMenu : MonoBehaviour {
 			verticalCycling = false;
 			selectablesWrap = true;
 
+		} else if (CurrentSelectables == FileDeleteButtons){
+
+			horizontalCycling = true;
+			verticalCycling = false;
+			selectablesWrap = true;
+
+		} else if (CurrentSelectables == SettingsResolutionDropdown){
+
+			horizontalCycling = false;
+			verticalCycling = false;
+			selectablesWrap = false;
+
+		} else if (CurrentSelectables == SettingsResolutionApply){
+
+			horizontalCycling = false;
+			verticalCycling = false;
+			selectablesWrap = false;
+
+		} else if (CurrentSelectables == SettingsFullScreenToggle){
+
+			horizontalCycling = false;
+			verticalCycling = false;
+			selectablesWrap = false;
+
+		} else if (CurrentSelectables == SettingsMouseZoomInversion){
+
+			horizontalCycling = false;
+			verticalCycling = false;
+			selectablesWrap = false;
+
+		} else if (CurrentSelectables == SettingsZoomSensitivity){
+
+			horizontalCycling = false;
+			verticalCycling = false;
+			selectablesWrap = false;
+
+		} else if (CurrentSelectables == SettingsScrollSensitivity){
+
+			horizontalCycling = false;
+			verticalCycling = false;
+			selectablesWrap = false;
+
+		} else if (CurrentSelectables == SettingsMusicVolume){
+
+			horizontalCycling = false;
+			verticalCycling = false;
+			selectablesWrap = false;
+
+		} else if (CurrentSelectables == SettingsSfxVolume){
+
+			horizontalCycling = false;
+			verticalCycling = false;
+			selectablesWrap = false;
+
+		} else if (CurrentSelectables == SettingsButtonsRow){
+
+			horizontalCycling = true;
+			verticalCycling = false;
+			selectablesWrap = true;
+
+		} else if (CurrentSelectables == ExitGameButtons){
+
+			horizontalCycling = true;
+			verticalCycling = false;
+			selectablesWrap = true;
+
 		} 
 
 	}
@@ -541,6 +843,8 @@ public class UINavigationMainMenu : MonoBehaviour {
 			//set the size of the LoadLocalGameFiles array
 			LoadLocalGameFiles = new Selectable[uiManager.GetComponent<FileLoadWindow> ().fileList.transform.childCount];
 
+			//Debug.Log ("LoadLocalGameFiles.Length = " + LoadLocalGameFiles.Length);
+
 			//loop through the filelist
 			for (int i = 0; i < uiManager.GetComponent<FileLoadWindow> ().fileList.transform.childCount; i++) {
 				
@@ -570,8 +874,76 @@ public class UINavigationMainMenu : MonoBehaviour {
 				//set the currentSelectables based on the index returned
 				CurrentSelectables = currentSelectablesGroup[currentSelectionGroupIndex];
 
+				//Debug.Log ("current selectables length = " + CurrentSelectables.Length);
+
 				//set the scrollbar to the top
 				CurrentSelectables [currentSelectionIndex].transform.parent.parent.GetComponent<ScrollRect> ().verticalNormalizedPosition = 1.0f;
+
+			}
+
+			break;
+
+		case UIState.FileDeletePrompt:
+
+			//clear the loadLocalGameFiles
+			LoadLocalGameFiles = null;
+
+			//set the current selectables group to match the UI state
+			currentSelectablesGroup = FileDeletePromptGroup;
+
+			//find the first array in the group that has an interactable selectable
+			potentialCurrentSelectionGroupIndex = FindFirstInteractableArrayIndex (currentSelectablesGroup);
+
+			//set the selectable array that contains an interactable
+			if (potentialCurrentSelectionGroupIndex != -1) {
+
+				//set the currentSelectionGroupIndex
+				currentSelectionGroupIndex = potentialCurrentSelectionGroupIndex;
+
+				//set the currentSelectables based on the index returned
+				CurrentSelectables = currentSelectablesGroup[currentSelectionGroupIndex];
+
+			}
+
+			break;
+
+		case UIState.Settings:
+
+			//set the current selectables group to match the UI state
+			currentSelectablesGroup = SettingsGroup;
+
+			//find the first array in the group that has an interactable selectable
+			potentialCurrentSelectionGroupIndex = FindFirstInteractableArrayIndex (currentSelectablesGroup);
+
+			//set the selectable array that contains an interactable
+			if (potentialCurrentSelectionGroupIndex != -1) {
+
+				//set the currentSelectionGroupIndex
+				currentSelectionGroupIndex = potentialCurrentSelectionGroupIndex;
+
+				//set the currentSelectables based on the index returned
+				CurrentSelectables = currentSelectablesGroup[currentSelectionGroupIndex];
+
+			}
+
+			break;
+
+		case UIState.ExitGamePrompt:
+
+			//set the current selectables group to match the UI state
+			currentSelectablesGroup = ExitGamePromptGroup;
+
+			//find the first array in the group that has an interactable selectable
+			potentialCurrentSelectionGroupIndex = FindFirstInteractableArrayIndex (currentSelectablesGroup);
+
+			//set the selectable array that contains an interactable
+			if (potentialCurrentSelectionGroupIndex != -1) {
+
+				//set the currentSelectionGroupIndex
+				currentSelectionGroupIndex = potentialCurrentSelectionGroupIndex;
+
+				//set the currentSelectables based on the index returned
+				CurrentSelectables = currentSelectablesGroup[currentSelectionGroupIndex];
 
 			}
 
@@ -939,9 +1311,96 @@ public class UINavigationMainMenu : MonoBehaviour {
 
 		}
 
+	}
 
+	//this function adjusts the dropdown selection downward
+	private void AdjustDropdownValueDown(TMP_Dropdown dropdown){
+
+		//int to track the current dropdown index
+		int dropdownIndex;
+
+		//set the dropdownIndex to the current dropdown value
+		dropdownIndex = dropdown.value;
+
+		//check if the next index is within range
+		if (dropdownIndex + 1 < dropdown.options.Count) {
+
+			//we have room to increase the index
+			dropdownIndex++;
+
+			//set the dropdown value to the new index
+			dropdown.value = dropdownIndex;
+
+		}
 
 	}
+
+	//this function adjusts the dropdown selection upward
+	private void AdjustDropdownValueUp(TMP_Dropdown dropdown){
+
+		//int to track the current dropdown index
+		int dropdownIndex;
+
+		//set the dropdownIndex to the current dropdown value
+		dropdownIndex = dropdown.value;
+
+		//check if the next index is within range
+		if (dropdownIndex - 1 >= 0) {
+
+			//we have room to decrease the index
+			dropdownIndex--;
+
+			//set the dropdown value to the new index
+			dropdown.value = dropdownIndex;
+
+		}
+
+	}
+
+	//this function adjusts the slider selection downward
+	private void AdjustSliderValueDown(Slider slider){
+
+		//int to track the current slider value
+		int sliderValue;
+
+		//set the slider value to the current value
+		sliderValue = (int)slider.value;
+
+		//check if the next index is within range
+		if (sliderValue - 1 >= slider.minValue) {
+
+			//we have room to decrease the value
+			sliderValue--;
+
+			//set the slider value to the new value
+			slider.value = sliderValue;
+
+		}
+
+	}
+
+	//this function adjusts the slider selection upward
+	private void AdjustSliderValueUp(Slider slider){
+
+		//int to track the current slider value
+		int sliderValue;
+
+		//set the slider value to the current value
+		sliderValue = (int)slider.value;
+
+		//check if the next index is within range
+		if (sliderValue + 1 <= slider.maxValue) {
+
+			//we have room to increase the value
+			sliderValue++;
+
+			//set the slider value to the new value
+			slider.value = sliderValue;
+
+		}
+
+	}
+
 
 	//this function handles on destroy
 	private void OnDestroy(){
@@ -975,6 +1434,34 @@ public class UINavigationMainMenu : MonoBehaviour {
 			//remove listeners for exiting the file load window back to the main menu
 			uiManager.GetComponent<FileLoadWindow>().closeFileLoadWindowButton.onClick.RemoveListener(ReturnToMainMenuAction);
 			uiManager.GetComponent<FileLoadWindow>().fileLoadCancelButton.onClick.RemoveListener(ReturnToMainMenuAction);
+
+			//remove listener for entering the file delete prompt
+			uiManager.GetComponent<FileLoadWindow>().OnFileDeleteYesClicked.RemoveListener(OpenFileDeletePromptAction);
+
+			//remove listeners for exiting the file delete prompt back to the load file window
+			uiManager.GetComponent<FileDeletePrompt>().OnFileDeleteYesClicked.RemoveListener(StringReturnToFileLoadWindowAction);
+			uiManager.GetComponent<FileDeletePrompt>().OnFileDeleteCancelClicked.RemoveListener(OpenLoadLocalGameWindowAction);
+
+			//remove listeners for entering the settings menu
+			uiManager.GetComponent<Settings>().settingsMenuButton.onClick.RemoveListener(OpenSettingsWindowAction);
+
+			//remove listeners for exiting the settings menu
+			uiManager.GetComponent<Settings>().acceptButton.onClick.RemoveListener(ReturnToMainMenuAction);
+			uiManager.GetComponent<Settings>().exitButton.onClick.RemoveListener(ReturnToMainMenuAction);
+
+			//remove listener for entering the exit game prompt
+			uiManager.GetComponent<ExitGamePrompt>().exitGameButton.onClick.RemoveListener(OpenExitGamePromptAction);
+
+			//remove listener for exiting the exit game prompt
+			uiManager.GetComponent<ExitGamePrompt>().OnExitGameYesClicked.RemoveListener(ReturnToMainMenuAction);
+			uiManager.GetComponent<ExitGamePrompt>().OnExitGameCancelClicked.RemoveListener(ReturnToMainMenuAction);
+
+			//remove listeners telling us the input fields just ended edit, so we can ignore hitting escape
+			uiManager.GetComponent<ConfigureLocalGameWindow> ().greenPlayerInputField.onEndEdit.RemoveListener (InputFieldEndEditIgnoreEscapeAction);
+			uiManager.GetComponent<ConfigureLocalGameWindow> ().redPlayerInputField.onEndEdit.RemoveListener (InputFieldEndEditIgnoreEscapeAction);
+			uiManager.GetComponent<ConfigureLocalGameWindow> ().purplePlayerInputField.onEndEdit.RemoveListener (InputFieldEndEditIgnoreEscapeAction);
+			uiManager.GetComponent<ConfigureLocalGameWindow> ().bluePlayerInputField.onEndEdit.RemoveListener (InputFieldEndEditIgnoreEscapeAction);
+
 		}
 
 		//remove listener for a pointer click selection

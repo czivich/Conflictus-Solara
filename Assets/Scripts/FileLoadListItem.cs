@@ -6,10 +6,10 @@ using UnityEngine.EventSystems;
 using UnityEngine.Events;
 using TMPro;
 
-public class FileLoadListItem : MonoBehaviour,IPointerClickHandler {
+public class FileLoadListItem : MonoBehaviour,IPointerClickHandler,ISelectHandler {
 
-	private Color selectedColor = new Color( 0f, 1f, 1f, 1f);
-	private Color notSelectedColor = new Color( 1f, 1f, 1f, 0f);
+	private Color selectedColor = new Color32 (160, 255, 255, 255);
+	private Color notSelectedColor = new Color32( 255, 255, 255, 0);
 
 	//class and event to announce a highlighted file
 	public static FileSelectedEvent OnLoadFileSelected = new FileSelectedEvent();
@@ -31,6 +31,14 @@ public class FileLoadListItem : MonoBehaviour,IPointerClickHandler {
 
 	//this function handles the pointer click
 	public void OnPointerClick(PointerEventData eventData){
+
+		//invoke the OnSaveFileSelectedEvent
+		OnLoadFileSelected.Invoke(this);
+
+	}
+
+	public void OnSelect(BaseEventData eventData)
+	{
 
 		//invoke the OnSaveFileSelectedEvent
 		OnLoadFileSelected.Invoke(this);

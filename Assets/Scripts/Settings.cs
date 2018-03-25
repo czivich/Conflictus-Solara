@@ -64,6 +64,32 @@ public class Settings : MonoBehaviour {
 	public Toggle mouseScrollSensitivityValue;
 
 
+	//variable for the music volume slider
+	public Slider musicVolumeSlider;
+
+	//variable for the music volume increase button
+	public Button musicVolumeUpButton;
+
+	//variable for the music volume decrease button
+	public Button musicVolumeDownButton;
+
+	//variable for the music volume value toggle
+	public Toggle musicVolumeValue;
+
+
+	//variable for the sfx volume slider
+	public Slider sfxVolumeSlider;
+
+	//variable for the sfx volume increase button
+	public Button sfxVolumeUpButton;
+
+	//variable for the sfx volume decrease button
+	public Button sfxVolumeDownButton;
+
+	//variable for the sfx volume value toggle
+	public Toggle sfxVolumeValue;
+
+
 	//this array holds scroll rects affected by mouseScroll
 	public ScrollRect[] scrollRects;
 
@@ -79,11 +105,14 @@ public class Settings : MonoBehaviour {
 	private const bool mouseZoomInvertedDefault = false;
 	private const int mouseZoomSensitivityDefault = 32;
 	private const int mouseScrollSensitivityDefault = 32;
+	private const int musicVolumeDefault = 32;
+	private const int sfxVolumeDefault = 32;
 
 	private bool mouseZoomInverted;
 	private int mouseZoomSensitivity;
 	private int mouseScrollSensitivity;
-
+	private int musicVolume;
+	private int sfxVolume;
 
 	//event for changing resolution
 	public UnityEvent OnChangeResolution = new UnityEvent();
@@ -97,6 +126,10 @@ public class Settings : MonoBehaviour {
 	//event for changing mouse zoom sensitivity
 	public MouseZoomSensitivityEvent OnChangeMouseZoomSensitivity = new MouseZoomSensitivityEvent();
 	public MouseZoomSensitivityEvent OnChangeMouseScrollSensitivity = new MouseZoomSensitivityEvent();
+
+	//events for changing volumes
+	public MouseZoomSensitivityEvent OnChangeMusicVolume = new MouseZoomSensitivityEvent();
+	public MouseZoomSensitivityEvent OnChangeSfxVolume = new MouseZoomSensitivityEvent();
 
 	//class for passing bool event
 	public class MouseZoomSensitivityEvent : UnityEvent<int>{};
@@ -115,6 +148,14 @@ public class Settings : MonoBehaviour {
 	private UnityAction mouseScrollUpButtonAction;
 	private UnityAction mouseScrollDownButtonAction;
 	private UnityAction<float> floatMouseScrollSliderAction;
+
+	private UnityAction musicVolumeUpButtonAction;
+	private UnityAction musicVolumeDownButtonAction;
+	private UnityAction<float> floatMusicVolumeSliderAction;
+
+	private UnityAction sfxVolumeUpButtonAction;
+	private UnityAction sfxVolumeDownButtonAction;
+	private UnityAction<float> floatSfxVolumeSliderAction;
 
 	private UnityAction settingsFileSaveAction;
 
@@ -139,7 +180,8 @@ public class Settings : MonoBehaviour {
 		public bool mouseZoomInverted {get; private set;}
 		public int mouseZoomSensitivity {get; private set;}
 		public int mouseScrollSensitivity {get; private set;}
-
+		public int musicVolume {get; private set;}
+		public int sfxVolume {get; private set;}
 
 		//constructor
 		public SettingsData(){
@@ -151,6 +193,8 @@ public class Settings : MonoBehaviour {
 			this.mouseZoomInverted = settings.mouseZoomInverted;
 			this.mouseZoomSensitivity = settings.mouseZoomSensitivity;
 			this.mouseScrollSensitivity = settings.mouseScrollSensitivity;
+			this.musicVolume = settings.musicVolume;
+			this.sfxVolume = settings.sfxVolume;
 
 		}
 
@@ -176,6 +220,14 @@ public class Settings : MonoBehaviour {
 			writer.WriteValue (this.mouseScrollSensitivity.ToString());
 			writer.WriteEndElement();
 
+			writer.WriteStartElement ("musicVolume");
+			writer.WriteValue (this.musicVolume.ToString());
+			writer.WriteEndElement();
+
+			writer.WriteStartElement ("sfxVolume");
+			writer.WriteValue (this.sfxVolume.ToString());
+			writer.WriteEndElement();
+
 		}
 
 		//this function is for load info
@@ -194,6 +246,11 @@ public class Settings : MonoBehaviour {
 			//read the element and store value - mouseScrollSensitivity
 			this.mouseScrollSensitivity = reader.ReadElementContentAsInt();
 
+			//read the element and store value - musicVolume
+			this.musicVolume = reader.ReadElementContentAsInt();
+
+			//read the element and store value - sfxVolume
+			this.sfxVolume = reader.ReadElementContentAsInt();
 
 			//this last ReadEndElement is the SettingsData
 			reader.ReadEndElement();
@@ -207,6 +264,8 @@ public class Settings : MonoBehaviour {
 			this.mouseZoomInverted = Settings.mouseZoomInvertedDefault;
 			this.mouseZoomSensitivity = Settings.mouseZoomSensitivityDefault;
 			this.mouseScrollSensitivity = Settings.mouseScrollSensitivityDefault;
+			this.musicVolume = Settings.musicVolumeDefault;
+			this.sfxVolume = Settings.sfxVolumeDefault;
 
 		}
 
@@ -239,6 +298,12 @@ public class Settings : MonoBehaviour {
 
 		//invoke the mouse zoom inversion event
 		OnChangeMouseZoomInversion.Invoke(this.mouseZoomInverted);
+
+		//invoke the music volume event
+		OnChangeMusicVolume.Invoke((int)this.musicVolume);
+
+		//invoke the sfx volume event
+		OnChangeSfxVolume.Invoke((int)this.sfxVolume);
 
 	}
 
@@ -347,6 +412,10 @@ public class Settings : MonoBehaviour {
 		mouseZoomSensitivitySlider.value = mouseZoomSensitivity;
 		mouseScrollSensitivitySlider.value = mouseScrollSensitivity;
 
+		//set the volume settings
+		musicVolumeSlider.value = musicVolume;
+		sfxVolumeSlider.value = sfxVolume;
+
 	}
 
 	//this function resolves clicking the apply button
@@ -405,7 +474,7 @@ public class Settings : MonoBehaviour {
 		//update the passed value
 		valueToUpdate = value;
 
-		Debug.Log ("Updated Value = " + value);
+		//Debug.Log ("Updated Value = " + value);
 
 	}
 
@@ -516,6 +585,8 @@ public class Settings : MonoBehaviour {
 		this.mouseZoomInverted = settingsData.mouseZoomInverted;
 		this.mouseZoomSensitivity = settingsData.mouseZoomSensitivity;
 		this.mouseScrollSensitivity = settingsData.mouseScrollSensitivity;
+		this.musicVolume = settingsData.musicVolume;
+		this.sfxVolume = settingsData.sfxVolume;
 
 	}
 
@@ -526,6 +597,8 @@ public class Settings : MonoBehaviour {
 		this.mouseZoomToggle.isOn = Settings.mouseZoomInvertedDefault;
 		this.mouseZoomSensitivitySlider.value = Settings.mouseZoomSensitivityDefault;
 		this.mouseScrollSensitivitySlider.value = Settings.mouseScrollSensitivityDefault;
+		this.musicVolumeSlider.value = Settings.musicVolumeDefault;
+		this.sfxVolumeSlider.value = Settings.sfxVolumeDefault;
 
 	}
 
@@ -576,6 +649,26 @@ public class Settings : MonoBehaviour {
 
 		});
 
+		//set music volume actions
+		musicVolumeUpButtonAction = (() => {ResolveUpButtonPress(musicVolumeValue,musicVolumeSlider, ref musicVolume);});
+		musicVolumeDownButtonAction = (() => {ResolveDownButtonPress(musicVolumeValue,musicVolumeSlider,ref musicVolume);});
+		floatMusicVolumeSliderAction = ((sliderValue) => {
+
+			//update the slider value
+			ResolveSliderValueChange ((int)sliderValue, musicVolumeValue, ref musicVolume);
+
+		});
+
+		//set sfx volume actions
+		sfxVolumeUpButtonAction = (() => {ResolveUpButtonPress(sfxVolumeValue,sfxVolumeSlider, ref sfxVolume);});
+		sfxVolumeDownButtonAction = (() => {ResolveDownButtonPress(sfxVolumeValue,sfxVolumeSlider,ref sfxVolume);});
+		floatSfxVolumeSliderAction = ((sliderValue) => {
+
+			//update the slider value
+			ResolveSliderValueChange ((int)sliderValue, sfxVolumeValue, ref sfxVolume);
+
+		});
+
 		//set the save settings file action
 		settingsFileSaveAction = (() => {SaveSettings(settingsFileName);});
 
@@ -614,6 +707,16 @@ public class Settings : MonoBehaviour {
 		mouseScrollSensitivityUpButton.onClick.AddListener(mouseScrollUpButtonAction);
 		mouseScrollSensitivityDownButton.onClick.AddListener(mouseScrollDownButtonAction);
 		mouseScrollSensitivitySlider.onValueChanged.AddListener (floatMouseScrollSliderAction);
+
+		//add listeners for music volume
+		musicVolumeUpButton.onClick.AddListener(musicVolumeUpButtonAction);
+		musicVolumeDownButton.onClick.AddListener(musicVolumeDownButtonAction);
+		musicVolumeSlider.onValueChanged.AddListener (floatMusicVolumeSliderAction);
+
+		//add listeners for sfx volume
+		sfxVolumeUpButton.onClick.AddListener(sfxVolumeUpButtonAction);
+		sfxVolumeDownButton.onClick.AddListener(sfxVolumeDownButtonAction);
+		sfxVolumeSlider.onValueChanged.AddListener (floatSfxVolumeSliderAction);
 
 		//add listeners for saving settings
 		exitButton.onClick.AddListener(settingsFileSaveAction);
@@ -724,6 +827,48 @@ public class Settings : MonoBehaviour {
 
 			//remove listeners for mouse Scroll sensitivity
 			mouseScrollSensitivitySlider.onValueChanged.RemoveListener (floatMouseScrollSliderAction);
+
+		}
+
+		if (musicVolumeUpButton != null) {
+
+			//remove listeners for music volume
+			musicVolumeUpButton.onClick.RemoveListener(musicVolumeUpButtonAction);
+
+		}
+
+		if (musicVolumeDownButton != null) {
+
+			//remove listeners for music volume
+			musicVolumeDownButton.onClick.RemoveListener(musicVolumeDownButtonAction);
+
+		}
+
+		if (musicVolumeSlider != null) {
+
+			//remove listeners for music volume
+			musicVolumeSlider.onValueChanged.RemoveListener (floatMusicVolumeSliderAction);
+
+		}
+
+		if (sfxVolumeUpButton != null) {
+
+			//remove listeners for sfx volume
+			sfxVolumeUpButton.onClick.RemoveListener(sfxVolumeUpButtonAction);
+
+		}
+
+		if (sfxVolumeDownButton != null) {
+
+			//remove listeners for sfx volume
+			sfxVolumeDownButton.onClick.RemoveListener(sfxVolumeDownButtonAction);
+
+		}
+
+		if (sfxVolumeSlider != null) {
+
+			//remove listeners for sfx volume
+			sfxVolumeSlider.onValueChanged.RemoveListener (floatSfxVolumeSliderAction);
 
 		}
 

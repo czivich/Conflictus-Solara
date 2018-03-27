@@ -8,6 +8,8 @@ using TMPro;
 
 public class UINavigationMainMenu : MonoBehaviour {
 
+	public static bool blockPointerClickFlag { get; private set;}
+
 	//this will hold the eventSystem in the scene
 	public EventSystem eventSystem;
 
@@ -48,6 +50,9 @@ public class UINavigationMainMenu : MonoBehaviour {
 			} else {
 
 				currentUIState = value;
+
+				//set the flag
+				blockPointerClickFlag = true;
 
 				//invoke the event
 				OnUIStateChange.Invoke();
@@ -486,6 +491,16 @@ public class UINavigationMainMenu : MonoBehaviour {
 		//at the end of a frame, we can stop ignoring escape
 		//if we still need to ignore it, the input field events will trigger again
 		ignoreEscape = false;
+		/*
+		//check if the current selected object is what it is supposed to be
+		if (EventSystem.current.currentSelectedGameObject != CurrentSelectables [currentSelectionIndex]) {
+
+			//set the current selected object to what it's supposed to be
+			EventSystem.current.SetSelectedGameObject (CurrentSelectables [currentSelectionIndex].gameObject);
+
+		}
+		*/
+		blockPointerClickFlag = false;
 		
 	}
 
@@ -964,6 +979,8 @@ public class UINavigationMainMenu : MonoBehaviour {
 			//set the Selected object
 			eventSystem.SetSelectedGameObject (CurrentSelectables [potentialCurrentSelectionIndex].gameObject);
 
+			//Debug.Log ("SetSelectedObject SetInitialCurrentSelectables " + CurrentSelectables [potentialCurrentSelectionIndex].gameObject.name);
+
 			//store the index of the current selection
 			currentSelectionIndex = potentialCurrentSelectionIndex;
 
@@ -1290,22 +1307,6 @@ public class UINavigationMainMenu : MonoBehaviour {
 					break;
 
 				}
-
-			}
-
-		}
-
-		//we need to find the selectableClicked within the currentSelectables
-		for (int j = 0; j < CurrentSelectables.Length; j++) {
-
-			//check if the selectableClicked matches the currentSelectable
-			if (CurrentSelectables [j] == selectableClicked) {
-
-				//set the currentSelectionIndex
-				currentSelectionIndex = j;
-
-				//break out of the for loop
-				break;
 
 			}
 

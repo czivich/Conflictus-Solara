@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using UnityEngine.Events;
-
+using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(Selectable))]
 public class UISelection : MonoBehaviour, IPointerEnterHandler, IDeselectHandler, ISelectHandler, IPointerExitHandler, IPointerClickHandler,ISubmitHandler{
@@ -18,6 +18,10 @@ public class UISelection : MonoBehaviour, IPointerEnterHandler, IDeselectHandler
 
 	private Color32 mouseOverHighlightColor = new Color32 (160, 255, 255, 255);
 	//private Color32 defaultColor = new Color32 (255, 255, 255, 255);
+
+	//variables to hold the scene indexes
+	private int mainMenuSceneIndex = 0;
+	//private int mainSceneIndex = 1;
 
 	//use this for initialization
 	private void Start(){
@@ -61,7 +65,6 @@ public class UISelection : MonoBehaviour, IPointerEnterHandler, IDeselectHandler
 
 		//disable the selectUI image
 		this.gameObject.FindComponentInChildWithTag<Image> ("SelectedUI").enabled = false;
-
 		//Debug.Log ("Deselect " + this.gameObject.name);
 
 	}
@@ -83,11 +86,47 @@ public class UISelection : MonoBehaviour, IPointerEnterHandler, IDeselectHandler
 		//check if the clicked object is interactable
 		if (this.GetComponent<Selectable> ().IsInteractable () == true) {
 			
-			//select the object
-			EventSystem.current.SetSelectedGameObject (this.gameObject);
+			//check the current scene
+			if (SceneManager.GetActiveScene ().buildIndex == mainMenuSceneIndex) {
+
+				if (UINavigationMainMenu.blockPointerClickFlag == false) {
+
+					//select the object
+					EventSystem.current.SetSelectedGameObject (this.gameObject);
+
+					Debug.Log ("SetSelectedObject onPointerClick " + this.gameObject.name);
+
+					//invoke the select object event
+					OnSetSelectedGameObject.Invoke (this.GetComponent<Selectable> ());
+
+				} else {
+
+					Debug.Log ("Blocked!");
+
+				}
+
+			} else {
+
+				if (UINavigationMain.blockPointerClickFlag == false) {
+
+					//select the object
+					EventSystem.current.SetSelectedGameObject (this.gameObject);
+
+					Debug.Log ("SetSelectedObject onPointerClick " + this.gameObject.name);
+
+					//invoke the select object event
+					OnSetSelectedGameObject.Invoke (this.GetComponent<Selectable> ());
+
+				} else {
+
+					Debug.Log ("Blocked!");
+
+				}
+
+			}
 
 			//invoke the select object event
-			OnSetSelectedGameObject.Invoke (this.GetComponent<Selectable> ());
+			//OnSetSelectedGameObject.Invoke (this.GetComponent<Selectable> ());
 
 		}
 

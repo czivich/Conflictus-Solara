@@ -19,7 +19,7 @@ Platform assembly: C:\Users\Chad Zivich\Documents\Unity Projects\Conflictus-Sola
 Loading C:\Users\Chad Zivich\Documents\Unity Projects\Conflictus-Solara\Conflictus Solara_Data\Managed\UnityEngine.Analytics.dll into Unity Child Domain
 Platform assembly: C:\Users\Chad Zivich\Documents\Unity Projects\Conflictus-Solara\Conflictus Solara_Data\Managed\TextMeshPro.dll (this message is harmless)
 Loading C:\Users\Chad Zivich\Documents\Unity Projects\Conflictus-Solara\Conflictus Solara_Data\Managed\TextMeshPro.dll into Unity Child Domain
-- Completed reload, in  0.083 seconds
+- Completed reload, in  0.052 seconds
 Platform assembly: C:\Users\Chad Zivich\Documents\Unity Projects\Conflictus-Solara\Conflictus Solara_Data\Managed\System.Core.dll (this message is harmless)
 Platform assembly: C:\Users\Chad Zivich\Documents\Unity Projects\Conflictus-Solara\Conflictus Solara_Data\Managed\System.dll (this message is harmless)
 Platform assembly: C:\Users\Chad Zivich\Documents\Unity Projects\Conflictus-Solara\Conflictus Solara_Data\Managed\System.Xml.dll (this message is harmless)
@@ -27,13 +27,41 @@ desktop: 1920x1080 59Hz; virtual: 1920x1080 at 0,0
 <RI> Initializing input.
 <RI> Input initialized.
 <RI> Initialized touch support.
-UnloadTime: 1.764817 ms
+UnloadTime: 1.801594 ms
 Setting up 2 worker threads for Enlighten.
-  Thread -> id: cac -> priority: 1 
-  Thread -> id: 2094 -> priority: 1 
-Unloading 6 Unused Serialized files (Serialized files now loaded: 0)
-UnloadTime: 38.355907 ms
+  Thread -> id: 2fac -> priority: 1 
+  Thread -> id: 1ff4 -> priority: 1 
+Blocked!
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
 
-Unloading 35 unused Assets to reduce memory usage. Loaded Objects now: 11621.
-Total: 76.743034 ms (FindLiveObjects: 1.004739 ms CreateObjectMapping: 0.293423 ms MarkObjects: 75.225021 ms  DeleteObjects: 0.217714 ms)
+Unloading 6 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 38.612377 ms
+
+Unloading 35 unused Assets to reduce memory usage. Loaded Objects now: 11723.
+Total: 73.065521 ms (FindLiveObjects: 0.970944 ms CreateObjectMapping: 0.288289 ms MarkObjects: 71.607819 ms  DeleteObjects: 0.191194 ms)
+
+SetSelectedObject onPointerClick NextUnitButton
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+SetSelectedObject onPointerClick PreviousUnitButton
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+SetSelectedObject onPointerClick PreviousUnitButton
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+SetSelectedObject onPointerClick PreviousUnitButton
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+SetSelectedObject onPointerClick PreviousUnitButton
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+SetSelectedObject onPointerClick NextUnitButton
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
 

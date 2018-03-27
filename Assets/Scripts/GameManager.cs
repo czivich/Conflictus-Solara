@@ -1775,6 +1775,9 @@ public class GameManager : MonoBehaviour {
 		uiManager.GetComponent<ExitGamePrompt> ().Init ();
 		uiManager.GetComponent<SceneTransitionFadePanel> ().Init ();
 
+		uiManager.GetComponent<UINavigationMain> ().Init ();
+
+
 		//these Inits were moved to the Create constructors
 		//GameObject.FindGameObjectWithTag ("TargetingEmblem").GetComponent<TargetingEmblem> ().Init ();
 		//GameObject.FindGameObjectWithTag ("TargetingCursor").GetComponent<TargetingCursor> ().Init ();

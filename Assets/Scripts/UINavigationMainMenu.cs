@@ -151,6 +151,9 @@ public class UINavigationMainMenu : MonoBehaviour {
 	//this flag is for whether the cancel button should be ignored for exiting menus
 	private bool ignoreEscape = false;
 
+	//this int stores the index of the selected file when leaving the file load list
+	private int previousFileIndex;
+
 	//event to announce UIState change
 	public UnityEvent OnUIStateChange = new UnityEvent();
 	public UnityEvent OnSelectablesChange = new UnityEvent();
@@ -167,7 +170,6 @@ public class UINavigationMainMenu : MonoBehaviour {
 	private UnityAction OpenSettingsWindowAction;
 	private UnityAction OpenExitGamePromptAction;
 	private UnityAction<string> InputFieldEndEditIgnoreEscapeAction;
-
 
 	// Use this for initialization
 	public void Init () {
@@ -385,6 +387,9 @@ public class UINavigationMainMenu : MonoBehaviour {
 				//check if we are in the load files - if we are here, we don't want tab to cycle through the files
 				if (CurrentSelectables == LoadLocalGameFiles) {
 
+					//store the file index
+					previousFileIndex = currentSelectionIndex;
+
 					//advance to the next group
 					AdvanceSelectableGroup (true);
 
@@ -393,8 +398,21 @@ public class UINavigationMainMenu : MonoBehaviour {
 				//check if we are at the first interactable element of the selectables array
 				else if (currentSelectionIndex == FindFirstInteractableIndex(CurrentSelectables)) {
 				
-					//advance to the next group
-					AdvanceSelectableGroup (true);
+					//check if the next group is loadfiles
+					if (GetNextSelectableGroup (true) == LoadLocalGameFiles) {
+
+						//directly set the selectable group
+						CurrentSelectables = LoadLocalGameFiles;
+						currentSelectionGroupIndex = 0;
+						EventSystem.current.SetSelectedGameObject (CurrentSelectables [previousFileIndex].gameObject);
+						currentSelectionIndex = previousFileIndex;
+
+					} else {
+
+						//advance to the next group
+						AdvanceSelectableGroup (true);
+
+					}
 
 					//check if we are in the load files after advancing groups
 					if (CurrentSelectables == LoadLocalGameFiles) {
@@ -419,6 +437,9 @@ public class UINavigationMainMenu : MonoBehaviour {
 				//check if we are in the load files - if we are here, we don't want tab to cycle through the files
 				if (CurrentSelectables == LoadLocalGameFiles) {
 
+					//store the file index
+					previousFileIndex = currentSelectionIndex;
+
 					//advance to the next group
 					AdvanceSelectableGroup (false);
 
@@ -427,8 +448,21 @@ public class UINavigationMainMenu : MonoBehaviour {
 				//check if we are at the last interactable element of the selectables array
 				else if (currentSelectionIndex == FindLastInteractableIndex	(CurrentSelectables)) {
 
-					//advance to the next group
-					AdvanceSelectableGroup (false);
+					//check if the next group is loadfiles
+					if (GetNextSelectableGroup (false) == LoadLocalGameFiles) {
+
+						//directly set the selectable group
+						CurrentSelectables = LoadLocalGameFiles;
+						currentSelectionGroupIndex = 0;
+						EventSystem.current.SetSelectedGameObject (CurrentSelectables [previousFileIndex].gameObject);
+						currentSelectionIndex = previousFileIndex;
+
+					} else {
+
+						//advance to the next group
+						AdvanceSelectableGroup (false);
+
+					}
 
 					//check if we are in the load files after advancing groups
 					if (CurrentSelectables == LoadLocalGameFiles) {
@@ -488,18 +522,49 @@ public class UINavigationMainMenu : MonoBehaviour {
 
 		}
 
+		//check if we are pressing the enter key
+		if (Input.GetKeyDown (KeyCode.Return) == true) {
+
+			//check if we are currently on a file for load
+			if (CurrentUIState == UIState.LoadLocalGame && CurrentSelectables == LoadLocalGameFiles) {
+
+				//call the load game button on-click
+				uiManager.GetComponent<FileLoadWindow>().fileLoadYesButton.onClick.Invoke();
+
+			}
+
+		}
+
+		//check if we are pressing the delete key
+		if (Input.GetKeyDown (KeyCode.Delete) == true) {
+
+			//check if we are currently on a file for load
+			if (CurrentUIState == UIState.LoadLocalGame && CurrentSelectables == LoadLocalGameFiles) {
+
+				//call the delete file button on-click
+				uiManager.GetComponent<FileLoadWindow>().fileDeleteYesButton.onClick.Invoke();
+
+			}
+
+		}
+
 		//at the end of a frame, we can stop ignoring escape
 		//if we still need to ignore it, the input field events will trigger again
 		ignoreEscape = false;
-		/*
-		//check if the current selected object is what it is supposed to be
-		if (EventSystem.current.currentSelectedGameObject != CurrentSelectables [currentSelectionIndex]) {
 
-			//set the current selected object to what it's supposed to be
-			EventSystem.current.SetSelectedGameObject (CurrentSelectables [currentSelectionIndex].gameObject);
+		//check if the current selected object is a file list item
+		if (CurrentUIState == UIState.LoadLocalGame) {
+
+			if (CurrentSelectables == LoadLocalGameFiles) {
+
+				//cache the previous index
+				previousFileIndex = currentSelectionIndex;
+
+			}
 
 		}
-		*/
+
+		//this will prevent the uncontrollable event order from screwing up the selectCurrentObject
 		blockPointerClickFlag = false;
 		
 	}
@@ -854,6 +919,9 @@ public class UINavigationMainMenu : MonoBehaviour {
 
 		case UIState.LoadLocalGame:
 
+			//reset inputs so it doesn't carry over from a previous ui state
+			Input.ResetInputAxes();
+
 			//need to get the game files after the window opens
 			//set the size of the LoadLocalGameFiles array
 			LoadLocalGameFiles = new Selectable[uiManager.GetComponent<FileLoadWindow> ().fileList.transform.childCount];
@@ -868,7 +936,7 @@ public class UINavigationMainMenu : MonoBehaviour {
 			}
 
 			//redefine Selectable Groups since we have dynamically changed the LoadLocalGameFiles
-			DefineSelectablesGroups();
+			DefineSelectablesGroups ();
 
 			//Debug.Log ("LoadLocalGameFiles length = " + LoadLocalGameFiles.Length);
 
@@ -892,7 +960,48 @@ public class UINavigationMainMenu : MonoBehaviour {
 				//Debug.Log ("current selectables length = " + CurrentSelectables.Length);
 
 				//set the scrollbar to the top
-				CurrentSelectables [currentSelectionIndex].transform.parent.parent.GetComponent<ScrollRect> ().verticalNormalizedPosition = 1.0f;
+				CurrentSelectables [currentSelectionIndex].transform.parent.parent.GetComponent<ScrollRect> ().verticalNormalizedPosition = 
+					1.0f*CurrentSelectables [currentSelectionIndex].transform.parent.parent.GetComponent<ScrollRect> ().verticalNormalizedPosition;
+
+				//fit the object in the scroll window
+				//FitCurrentSelectableIntoScrollRect();
+
+			}
+
+			//check if the previousFileIndex is a valid selectable
+			if (CurrentSelectables == LoadLocalGameFiles && previousFileIndex < CurrentSelectables.Length) {
+
+				//set the current selectable to the previous index
+				//set the Selected object
+				eventSystem.SetSelectedGameObject (CurrentSelectables [previousFileIndex].gameObject);
+
+				//store the index of the current selection
+				currentSelectionIndex = previousFileIndex;
+
+				//fit the object in the scroll window
+				FitCurrentSelectableIntoScrollRect();
+
+				//Debug.Log ("Set selectable to previous index");
+
+				//return from the function
+				return;
+
+			} else if (CurrentSelectables == LoadLocalGameFiles && (previousFileIndex - 1)< CurrentSelectables.Length) {
+
+				//else check if one less than the index is valid - for example if we were the highest index and deleted that file
+
+				//set the current selectable to the previous index - 1
+				//set the Selected object
+				eventSystem.SetSelectedGameObject (CurrentSelectables [previousFileIndex -1].gameObject);
+
+				//store the index of the current selection
+				currentSelectionIndex = previousFileIndex - 1;
+
+				//fit the object in the scroll window
+				FitCurrentSelectableIntoScrollRect();
+
+				//return from the function
+				return;
 
 			}
 
@@ -1279,6 +1388,109 @@ public class UINavigationMainMenu : MonoBehaviour {
 			}
 
 		}
+
+	}
+
+	//this function gets the next selectable group
+	private Selectable[] GetNextSelectableGroup(bool reverseDirection){
+
+		//we can have special handling for when there is only one element in the group
+		//if we are advancing the group with only one group, we can just quickly set the 
+		//current selectable to the first or last element, depending on direction
+		if (currentSelectablesGroup.Length == 1) {
+
+			//return from the function
+			return CurrentSelectables;
+
+		}
+
+
+		//variable to hold the potential index of the next selectable
+		int potentialGroupIndex;
+		int potentialIndex;
+
+		//check if we are reversing selection order or not
+		if (reverseDirection == true) {
+
+			potentialGroupIndex = currentSelectionGroupIndex - 1;
+
+		} else {
+
+			potentialGroupIndex = currentSelectionGroupIndex + 1;
+
+		}
+
+		//Debug.Log ("potentialGroupIndex = " + potentialGroupIndex);
+
+		//loop through all possible selectable groups
+		for (int i = 0; i < currentSelectablesGroup.Length; i++) {
+
+			//check if we are reversing selection order or not
+			if (reverseDirection == true) {
+
+				//check if the next index is greater than or equal to  0
+				if (potentialGroupIndex  >= 0) {
+
+					//we know the potential index is in the array bounds
+					//check if the potential index is interactable
+					//we want the last index since we are going backwards
+					potentialIndex = FindLastInteractableIndex(currentSelectablesGroup [potentialGroupIndex]);
+					if (potentialIndex != -1) {
+
+						//we know there is an interactable selectable, so the potential index is valid
+
+						return currentSelectablesGroup [potentialGroupIndex];
+					}
+
+				} else {
+
+					//wrap around is assumed for tabbing through groups
+					//if wrapping is enabled, and we are out of bounds, we can set the potential index to the array length
+					potentialGroupIndex = currentSelectablesGroup.Length;
+
+				}
+
+				//increment the potential group index
+				potentialGroupIndex--;
+
+			} else {
+
+				//check if the next index is less than the length
+				if (potentialGroupIndex < currentSelectablesGroup.Length) {
+
+					//we know the potential index is in the array bounds
+					//check if the potential index is interactable
+					potentialIndex = FindFirstInteractableIndex(currentSelectablesGroup [potentialGroupIndex]);
+
+					//Debug.Log ("potentialIndex = " + potentialIndex);
+
+					if (potentialIndex != -1) {
+
+						//we know there is an interactable selectable, so the potential index is valid
+
+						return currentSelectablesGroup [potentialGroupIndex];
+
+					}
+
+				} else {
+
+					//wrap around is assumed for tabbing through groups
+					//if wrapping is enabled, and we are out of bounds, we can set the potential index to zero
+					//we want it to be zero after indexing, so it should be -1 for now
+					potentialGroupIndex = -1;
+
+				}
+
+				//increment the potential index
+				potentialGroupIndex++;
+
+			}
+
+		}
+
+		//if we haven't found a valid return path in the for loops, return the current
+		//return from the function
+		return CurrentSelectables;
 
 	}
 

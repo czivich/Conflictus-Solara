@@ -87,6 +87,7 @@ public class CloakingDeviceToggle : MonoBehaviour {
 		else {
 
 			//if we are in cloaking mode, turn on the cloaking toggle
+			cloakingDeviceToggle.interactable = true;
 			cloakingDeviceToggle.isOn = true;
 		}
 

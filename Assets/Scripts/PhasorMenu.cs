@@ -1032,6 +1032,8 @@ public class PhasorMenu : MonoBehaviour {
 							//note that there must be a selected unit in order for there to be a targeted unit
 							if (phasorRadarArrayToggle.isOn == true || usePhasorRadarShotToggle.isOn == true) {
 
+								//Debug.Log ("Choose Section 1");
+
 								phasorTargetingText.text = ("Choose Section");
 
 								//update the font size if necessary
@@ -1056,7 +1058,10 @@ public class PhasorMenu : MonoBehaviour {
 
 						//check if we have targeting device enabled
 						//note that there must be a selected unit in order for there to be a targeted unit
-						if (phasorRadarArrayToggle == true || usePhasorRadarShotToggle == true) {
+						if (phasorRadarArrayToggle.isOn == true || usePhasorRadarShotToggle.isOn == true) {
+
+							//Debug.Log ("Choose Section 2");
+
 
 							phasorTargetingText.text = ("Choose Section");
 
@@ -1095,6 +1100,9 @@ public class PhasorMenu : MonoBehaviour {
 						//check if we have targeting device enabled
 						//note that there must be a selected unit in order for there to be a targeted unit
 						if (phasorRadarArrayToggle.isOn == true || usePhasorRadarShotToggle.isOn == true) {
+
+							//Debug.Log ("Choose Section 3");
+
 
 							phasorTargetingText.text = ("Choose Section");
 

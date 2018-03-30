@@ -96,6 +96,7 @@ public class TorpedoToggle : MonoBehaviour {
 		else {
 
 			//if we are in torpedo attack mode, turn on the torpedo attack toggle
+			torpedoToggle.interactable = true;
 			torpedoToggle.isOn = true;
 		}
 

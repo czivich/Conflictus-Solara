@@ -95,6 +95,7 @@ public class MoveToggle : MonoBehaviour {
 		else {
 
 			//if we are in movement mode, turn on the move toggle
+			moveToggle.interactable = true;
 			moveToggle.isOn = true;
 		}
 

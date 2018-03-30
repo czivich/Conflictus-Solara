@@ -95,6 +95,7 @@ public class CrewToggle : MonoBehaviour {
 		else {
 
 			//if we are in crew mode, turn on the crew toggle
+			crewToggle.interactable = true;
 			crewToggle.isOn = true;
 		}
 

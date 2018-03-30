@@ -98,6 +98,9 @@ public class MouseManager : MonoBehaviour {
 	//simple class derived from unityEvent for a new unit placement
 	public class NewUnitPlacementEvent : UnityEvent<Hex>{};
 
+	//event to flag an invalid action mode for the newly selected unit
+	public UnityEvent OnInvalidActionModeForSelectedUnit = new UnityEvent();
+
 	//unityActions
 	private UnityAction<GameObject> nextUnitSetSelectedUnitAction;
 	private UnityAction<Player.Color> colorClearSelectedUnitAction;
@@ -1835,6 +1838,112 @@ public class MouseManager : MonoBehaviour {
 			}
 				
 		}
+
+		//we need to check if the unit is eligible to be in the current action mode, or whether we need to break out of the current action mode
+		switch (gameManager.CurrentActionMode) {
+
+		case GameManager.ActionMode.Movement:
+
+			//check if the unit has an engine section
+			if (selectedUnit.GetComponent<EngineSection> () == null) {
+
+				//invoke the invalid event
+				OnInvalidActionModeForSelectedUnit.Invoke ();
+
+
+			}
+
+			break;
+
+		case GameManager.ActionMode.PhasorAttack:
+
+			//check if the unit has a phasor section
+			if (selectedUnit.GetComponent<PhasorSection> () == null && selectedUnit.GetComponent<StarbasePhasorSection1> () == null 
+				&& selectedUnit.GetComponent<StarbasePhasorSection2> () == null) {
+
+				//invoke the invalid event
+				OnInvalidActionModeForSelectedUnit.Invoke ();
+
+
+			}
+
+			break;
+
+		case GameManager.ActionMode.TorpedoAttack:
+
+			//check if the unit has a torpedo section
+			if (selectedUnit.GetComponent<TorpedoSection> () == null && selectedUnit.GetComponent<StarbaseTorpedoSection> () == null) {
+
+				//invoke the invalid event
+				OnInvalidActionModeForSelectedUnit.Invoke ();
+
+
+			}
+
+			break;
+
+		case GameManager.ActionMode.TractorBeam:
+
+			//check if the unit has a phasor section
+			if (selectedUnit.GetComponent<PhasorSection> () == null && selectedUnit.GetComponent<StarbasePhasorSection1> () == null 
+				&& selectedUnit.GetComponent<StarbasePhasorSection2> () == null) {
+
+				//invoke the invalid event
+				OnInvalidActionModeForSelectedUnit.Invoke ();
+
+
+			}
+
+			break;
+
+		case GameManager.ActionMode.ItemUse:
+
+			//check if the unit has a storage section
+			if (selectedUnit.GetComponent<StorageSection> () == null && selectedUnit.GetComponent<StarbaseStorageSection1> () == null 
+				&& selectedUnit.GetComponent<StarbaseStorageSection2> () == null) {
+
+				//invoke the invalid event
+				OnInvalidActionModeForSelectedUnit.Invoke ();
+
+
+			}
+
+			break;
+
+		case GameManager.ActionMode.Crew:
+
+			//check if the unit has a torpedo section
+			if (selectedUnit.GetComponent<CrewSection> () == null && selectedUnit.GetComponent<StarbaseCrewSection> () == null) {
+
+				//invoke the invalid event
+				OnInvalidActionModeForSelectedUnit.Invoke ();
+
+
+			}
+
+			break;
+
+		case GameManager.ActionMode.Cloaking:
+
+			//check if the unit has a cloaking device
+			if (selectedUnit.GetComponent<CloakingDevice> () == null) {
+
+				//invoke the invalid event
+				OnInvalidActionModeForSelectedUnit.Invoke ();
+
+
+			}
+
+			break;
+
+		default:
+
+			break;
+
+		}
+
+
+
 
 		//i am pretty sure that whenever we set a new selected unit, I want to clear the targeted unit
 		ClearTargetedUnit();

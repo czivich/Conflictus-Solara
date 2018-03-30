@@ -1776,7 +1776,7 @@ public class TorpedoMenu : MonoBehaviour {
 
 						//check if we have targeting device enabled
 						//note that there must be a selected unit in order for there to be a targeted unit
-						if (torpedoLaserGuidanceToggle == true || useTorpedoLaserShotToggle == true) {
+						if (torpedoLaserGuidanceToggle.isOn == true || useTorpedoLaserShotToggle.isOn == true) {
 
 							torpedoTargetingText.text = ("Choose Section");
 

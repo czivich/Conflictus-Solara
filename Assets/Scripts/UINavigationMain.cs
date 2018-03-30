@@ -5,6 +5,7 @@ using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using TMPro;
+using System.Linq;
 
 public class UINavigationMain : MonoBehaviour {
 
@@ -16,14 +17,24 @@ public class UINavigationMain : MonoBehaviour {
 	//uiManager
 	private GameObject uiManager;
 	private GameManager gameManager;
+	private MouseManager mouseManager;
+
 
 	//this enum will keep track of the current UI State
 	public enum UIState{
 
 		Selection,
 		MoveMenu,
-		MainMenu,
-		NewLocalGame,
+		PhasorMenu,
+		TorpedoMenu,
+		TractorBeamMenu,
+		UseItem,
+		Crew,
+		Cloaking,
+		BuyItem,
+		BuyShip,
+		RenameUnit,
+		EndTurn,
 		LoadLocalGame,
 		FileDeletePrompt,
 		Settings,
@@ -33,6 +44,11 @@ public class UINavigationMain : MonoBehaviour {
 
 	//this bool will wait a frame when needed
 	private int delayLoadFilesWindowCount = 0;
+	private int delaySetInitialSelectablesCount = 0;
+	private int delayReturnToSelectableCount = 0;
+
+	private Selectable returnSelectable;
+	private UIState returnUIState;
 
 	//this keeps track of what the current UI state is
 	private UIState currentUIState;
@@ -54,6 +70,9 @@ public class UINavigationMain : MonoBehaviour {
 
 				currentUIState = value;
 
+				//set the flag
+				//blockPointerClickFlag = true;
+
 				//invoke the event
 				OnUIStateChange.Invoke();
 
@@ -67,9 +86,14 @@ public class UINavigationMain : MonoBehaviour {
 	//these public arrays are groups of selectables arrays that make up each UI state
 	private Selectable[][] SelectionGroup;
 	private Selectable[][] MoveMenuGroup;
+	private Selectable[][] PhasorMenuGroup;
+	private Selectable[][] TorpedoMenuGroup;
+	private Selectable[][] TractorBeamMenuGroup;
+	private Selectable[][] UseItemMenuGroup;
+	private Selectable[][] CrewMenuGroup;
+	private Selectable[][] CloakingMenuGroup;
+	private Selectable[][] EndTurnGroup;
 
-	private Selectable[][] MainMenuGroup;
-	private Selectable[][] NewLocalGameGroup;
 	private Selectable[][] LoadLocalGameGroup;
 	private Selectable[][] FileDeletePromptGroup;
 	private Selectable[][] SettingsGroup;
@@ -84,15 +108,29 @@ public class UINavigationMain : MonoBehaviour {
 
 	public Selectable[] MoveMenuButtons;
 
-	public Selectable[] MainMenuButtons;
+	public Selectable[] PhasorRadarShotButton;
+	public Selectable[] PhasorTargetingDropdown;
+	public Selectable[] PhasorFireButton;
 
-	public Selectable[] NewLocalGameTeams;
-	public Selectable[] NewLocalGamePlanets;
-	public Selectable[] NewLocalGameGreenPlayer;
-	public Selectable[] NewLocalGameRedPlayer;
-	public Selectable[] NewLocalGamePurplePlayer;
-	public Selectable[] NewLocalGameBluePlayer;
-	public Selectable[] NewLocalGameButtonsRow;
+	public Selectable[] TorpedoLaserShotButton;
+	public Selectable[] TorpedoTargetingDropdown;
+	public Selectable[] TorpedoFireButtons;
+
+	public Selectable[] TractorBeamEngageButton;
+
+	public Selectable[] FlareModeButtons;
+	public Selectable[] ItemTargetingDropdown;
+	public Selectable[] CrystalButtons;
+
+	public Selectable[] CrewTargetingDropdown;
+	public Selectable[] CrewRepairButton;
+
+	public Selectable[] CloakingDeviceEngageButton;
+
+
+	public Selectable[] EndTurnButtons;
+
+
 
 	public Selectable[] LoadLocalGameFiles;
 	public Selectable[] LoadLocalGameButtonsRow;
@@ -172,9 +210,19 @@ public class UINavigationMain : MonoBehaviour {
 	//unityActions
 	private UnityAction<Player> NewTurnSetInitialSelectablesAction;
 	private UnityAction<bool> MoveToggleSetUIStateAction;
-	private UnityAction OpenNewLocalGameWindowAction;
+	private UnityAction<bool> PhasorToggleSetUIStateAction;
+	private UnityAction<bool> TorpedoToggleSetUIStateAction;
+	private UnityAction<bool> TractorBeamToggleSetUIStateAction;
+	private UnityAction<bool> UseItemToggleSetUIStateAction;
+	private UnityAction<bool> CrewToggleSetUIStateAction;
+	private UnityAction<bool> CloakingToggleSetUIStateAction;
+	private UnityAction<bool> EndTurnSetUIStateAction;
+	private UnityAction CancelEndTurnPromptAction;
+	private UnityAction AcceptEndTurnPromptAction;
+
+
 	private UnityAction<Selectable> SelectableSetSelectionGroupsAction;
-	private UnityAction ReturnToMainMenuAction;
+	private UnityAction ReturnToSelectionAction;
 	private UnityAction OpenLoadLocalGameWindowAction;
 	private UnityAction SelectableSetNavigationRulesAction;
 	private UnityAction<string> OpenFileDeletePromptAction;
@@ -182,6 +230,11 @@ public class UINavigationMain : MonoBehaviour {
 	private UnityAction OpenSettingsWindowAction;
 	private UnityAction OpenExitGamePromptAction;
 	private UnityAction<string> InputFieldEndEditIgnoreEscapeAction;
+	private UnityAction<Ship> TractorBeamShipSetUIStateAction;
+	private UnityAction ClearSetInitialSelectablesAction;
+	private UnityAction<CombatUnit> CombatUnitSetUIStateAction;
+
+	private UnityAction<Selectable> PointerClickResolveBlockAction;
 
 
 	// Use this for initialization
@@ -190,6 +243,7 @@ public class UINavigationMain : MonoBehaviour {
 		//get the uiManager
 		uiManager = GameObject.FindGameObjectWithTag("UIManager");
 		gameManager = GameObject.FindGameObjectWithTag ("GameManager").GetComponent<GameManager> ();
+		mouseManager = GameObject.FindGameObjectWithTag ("MouseManager").GetComponent<MouseManager> ();
 
 		//set the actions
 		SetUnityActions ();
@@ -225,6 +279,33 @@ public class UINavigationMain : MonoBehaviour {
 
 		}
 
+		//check if we need to wait a frame for the set selectables
+		if (delaySetInitialSelectablesCount > 0) {
+
+			delaySetInitialSelectablesCount--;
+
+			if (delaySetInitialSelectablesCount == 0) {
+
+				SetInitialCurrentSelectables ();
+				return;
+
+			}
+
+		}
+
+		//check if we need to wait a frame for the return selectables
+		if (delayReturnToSelectableCount > 0) {
+
+			delayReturnToSelectableCount--;
+
+			if (delayReturnToSelectableCount == 0) {
+
+				ReturnToSelectable ();
+				return;
+
+			}
+
+		}
 		//check if the down arrow is being pressed
 		if (Input.GetKeyDown (KeyCode.DownArrow)) {
 
@@ -241,10 +322,25 @@ public class UINavigationMain : MonoBehaviour {
 
 				}
 
-			} else if(CurrentUIState == UIState.NewLocalGame && CurrentSelectables == NewLocalGamePlanets){
+			} else if(CurrentUIState == UIState.PhasorMenu && CurrentSelectables == PhasorTargetingDropdown){
 
-				uiManager.GetComponent<ConfigureLocalGameWindow> ().decreasePlanetsButton.onClick.Invoke();
+				//adjust the dropdown value
+				AdjustDropdownValueDown(PhasorTargetingDropdown[0].GetComponent<TMP_Dropdown>());
 
+			} else if(CurrentUIState == UIState.TorpedoMenu && CurrentSelectables == TorpedoTargetingDropdown){
+
+				//adjust the dropdown value
+				AdjustDropdownValueDown(TorpedoTargetingDropdown[0].GetComponent<TMP_Dropdown>());
+
+			} else if(CurrentUIState == UIState.UseItem && CurrentSelectables == ItemTargetingDropdown){
+
+				//adjust the dropdown value
+				AdjustDropdownValueDown(ItemTargetingDropdown[0].GetComponent<TMP_Dropdown>());
+
+			} else if(CurrentUIState == UIState.Crew && CurrentSelectables == CrewTargetingDropdown){
+
+				//adjust the dropdown value
+				AdjustDropdownValueDown(CrewTargetingDropdown[0].GetComponent<TMP_Dropdown>());
 
 			} else if(CurrentUIState == UIState.Settings && CurrentSelectables == SettingsResolutionDropdown){
 
@@ -292,9 +388,25 @@ public class UINavigationMain : MonoBehaviour {
 
 				}
 
-			}else if(CurrentUIState == UIState.NewLocalGame && CurrentSelectables == NewLocalGamePlanets){
+			} else if(CurrentUIState == UIState.PhasorMenu && CurrentSelectables == PhasorTargetingDropdown){
 
-				uiManager.GetComponent<ConfigureLocalGameWindow> ().increasePlanetsButton.onClick.Invoke();
+				//adjust the dropdown value
+				AdjustDropdownValueUp(PhasorTargetingDropdown[0].GetComponent<TMP_Dropdown>());
+
+			} else if(CurrentUIState == UIState.TorpedoMenu && CurrentSelectables == TorpedoTargetingDropdown){
+
+				//adjust the dropdown value
+				AdjustDropdownValueUp(TorpedoTargetingDropdown[0].GetComponent<TMP_Dropdown>());
+
+			} else if(CurrentUIState == UIState.UseItem && CurrentSelectables == ItemTargetingDropdown){
+
+				//adjust the dropdown value
+				AdjustDropdownValueUp(ItemTargetingDropdown[0].GetComponent<TMP_Dropdown>());
+
+			} else if(CurrentUIState == UIState.Crew && CurrentSelectables == CrewTargetingDropdown){
+
+				//adjust the dropdown value
+				AdjustDropdownValueUp(CrewTargetingDropdown[0].GetComponent<TMP_Dropdown>());
 
 			} else if(CurrentUIState == UIState.Settings && CurrentSelectables == SettingsResolutionDropdown){
 
@@ -394,9 +506,30 @@ public class UINavigationMain : MonoBehaviour {
 		//check if the shift is being pressed
 		if (Input.GetKeyDown (KeyCode.Tab)) {
 
+			//check if we are in a dropdown
+			if (CurrentSelectables [currentSelectionIndex] != null &&
+			    CurrentSelectables [currentSelectionIndex].GetComponent<TMP_Dropdown> () == true &&
+			    CurrentSelectables [currentSelectionIndex].transform.Find ("Dropdown List") != null) {
+
+				//hide the list
+				CurrentSelectables [currentSelectionIndex].GetComponent<TMP_Dropdown> ().Hide ();
+
+
+			} else if (eventSystem.currentSelectedGameObject == null) {
+
+				if (CurrentSelectables != null && CurrentSelectables [currentSelectionIndex] != null) {
+
+					eventSystem.SetSelectedGameObject (CurrentSelectables [currentSelectionIndex].gameObject);
+
+					return;
+
+				}
+
+			}
+
 			//check if we are also holdin down a shift key
 			//if we are holding a shift key, we want tab to cycle backwards
-			if (Input.GetKey (KeyCode.LeftShift) || Input.GetKey (KeyCode.RightShift)) {
+			else if (Input.GetKey (KeyCode.LeftShift) || Input.GetKey (KeyCode.RightShift)) {
 
 				//check if we are in the load files - if we are here, we don't want tab to cycle through the files
 				if (CurrentSelectables == LoadLocalGameFiles) {
@@ -501,13 +634,7 @@ public class UINavigationMain : MonoBehaviour {
 		//check if the escape key is being pressed
 		if (Input.GetKeyDown (KeyCode.Escape)) {
 
-			//check if we are in the new game window
-			if (CurrentUIState == UIState.NewLocalGame && ignoreEscape == false) {
-
-				//cancel out of the menu
-				uiManager.GetComponent<ConfigureLocalGameWindow> ().cancelButton.onClick.Invoke ();
-
-			} else if (CurrentUIState == UIState.LoadLocalGame) {
+			if (CurrentUIState == UIState.LoadLocalGame) {
 
 				//cancel out of the menu
 				uiManager.GetComponent<FileLoadWindow> ().closeFileLoadWindowButton.onClick.Invoke ();
@@ -527,12 +654,7 @@ public class UINavigationMain : MonoBehaviour {
 				//cancel out of the menu
 				uiManager.GetComponent<ExitGamePrompt> ().exitGameCancelButton.onClick.Invoke ();
 
-			} else if (CurrentUIState == UIState.MainMenu) {
-
-				//cancel out of the menu and launch the exit prompt
-				uiManager.GetComponent<ExitGamePrompt> ().exitGameButton.onClick.Invoke ();
-
-			}
+			} 
 
 		}
 
@@ -580,7 +702,7 @@ public class UINavigationMain : MonoBehaviour {
 		}
 
 		//this will prevent the uncontrollable event order from screwing up the selectCurrentObject
-		blockPointerClickFlag = false;
+		//blockPointerClickFlag = false;
 
 	}
 
@@ -647,11 +769,148 @@ public class UINavigationMain : MonoBehaviour {
 
 		};
 
-		OpenNewLocalGameWindowAction = () => {CurrentUIState = UIState.NewLocalGame;};
+		PhasorToggleSetUIStateAction = (toggleState) => {
+
+			if (toggleState == true) {
+
+				CurrentUIState = UIState.PhasorMenu;
+
+			} else {
+
+				CurrentUIState = UIState.Selection;
+
+			}
+			;
+
+		};
+
+		TorpedoToggleSetUIStateAction = (toggleState) => {
+
+			if (toggleState == true) {
+
+				CurrentUIState = UIState.TorpedoMenu;
+
+			} else {
+
+				CurrentUIState = UIState.Selection;
+
+			}
+			;
+
+		};
+
+		TractorBeamToggleSetUIStateAction = (toggleState) => {
+
+			if (toggleState == true) {
+
+				CurrentUIState = UIState.TractorBeamMenu;
+
+			} else {
+
+				CurrentUIState = UIState.Selection;
+
+			}
+			;
+
+		};
+
+		UseItemToggleSetUIStateAction = (toggleState) => {
+
+			if (toggleState == true) {
+
+				CurrentUIState = UIState.UseItem;
+
+			} else {
+
+				CurrentUIState = UIState.Selection;
+
+			}
+			;
+
+		};
+
+		CrewToggleSetUIStateAction = (toggleState) => {
+
+			if (toggleState == true) {
+
+				CurrentUIState = UIState.Crew;
+
+			} else {
+
+				CurrentUIState = UIState.Selection;
+
+			}
+			;
+
+		};
+
+		CloakingToggleSetUIStateAction = (toggleState) => {
+
+			if (toggleState == true) {
+
+				CurrentUIState = UIState.Cloaking;
+
+			} else {
+
+				CurrentUIState = UIState.Selection;
+
+			}
+			;
+
+		};
+
+		EndTurnSetUIStateAction = (toggleState) => {
+
+			if (toggleState == true) {
+
+				CurrentUIState = UIState.EndTurn;
+
+			} else {
+
+				CurrentUIState = UIState.Selection;
+
+			}
+			;
+
+		};
+
+		CancelEndTurnPromptAction = () => {
+
+			//returnUIState = UIState.Selection;
+			//returnSelectable = ActionMenuButtons[10];
+
+			//delayReturnToSelectableCount = 2;
+
+			//set the initial UIState
+			CurrentUIState = UIState.Selection;
+
+			//invoke the event to start, since it won't fire because the enum defaults to the Selection
+			OnUIStateChange.Invoke();
+		
+		};
+
+		AcceptEndTurnPromptAction = () => {
+
+			//returnUIState = UIState.Selection;
+			//returnSelectable = ActionMenuButtons[10];
+
+			//delayReturnToSelectableCount = 2;
+
+			//set the initial UIState
+			CurrentUIState = UIState.Selection;
+
+			//invoke the event to start, since it won't fire because the enum defaults to the Selection
+			OnUIStateChange.Invoke();
+
+		};
+
+		TractorBeamShipSetUIStateAction = (ship) => {SetInitialCurrentSelectables ();};
+
+		CombatUnitSetUIStateAction = (combatUnit) => {delaySetInitialSelectablesCount = 1;};
 
 		SelectableSetSelectionGroupsAction = (selectable) => {SetSelectionIndexFromPointerClick (selectable);};
 
-		ReturnToMainMenuAction = () => {CurrentUIState = UIState.MainMenu;};
+		ReturnToSelectionAction = () => {CurrentUIState = UIState.Selection;};
 
 		OpenLoadLocalGameWindowAction = () => {CurrentUIState = UIState.LoadLocalGame;};
 
@@ -661,11 +920,15 @@ public class UINavigationMain : MonoBehaviour {
 
 		StringReturnToFileLoadWindowAction = (fileName) => {delayLoadFilesWindowCount = 2;};
 
+		ClearSetInitialSelectablesAction = () => {delaySetInitialSelectablesCount = 1;};
+
 		OpenSettingsWindowAction = () => {CurrentUIState = UIState.Settings;}; 
 
 		OpenExitGamePromptAction = () => {CurrentUIState = UIState.ExitGamePrompt;};
 
 		InputFieldEndEditIgnoreEscapeAction = (eventString) => {ignoreEscape = true;};
+
+		PointerClickResolveBlockAction = (selectable) => {ResolvePointerClickBlock (selectable);};
 
 	}
 
@@ -678,8 +941,50 @@ public class UINavigationMain : MonoBehaviour {
 		//add listener for a pointer click selection
 		UISelection.OnSetSelectedGameObject.AddListener(SelectableSetSelectionGroupsAction);
 
+		//add listener for a pointer click
+		UISelection.OnClickedSelectable.AddListener(PointerClickResolveBlockAction);
+
 		//add listener for move toggle
 		uiManager.GetComponent<MoveToggle>().moveToggle.onValueChanged.AddListener(MoveToggleSetUIStateAction);
+
+		//add listener for phasor toggle
+		uiManager.GetComponent<PhasorToggle>().phasorToggle.onValueChanged.AddListener(PhasorToggleSetUIStateAction);
+
+		//add listener for torpedo toggle
+		uiManager.GetComponent<TorpedoToggle>().torpedoToggle.onValueChanged.AddListener(TorpedoToggleSetUIStateAction);
+
+		//add listener for tractor beam toggle
+		uiManager.GetComponent<TractorBeamToggle>().tractorBeamToggle.onValueChanged.AddListener(TractorBeamToggleSetUIStateAction);
+
+		//add listener for use item toggle
+		uiManager.GetComponent<UseItemToggle>().useItemToggle.onValueChanged.AddListener(UseItemToggleSetUIStateAction);
+
+		//add listener for crew toggle
+		uiManager.GetComponent<CrewToggle>().crewToggle.onValueChanged.AddListener(CrewToggleSetUIStateAction);
+
+		//add listener for cloaking toggle
+		uiManager.GetComponent<CloakingDeviceToggle>().cloakingDeviceToggle.onValueChanged.AddListener(CloakingToggleSetUIStateAction);
+
+		//add listener for end turn toggle
+		uiManager.GetComponent<EndTurnToggle>().endTurnToggle.onValueChanged.AddListener(EndTurnSetUIStateAction);
+
+		//add listener for disengaging tractor beam
+		uiManager.GetComponent<TractorBeamMenu>().OnTurnOffTractorBeamToggle.AddListener(TractorBeamShipSetUIStateAction);
+
+		//add listener for disengaging cloaking device
+		uiManager.GetComponent<CloakingDeviceMenu>().OnTurnOffCloakingDevice.AddListener(CombatUnitSetUIStateAction);
+		uiManager.GetComponent<CloakingDeviceMenu>().OnTurnOnCloakingDevice.AddListener(CombatUnitSetUIStateAction);
+
+		//add listeners for end turn drop down
+		uiManager.GetComponent<EndTurnDropDown>().OnCancelEndTurnPrompt.AddListener(CancelEndTurnPromptAction);
+		uiManager.GetComponent<EndTurnDropDown>().OnAcceptEndTurnPrompt.AddListener(AcceptEndTurnPromptAction);
+
+
+		//add listeners for mouse manager actions
+		mouseManager.OnSetTargetedUnit.AddListener(SetInitialCurrentSelectables);
+		mouseManager.OnClearTargetedUnit.AddListener(ClearSetInitialSelectablesAction);
+		mouseManager.OnSetSelectedUnit.AddListener(SetInitialCurrentSelectables);
+		mouseManager.OnClearSelectedUnit.AddListener(ClearSetInitialSelectablesAction);
 
 		//add listener for load local game
 		uiManager.GetComponent<FileLoadWindow>().OnOpenFileLoadWindow.AddListener(OpenLoadLocalGameWindowAction);
@@ -688,8 +993,8 @@ public class UINavigationMain : MonoBehaviour {
 		OnSelectablesChange.AddListener(SelectableSetNavigationRulesAction);
 
 		//add listeners for exiting the file load window back to the main menu
-		uiManager.GetComponent<FileLoadWindow>().closeFileLoadWindowButton.onClick.AddListener(ReturnToMainMenuAction);
-		uiManager.GetComponent<FileLoadWindow>().fileLoadCancelButton.onClick.AddListener(ReturnToMainMenuAction);
+		uiManager.GetComponent<FileLoadWindow>().closeFileLoadWindowButton.onClick.AddListener(ReturnToSelectionAction);
+		uiManager.GetComponent<FileLoadWindow>().fileLoadCancelButton.onClick.AddListener(ReturnToSelectionAction);
 
 		//add listener for entering the file delete prompt
 		uiManager.GetComponent<FileLoadWindow>().OnFileDeleteYesClicked.AddListener(OpenFileDeletePromptAction);
@@ -702,19 +1007,22 @@ public class UINavigationMain : MonoBehaviour {
 		uiManager.GetComponent<Settings>().settingsMenuButton.onClick.AddListener(OpenSettingsWindowAction);
 
 		//add listeners for exiting the settings menu
-		uiManager.GetComponent<Settings>().acceptButton.onClick.AddListener(ReturnToMainMenuAction);
-		uiManager.GetComponent<Settings>().exitButton.onClick.AddListener(ReturnToMainMenuAction);
+		uiManager.GetComponent<Settings>().acceptButton.onClick.AddListener(ReturnToSelectionAction);
+		uiManager.GetComponent<Settings>().exitButton.onClick.AddListener(ReturnToSelectionAction);
 
 		//add listener for entering the exit game prompt
 		uiManager.GetComponent<ExitGamePrompt>().exitGameButton.onClick.AddListener(OpenExitGamePromptAction);
 
 		//add listener for exiting the exit game prompt
-		uiManager.GetComponent<ExitGamePrompt>().OnExitGameYesClicked.AddListener(ReturnToMainMenuAction);
-		uiManager.GetComponent<ExitGamePrompt>().OnExitGameCancelClicked.AddListener(ReturnToMainMenuAction);
+		uiManager.GetComponent<ExitGamePrompt>().OnExitGameYesClicked.AddListener(ReturnToSelectionAction);
+		uiManager.GetComponent<ExitGamePrompt>().OnExitGameCancelClicked.AddListener(ReturnToSelectionAction);
 
 		//add listener for new or loaded turn
 		gameManager.OnNewTurn.AddListener(NewTurnSetInitialSelectablesAction);
 		gameManager.OnLoadedTurn.AddListener (NewTurnSetInitialSelectablesAction);
+
+		//add listener for Cutscene ending
+		uiManager.GetComponent<CutsceneManager>().OnCloseCutsceneDisplayPanel.AddListener(SetInitialCurrentSelectables);
 
 	}
 
@@ -736,17 +1044,64 @@ public class UINavigationMain : MonoBehaviour {
 		MoveMenuGroup [4] = NextUnitButtons;
 		MoveMenuGroup [5] = StatusButton;
 
-		MainMenuGroup = new Selectable[1][];
-		MainMenuGroup [0] = MainMenuButtons;
+		PhasorMenuGroup = new Selectable[8][];
+		PhasorMenuGroup [0] = PhasorRadarShotButton;
+		PhasorMenuGroup [1] = PhasorTargetingDropdown;
+		PhasorMenuGroup [2] = PhasorFireButton;
+		PhasorMenuGroup [3] = ActionMenuButtons;
+		PhasorMenuGroup [4] = ChatInputField;
+		PhasorMenuGroup [5] = FileMenuButtons;
+		PhasorMenuGroup [6] = NextUnitButtons;
+		PhasorMenuGroup [7] = StatusButton;
 
-		NewLocalGameGroup = new Selectable[7][];
-		NewLocalGameGroup [0] = NewLocalGameTeams;
-		NewLocalGameGroup [1] = NewLocalGamePlanets;
-		NewLocalGameGroup [2] = NewLocalGameGreenPlayer;
-		NewLocalGameGroup [3] = NewLocalGameRedPlayer;
-		NewLocalGameGroup [4] = NewLocalGamePurplePlayer;
-		NewLocalGameGroup [5] = NewLocalGameBluePlayer;
-		NewLocalGameGroup [6] = NewLocalGameButtonsRow;
+		TorpedoMenuGroup = new Selectable[8][];
+		TorpedoMenuGroup [0] = TorpedoLaserShotButton;
+		TorpedoMenuGroup [1] = TorpedoTargetingDropdown;
+		TorpedoMenuGroup [2] = TorpedoFireButtons;
+		TorpedoMenuGroup [3] = ActionMenuButtons;
+		TorpedoMenuGroup [4] = ChatInputField;
+		TorpedoMenuGroup [5] = FileMenuButtons;
+		TorpedoMenuGroup [6] = NextUnitButtons;
+		TorpedoMenuGroup [7] = StatusButton;
+
+		TractorBeamMenuGroup = new Selectable[6][];
+		TractorBeamMenuGroup [0] = TractorBeamEngageButton;
+		TractorBeamMenuGroup [1] = ActionMenuButtons;
+		TractorBeamMenuGroup [2] = ChatInputField;
+		TractorBeamMenuGroup [3] = FileMenuButtons;
+		TractorBeamMenuGroup [4] = NextUnitButtons;
+		TractorBeamMenuGroup [5] = StatusButton;
+
+		UseItemMenuGroup = new Selectable[8][];
+		UseItemMenuGroup [0] = FlareModeButtons;
+		UseItemMenuGroup [1] = ItemTargetingDropdown;
+		UseItemMenuGroup [2] = CrystalButtons;
+		UseItemMenuGroup [3] = ActionMenuButtons;
+		UseItemMenuGroup [4] = ChatInputField;
+		UseItemMenuGroup [5] = FileMenuButtons;
+		UseItemMenuGroup [6] = NextUnitButtons;
+		UseItemMenuGroup [7] = StatusButton;
+
+		CrewMenuGroup = new Selectable[7][];
+		CrewMenuGroup [0] = CrewTargetingDropdown;
+		CrewMenuGroup [1] = CrewRepairButton;
+		CrewMenuGroup [2] = ActionMenuButtons;
+		CrewMenuGroup [3] = ChatInputField;
+		CrewMenuGroup [4] = FileMenuButtons;
+		CrewMenuGroup [5] = NextUnitButtons;
+		CrewMenuGroup [6] = StatusButton;
+
+		CloakingMenuGroup = new Selectable[6][];
+		CloakingMenuGroup [0] = CloakingDeviceEngageButton;
+		CloakingMenuGroup [1] = ActionMenuButtons;
+		CloakingMenuGroup [2] = ChatInputField;
+		CloakingMenuGroup [3] = FileMenuButtons;
+		CloakingMenuGroup [4] = NextUnitButtons;
+		CloakingMenuGroup [5] = StatusButton;
+
+		EndTurnGroup = new Selectable[1][];
+		EndTurnGroup [0] = EndTurnButtons;
+
 
 		LoadLocalGameGroup = new Selectable[2][];
 		LoadLocalGameGroup [0] = LoadLocalGameFiles;
@@ -813,49 +1168,92 @@ public class UINavigationMain : MonoBehaviour {
 			verticalCycling = true;
 			selectablesWrap = false;
 
-		}else if (CurrentSelectables == MainMenuButtons) {
+
+		} else if (CurrentSelectables == PhasorRadarShotButton) {
 
 			horizontalCycling = false;
 			verticalCycling = true;
-			selectablesWrap = true;
+			selectablesWrap = false;
 
-		} else if (CurrentSelectables == NewLocalGameTeams) {
+		} else if (CurrentSelectables == PhasorTargetingDropdown) {
+
+			horizontalCycling = false;
+			verticalCycling = false;
+			selectablesWrap = false;
+
+		} else if (CurrentSelectables == PhasorFireButton) {
+
+			horizontalCycling = false;
+			verticalCycling = false;
+			selectablesWrap = false;
+
+		} else if (CurrentSelectables == TorpedoLaserShotButton) {
+
+			horizontalCycling = false;
+			verticalCycling = true;
+			selectablesWrap = false;
+
+		} else if (CurrentSelectables == TorpedoTargetingDropdown) {
+
+			horizontalCycling = false;
+			verticalCycling = false;
+			selectablesWrap = false;
+
+		} else if (CurrentSelectables == TorpedoFireButtons) {
+
+			horizontalCycling = false;
+			verticalCycling = true;
+			selectablesWrap = false;
+
+		} else if (CurrentSelectables == TorpedoFireButtons) {
+
+			horizontalCycling = false;
+			verticalCycling = true;
+			selectablesWrap = false;
+
+		} else if (CurrentSelectables == TractorBeamEngageButton) {
+
+			horizontalCycling = false;
+			verticalCycling = false;
+			selectablesWrap = false;
+
+		} else if (CurrentSelectables == FlareModeButtons) {
 
 			horizontalCycling = true;
 			verticalCycling = false;
 			selectablesWrap = true;
 
-		} else if (CurrentSelectables == NewLocalGamePlanets){
+		} else if (CurrentSelectables == ItemTargetingDropdown) {
 
 			horizontalCycling = false;
 			verticalCycling = false;
-			selectablesWrap = true;
+			selectablesWrap = false;
 
-		} else if (CurrentSelectables == NewLocalGameGreenPlayer){
+		} else if (CurrentSelectables == CrystalButtons) {
+
+			horizontalCycling = false;
+			verticalCycling = true;
+			selectablesWrap = false;
+
+		} else if (CurrentSelectables == CrewTargetingDropdown) {
 
 			horizontalCycling = false;
 			verticalCycling = false;
-			selectablesWrap = true;
+			selectablesWrap = false;
 
-		} else if (CurrentSelectables == NewLocalGameRedPlayer){
-
-			horizontalCycling = false;
-			verticalCycling = false;
-			selectablesWrap = true;
-
-		} else if (CurrentSelectables == NewLocalGamePurplePlayer){
+		} else if (CurrentSelectables == CrewRepairButton) {
 
 			horizontalCycling = false;
 			verticalCycling = false;
-			selectablesWrap = true;
+			selectablesWrap = false;
 
-		} else if (CurrentSelectables == NewLocalGameBluePlayer){
+		} else if (CurrentSelectables == CloakingDeviceEngageButton) {
 
 			horizontalCycling = false;
 			verticalCycling = false;
-			selectablesWrap = true;
+			selectablesWrap = false;
 
-		} else if (CurrentSelectables == NewLocalGameButtonsRow){
+		} else if (CurrentSelectables == EndTurnButtons) {
 
 			horizontalCycling = true;
 			verticalCycling = false;
@@ -949,25 +1347,111 @@ public class UINavigationMain : MonoBehaviour {
 		//local variable to hold the potential index of the selection group which has a valid interactable selectable
 		int potentialCurrentSelectionGroupIndex;
 
+		//bool to determine if the current selectable is in the new group
+		bool currentSelectableInNewGroup = false;
+
 		//switch case based on UI state
 		switch (CurrentUIState) {
 
 		case UIState.Selection:
-			
+
+			//Debug.Log ("case selection");
+
 			//set the current selectables group to match the UI state
 			currentSelectablesGroup = SelectionGroup;
 
-			//find the first array in the group that has an interactable selectable
-			potentialCurrentSelectionGroupIndex = FindFirstInteractableArrayIndex (currentSelectablesGroup);
 
-			//set the selectable array that contains an interactable
-			if (potentialCurrentSelectionGroupIndex != -1) {
+			//check if the current selectable is within the new selectables group
+			//if the current selectable is within the new group, we don't want set the selectables to the first interactable option,
+			//we want to leave it where it is
+			//but we will need to know what the group index is within the context of the new group
 
-				//set the currentSelectionGroupIndex
-				currentSelectionGroupIndex = potentialCurrentSelectionGroupIndex;
+			//only do this if there is a current selectable
+			if (EventSystem.current.currentSelectedGameObject != null) {
 
-				//set the currentSelectables based on the index returned
-				CurrentSelectables = currentSelectablesGroup[currentSelectionGroupIndex];
+				Debug.Log ("current not null");
+
+				for (int i = 0; i < currentSelectablesGroup.Length; i++) {
+
+					//check if the current selectable is within the array at the ith index
+					if (currentSelectablesGroup [i].Contains (EventSystem.current.currentSelectedGameObject.GetComponent<Selectable> ())) {
+
+						//set the currentSelectionGroupIndex
+						currentSelectionGroupIndex = i;
+
+						//set the currentSelectables based on the index returned
+						CurrentSelectables = currentSelectablesGroup [currentSelectionGroupIndex];
+
+						//set the flag
+						currentSelectableInNewGroup = true;
+
+						//break out of the for loop
+						break;
+					}
+
+				}
+
+				//check if the current selectable was found in the new group
+				if (currentSelectableInNewGroup == true) {
+
+					//set the index based on the selectable's location in the new group
+					for (int i = 0; i < currentSelectables.Length; i++) {
+
+						//check if the current selectable is within the array at the ith index
+						if (currentSelectables [i] == eventSystem.currentSelectedGameObject.GetComponent<Selectable> ()) {
+
+							//set the currentSelectionIndex
+							currentSelectionIndex = i;
+
+							//we have the group index and the selectable index set, and we have the currentSelectable set
+							//we can return from the method
+							return;
+
+						}
+
+					}
+
+				} else {
+
+					//if the current is not in the group, we need to find a new valid selectable
+
+					//find the first array in the group that has an interactable selectable
+					potentialCurrentSelectionGroupIndex = FindFirstInteractableArrayIndex (currentSelectablesGroup);
+
+					//set the selectable array that contains an interactable
+					if (potentialCurrentSelectionGroupIndex != -1) {
+
+						//set the currentSelectionGroupIndex
+						currentSelectionGroupIndex = potentialCurrentSelectionGroupIndex;
+
+						//set the currentSelectables based on the index returned
+						CurrentSelectables = currentSelectablesGroup [currentSelectionGroupIndex];
+
+					}
+
+				}
+
+			} else {
+
+				Debug.Log ("current is null");
+
+				//if there is no current selectable, we need to find a new valid selectable
+
+				//find the first array in the group that has an interactable selectable
+				potentialCurrentSelectionGroupIndex = FindFirstInteractableArrayIndex (currentSelectablesGroup);
+
+				//Debug.Log ("potential is "+ potentialCurrentSelectionGroupIndex);
+
+				//set the selectable array that contains an interactable
+				if (potentialCurrentSelectionGroupIndex != -1) {
+
+					//set the currentSelectionGroupIndex
+					currentSelectionGroupIndex = potentialCurrentSelectionGroupIndex;
+
+					//set the currentSelectables based on the index returned
+					CurrentSelectables = currentSelectablesGroup [currentSelectionGroupIndex];
+
+				}
 
 			}
 
@@ -981,60 +1465,1199 @@ public class UINavigationMain : MonoBehaviour {
 			//find the first array in the group that has an interactable selectable
 			potentialCurrentSelectionGroupIndex = FindFirstInteractableArrayIndex (currentSelectablesGroup);
 
-			//set the selectable array that contains an interactable
-			if (potentialCurrentSelectionGroupIndex != -1) {
+			//check if the potential group index is 0, which would indicate the move dropdown
+			if (potentialCurrentSelectionGroupIndex != 0) {
+
+				//if the index is not zero, that means we can't be on the dropdown, because there are no interactable selectables in the dropdown
+				//in this case, we want to stay on the toggle that turned on the dropdown
+				//check to make sure that current selected object is in the new group
+
+				//only do this if there is a current selectable
+				if (EventSystem.current.currentSelectedGameObject != null) {
+
+					for (int i = 0; i < currentSelectablesGroup.Length; i++) {
+
+						//check if the current selectable is within the array at the ith index
+						if (currentSelectablesGroup [i].Contains (EventSystem.current.currentSelectedGameObject.GetComponent<Selectable> ())) {
+
+							//set the currentSelectionGroupIndex
+							currentSelectionGroupIndex = i;
+
+							//set the currentSelectables based on the index returned
+							CurrentSelectables = currentSelectablesGroup [currentSelectionGroupIndex];
+
+							//set the flag
+							currentSelectableInNewGroup = true;
+
+							//break out of the for loop
+							break;
+						}
+
+					}
+
+					//check if the current selectable was found in the new group
+					if (currentSelectableInNewGroup == true) {
+
+						//set the index based on the selectable's location in the new group
+						for (int i = 0; i < currentSelectables.Length; i++) {
+
+							//check if the current selectable is within the array at the ith index
+							if (currentSelectables [i] == eventSystem.currentSelectedGameObject.GetComponent<Selectable> ()) {
+
+								//set the currentSelectionIndex
+								currentSelectionIndex = i;
+
+								//we have the group index and the selectable index set, and we have the currentSelectable set
+								//we can return from the method
+								return;
+
+							}
+
+						}
+
+					} else {
+
+						//if the current is not in the group, we need to find a new valid selectable
+
+						//set the selectable array that contains an interactable
+						if (potentialCurrentSelectionGroupIndex != -1) {
+
+							//set the currentSelectionGroupIndex
+							currentSelectionGroupIndex = potentialCurrentSelectionGroupIndex;
+
+							//set the currentSelectables based on the index returned
+							CurrentSelectables = currentSelectablesGroup [currentSelectionGroupIndex];
+
+							//check if the current selectables is the action menu buttons
+							if (CurrentSelectables == ActionMenuButtons) {
+
+								if (CurrentSelectables [0].interactable == true) {
+
+									//set the index
+									currentSelectionIndex = 0;
+
+									//set the current selectable to the move toggle
+									eventSystem.SetSelectedGameObject (CurrentSelectables [currentSelectionIndex].gameObject);
+
+									//return from the funcction
+									return;
+
+								}
+
+							}
+
+						}
+
+					}
+
+				} else {
+
+					//Debug.Log ("current selected is null");
+
+					//if there is no current selectable, we need to find a new valid selectable
+
+					//set the selectable array that contains an interactable
+					if (potentialCurrentSelectionGroupIndex != -1) {
+
+						//set the currentSelectionGroupIndex
+						currentSelectionGroupIndex = potentialCurrentSelectionGroupIndex;
+
+						//set the currentSelectables based on the index returned
+						CurrentSelectables = currentSelectablesGroup [currentSelectionGroupIndex];
+
+						//check if the current selectables is the action menu buttons
+						if (CurrentSelectables == ActionMenuButtons) {
+
+							if (CurrentSelectables [0].interactable == true) {
+
+								//set the index
+								currentSelectionIndex = 0;
+
+								//set the current selectable to the move toggle
+								eventSystem.SetSelectedGameObject (CurrentSelectables [currentSelectionIndex].gameObject);
+
+								//return from the funcction
+								return;
+
+							}
+
+						}
+
+					}
+
+				}
+
+			} else {
+
+				//the else is that the potential is group zero
 
 				//set the currentSelectionGroupIndex
 				currentSelectionGroupIndex = potentialCurrentSelectionGroupIndex;
 
 				//set the currentSelectables based on the index returned
-				CurrentSelectables = currentSelectablesGroup[currentSelectionGroupIndex];
+				CurrentSelectables = currentSelectablesGroup [currentSelectionGroupIndex];
 
 			}
 
 			break;
 
-		case UIState.MainMenu:
+		case UIState.PhasorMenu:
+
+			//Debug.Log ("case phasor");
 
 			//set the current selectables group to match the UI state
-			currentSelectablesGroup = MainMenuGroup;
+			currentSelectablesGroup = PhasorMenuGroup;
 
 			//find the first array in the group that has an interactable selectable
 			potentialCurrentSelectionGroupIndex = FindFirstInteractableArrayIndex (currentSelectablesGroup);
 
-			//set the selectable array that contains an interactable
-			if (potentialCurrentSelectionGroupIndex != -1) {
+			//Debug.Log ("phasor potentialCurrentSelectionGroupIndex = " + potentialCurrentSelectionGroupIndex);
+
+
+			//check if the potential group index is 0, which would indicate the phasor dropdown
+			if (potentialCurrentSelectionGroupIndex != 0) {
+
+				//if the index is not zero, that means we can't be on the dropdown, because there are no interactable selectables in the dropdown
+				//in this case, we want to stay on the toggle that turned on the dropdown
+				//check to make sure that current selected object is in the new group
+
+				//only do this if there is a current selectable
+				if (EventSystem.current.currentSelectedGameObject != null) {
+
+					//Debug.Log ("current selected not null");
+
+					for (int i = 0; i < currentSelectablesGroup.Length; i++) {
+
+						//check if the current selectable is within the array at the ith index
+						if (currentSelectablesGroup [i].Contains (EventSystem.current.currentSelectedGameObject.GetComponent<Selectable> ())) {
+
+							//set the currentSelectionGroupIndex
+							currentSelectionGroupIndex = i;
+
+							//set the currentSelectables based on the index returned
+							CurrentSelectables = currentSelectablesGroup [currentSelectionGroupIndex];
+
+							//set the flag
+							currentSelectableInNewGroup = true;
+
+							//break out of the for loop
+							break;
+						}
+
+					}
+
+					//check if the current selectable was found in the new group
+					if (currentSelectableInNewGroup == true) {
+
+						//set the index based on the selectable's location in the new group
+						for (int i = 0; i < currentSelectables.Length; i++) {
+
+							//check if the current selectable is within the array at the ith index
+							if (currentSelectables [i] == eventSystem.currentSelectedGameObject.GetComponent<Selectable> ()) {
+
+								//set the currentSelectionIndex
+								currentSelectionIndex = i;
+
+								//we have the group index and the selectable index set, and we have the currentSelectable set
+								//we can return from the method
+								return;
+
+							}
+
+						}
+
+					} else {
+
+						//if the current is not in the group, we need to find a new valid selectable
+
+						//set the selectable array that contains an interactable
+						if (potentialCurrentSelectionGroupIndex != -1) {
+
+							//set the currentSelectionGroupIndex
+							currentSelectionGroupIndex = potentialCurrentSelectionGroupIndex;
+
+							//set the currentSelectables based on the index returned
+							CurrentSelectables = currentSelectablesGroup [currentSelectionGroupIndex];
+
+							//check if the current selectables is the action menu buttons
+							if (CurrentSelectables == ActionMenuButtons) {
+
+								if (CurrentSelectables [1].interactable == true) {
+
+									//set the index
+									currentSelectionIndex = 1;
+
+									//set the current selectable to the phasor toggle
+									eventSystem.SetSelectedGameObject (CurrentSelectables [currentSelectionIndex].gameObject);
+
+									//return from the funcction
+									return;
+
+								}
+
+							}
+
+						}
+
+					}
+
+				} else {
+
+					//Debug.Log ("current selected is null");
+
+					//if there is no current selectable, we need to find a new valid selectable
+
+					//set the selectable array that contains an interactable
+					if (potentialCurrentSelectionGroupIndex != -1) {
+
+						//set the currentSelectionGroupIndex
+						currentSelectionGroupIndex = potentialCurrentSelectionGroupIndex;
+
+						//set the currentSelectables based on the index returned
+						CurrentSelectables = currentSelectablesGroup [currentSelectionGroupIndex];
+
+						//check if the current selectables is the action menu buttons
+						if (CurrentSelectables == ActionMenuButtons) {
+
+							if (CurrentSelectables [1].interactable == true) {
+
+								//set the index
+								currentSelectionIndex = 1;
+
+								//set the current selectable to the phasor toggle
+								eventSystem.SetSelectedGameObject (CurrentSelectables [currentSelectionIndex].gameObject);
+
+								//return from the funcction
+								return;
+
+							}
+
+						}
+
+					}
+
+				}
+
+			} else {
+
+				//the else is that the potential is group zero
 
 				//set the currentSelectionGroupIndex
 				currentSelectionGroupIndex = potentialCurrentSelectionGroupIndex;
 
 				//set the currentSelectables based on the index returned
-				CurrentSelectables = currentSelectablesGroup[currentSelectionGroupIndex];
+				CurrentSelectables = currentSelectablesGroup [currentSelectionGroupIndex];
 
 			}
 
 			break;
 
-		case UIState.NewLocalGame:
+		case UIState.TorpedoMenu:
 
 			//set the current selectables group to match the UI state
-			currentSelectablesGroup = NewLocalGameGroup;
+			currentSelectablesGroup = TorpedoMenuGroup;
 
 			//find the first array in the group that has an interactable selectable
 			potentialCurrentSelectionGroupIndex = FindFirstInteractableArrayIndex (currentSelectablesGroup);
 
-			//set the selectable array that contains an interactable
-			if (potentialCurrentSelectionGroupIndex != -1) {
+			//Debug.Log ("Torpedo potentialCurrentSelectionGroupIndex = " + potentialCurrentSelectionGroupIndex);
+
+			//check if the potential group index is 0, which would indicate the torpedo dropdown
+			if (potentialCurrentSelectionGroupIndex != 0) {
+
+				//if the index is not zero, that means we can't be on the dropdown, because there are no interactable selectables in the dropdown
+				//in this case, we want to stay on the toggle that turned on the dropdown
+				//check to make sure that current selected object is in the new group
+
+				//only do this if there is a current selectable
+				if (EventSystem.current.currentSelectedGameObject != null) {
+
+					//Debug.Log ("torpedo current selected not null");
+
+					for (int i = 0; i < currentSelectablesGroup.Length; i++) {
+
+						//check if the current selectable is within the array at the ith index
+						if (currentSelectablesGroup [i].Contains (EventSystem.current.currentSelectedGameObject.GetComponent<Selectable> ())) {
+
+							//set the currentSelectionGroupIndex
+							currentSelectionGroupIndex = i;
+
+							//Debug.Log ("torpedo currentSelectionGroupIndex match at i = " + i);
+
+							//set the currentSelectables based on the index returned
+							CurrentSelectables = currentSelectablesGroup [currentSelectionGroupIndex];
+
+							//set the flag
+							currentSelectableInNewGroup = true;
+
+							//break out of the for loop
+							break;
+						}
+
+					}
+
+					//check if the current selectable was found in the new group
+					if (currentSelectableInNewGroup == true) {
+
+						//set the index based on the selectable's location in the new group
+						for (int i = 0; i < currentSelectables.Length; i++) {
+
+							//check if the current selectable is within the array at the ith index
+							if (currentSelectables [i] == eventSystem.currentSelectedGameObject.GetComponent<Selectable> ()) {
+
+								//set the currentSelectionIndex
+								currentSelectionIndex = i;
+
+								//we have the group index and the selectable index set, and we have the currentSelectable set
+								//we can return from the method
+								return;
+
+							}
+
+						}
+
+					} else {
+
+						//Debug.Log ("current selectable not in group");
+
+						//if the current is not in the group, we need to find a new valid selectable
+
+						//set the selectable array that contains an interactable
+						if (potentialCurrentSelectionGroupIndex != -1) {
+
+							//set the currentSelectionGroupIndex
+							currentSelectionGroupIndex = potentialCurrentSelectionGroupIndex;
+
+							//set the currentSelectables based on the index returned
+							CurrentSelectables = currentSelectablesGroup [currentSelectionGroupIndex];
+
+							//check if the current selectables is the action menu buttons
+							if (CurrentSelectables == ActionMenuButtons) {
+
+								if (CurrentSelectables [2].IsInteractable() == true) {
+
+									//Debug.Log ("torpedo current selectables 2 is interactable");
+
+									//set the index
+									currentSelectionIndex = 2;
+
+									//set the current selectable to the torpedo toggle
+									eventSystem.SetSelectedGameObject (CurrentSelectables [currentSelectionIndex].gameObject);
+
+									//return from the funcction
+									return;
+
+								}
+
+							}
+
+						}
+
+					}
+
+				} else {
+
+					//Debug.Log ("current selected is null");
+
+					//if there is no current selectable, we need to find a new valid selectable
+
+					//set the selectable array that contains an interactable
+					if (potentialCurrentSelectionGroupIndex != -1) {
+
+						//set the currentSelectionGroupIndex
+						currentSelectionGroupIndex = potentialCurrentSelectionGroupIndex;
+
+						//set the currentSelectables based on the index returned
+						CurrentSelectables = currentSelectablesGroup [currentSelectionGroupIndex];
+
+						//check if the current selectables is the action menu buttons
+						if (CurrentSelectables == ActionMenuButtons) {
+
+							if (CurrentSelectables [2].interactable == true) {
+
+								//Debug.Log ("current selectables 2 is interactable");
+
+								//set the index
+								currentSelectionIndex = 2;
+
+								//set the current selectable to the torpedo toggle
+								eventSystem.SetSelectedGameObject (CurrentSelectables [currentSelectionIndex].gameObject);
+
+								//return from the funcction
+								return;
+
+							}
+
+						}
+
+					}
+
+				}
+
+			} else {
+
+				//the else is that the potential is group zero
 
 				//set the currentSelectionGroupIndex
 				currentSelectionGroupIndex = potentialCurrentSelectionGroupIndex;
 
 				//set the currentSelectables based on the index returned
-				CurrentSelectables = currentSelectablesGroup[currentSelectionGroupIndex];
+				CurrentSelectables = currentSelectablesGroup [currentSelectionGroupIndex];
 
 			}
 
 			break;
+
+		case UIState.TractorBeamMenu:
+
+			//set the current selectables group to match the UI state
+			currentSelectablesGroup = TractorBeamMenuGroup;
+
+			//find the first array in the group that has an interactable selectable
+			potentialCurrentSelectionGroupIndex = FindFirstInteractableArrayIndex (currentSelectablesGroup);
+
+			//Debug.Log ("potentialCurrentSelectionGroupIndex" + potentialCurrentSelectionGroupIndex);
+
+			//check if the potential group index is 0, which would indicate the torpedo dropdown
+			if (potentialCurrentSelectionGroupIndex != 0) {
+
+				//if the index is not zero, that means we can't be on the dropdown, because there are no interactable selectables in the dropdown
+				//in this case, we want to stay on the toggle that turned on the dropdown
+				//check to make sure that current selected object is in the new group
+
+				//only do this if there is a current selectable
+				if (EventSystem.current.currentSelectedGameObject != null) {
+					
+					for (int i = 0; i < currentSelectablesGroup.Length; i++) {
+
+						//check if the current selectable is within the array at the ith index
+						if (currentSelectablesGroup [i].Contains (EventSystem.current.currentSelectedGameObject.GetComponent<Selectable> ())) {
+
+							//set the currentSelectionGroupIndex
+							currentSelectionGroupIndex = i;
+
+							//set the currentSelectables based on the index returned
+							CurrentSelectables = currentSelectablesGroup [currentSelectionGroupIndex];
+
+							//set the flag
+							currentSelectableInNewGroup = true;
+
+							//break out of the for loop
+							break;
+						}
+
+					}
+
+					//check if the current selectable was found in the new group
+					if (currentSelectableInNewGroup == true) {
+
+						//set the index based on the selectable's location in the new group
+						for (int i = 0; i < currentSelectables.Length; i++) {
+
+							//check if the current selectable is within the array at the ith index
+							if (currentSelectables [i] == eventSystem.currentSelectedGameObject.GetComponent<Selectable> ()) {
+
+								//set the currentSelectionIndex
+								currentSelectionIndex = i;
+
+								//we have the group index and the selectable index set, and we have the currentSelectable set
+								//we can return from the method
+								return;
+
+							}
+
+						}
+
+					} else {
+
+						//if the current is not in the group, we need to find a new valid selectable
+
+						//set the selectable array that contains an interactable
+						if (potentialCurrentSelectionGroupIndex != -1) {
+
+							//set the currentSelectionGroupIndex
+							currentSelectionGroupIndex = potentialCurrentSelectionGroupIndex;
+
+							//set the currentSelectables based on the index returned
+							CurrentSelectables = currentSelectablesGroup [currentSelectionGroupIndex];
+
+							//check if the current selectables is the action menu buttons
+							if (CurrentSelectables == ActionMenuButtons) {
+
+								if (CurrentSelectables [3].IsInteractable() == true) {
+
+									//Debug.Log ("torpedo current selectables 2 is interactable");
+
+									//set the index
+									currentSelectionIndex = 3;
+
+									//set the current selectable to the torpedo toggle
+									eventSystem.SetSelectedGameObject (CurrentSelectables [currentSelectionIndex].gameObject);
+
+									//return from the funcction
+									return;
+
+								}
+
+							}
+
+						}
+
+					}
+
+				} else {
+
+					//Debug.Log ("current selected is null");
+
+					//if there is no current selectable, we need to find a new valid selectable
+
+					//set the selectable array that contains an interactable
+					if (potentialCurrentSelectionGroupIndex != -1) {
+
+						//set the currentSelectionGroupIndex
+						currentSelectionGroupIndex = potentialCurrentSelectionGroupIndex;
+
+						//set the currentSelectables based on the index returned
+						CurrentSelectables = currentSelectablesGroup [currentSelectionGroupIndex];
+
+						//check if the current selectables is the action menu buttons
+						if (CurrentSelectables == ActionMenuButtons) {
+
+							if (CurrentSelectables [3].interactable == true) {
+
+								//Debug.Log ("current selectables 2 is interactable");
+
+								//set the index
+								currentSelectionIndex = 3;
+
+								//set the current selectable to the torpedo toggle
+								eventSystem.SetSelectedGameObject (CurrentSelectables [currentSelectionIndex].gameObject);
+
+								//return from the funcction
+								return;
+
+							}
+
+						}
+
+					}
+
+				}
+
+			} else {
+
+				//the else is that the potential is group zero
+
+				//set the currentSelectionGroupIndex
+				currentSelectionGroupIndex = potentialCurrentSelectionGroupIndex;
+
+				//set the currentSelectables based on the index returned
+				CurrentSelectables = currentSelectablesGroup [currentSelectionGroupIndex];
+
+			}
+
+			break;
+
+		case UIState.UseItem:
+
+			//set the current selectables group to match the UI state
+			currentSelectablesGroup = UseItemMenuGroup;
+
+			//find the first array in the group that has an interactable selectable
+			potentialCurrentSelectionGroupIndex = FindFirstInteractableArrayIndex (currentSelectablesGroup);
+
+			//Debug.Log ("potentialCurrentSelectionGroupIndex" + potentialCurrentSelectionGroupIndex);
+
+			//check if the potential group index is 0, which would indicate the torpedo dropdown
+			if (potentialCurrentSelectionGroupIndex != 0) {
+
+				//if the index is not zero, that means we can't be on the dropdown, because there are no interactable selectables in the dropdown
+				//in this case, we want to stay on the toggle that turned on the dropdown
+				//check to make sure that current selected object is in the new group
+
+				//only do this if there is a current selectable
+				if (EventSystem.current.currentSelectedGameObject != null) {
+
+					for (int i = 0; i < currentSelectablesGroup.Length; i++) {
+
+						//check if the current selectable is within the array at the ith index
+						if (currentSelectablesGroup [i].Contains (EventSystem.current.currentSelectedGameObject.GetComponent<Selectable> ())) {
+
+							//set the currentSelectionGroupIndex
+							currentSelectionGroupIndex = i;
+
+							//set the currentSelectables based on the index returned
+							CurrentSelectables = currentSelectablesGroup [currentSelectionGroupIndex];
+
+							//set the flag
+							currentSelectableInNewGroup = true;
+
+							//break out of the for loop
+							break;
+						}
+
+					}
+
+					//check if the current selectable was found in the new group
+					if (currentSelectableInNewGroup == true) {
+
+						//set the index based on the selectable's location in the new group
+						for (int i = 0; i < currentSelectables.Length; i++) {
+
+							//check if the current selectable is within the array at the ith index
+							if (currentSelectables [i] == eventSystem.currentSelectedGameObject.GetComponent<Selectable> ()) {
+
+								//set the currentSelectionIndex
+								currentSelectionIndex = i;
+
+								//we have the group index and the selectable index set, and we have the currentSelectable set
+								//we can return from the method
+								return;
+
+							}
+
+						}
+
+					} else {
+
+						//if the current is not in the group, we need to find a new valid selectable
+
+						//set the selectable array that contains an interactable
+						if (potentialCurrentSelectionGroupIndex != -1) {
+
+							//set the currentSelectionGroupIndex
+							currentSelectionGroupIndex = potentialCurrentSelectionGroupIndex;
+
+							//set the currentSelectables based on the index returned
+							CurrentSelectables = currentSelectablesGroup [currentSelectionGroupIndex];
+
+							//check if the current selectables is the action menu buttons
+							if (CurrentSelectables == ActionMenuButtons) {
+
+								if (CurrentSelectables [4].IsInteractable() == true) {
+
+									//Debug.Log ("torpedo current selectables 2 is interactable");
+
+									//set the index
+									currentSelectionIndex = 4;
+
+									//set the current selectable to the torpedo toggle
+									eventSystem.SetSelectedGameObject (CurrentSelectables [currentSelectionIndex].gameObject);
+
+									//return from the funcction
+									return;
+
+								}
+
+							}
+
+						}
+
+					}
+
+				} else {
+
+					//Debug.Log ("current selected is null");
+
+					//if there is no current selectable, we need to find a new valid selectable
+
+					//set the selectable array that contains an interactable
+					if (potentialCurrentSelectionGroupIndex != -1) {
+
+						//set the currentSelectionGroupIndex
+						currentSelectionGroupIndex = potentialCurrentSelectionGroupIndex;
+
+						//set the currentSelectables based on the index returned
+						CurrentSelectables = currentSelectablesGroup [currentSelectionGroupIndex];
+
+						//check if the current selectables is the action menu buttons
+						if (CurrentSelectables == ActionMenuButtons) {
+
+							if (CurrentSelectables [4].interactable == true) {
+
+								//Debug.Log ("current selectables 2 is interactable");
+
+								//set the index
+								currentSelectionIndex = 4;
+
+								//set the current selectable to the torpedo toggle
+								eventSystem.SetSelectedGameObject (CurrentSelectables [currentSelectionIndex].gameObject);
+
+								//return from the funcction
+								return;
+
+							}
+
+						}
+
+					}
+
+				}
+
+			} else {
+
+				//the else is that the potential is group zero
+
+				//set the currentSelectionGroupIndex
+				currentSelectionGroupIndex = potentialCurrentSelectionGroupIndex;
+
+				//set the currentSelectables based on the index returned
+				CurrentSelectables = currentSelectablesGroup [currentSelectionGroupIndex];
+
+			}
+
+			break;
+
+		case UIState.Crew:
+
+			//set the current selectables group to match the UI state
+			currentSelectablesGroup = CrewMenuGroup;
+
+			//find the first array in the group that has an interactable selectable
+			potentialCurrentSelectionGroupIndex = FindFirstInteractableArrayIndex (currentSelectablesGroup);
+
+			//Debug.Log ("potentialCurrentSelectionGroupIndex" + potentialCurrentSelectionGroupIndex);
+
+			//check if the potential group index is 0, which would indicate the torpedo dropdown
+			if (potentialCurrentSelectionGroupIndex != 0) {
+
+				//if the index is not zero, that means we can't be on the dropdown, because there are no interactable selectables in the dropdown
+				//in this case, we want to stay on the toggle that turned on the dropdown
+				//check to make sure that current selected object is in the new group
+
+				//only do this if there is a current selectable
+				if (EventSystem.current.currentSelectedGameObject != null) {
+
+					for (int i = 0; i < currentSelectablesGroup.Length; i++) {
+
+						//check if the current selectable is within the array at the ith index
+						if (currentSelectablesGroup [i].Contains (EventSystem.current.currentSelectedGameObject.GetComponent<Selectable> ())) {
+
+							//set the currentSelectionGroupIndex
+							currentSelectionGroupIndex = i;
+
+							//set the currentSelectables based on the index returned
+							CurrentSelectables = currentSelectablesGroup [currentSelectionGroupIndex];
+
+							//set the flag
+							currentSelectableInNewGroup = true;
+
+							//break out of the for loop
+							break;
+						}
+
+					}
+
+					//check if the current selectable was found in the new group
+					if (currentSelectableInNewGroup == true) {
+
+						//set the index based on the selectable's location in the new group
+						for (int i = 0; i < currentSelectables.Length; i++) {
+
+							//check if the current selectable is within the array at the ith index
+							if (currentSelectables [i] == eventSystem.currentSelectedGameObject.GetComponent<Selectable> ()) {
+
+								//set the currentSelectionIndex
+								currentSelectionIndex = i;
+
+								//we have the group index and the selectable index set, and we have the currentSelectable set
+								//we can return from the method
+								return;
+
+							}
+
+						}
+
+					} else {
+
+						//if the current is not in the group, we need to find a new valid selectable
+
+						//set the selectable array that contains an interactable
+						if (potentialCurrentSelectionGroupIndex != -1) {
+
+							//set the currentSelectionGroupIndex
+							currentSelectionGroupIndex = potentialCurrentSelectionGroupIndex;
+
+							//set the currentSelectables based on the index returned
+							CurrentSelectables = currentSelectablesGroup [currentSelectionGroupIndex];
+
+							//check if the current selectables is the action menu buttons
+							if (CurrentSelectables == ActionMenuButtons) {
+
+								if (CurrentSelectables [5].IsInteractable() == true) {
+
+									//Debug.Log ("torpedo current selectables 2 is interactable");
+
+									//set the index
+									currentSelectionIndex = 5;
+
+									//set the current selectable to the torpedo toggle
+									eventSystem.SetSelectedGameObject (CurrentSelectables [currentSelectionIndex].gameObject);
+
+									//return from the funcction
+									return;
+
+								}
+
+							}
+
+						}
+
+					}
+
+				} else {
+
+					//Debug.Log ("current selected is null");
+
+					//if there is no current selectable, we need to find a new valid selectable
+
+					//set the selectable array that contains an interactable
+					if (potentialCurrentSelectionGroupIndex != -1) {
+
+						//set the currentSelectionGroupIndex
+						currentSelectionGroupIndex = potentialCurrentSelectionGroupIndex;
+
+						//set the currentSelectables based on the index returned
+						CurrentSelectables = currentSelectablesGroup [currentSelectionGroupIndex];
+
+						//check if the current selectables is the action menu buttons
+						if (CurrentSelectables == ActionMenuButtons) {
+
+							if (CurrentSelectables [5].interactable == true) {
+
+								//Debug.Log ("current selectables 2 is interactable");
+
+								//set the index
+								currentSelectionIndex = 5;
+
+								//set the current selectable to the torpedo toggle
+								eventSystem.SetSelectedGameObject (CurrentSelectables [currentSelectionIndex].gameObject);
+
+								//return from the funcction
+								return;
+
+							}
+
+						}
+
+					}
+
+				}
+
+			} else {
+
+				//the else is that the potential is group zero
+
+				//set the currentSelectionGroupIndex
+				currentSelectionGroupIndex = potentialCurrentSelectionGroupIndex;
+
+				//set the currentSelectables based on the index returned
+				CurrentSelectables = currentSelectablesGroup [currentSelectionGroupIndex];
+
+			}
+
+			break;
+
+		case UIState.Cloaking:
+
+			//set the current selectables group to match the UI state
+			currentSelectablesGroup = CloakingMenuGroup;
+
+			//find the first array in the group that has an interactable selectable
+			potentialCurrentSelectionGroupIndex = FindFirstInteractableArrayIndex (currentSelectablesGroup);
+
+			//Debug.Log ("potentialCurrentSelectionGroupIndex" + potentialCurrentSelectionGroupIndex);
+
+			//check if the potential group index is 0, which would indicate the torpedo dropdown
+			if (potentialCurrentSelectionGroupIndex != 0) {
+
+				//if the index is not zero, that means we can't be on the dropdown, because there are no interactable selectables in the dropdown
+				//in this case, we want to stay on the toggle that turned on the dropdown
+				//check to make sure that current selected object is in the new group
+
+				//only do this if there is a current selectable
+				if (EventSystem.current.currentSelectedGameObject != null) {
+
+					for (int i = 0; i < currentSelectablesGroup.Length; i++) {
+
+						//check if the current selectable is within the array at the ith index
+						if (currentSelectablesGroup [i].Contains (EventSystem.current.currentSelectedGameObject.GetComponent<Selectable> ())) {
+
+							//set the currentSelectionGroupIndex
+							currentSelectionGroupIndex = i;
+
+							//set the currentSelectables based on the index returned
+							CurrentSelectables = currentSelectablesGroup [currentSelectionGroupIndex];
+
+							//set the flag
+							currentSelectableInNewGroup = true;
+
+							//break out of the for loop
+							break;
+						}
+
+					}
+
+					//check if the current selectable was found in the new group
+					if (currentSelectableInNewGroup == true) {
+
+						//set the index based on the selectable's location in the new group
+						for (int i = 0; i < currentSelectables.Length; i++) {
+
+							//check if the current selectable is within the array at the ith index
+							if (currentSelectables [i] == eventSystem.currentSelectedGameObject.GetComponent<Selectable> ()) {
+
+								//set the currentSelectionIndex
+								currentSelectionIndex = i;
+
+								//we have the group index and the selectable index set, and we have the currentSelectable set
+								//we can return from the method
+								return;
+
+							}
+
+						}
+
+					} else {
+
+						//if the current is not in the group, we need to find a new valid selectable
+
+						//set the selectable array that contains an interactable
+						if (potentialCurrentSelectionGroupIndex != -1) {
+
+							//set the currentSelectionGroupIndex
+							currentSelectionGroupIndex = potentialCurrentSelectionGroupIndex;
+
+							//set the currentSelectables based on the index returned
+							CurrentSelectables = currentSelectablesGroup [currentSelectionGroupIndex];
+
+							//check if the current selectables is the action menu buttons
+							if (CurrentSelectables == ActionMenuButtons) {
+
+								if (CurrentSelectables [6].IsInteractable() == true) {
+
+									//Debug.Log ("torpedo current selectables 2 is interactable");
+
+									//set the index
+									currentSelectionIndex = 6;
+
+									//set the current selectable to the torpedo toggle
+									eventSystem.SetSelectedGameObject (CurrentSelectables [currentSelectionIndex].gameObject);
+
+									//return from the funcction
+									return;
+
+								}
+
+							}
+
+						}
+
+					}
+
+				} else {
+
+					//Debug.Log ("current selected is null");
+
+					//if there is no current selectable, we need to find a new valid selectable
+
+					//set the selectable array that contains an interactable
+					if (potentialCurrentSelectionGroupIndex != -1) {
+
+						//set the currentSelectionGroupIndex
+						currentSelectionGroupIndex = potentialCurrentSelectionGroupIndex;
+
+						//set the currentSelectables based on the index returned
+						CurrentSelectables = currentSelectablesGroup [currentSelectionGroupIndex];
+
+						//check if the current selectables is the action menu buttons
+						if (CurrentSelectables == ActionMenuButtons) {
+
+							if (CurrentSelectables [6].interactable == true) {
+
+								//Debug.Log ("current selectables 2 is interactable");
+
+								//set the index
+								currentSelectionIndex = 6;
+
+								//set the current selectable to the torpedo toggle
+								eventSystem.SetSelectedGameObject (CurrentSelectables [currentSelectionIndex].gameObject);
+
+								//return from the funcction
+								return;
+
+							}
+
+						}
+
+					}
+
+				}
+
+			} else {
+
+				//the else is that the potential is group zero
+
+				//set the currentSelectionGroupIndex
+				currentSelectionGroupIndex = potentialCurrentSelectionGroupIndex;
+
+				//set the currentSelectables based on the index returned
+				CurrentSelectables = currentSelectablesGroup [currentSelectionGroupIndex];
+
+			}
+
+			break;
+
+		case UIState.EndTurn:
+
+			//set the current selectables group to match the UI state
+			currentSelectablesGroup = EndTurnGroup;
+
+			//find the first array in the group that has an interactable selectable
+			potentialCurrentSelectionGroupIndex = FindFirstInteractableArrayIndex (currentSelectablesGroup);
+
+			//Debug.Log ("potentialCurrentSelectionGroupIndex" + potentialCurrentSelectionGroupIndex);
+
+			//check if the potential group index is 0, which would indicate the torpedo dropdown
+			if (potentialCurrentSelectionGroupIndex != 0) {
+
+				//if the index is not zero, that means we can't be on the dropdown, because there are no interactable selectables in the dropdown
+				//in this case, we want to stay on the toggle that turned on the dropdown
+				//check to make sure that current selected object is in the new group
+
+				//only do this if there is a current selectable
+				if (EventSystem.current.currentSelectedGameObject != null) {
+
+					for (int i = 0; i < currentSelectablesGroup.Length; i++) {
+
+						//check if the current selectable is within the array at the ith index
+						if (currentSelectablesGroup [i].Contains (EventSystem.current.currentSelectedGameObject.GetComponent<Selectable> ())) {
+
+							//set the currentSelectionGroupIndex
+							currentSelectionGroupIndex = i;
+
+							//set the currentSelectables based on the index returned
+							CurrentSelectables = currentSelectablesGroup [currentSelectionGroupIndex];
+
+							//set the flag
+							currentSelectableInNewGroup = true;
+
+							//break out of the for loop
+							break;
+						}
+
+					}
+
+					//check if the current selectable was found in the new group
+					if (currentSelectableInNewGroup == true) {
+
+						//set the index based on the selectable's location in the new group
+						for (int i = 0; i < currentSelectables.Length; i++) {
+
+							//check if the current selectable is within the array at the ith index
+							if (currentSelectables [i] == eventSystem.currentSelectedGameObject.GetComponent<Selectable> ()) {
+
+								//set the currentSelectionIndex
+								currentSelectionIndex = i;
+
+								//we have the group index and the selectable index set, and we have the currentSelectable set
+								//we can return from the method
+								return;
+
+							}
+
+						}
+
+					} else {
+
+						//if the current is not in the group, we need to find a new valid selectable
+
+						//set the selectable array that contains an interactable
+						if (potentialCurrentSelectionGroupIndex != -1) {
+
+							//set the currentSelectionGroupIndex
+							currentSelectionGroupIndex = potentialCurrentSelectionGroupIndex;
+
+							//set the currentSelectables based on the index returned
+							CurrentSelectables = currentSelectablesGroup [currentSelectionGroupIndex];
+
+							//check if the current selectables is the action menu buttons
+							if (CurrentSelectables == ActionMenuButtons) {
+
+								if (CurrentSelectables [10].IsInteractable() == true) {
+
+									//Debug.Log ("torpedo current selectables 2 is interactable");
+
+									//set the index
+									currentSelectionIndex = 10;
+
+									//set the current selectable to the torpedo toggle
+									eventSystem.SetSelectedGameObject (CurrentSelectables [currentSelectionIndex].gameObject);
+
+									//return from the funcction
+									return;
+
+								}
+
+							}
+
+						}
+
+					}
+
+				} else {
+
+					//Debug.Log ("current selected is null");
+
+					//if there is no current selectable, we need to find a new valid selectable
+
+					//set the selectable array that contains an interactable
+					if (potentialCurrentSelectionGroupIndex != -1) {
+
+						//set the currentSelectionGroupIndex
+						currentSelectionGroupIndex = potentialCurrentSelectionGroupIndex;
+
+						//set the currentSelectables based on the index returned
+						CurrentSelectables = currentSelectablesGroup [currentSelectionGroupIndex];
+
+						//check if the current selectables is the action menu buttons
+						if (CurrentSelectables == ActionMenuButtons) {
+
+							if (CurrentSelectables [10].interactable == true) {
+
+								//Debug.Log ("current selectables 2 is interactable");
+
+								//set the index
+								currentSelectionIndex = 10;
+
+								//set the current selectable to the torpedo toggle
+								eventSystem.SetSelectedGameObject (CurrentSelectables [currentSelectionIndex].gameObject);
+
+								//return from the funcction
+								return;
+
+							}
+
+						}
+
+					}
+
+				}
+
+			} else {
+
+				//the else is that the potential is group zero
+
+				//set the currentSelectionGroupIndex
+				currentSelectionGroupIndex = potentialCurrentSelectionGroupIndex;
+
+				//set the currentSelectables based on the index returned
+				CurrentSelectables = currentSelectablesGroup [currentSelectionGroupIndex];
+
+			}
+
+			break;
+
 
 		case UIState.LoadLocalGame:
 
@@ -1199,8 +2822,13 @@ public class UINavigationMain : MonoBehaviour {
 
 		}
 
+
+		//note this will only run if we haven't returned out early after finding both indexes and setting the selectables array
 		//check if there is an interactable selectable in currentSelectables
 		int potentialCurrentSelectionIndex = FindFirstInteractableIndex (CurrentSelectables);
+
+
+		//Debug.Log ("potentialCurrentSelectionIndex = " + potentialCurrentSelectionIndex);
 
 		//the Find function will return -1 if it can't find a vaild selectable in the array
 		if (potentialCurrentSelectionIndex != -1) {
@@ -1227,7 +2855,7 @@ public class UINavigationMain : MonoBehaviour {
 		for (int i = 0; i < selectableGroup.Length; i++) {
 
 			//Debug.Log ("selectableGroup[" + i + "]FirstInteractableIndex = " + FindFirstInteractableIndex(selectableGroup [i]));
-
+			//Debug.Log("selectableGroup [i].Length = " +selectableGroup [i].Length);
 
 			//check if the first option has an interactable selectable
 			if (FindFirstInteractableIndex(selectableGroup [i]) != -1) {
@@ -1734,6 +3362,58 @@ public class UINavigationMain : MonoBehaviour {
 
 	}
 
+	//this function resolves a pointer click to see if it should be blocked or not
+	private void ResolvePointerClickBlock(Selectable clickedSelectable){
+
+		//check if the clicked selectable is in the new group
+		//only do this if there is a clicked selectable
+		if (clickedSelectable != null) {
+
+			for (int i = 0; i < currentSelectablesGroup.Length; i++) {
+
+				//check if the current selectable is within the array at the ith index
+				if (currentSelectablesGroup [i].Contains (clickedSelectable)) {
+
+					//if the clicked selectable is in the group, we can allow the set selection to occur
+
+					//set the flag
+					blockPointerClickFlag = false;
+
+					//break out of the for loop and exit the function
+					return;
+				}
+
+			}
+
+			//if we did not find the clickedSelectable in the CurrentSelectablesGroup, that means that what we clicked 
+			//on is not something we want to set as the selected object
+
+			//set the block flag
+			blockPointerClickFlag = true;
+
+			return;
+
+		}
+
+	}
+
+	//this function returns to a specific selectable
+	private void ReturnToSelectable(){
+
+		if (returnSelectable != null) {
+			
+			eventSystem.SetSelectedGameObject (returnSelectable.gameObject);
+
+		} else {
+
+			eventSystem.SetSelectedGameObject (null);
+		}
+
+		CurrentUIState = returnUIState;
+
+
+	}
+
 
 	//this function handles on destroy
 	private void OnDestroy(){
@@ -1757,12 +3437,44 @@ public class UINavigationMain : MonoBehaviour {
 			//remove listener for move toggle
 			uiManager.GetComponent<MoveToggle>().moveToggle.onValueChanged.RemoveListener(MoveToggleSetUIStateAction);
 
+			//remove listener for phasor toggle
+			uiManager.GetComponent<PhasorToggle>().phasorToggle.onValueChanged.RemoveListener(PhasorToggleSetUIStateAction);
+
+			//remove listener for phasor toggle
+			uiManager.GetComponent<TorpedoToggle>().torpedoToggle.onValueChanged.RemoveListener(TorpedoToggleSetUIStateAction);
+
+			//remove listener for tractor beam toggle
+			uiManager.GetComponent<TractorBeamToggle>().tractorBeamToggle.onValueChanged.RemoveListener(TractorBeamToggleSetUIStateAction);
+
+			//remove listener for disengaging tractor beam
+			uiManager.GetComponent<TractorBeamMenu>().OnTurnOffTractorBeamToggle.RemoveListener(TractorBeamShipSetUIStateAction);
+
+			//remove listener for use item toggle
+			uiManager.GetComponent<UseItemToggle>().useItemToggle.onValueChanged.RemoveListener(UseItemToggleSetUIStateAction);
+
+			//remove listener for crew toggle
+			uiManager.GetComponent<CrewToggle>().crewToggle.onValueChanged.RemoveListener(CrewToggleSetUIStateAction);
+
+			//remove listener for cloaking toggle
+			uiManager.GetComponent<CloakingDeviceToggle>().cloakingDeviceToggle.onValueChanged.RemoveListener(CloakingToggleSetUIStateAction);
+
+			//remove listener for end turn toggle
+			uiManager.GetComponent<EndTurnToggle>().endTurnToggle.onValueChanged.RemoveListener(EndTurnSetUIStateAction);
+
+			//remove listener for disengaging cloaking device
+			uiManager.GetComponent<CloakingDeviceMenu>().OnTurnOffCloakingDevice.RemoveListener(CombatUnitSetUIStateAction);
+			uiManager.GetComponent<CloakingDeviceMenu>().OnTurnOnCloakingDevice.RemoveListener(CombatUnitSetUIStateAction);
+
+			//remove listeners for end turn drop down
+			uiManager.GetComponent<EndTurnDropDown>().OnCancelEndTurnPrompt.RemoveListener(CancelEndTurnPromptAction);
+			uiManager.GetComponent<EndTurnDropDown>().OnAcceptEndTurnPrompt.RemoveListener(AcceptEndTurnPromptAction);
+
 			//remove listener for load local game
 			uiManager.GetComponent<FileLoadWindow>().OnOpenFileLoadWindow.RemoveListener(OpenLoadLocalGameWindowAction);
 
 			//remove listeners for exiting the file load window back to the main menu
-			uiManager.GetComponent<FileLoadWindow>().closeFileLoadWindowButton.onClick.RemoveListener(ReturnToMainMenuAction);
-			uiManager.GetComponent<FileLoadWindow>().fileLoadCancelButton.onClick.RemoveListener(ReturnToMainMenuAction);
+			uiManager.GetComponent<FileLoadWindow>().closeFileLoadWindowButton.onClick.RemoveListener(ReturnToSelectionAction);
+			uiManager.GetComponent<FileLoadWindow>().fileLoadCancelButton.onClick.RemoveListener(ReturnToSelectionAction);
 
 			//remove listener for entering the file delete prompt
 			uiManager.GetComponent<FileLoadWindow>().OnFileDeleteYesClicked.RemoveListener(OpenFileDeletePromptAction);
@@ -1775,16 +3487,18 @@ public class UINavigationMain : MonoBehaviour {
 			uiManager.GetComponent<Settings>().settingsMenuButton.onClick.RemoveListener(OpenSettingsWindowAction);
 
 			//remove listeners for exiting the settings menu
-			uiManager.GetComponent<Settings>().acceptButton.onClick.RemoveListener(ReturnToMainMenuAction);
-			uiManager.GetComponent<Settings>().exitButton.onClick.RemoveListener(ReturnToMainMenuAction);
+			uiManager.GetComponent<Settings>().acceptButton.onClick.RemoveListener(ReturnToSelectionAction);
+			uiManager.GetComponent<Settings>().exitButton.onClick.RemoveListener(ReturnToSelectionAction);
 
 			//remove listener for entering the exit game prompt
 			uiManager.GetComponent<ExitGamePrompt>().exitGameButton.onClick.RemoveListener(OpenExitGamePromptAction);
 
 			//remove listener for exiting the exit game prompt
-			uiManager.GetComponent<ExitGamePrompt>().OnExitGameYesClicked.RemoveListener(ReturnToMainMenuAction);
-			uiManager.GetComponent<ExitGamePrompt>().OnExitGameCancelClicked.RemoveListener(ReturnToMainMenuAction);
+			uiManager.GetComponent<ExitGamePrompt>().OnExitGameYesClicked.RemoveListener(ReturnToSelectionAction);
+			uiManager.GetComponent<ExitGamePrompt>().OnExitGameCancelClicked.RemoveListener(ReturnToSelectionAction);
 
+			//remove listener for Cutscene ending
+			uiManager.GetComponent<CutsceneManager>().OnCloseCutsceneDisplayPanel.RemoveListener(SetInitialCurrentSelectables);
 
 		}
 
@@ -1797,8 +3511,21 @@ public class UINavigationMain : MonoBehaviour {
 
 		}
 
+		if (mouseManager != null) {
+
+			//remove listeners for mouse manager actions
+			mouseManager.OnSetTargetedUnit.RemoveListener (SetInitialCurrentSelectables);
+			mouseManager.OnClearTargetedUnit.RemoveListener (ClearSetInitialSelectablesAction);
+			mouseManager.OnSetSelectedUnit.RemoveListener (SetInitialCurrentSelectables);
+			mouseManager.OnClearSelectedUnit.RemoveListener (ClearSetInitialSelectablesAction);
+
+		}
+
 		//remove listener for a pointer click selection
 		UISelection.OnSetSelectedGameObject.RemoveListener(SelectableSetSelectionGroupsAction);
+
+		//remove listener for a pointer click
+		UISelection.OnClickedSelectable.RemoveListener(PointerClickResolveBlockAction);
 
 	}
 

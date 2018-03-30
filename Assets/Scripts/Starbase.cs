@@ -87,7 +87,7 @@ public class Starbase : CombatUnit {
 	private UnityAction<CombatUnit,CombatUnit,string> unitRepairedUseRepairCrewAction;
 	private UnityAction<CombatUnit> combatUnitUpdateRepairStatusAction;
 	private UnityAction resolveAllUnitsLoadedAction;
-
+	private UnityAction<Player> playerUpdateRepairStatusAction;
 
 	//Use this for initialization
 	protected override void OnInit () {
@@ -106,6 +106,13 @@ public class Starbase : CombatUnit {
 		unitRepairedUseRepairCrewAction = (selectedUnit,targetedUnit,sectionTargetedString) => {UpdateRepairStatus(selectedUnit);};
 		combatUnitUpdateRepairStatusAction = (combatUnit) => {UpdateRepairStatus(combatUnit);};
 		resolveAllUnitsLoadedAction = () => {ResolveAllUnitsLoaded();};
+		playerUpdateRepairStatusAction = (player) => {
+
+			if(player == this.owner){
+				UpdateRepairStatus(this.GetComponent<CombatUnit>());
+			}
+
+		};
 
 		//add listeners for various sections of the base getting destroyed
 		StarbasePhasorSection1.OnPhasorSection1Destroyed.AddListener(combatUnitCheckBaseDestroyedAction);
@@ -130,6 +137,9 @@ public class Starbase : CombatUnit {
 		//add listeners for crew sections being repaired or destroyed
 		StarbaseCrewSection.OnCrewSectionDestroyed.AddListener(combatUnitUpdateRepairStatusAction);
 		StarbaseCrewSection.OnCrewSectionRepaired.AddListener(combatUnitUpdateRepairStatusAction);
+
+		//add listener for starting new turn
+		gameManager.OnNewTurn.AddListener(playerUpdateRepairStatusAction);
 
 		//add listener for all units done being loaded
 		gameManager.OnAllLoadedUnitsCreated.AddListener(resolveAllUnitsLoadedAction);

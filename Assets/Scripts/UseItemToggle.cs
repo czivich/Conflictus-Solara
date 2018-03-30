@@ -96,6 +96,7 @@ public class UseItemToggle : MonoBehaviour {
 		else {
 
 			//if we are in use item mode, turn on the use item toggle
+			useItemToggle.interactable = true;
 			useItemToggle.isOn = true;
 		}
 

@@ -134,6 +134,7 @@ public class TractorBeamToggle : MonoBehaviour {
 		else {
 
 			//if we are in tractor beam mode, turn on the tractor beam toggle
+			tractorBeamToggle.interactable = true;
 			tractorBeamToggle.isOn = true;
 		}
 

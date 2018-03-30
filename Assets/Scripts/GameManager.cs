@@ -2190,6 +2190,9 @@ public class GameManager : MonoBehaviour {
 		//add listener for resolution changes
 		uiManager.GetComponent<Settings>().OnChangeResolution.AddListener(ResolveResolutionChange);
 
+		//add listener for invalid selected unit
+		mouseManager.OnInvalidActionModeForSelectedUnit.AddListener(setActionModeToSelectionAction);
+
 	}
 
 
@@ -2521,6 +2524,13 @@ public class GameManager : MonoBehaviour {
 
 			//remove listener for resolution changes
 			uiManager.GetComponent<Settings>().OnChangeResolution.RemoveListener(ResolveResolutionChange);
+
+		}
+
+		if (mouseManager != null) {
+
+			//remove listener for invalid selected unit
+			mouseManager.OnInvalidActionModeForSelectedUnit.RemoveListener (setActionModeToSelectionAction);
 
 		}
 

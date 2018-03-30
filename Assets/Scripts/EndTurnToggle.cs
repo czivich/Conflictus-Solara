@@ -105,6 +105,7 @@ public class EndTurnToggle : MonoBehaviour {
 		else {
 
 			endTurnToggle.interactable = true;
+			//Debug.Log ("endturn toggle interactable true");
 
 		}
 

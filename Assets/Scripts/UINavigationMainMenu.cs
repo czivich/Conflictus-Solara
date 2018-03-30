@@ -5,6 +5,7 @@ using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using TMPro;
+using System.Linq;
 
 public class UINavigationMainMenu : MonoBehaviour {
 
@@ -52,7 +53,7 @@ public class UINavigationMainMenu : MonoBehaviour {
 				currentUIState = value;
 
 				//set the flag
-				blockPointerClickFlag = true;
+				//blockPointerClickFlag = true;
 
 				//invoke the event
 				OnUIStateChange.Invoke();
@@ -170,6 +171,8 @@ public class UINavigationMainMenu : MonoBehaviour {
 	private UnityAction OpenSettingsWindowAction;
 	private UnityAction OpenExitGamePromptAction;
 	private UnityAction<string> InputFieldEndEditIgnoreEscapeAction;
+	private UnityAction<Selectable> PointerClickResolveBlockAction;
+
 
 	// Use this for initialization
 	public void Init () {
@@ -380,9 +383,21 @@ public class UINavigationMainMenu : MonoBehaviour {
 		//check if the shift is being pressed
 		if (Input.GetKeyDown (KeyCode.Tab)) {
 
+
+			//check if we are in a dropdown
+			if (CurrentSelectables[currentSelectionIndex] != null && 
+				CurrentSelectables[currentSelectionIndex].GetComponent<TMP_Dropdown> () == true &&
+				CurrentSelectables[currentSelectionIndex].transform.Find ("Dropdown List") != null) {
+
+				//hide the list
+				CurrentSelectables[currentSelectionIndex].GetComponent<TMP_Dropdown> ().Hide();
+
+
+			}
+
 			//check if we are also holdin down a shift key
 			//if we are holding a shift key, we want tab to cycle backwards
-			if (Input.GetKey (KeyCode.LeftShift) || Input.GetKey (KeyCode.RightShift)) {
+			else if (Input.GetKey (KeyCode.LeftShift) || Input.GetKey (KeyCode.RightShift)) {
 
 				//check if we are in the load files - if we are here, we don't want tab to cycle through the files
 				if (CurrentSelectables == LoadLocalGameFiles) {
@@ -565,7 +580,7 @@ public class UINavigationMainMenu : MonoBehaviour {
 		}
 
 		//this will prevent the uncontrollable event order from screwing up the selectCurrentObject
-		blockPointerClickFlag = false;
+		//blockPointerClickFlag = false;
 		
 	}
 
@@ -635,6 +650,8 @@ public class UINavigationMainMenu : MonoBehaviour {
 
 		InputFieldEndEditIgnoreEscapeAction = (eventString) => {ignoreEscape = true;};
 
+		PointerClickResolveBlockAction = (selectable) => {ResolvePointerClickBlock (selectable);};
+
 	}
 
 	//this function adds event listeners
@@ -648,6 +665,9 @@ public class UINavigationMainMenu : MonoBehaviour {
 
 		//add listener for a pointer click selection
 		UISelection.OnSetSelectedGameObject.AddListener(SelectableSetSelectionGroupsAction);
+
+		//add listener for a pointer click
+		UISelection.OnClickedSelectable.AddListener(PointerClickResolveBlockAction);
 
 		//add listeners for exiting the new local game window to the main menu
 		uiManager.GetComponent<ConfigureLocalGameWindow>().cancelButton.onClick.AddListener(ReturnToMainMenuAction);
@@ -1614,6 +1634,40 @@ public class UINavigationMainMenu : MonoBehaviour {
 
 	}
 
+	//this function resolves a pointer click to see if it should be blocked or not
+	private void ResolvePointerClickBlock(Selectable clickedSelectable){
+
+		//check if the clicked selectable is in the new group
+		//only do this if there is a clicked selectable
+		if (clickedSelectable != null) {
+
+			for (int i = 0; i < currentSelectablesGroup.Length; i++) {
+
+				//check if the current selectable is within the array at the ith index
+				if (currentSelectablesGroup [i].Contains (clickedSelectable)) {
+
+					//if the clicked selectable is in the group, we can allow the set selection to occur
+
+					//set the flag
+					blockPointerClickFlag = false;
+
+					//break out of the for loop and exit the function
+					return;
+				}
+
+			}
+
+			//if we did not find the clickedSelectable in the CurrentSelectablesGroup, that means that what we clicked 
+			//on is not something we want to set as the selected object
+
+			//set the block flag
+			blockPointerClickFlag = true;
+
+			return;
+
+		}
+
+	}
 
 	//this function handles on destroy
 	private void OnDestroy(){
@@ -1679,6 +1733,9 @@ public class UINavigationMainMenu : MonoBehaviour {
 
 		//remove listener for a pointer click selection
 		UISelection.OnSetSelectedGameObject.RemoveListener(SelectableSetSelectionGroupsAction);
+
+		//remove listener for a pointer click
+		UISelection.OnClickedSelectable.RemoveListener(PointerClickResolveBlockAction);
 
 	}
 

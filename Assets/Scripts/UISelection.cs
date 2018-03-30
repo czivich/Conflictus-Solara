@@ -6,12 +6,15 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 [RequireComponent(typeof(Selectable))]
 public class UISelection : MonoBehaviour, IPointerEnterHandler, IDeselectHandler, ISelectHandler, IPointerExitHandler, IPointerClickHandler,ISubmitHandler{
 	
 	//make it static so that subscribers don't have to subscribe to every selectable
 	public static SelectionEvent OnSetSelectedGameObject = new SelectionEvent();
+
+	public static SelectionEvent OnClickedSelectable = new SelectionEvent();
 
 	//simple class so I can have my event pass a gameObject
 	public class SelectionEvent : UnityEvent<Selectable>{};
@@ -85,7 +88,10 @@ public class UISelection : MonoBehaviour, IPointerEnterHandler, IDeselectHandler
 
 		//check if the clicked object is interactable
 		if (this.GetComponent<Selectable> ().IsInteractable () == true) {
-			
+
+			//announce we clicked on a selectable
+			OnClickedSelectable.Invoke (this.GetComponent<Selectable> ());
+
 			//check the current scene
 			if (SceneManager.GetActiveScene ().buildIndex == mainMenuSceneIndex) {
 
@@ -94,14 +100,14 @@ public class UISelection : MonoBehaviour, IPointerEnterHandler, IDeselectHandler
 					//select the object
 					EventSystem.current.SetSelectedGameObject (this.gameObject);
 
-					Debug.Log ("SetSelectedObject onPointerClick " + this.gameObject.name);
+					//Debug.Log ("SetSelectedObject onPointerClick " + this.gameObject.name);
 
 					//invoke the select object event
 					OnSetSelectedGameObject.Invoke (this.GetComponent<Selectable> ());
 
 				} else {
 
-					Debug.Log ("Blocked!");
+					//Debug.Log ("Blocked!");
 
 				}
 
@@ -112,14 +118,14 @@ public class UISelection : MonoBehaviour, IPointerEnterHandler, IDeselectHandler
 					//select the object
 					EventSystem.current.SetSelectedGameObject (this.gameObject);
 
-					Debug.Log ("SetSelectedObject onPointerClick " + this.gameObject.name);
+					//Debug.Log ("SetSelectedObject onPointerClick " + this.gameObject.name);
 
 					//invoke the select object event
 					OnSetSelectedGameObject.Invoke (this.GetComponent<Selectable> ());
 
 				} else {
 
-					Debug.Log ("Blocked!");
+					//Debug.Log ("Blocked!");
 
 				}
 

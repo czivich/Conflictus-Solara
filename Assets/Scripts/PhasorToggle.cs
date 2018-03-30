@@ -97,6 +97,7 @@ public class PhasorToggle : MonoBehaviour {
 		else {
 
 			//if we are in phasor attack mode, turn on the phasor attack toggle
+			phasorToggle.interactable = true;
 			phasorToggle.isOn = true;
 		}
 

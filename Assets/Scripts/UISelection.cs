@@ -59,7 +59,7 @@ public class UISelection : MonoBehaviour, IPointerEnterHandler, IDeselectHandler
 		//enable the selectUI image
 		this.GetComponent<Selectable>().gameObject.FindComponentInChildWithTag<Image> ("SelectedUI").enabled = true;
 
-		//Debug.Log ("Selected " + this.gameObject.name);
+		Debug.Log ("Selected " + this.gameObject.name);
 
 	}
 

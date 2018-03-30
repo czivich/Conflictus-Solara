@@ -309,8 +309,21 @@ public class UINavigationMain : MonoBehaviour {
 		//check if the down arrow is being pressed
 		if (Input.GetKeyDown (KeyCode.DownArrow)) {
 
+			//this checks if we have lost our selectable and goes back to it instead of advancing to the next one
+			if (eventSystem.currentSelectedGameObject == null) {
+
+				if (CurrentSelectables != null && CurrentSelectables [currentSelectionIndex] != null) {
+
+					eventSystem.SetSelectedGameObject (CurrentSelectables [currentSelectionIndex].gameObject);
+
+					return;
+
+				}
+
+			}
+
 			//check if the vertical cycling is on
-			if (verticalCycling == true) {
+			else if (verticalCycling == true) {
 
 				//if the vertical cycling is on, advance the selection
 				AdvanceSelectable(false);
@@ -374,8 +387,21 @@ public class UINavigationMain : MonoBehaviour {
 		//check if the up arrow is being pressed
 		if (Input.GetKeyDown (KeyCode.UpArrow)) {
 
+			//this checks if we have lost our selectable and goes back to it instead of advancing to the next one
+			if (eventSystem.currentSelectedGameObject == null) {
+
+				if (CurrentSelectables != null && CurrentSelectables [currentSelectionIndex] != null) {
+
+					eventSystem.SetSelectedGameObject (CurrentSelectables [currentSelectionIndex].gameObject);
+
+					return;
+
+				}
+
+			}
+
 			//check if the vertical cycling is on
-			if (verticalCycling == true) {
+			else if (verticalCycling == true) {
 
 				//if the vertical cycling is on, advance the selection
 				AdvanceSelectable(true);
@@ -440,8 +466,21 @@ public class UINavigationMain : MonoBehaviour {
 		//check if the right arrow is being pressed
 		if (Input.GetKeyDown (KeyCode.RightArrow)) {
 
+			//this checks if we have lost our selectable and goes back to it instead of advancing to the next one
+			if (eventSystem.currentSelectedGameObject == null) {
+
+				if (CurrentSelectables != null && CurrentSelectables [currentSelectionIndex] != null) {
+
+					eventSystem.SetSelectedGameObject (CurrentSelectables [currentSelectionIndex].gameObject);
+
+					return;
+
+				}
+
+			}
+
 			//check if the horizontal cycling is on
-			if (horizontalCycling == true) {
+			else if (horizontalCycling == true) {
 
 				//if the horizontal cycling is on, advance the selection
 				AdvanceSelectable (false);
@@ -473,8 +512,21 @@ public class UINavigationMain : MonoBehaviour {
 		//check if the left arrow is being pressed
 		if (Input.GetKeyDown (KeyCode.LeftArrow)) {
 
+			//this checks if we have lost our selectable and goes back to it instead of advancing to the next one
+			if (eventSystem.currentSelectedGameObject == null) {
+
+				if (CurrentSelectables != null && CurrentSelectables [currentSelectionIndex] != null) {
+
+					eventSystem.SetSelectedGameObject (CurrentSelectables [currentSelectionIndex].gameObject);
+
+					return;
+
+				}
+
+			}
+
 			//check if the horizontal cycling is on
-			if (horizontalCycling == true) {
+			else if (horizontalCycling == true) {
 
 				//if the horizontal cycling is on, advance the selection
 				AdvanceSelectable(true);
@@ -877,30 +929,32 @@ public class UINavigationMain : MonoBehaviour {
 		CancelEndTurnPromptAction = () => {
 
 			//returnUIState = UIState.Selection;
-			//returnSelectable = ActionMenuButtons[10];
+			returnSelectable = ActionMenuButtons[10];
 
-			//delayReturnToSelectableCount = 2;
+			//returnSelectable = null;
+			delayReturnToSelectableCount = 2;
 
 			//set the initial UIState
-			CurrentUIState = UIState.Selection;
+			//CurrentUIState = UIState.Selection;
 
 			//invoke the event to start, since it won't fire because the enum defaults to the Selection
-			OnUIStateChange.Invoke();
+			//OnUIStateChange.Invoke();
 		
 		};
 
 		AcceptEndTurnPromptAction = () => {
 
 			//returnUIState = UIState.Selection;
-			//returnSelectable = ActionMenuButtons[10];
+			returnSelectable = null;
 
-			//delayReturnToSelectableCount = 2;
+			//returnSelectable = null;
+			delayReturnToSelectableCount = 2;
 
 			//set the initial UIState
-			CurrentUIState = UIState.Selection;
+			//CurrentUIState = UIState.Selection;
 
 			//invoke the event to start, since it won't fire because the enum defaults to the Selection
-			OnUIStateChange.Invoke();
+			//OnUIStateChange.Invoke();
 
 		};
 
@@ -1369,7 +1423,7 @@ public class UINavigationMain : MonoBehaviour {
 			//only do this if there is a current selectable
 			if (EventSystem.current.currentSelectedGameObject != null) {
 
-				Debug.Log ("current not null");
+				//Debug.Log ("current not null");
 
 				for (int i = 0; i < currentSelectablesGroup.Length; i++) {
 
@@ -1433,7 +1487,7 @@ public class UINavigationMain : MonoBehaviour {
 
 			} else {
 
-				Debug.Log ("current is null");
+				//Debug.Log ("current is null");
 
 				//if there is no current selectable, we need to find a new valid selectable
 
@@ -3410,6 +3464,8 @@ public class UINavigationMain : MonoBehaviour {
 		}
 
 		CurrentUIState = returnUIState;
+
+		OnUIStateChange.Invoke ();
 
 
 	}

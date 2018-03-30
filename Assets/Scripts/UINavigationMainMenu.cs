@@ -217,8 +217,21 @@ public class UINavigationMainMenu : MonoBehaviour {
 		//check if the down arrow is being pressed
 		if (Input.GetKeyDown (KeyCode.DownArrow)) {
 
+			//this checks if we have lost our selectable and goes back to it instead of advancing to the next one
+			if (eventSystem.currentSelectedGameObject == null) {
+
+				if (CurrentSelectables != null && CurrentSelectables [currentSelectionIndex] != null) {
+
+					eventSystem.SetSelectedGameObject (CurrentSelectables [currentSelectionIndex].gameObject);
+
+					return;
+
+				}
+
+			}
+
 			//check if the vertical cycling is on
-			if (verticalCycling == true) {
+			else if (verticalCycling == true) {
 
 				//if the vertical cycling is on, advance the selection
 				AdvanceSelectable(false);
@@ -267,8 +280,21 @@ public class UINavigationMainMenu : MonoBehaviour {
 		//check if the up arrow is being pressed
 		if (Input.GetKeyDown (KeyCode.UpArrow)) {
 
+			//this checks if we have lost our selectable and goes back to it instead of advancing to the next one
+			if (eventSystem.currentSelectedGameObject == null) {
+
+				if (CurrentSelectables != null && CurrentSelectables [currentSelectionIndex] != null) {
+
+					eventSystem.SetSelectedGameObject (CurrentSelectables [currentSelectionIndex].gameObject);
+
+					return;
+
+				}
+
+			}
+
 			//check if the vertical cycling is on
-			if (verticalCycling == true) {
+			else if (verticalCycling == true) {
 
 				//if the vertical cycling is on, advance the selection
 				AdvanceSelectable(true);
@@ -317,8 +343,21 @@ public class UINavigationMainMenu : MonoBehaviour {
 		//check if the right arrow is being pressed
 		if (Input.GetKeyDown (KeyCode.RightArrow)) {
 
+			//this checks if we have lost our selectable and goes back to it instead of advancing to the next one
+			if (eventSystem.currentSelectedGameObject == null) {
+
+				if (CurrentSelectables != null && CurrentSelectables [currentSelectionIndex] != null) {
+
+					eventSystem.SetSelectedGameObject (CurrentSelectables [currentSelectionIndex].gameObject);
+
+					return;
+
+				}
+
+			}
+
 			//check if the horizontal cycling is on
-			if (horizontalCycling == true) {
+			else if (horizontalCycling == true) {
 
 				//if the horizontal cycling is on, advance the selection
 				AdvanceSelectable (false);
@@ -350,8 +389,21 @@ public class UINavigationMainMenu : MonoBehaviour {
 		//check if the left arrow is being pressed
 		if (Input.GetKeyDown (KeyCode.LeftArrow)) {
 
+			//this checks if we have lost our selectable and goes back to it instead of advancing to the next one
+			if (eventSystem.currentSelectedGameObject == null) {
+
+				if (CurrentSelectables != null && CurrentSelectables [currentSelectionIndex] != null) {
+
+					eventSystem.SetSelectedGameObject (CurrentSelectables [currentSelectionIndex].gameObject);
+
+					return;
+
+				}
+
+			}
+
 			//check if the horizontal cycling is on
-			if (horizontalCycling == true) {
+			else if (horizontalCycling == true) {
 
 				//if the horizontal cycling is on, advance the selection
 				AdvanceSelectable(true);
@@ -392,6 +444,16 @@ public class UINavigationMainMenu : MonoBehaviour {
 				//hide the list
 				CurrentSelectables[currentSelectionIndex].GetComponent<TMP_Dropdown> ().Hide();
 
+
+			} else if (eventSystem.currentSelectedGameObject == null) {
+
+				if (CurrentSelectables != null && CurrentSelectables [currentSelectionIndex] != null) {
+
+					eventSystem.SetSelectedGameObject (CurrentSelectables [currentSelectionIndex].gameObject);
+
+					return;
+
+				}
 
 			}
 

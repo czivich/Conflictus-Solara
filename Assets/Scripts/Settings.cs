@@ -114,6 +114,9 @@ public class Settings : MonoBehaviour {
 	private int musicVolume;
 	private int sfxVolume;
 
+	//event for opening window
+	public UnityEvent OnSettingsWindowOpened = new UnityEvent();
+
 	//event for changing resolution
 	public UnityEvent OnChangeResolution = new UnityEvent();
 
@@ -323,6 +326,9 @@ public class Settings : MonoBehaviour {
 
 		//set the UI elements
 		SetSettingsUIState();
+
+		//invoke the open event
+		OnSettingsWindowOpened.Invoke ();
 
 	}
 

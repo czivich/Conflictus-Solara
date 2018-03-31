@@ -246,11 +246,21 @@ public class UINavigationMainMenu : MonoBehaviour {
 						}
 
 					} else {
+						
+						//Debug.Log ("test6");
 
-						//set the selected object to the one in memory because the memory object is valid
-						eventSystem.SetSelectedGameObject (CurrentSelectables [currentSelectionIndex].gameObject);
+						//check if we are in a dropdown - if so, we don't want to set the selected object
+						if (CurrentSelectables [currentSelectionIndex].gameObject.GetComponent<TMP_Dropdown> () == true) {
 
-						return;
+							//do nothing
+
+						} else {
+							//set the selected object to the one in memory because the memory object is valid
+							eventSystem.SetSelectedGameObject (CurrentSelectables [currentSelectionIndex].gameObject);
+
+							return;
+
+						}
 
 					}
 
@@ -337,11 +347,21 @@ public class UINavigationMainMenu : MonoBehaviour {
 						}
 
 					} else {
+						
+						//Debug.Log ("test6");
 
-						//set the selected object to the one in memory because the memory object is valid
-						eventSystem.SetSelectedGameObject (CurrentSelectables [currentSelectionIndex].gameObject);
+						//check if we are in a dropdown - if so, we don't want to set the selected object
+						if (CurrentSelectables [currentSelectionIndex].gameObject.GetComponent<TMP_Dropdown> () == true) {
 
-						return;
+							//do nothing
+
+						} else {
+							//set the selected object to the one in memory because the memory object is valid
+							eventSystem.SetSelectedGameObject (CurrentSelectables [currentSelectionIndex].gameObject);
+
+							return;
+
+						}
 
 					}
 

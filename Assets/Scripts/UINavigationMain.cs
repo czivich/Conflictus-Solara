@@ -302,7 +302,10 @@ public class UINavigationMain : MonoBehaviour {
 	private UnityAction SelectableSetNavigationRulesAction;
 	private UnityAction<string> OpenFileDeletePromptAction;
 	private UnityAction<string> StringReturnToFileLoadWindowAction;
+
 	private UnityAction OpenSettingsWindowAction;
+	private UnityAction CloseSettingsWindowAction;
+
 	private UnityAction OpenExitGamePromptAction;
 	private UnityAction<string> InputFieldEndEditIgnoreEscapeAction;
 	private UnityAction<Ship> TractorBeamShipSetUIStateAction;
@@ -391,17 +394,22 @@ public class UINavigationMain : MonoBehaviour {
 			//this checks if we have lost our selectable and goes back to it instead of advancing to the next one
 			if (eventSystem.currentSelectedGameObject == null || eventSystem.currentSelectedGameObject != CurrentSelectables [currentSelectionIndex].gameObject) {
 
+				//Debug.Log ("test1");
+
 				//the else check is if we have nothing selected or if we have something selected that's not our selectable in memory
 
 				//now check if our memory isn't null
 				if (CurrentSelectables != null && CurrentSelectables [currentSelectionIndex] != null) {
 
+					//Debug.Log ("test2");
 					//check if the object in memory is either non-interactable or active - ie it is an invalid selection
 					if (CurrentSelectables [currentSelectionIndex].IsInteractable () == false || CurrentSelectables [currentSelectionIndex].IsActive () == false) {
 
+						//Debug.Log ("test3");
 						//check if we've got shift held for backwards cycling
 						if (Input.GetKey (KeyCode.LeftShift) || Input.GetKey (KeyCode.RightShift)) {
 
+							//Debug.Log ("test4");
 							//advance to the next group backwards since our current memory is invalid
 							AdvanceSelectableGroup (true);
 
@@ -409,6 +417,7 @@ public class UINavigationMain : MonoBehaviour {
 
 						} else{
 
+							//Debug.Log ("test5");
 							//advance to the next group forward since our current memory is invalid
 							AdvanceSelectableGroup (false);
 
@@ -418,10 +427,20 @@ public class UINavigationMain : MonoBehaviour {
 
 					} else {
 
-						//set the selected object to the one in memory because the memory object is valid
-						eventSystem.SetSelectedGameObject (CurrentSelectables [currentSelectionIndex].gameObject);
+						//Debug.Log ("test6");
 
-						return;
+						//check if we are in a dropdown - if so, we don't want to set the selected object
+						if (CurrentSelectables [currentSelectionIndex].gameObject.GetComponent<TMP_Dropdown> () == true) {
+
+							//do nothing
+
+						} else {
+							//set the selected object to the one in memory because the memory object is valid
+							eventSystem.SetSelectedGameObject (CurrentSelectables [currentSelectionIndex].gameObject);
+
+							return;
+
+						}
 
 					}
 
@@ -738,11 +757,21 @@ public class UINavigationMain : MonoBehaviour {
 						}
 
 					} else {
+						
+						//Debug.Log ("test6");
 
-						//set the selected object to the one in memory because the memory object is valid
-						eventSystem.SetSelectedGameObject (CurrentSelectables [currentSelectionIndex].gameObject);
+						//check if we are in a dropdown - if so, we don't want to set the selected object
+						if (CurrentSelectables [currentSelectionIndex].gameObject.GetComponent<TMP_Dropdown> () == true) {
 
-						return;
+							//do nothing
+
+						} else {
+							//set the selected object to the one in memory because the memory object is valid
+							eventSystem.SetSelectedGameObject (CurrentSelectables [currentSelectionIndex].gameObject);
+
+							return;
+
+						}
 
 					}
 
@@ -1822,15 +1851,12 @@ public class UINavigationMain : MonoBehaviour {
 			CurrentUIState = UIState.Selection;
 
 			//returnUIState = UIState.Selection;
-			returnSelectable = FileMenuButtons[2];
+			returnSelectable = FileMenuButtons[1];
 
 			//returnSelectable = null;
 			delayReturnToSelectableCount = 2;
 
 		};
-
-
-
 
 		SelectableSetNavigationRulesAction = () => {SetNavigationRulesForSelectables();};
 
@@ -1841,6 +1867,18 @@ public class UINavigationMain : MonoBehaviour {
 		ClearSetInitialSelectablesAction = () => {delaySetInitialSelectablesCount = 1;};
 
 		OpenSettingsWindowAction = () => {CurrentUIState = UIState.Settings;}; 
+
+		CloseSettingsWindowAction = () => {
+
+			CurrentUIState = UIState.Selection;
+
+			//returnUIState = UIState.Selection;
+			returnSelectable = FileMenuButtons[3];
+
+			//returnSelectable = null;
+			delayReturnToSelectableCount = 2;
+
+		};
 
 		OpenExitGamePromptAction = () => {CurrentUIState = UIState.ExitGamePrompt;};
 
@@ -1959,11 +1997,11 @@ public class UINavigationMain : MonoBehaviour {
 		uiManager.GetComponent<FileDeletePrompt>().OnFileDeleteCancelClicked.AddListener(OpenLoadLocalGameWindowAction);
 
 		//add listeners for entering the settings menu
-		uiManager.GetComponent<Settings>().settingsMenuButton.onClick.AddListener(OpenSettingsWindowAction);
+		uiManager.GetComponent<Settings>().OnSettingsWindowOpened.AddListener(OpenSettingsWindowAction);
 
 		//add listeners for exiting the settings menu
-		uiManager.GetComponent<Settings>().acceptButton.onClick.AddListener(ReturnToSelectionAction);
-		uiManager.GetComponent<Settings>().exitButton.onClick.AddListener(ReturnToSelectionAction);
+		uiManager.GetComponent<Settings>().acceptButton.onClick.AddListener(CloseSettingsWindowAction);
+		uiManager.GetComponent<Settings>().exitButton.onClick.AddListener(CloseSettingsWindowAction);
 
 		//add listener for entering the exit game prompt
 		uiManager.GetComponent<ExitGamePrompt>().exitGameButton.onClick.AddListener(OpenExitGamePromptAction);
@@ -4203,11 +4241,15 @@ public class UINavigationMain : MonoBehaviour {
 
 		case UIState.Settings:
 
+			Debug.Log ("Settings");
+
 			//set the current selectables group to match the UI state
 			currentSelectablesGroup = SettingsGroup;
 
 			//find the first array in the group that has an interactable selectable
 			potentialCurrentSelectionGroupIndex = FindFirstInteractableArrayIndex (currentSelectablesGroup);
+
+			Debug.Log ("potentialCurrentSelectionGroupIndex = "+ potentialCurrentSelectionGroupIndex);
 
 			//set the selectable array that contains an interactable
 			if (potentialCurrentSelectionGroupIndex != -1) {
@@ -4959,7 +5001,7 @@ public class UINavigationMain : MonoBehaviour {
 			uiManager.GetComponent<FileLoadWindow>().OnOpenFileLoadWindow.RemoveListener(OpenLoadLocalGameWindowAction);
 
 			//remove listeners for exiting the file load window back to the main menu
-			uiManager.GetComponent<FileLoadWindow>().closeFileLoadWindowButton.onClick.RemoveListener(ReturnToSelectionAction);
+			uiManager.GetComponent<FileLoadWindow>().closeFileLoadWindowButton.onClick.RemoveListener(CloseLoadLocalGameWindowAction);
 			uiManager.GetComponent<FileLoadWindow>().fileLoadCancelButton.onClick.RemoveListener(CloseLoadLocalGameWindowAction);
 
 			//remove listener for entering the file delete prompt
@@ -4970,11 +5012,11 @@ public class UINavigationMain : MonoBehaviour {
 			uiManager.GetComponent<FileDeletePrompt>().OnFileDeleteCancelClicked.RemoveListener(OpenLoadLocalGameWindowAction);
 
 			//remove listeners for entering the settings menu
-			uiManager.GetComponent<Settings>().settingsMenuButton.onClick.RemoveListener(OpenSettingsWindowAction);
+			uiManager.GetComponent<Settings>().OnSettingsWindowOpened.RemoveListener(OpenSettingsWindowAction);
 
 			//remove listeners for exiting the settings menu
-			uiManager.GetComponent<Settings>().acceptButton.onClick.RemoveListener(ReturnToSelectionAction);
-			uiManager.GetComponent<Settings>().exitButton.onClick.RemoveListener(ReturnToSelectionAction);
+			uiManager.GetComponent<Settings>().acceptButton.onClick.RemoveListener(CloseSettingsWindowAction);
+			uiManager.GetComponent<Settings>().exitButton.onClick.RemoveListener(CloseSettingsWindowAction);
 
 			//remove listener for entering the exit game prompt
 			uiManager.GetComponent<ExitGamePrompt>().exitGameButton.onClick.RemoveListener(OpenExitGamePromptAction);

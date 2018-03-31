@@ -33,6 +33,9 @@ public class UINavigationMain : MonoBehaviour {
 		Cloaking,
 		BuyItem,
 		BuyShip,
+		OutfitShip,
+		PlaceNewShip,
+		NameNewShip,
 		RenameUnit,
 		EndTurn,
 		LoadLocalGame,
@@ -92,6 +95,12 @@ public class UINavigationMain : MonoBehaviour {
 	private Selectable[][] UseItemMenuGroup;
 	private Selectable[][] CrewMenuGroup;
 	private Selectable[][] CloakingMenuGroup;
+	private Selectable[][] BuyItemGroup;
+	private Selectable[][] BuyShipGroup;
+	private Selectable[][] OutfitShipGroup;
+	private Selectable[][] NameNewShipGroup;
+
+
 	private Selectable[][] EndTurnGroup;
 
 	private Selectable[][] LoadLocalGameGroup;
@@ -126,6 +135,35 @@ public class UINavigationMain : MonoBehaviour {
 	public Selectable[] CrewRepairButton;
 
 	public Selectable[] CloakingDeviceEngageButton;
+
+	public Selectable[] BuyPhasorRadarShotButton;
+	public Selectable[] BuyPhasorRadarArrayButton;
+	public Selectable[] BuyXRayKernelButton;
+	public Selectable[] BuyTractorBeamButton;
+	public Selectable[] BuyLightTorpedoButton;
+	public Selectable[] BuyHeavyTorpedoButton;
+	public Selectable[] BuyTorpedoLaserShotButton;
+	public Selectable[] BuyTorpedoLaserGuidanceButton;
+	public Selectable[] BuyHighPressureTubesButton;
+	public Selectable[] BuyDilithiumCrystalButton;
+	public Selectable[] BuyTrilithiumCrystalButton;
+	public Selectable[] BuyFlareButton;
+	public Selectable[] BuyRadarJammingButton;
+	public Selectable[] BuyLaserScatteringButton;
+	public Selectable[] BuyRepairCrewButton;
+	public Selectable[] BuyShieldEngineeringTeamButton;
+	public Selectable[] BuyAdditionalBattleCrewButton;
+	public Selectable[] BuyWarpBoosterButton;
+	public Selectable[] BuyTranswarpBoosterButton;
+	public Selectable[] BuyWarpDriveButton;
+	public Selectable[] BuyTranswarpDriveButton;
+	public Selectable[] BuyItemButtonRow;
+
+	public Selectable[]	BuyShipsButtons;
+	public Selectable[] BuyShipButtonRow;
+
+	public Selectable[] NameNewShipInputField;
+	public Selectable[] NameNewShipButtons;
 
 
 	public Selectable[] EndTurnButtons;
@@ -216,10 +254,19 @@ public class UINavigationMain : MonoBehaviour {
 	private UnityAction<bool> UseItemToggleSetUIStateAction;
 	private UnityAction<bool> CrewToggleSetUIStateAction;
 	private UnityAction<bool> CloakingToggleSetUIStateAction;
+	private UnityAction BuyItemSetUIStateAction;
+	private UnityAction BuyShipSetUIStateAction;
+	private UnityAction<Hex> NameNewShipSetUIStateAction;
+
 	private UnityAction<bool> EndTurnSetUIStateAction;
 	private UnityAction CancelEndTurnPromptAction;
 	private UnityAction AcceptEndTurnPromptAction;
-
+	private UnityAction CancelPurchaseItemAction;
+	private UnityAction AcceptPurchaseItemAction;
+	private UnityAction CancelPurchaseShipAction;
+	private UnityAction AcceptPurchaseShipAction;
+	private UnityAction CancelNameNewShipAction;
+	private UnityAction<NameNewShip.NewUnitEventData> AcceptNameNewShipAction;
 
 	private UnityAction<Selectable> SelectableSetSelectionGroupsAction;
 	private UnityAction ReturnToSelectionAction;
@@ -310,13 +357,41 @@ public class UINavigationMain : MonoBehaviour {
 		if (Input.GetKeyDown (KeyCode.DownArrow)) {
 
 			//this checks if we have lost our selectable and goes back to it instead of advancing to the next one
-			if (eventSystem.currentSelectedGameObject == null) {
+			if (eventSystem.currentSelectedGameObject == null || eventSystem.currentSelectedGameObject != CurrentSelectables [currentSelectionIndex].gameObject) {
 
+				//the else check is if we have nothing selected or if we have something selected that's not our selectable in memory
+
+				//now check if our memory isn't null
 				if (CurrentSelectables != null && CurrentSelectables [currentSelectionIndex] != null) {
 
-					eventSystem.SetSelectedGameObject (CurrentSelectables [currentSelectionIndex].gameObject);
+					//check if the object in memory is either non-interactable or active - ie it is an invalid selection
+					if (CurrentSelectables [currentSelectionIndex].IsInteractable () == false || CurrentSelectables [currentSelectionIndex].IsActive () == false) {
 
-					return;
+						//check if we've got shift held for backwards cycling
+						if (Input.GetKey (KeyCode.LeftShift) || Input.GetKey (KeyCode.RightShift)) {
+
+							//advance to the next group backwards since our current memory is invalid
+							AdvanceSelectableGroup (true);
+
+							return;
+
+						} else{
+
+							//advance to the next group forward since our current memory is invalid
+							AdvanceSelectableGroup (false);
+
+							return;
+
+						}
+
+					} else {
+
+						//set the selected object to the one in memory because the memory object is valid
+						eventSystem.SetSelectedGameObject (CurrentSelectables [currentSelectionIndex].gameObject);
+
+						return;
+
+					}
 
 				}
 
@@ -355,6 +430,216 @@ public class UINavigationMain : MonoBehaviour {
 				//adjust the dropdown value
 				AdjustDropdownValueDown(CrewTargetingDropdown[0].GetComponent<TMP_Dropdown>());
 
+			} else if(CurrentUIState == UIState.BuyItem && CurrentSelectables == BuyPhasorRadarShotButton){
+
+				//click the button
+				uiManager.GetComponent<PurchaseManager> ().phasorRadarShotDownButton.onClick.Invoke();
+
+			} else if(CurrentUIState == UIState.BuyItem && CurrentSelectables == BuyPhasorRadarArrayButton){
+
+				//click the button
+				uiManager.GetComponent<PurchaseManager> ().phasorRadarArrayDownButton.onClick.Invoke();
+
+			} else if(CurrentUIState == UIState.BuyItem && CurrentSelectables == BuyXRayKernelButton){
+
+				//click the button
+				uiManager.GetComponent<PurchaseManager> ().xRayKernelDownButton.onClick.Invoke();
+
+			} else if(CurrentUIState == UIState.BuyItem && CurrentSelectables == BuyTractorBeamButton){
+
+				//click the button
+				uiManager.GetComponent<PurchaseManager> ().tractorBeamDownButton.onClick.Invoke();
+
+			} else if(CurrentUIState == UIState.BuyItem && CurrentSelectables == BuyLightTorpedoButton){
+
+				//click the button
+				uiManager.GetComponent<PurchaseManager> ().lightTorpedoDownButton.onClick.Invoke();
+
+			} else if(CurrentUIState == UIState.BuyItem && CurrentSelectables == BuyHeavyTorpedoButton){
+
+				//click the button
+				uiManager.GetComponent<PurchaseManager> ().heavyTorpedoDownButton.onClick.Invoke();
+
+			} else if(CurrentUIState == UIState.BuyItem && CurrentSelectables == BuyTorpedoLaserShotButton){
+
+				//click the button
+				uiManager.GetComponent<PurchaseManager> ().torpedoLaserShotDownButton.onClick.Invoke();
+
+			} else if(CurrentUIState == UIState.BuyItem && CurrentSelectables == BuyTorpedoLaserGuidanceButton){
+
+				//click the button
+				uiManager.GetComponent<PurchaseManager> ().torpedoLaserGuidanceDownButton.onClick.Invoke();
+
+			} else if(CurrentUIState == UIState.BuyItem && CurrentSelectables == BuyHighPressureTubesButton){
+
+				//click the button
+				uiManager.GetComponent<PurchaseManager> ().highPressureTubesDownButton.onClick.Invoke();
+
+			} else if(CurrentUIState == UIState.BuyItem && CurrentSelectables == BuyDilithiumCrystalButton){
+
+					//click the button
+				uiManager.GetComponent<PurchaseManager> ().dilithiumCrystalDownButton.onClick.Invoke();
+
+			} else if(CurrentUIState == UIState.BuyItem && CurrentSelectables == BuyTrilithiumCrystalButton){
+
+				//click the button
+				uiManager.GetComponent<PurchaseManager> ().trilithiumCrystalDownButton.onClick.Invoke();
+
+			} else if(CurrentUIState == UIState.BuyItem && CurrentSelectables == BuyFlareButton){
+
+				//click the button
+				uiManager.GetComponent<PurchaseManager> ().flareDownButton.onClick.Invoke();
+
+			} else if(CurrentUIState == UIState.BuyItem && CurrentSelectables == BuyRadarJammingButton){
+
+				//click the button
+				uiManager.GetComponent<PurchaseManager> ().radarJammingSystemDownButton.onClick.Invoke();
+
+			} else if(CurrentUIState == UIState.BuyItem && CurrentSelectables == BuyLaserScatteringButton){
+
+				//click the button
+				uiManager.GetComponent<PurchaseManager> ().laserScatteringSystemDownButton.onClick.Invoke();
+
+			} else if(CurrentUIState == UIState.BuyItem && CurrentSelectables == BuyRepairCrewButton){
+
+				//click the button
+				uiManager.GetComponent<PurchaseManager> ().repairCrewDownButton.onClick.Invoke();
+
+			} else if(CurrentUIState == UIState.BuyItem && CurrentSelectables == BuyShieldEngineeringTeamButton){
+
+				//click the button
+				uiManager.GetComponent<PurchaseManager> ().shieldEngineeringTeamDownButton.onClick.Invoke();
+
+			} else if(CurrentUIState == UIState.BuyItem && CurrentSelectables == BuyAdditionalBattleCrewButton){
+
+				//click the button
+				uiManager.GetComponent<PurchaseManager> ().battleCrewDownButton.onClick.Invoke();
+
+			} else if(CurrentUIState == UIState.BuyItem && CurrentSelectables == BuyWarpBoosterButton){
+
+				//click the button
+				uiManager.GetComponent<PurchaseManager> ().warpBoosterDownButton.onClick.Invoke();
+
+			} else if(CurrentUIState == UIState.BuyItem && CurrentSelectables == BuyTranswarpBoosterButton){
+
+				//click the button
+				uiManager.GetComponent<PurchaseManager> ().transwarpBoosterDownButton.onClick.Invoke();
+
+			} else if(CurrentUIState == UIState.BuyItem && CurrentSelectables == BuyWarpDriveButton){
+
+				//click the button
+				uiManager.GetComponent<PurchaseManager> ().warpDriveDownButton.onClick.Invoke();
+
+			} else if(CurrentUIState == UIState.BuyItem && CurrentSelectables == BuyTranswarpDriveButton){
+
+				//click the button
+				uiManager.GetComponent<PurchaseManager> ().transwarpDriveDownButton.onClick.Invoke();
+
+			} else if(CurrentUIState == UIState.OutfitShip && CurrentSelectables == BuyPhasorRadarShotButton){
+
+				//click the button
+				uiManager.GetComponent<PurchaseManager> ().phasorRadarShotDownButton.onClick.Invoke();
+
+			} else if(CurrentUIState == UIState.OutfitShip && CurrentSelectables == BuyPhasorRadarArrayButton){
+
+				//click the button
+				uiManager.GetComponent<PurchaseManager> ().phasorRadarArrayDownButton.onClick.Invoke();
+
+			} else if(CurrentUIState == UIState.OutfitShip && CurrentSelectables == BuyXRayKernelButton){
+
+				//click the button
+				uiManager.GetComponent<PurchaseManager> ().xRayKernelDownButton.onClick.Invoke();
+
+			} else if(CurrentUIState == UIState.OutfitShip && CurrentSelectables == BuyTractorBeamButton){
+
+				//click the button
+				uiManager.GetComponent<PurchaseManager> ().tractorBeamDownButton.onClick.Invoke();
+
+			} else if(CurrentUIState == UIState.OutfitShip && CurrentSelectables == BuyLightTorpedoButton){
+
+				//click the button
+				uiManager.GetComponent<PurchaseManager> ().lightTorpedoDownButton.onClick.Invoke();
+
+			} else if(CurrentUIState == UIState.OutfitShip && CurrentSelectables == BuyHeavyTorpedoButton){
+
+				//click the button
+				uiManager.GetComponent<PurchaseManager> ().heavyTorpedoDownButton.onClick.Invoke();
+
+			} else if(CurrentUIState == UIState.OutfitShip && CurrentSelectables == BuyTorpedoLaserShotButton){
+
+				//click the button
+				uiManager.GetComponent<PurchaseManager> ().torpedoLaserShotDownButton.onClick.Invoke();
+
+			} else if(CurrentUIState == UIState.OutfitShip && CurrentSelectables == BuyTorpedoLaserGuidanceButton){
+
+				//click the button
+				uiManager.GetComponent<PurchaseManager> ().torpedoLaserGuidanceDownButton.onClick.Invoke();
+
+			} else if(CurrentUIState == UIState.OutfitShip && CurrentSelectables == BuyHighPressureTubesButton){
+
+				//click the button
+				uiManager.GetComponent<PurchaseManager> ().highPressureTubesDownButton.onClick.Invoke();
+
+			} else if(CurrentUIState == UIState.OutfitShip && CurrentSelectables == BuyDilithiumCrystalButton){
+
+				//click the button
+				uiManager.GetComponent<PurchaseManager> ().dilithiumCrystalDownButton.onClick.Invoke();
+
+			} else if(CurrentUIState == UIState.OutfitShip && CurrentSelectables == BuyTrilithiumCrystalButton){
+
+				//click the button
+				uiManager.GetComponent<PurchaseManager> ().trilithiumCrystalDownButton.onClick.Invoke();
+
+			} else if(CurrentUIState == UIState.OutfitShip && CurrentSelectables == BuyFlareButton){
+
+				//click the button
+				uiManager.GetComponent<PurchaseManager> ().flareDownButton.onClick.Invoke();
+
+			} else if(CurrentUIState == UIState.OutfitShip && CurrentSelectables == BuyRadarJammingButton){
+
+				//click the button
+				uiManager.GetComponent<PurchaseManager> ().radarJammingSystemDownButton.onClick.Invoke();
+
+			} else if(CurrentUIState == UIState.OutfitShip && CurrentSelectables == BuyLaserScatteringButton){
+
+				//click the button
+				uiManager.GetComponent<PurchaseManager> ().laserScatteringSystemDownButton.onClick.Invoke();
+
+			} else if(CurrentUIState == UIState.OutfitShip && CurrentSelectables == BuyRepairCrewButton){
+
+				//click the button
+				uiManager.GetComponent<PurchaseManager> ().repairCrewDownButton.onClick.Invoke();
+
+			} else if(CurrentUIState == UIState.OutfitShip && CurrentSelectables == BuyShieldEngineeringTeamButton){
+
+				//click the button
+				uiManager.GetComponent<PurchaseManager> ().shieldEngineeringTeamDownButton.onClick.Invoke();
+
+			} else if(CurrentUIState == UIState.OutfitShip && CurrentSelectables == BuyAdditionalBattleCrewButton){
+
+				//click the button
+				uiManager.GetComponent<PurchaseManager> ().battleCrewDownButton.onClick.Invoke();
+
+			} else if(CurrentUIState == UIState.OutfitShip && CurrentSelectables == BuyWarpBoosterButton){
+
+				//click the button
+				uiManager.GetComponent<PurchaseManager> ().warpBoosterDownButton.onClick.Invoke();
+
+			} else if(CurrentUIState == UIState.OutfitShip && CurrentSelectables == BuyTranswarpBoosterButton){
+
+				//click the button
+				uiManager.GetComponent<PurchaseManager> ().transwarpBoosterDownButton.onClick.Invoke();
+
+			} else if(CurrentUIState == UIState.OutfitShip && CurrentSelectables == BuyWarpDriveButton){
+
+				//click the button
+				uiManager.GetComponent<PurchaseManager> ().warpDriveDownButton.onClick.Invoke();
+
+			} else if(CurrentUIState == UIState.OutfitShip && CurrentSelectables == BuyTranswarpDriveButton){
+
+				//click the button
+				uiManager.GetComponent<PurchaseManager> ().transwarpDriveDownButton.onClick.Invoke();
+
 			} else if(CurrentUIState == UIState.Settings && CurrentSelectables == SettingsResolutionDropdown){
 
 				//adjust the dropdown value
@@ -388,13 +673,41 @@ public class UINavigationMain : MonoBehaviour {
 		if (Input.GetKeyDown (KeyCode.UpArrow)) {
 
 			//this checks if we have lost our selectable and goes back to it instead of advancing to the next one
-			if (eventSystem.currentSelectedGameObject == null) {
+			if (eventSystem.currentSelectedGameObject == null || eventSystem.currentSelectedGameObject != CurrentSelectables [currentSelectionIndex].gameObject) {
 
+				//the else check is if we have nothing selected or if we have something selected that's not our selectable in memory
+
+				//now check if our memory isn't null
 				if (CurrentSelectables != null && CurrentSelectables [currentSelectionIndex] != null) {
 
-					eventSystem.SetSelectedGameObject (CurrentSelectables [currentSelectionIndex].gameObject);
+					//check if the object in memory is either non-interactable or active - ie it is an invalid selection
+					if (CurrentSelectables [currentSelectionIndex].IsInteractable () == false || CurrentSelectables [currentSelectionIndex].IsActive () == false) {
 
-					return;
+						//check if we've got shift held for backwards cycling
+						if (Input.GetKey (KeyCode.LeftShift) || Input.GetKey (KeyCode.RightShift)) {
+
+							//advance to the next group backwards since our current memory is invalid
+							AdvanceSelectableGroup (true);
+
+							return;
+
+						} else{
+
+							//advance to the next group forward since our current memory is invalid
+							AdvanceSelectableGroup (false);
+
+							return;
+
+						}
+
+					} else {
+
+						//set the selected object to the one in memory because the memory object is valid
+						eventSystem.SetSelectedGameObject (CurrentSelectables [currentSelectionIndex].gameObject);
+
+						return;
+
+					}
 
 				}
 
@@ -434,6 +747,216 @@ public class UINavigationMain : MonoBehaviour {
 				//adjust the dropdown value
 				AdjustDropdownValueUp(CrewTargetingDropdown[0].GetComponent<TMP_Dropdown>());
 
+			} else if(CurrentUIState == UIState.BuyItem && CurrentSelectables == BuyPhasorRadarShotButton){
+
+				//click the button
+				uiManager.GetComponent<PurchaseManager> ().phasorRadarShotUpButton.onClick.Invoke();
+
+			} else if(CurrentUIState == UIState.BuyItem && CurrentSelectables == BuyPhasorRadarArrayButton){
+
+				//click the button
+				uiManager.GetComponent<PurchaseManager> ().phasorRadarArrayUpButton.onClick.Invoke();
+
+			} else if(CurrentUIState == UIState.BuyItem && CurrentSelectables == BuyXRayKernelButton){
+
+				//click the button
+				uiManager.GetComponent<PurchaseManager> ().xRayKernelUpButton.onClick.Invoke();
+
+			} else if(CurrentUIState == UIState.BuyItem && CurrentSelectables == BuyTractorBeamButton){
+
+				//click the button
+				uiManager.GetComponent<PurchaseManager> ().tractorBeamUpButton.onClick.Invoke();
+
+			} else if(CurrentUIState == UIState.BuyItem && CurrentSelectables == BuyLightTorpedoButton){
+
+				//click the button
+				uiManager.GetComponent<PurchaseManager> ().lightTorpedoUpButton.onClick.Invoke();
+
+			} else if(CurrentUIState == UIState.BuyItem && CurrentSelectables == BuyHeavyTorpedoButton){
+
+				//click the button
+				uiManager.GetComponent<PurchaseManager> ().heavyTorpedoUpButton.onClick.Invoke();
+
+			} else if(CurrentUIState == UIState.BuyItem && CurrentSelectables == BuyTorpedoLaserShotButton){
+
+				//click the button
+				uiManager.GetComponent<PurchaseManager> ().torpedoLaserShotUpButton.onClick.Invoke();
+
+			} else if(CurrentUIState == UIState.BuyItem && CurrentSelectables == BuyTorpedoLaserGuidanceButton){
+
+				//click the button
+				uiManager.GetComponent<PurchaseManager> ().torpedoLaserGuidanceUpButton.onClick.Invoke();
+
+			} else if(CurrentUIState == UIState.BuyItem && CurrentSelectables == BuyHighPressureTubesButton){
+
+				//click the button
+				uiManager.GetComponent<PurchaseManager> ().highPressureTubesUpButton.onClick.Invoke();
+
+			} else if(CurrentUIState == UIState.BuyItem && CurrentSelectables == BuyDilithiumCrystalButton){
+
+				//click the button
+				uiManager.GetComponent<PurchaseManager> ().dilithiumCrystalUpButton.onClick.Invoke();
+
+			} else if(CurrentUIState == UIState.BuyItem && CurrentSelectables == BuyTrilithiumCrystalButton){
+
+				//click the button
+				uiManager.GetComponent<PurchaseManager> ().trilithiumCrystalUpButton.onClick.Invoke();
+
+			} else if(CurrentUIState == UIState.BuyItem && CurrentSelectables == BuyFlareButton){
+
+				//click the button
+				uiManager.GetComponent<PurchaseManager> ().flareDownButton.onClick.Invoke();
+
+			} else if(CurrentUIState == UIState.BuyItem && CurrentSelectables == BuyRadarJammingButton){
+
+				//click the button
+				uiManager.GetComponent<PurchaseManager> ().radarJammingSystemUpButton.onClick.Invoke();
+
+			} else if(CurrentUIState == UIState.BuyItem && CurrentSelectables == BuyLaserScatteringButton){
+
+				//click the button
+				uiManager.GetComponent<PurchaseManager> ().laserScatteringSystemUpButton.onClick.Invoke();
+
+			} else if(CurrentUIState == UIState.BuyItem && CurrentSelectables == BuyRepairCrewButton){
+
+				//click the button
+				uiManager.GetComponent<PurchaseManager> ().repairCrewUpButton.onClick.Invoke();
+
+			} else if(CurrentUIState == UIState.BuyItem && CurrentSelectables == BuyShieldEngineeringTeamButton){
+
+				//click the button
+				uiManager.GetComponent<PurchaseManager> ().shieldEngineeringTeamUpButton.onClick.Invoke();
+
+			} else if(CurrentUIState == UIState.BuyItem && CurrentSelectables == BuyAdditionalBattleCrewButton){
+
+				//click the button
+				uiManager.GetComponent<PurchaseManager> ().battleCrewUpButton.onClick.Invoke();
+
+			} else if(CurrentUIState == UIState.BuyItem && CurrentSelectables == BuyWarpBoosterButton){
+
+				//click the button
+				uiManager.GetComponent<PurchaseManager> ().warpBoosterUpButton.onClick.Invoke();
+
+			} else if(CurrentUIState == UIState.BuyItem && CurrentSelectables == BuyTranswarpBoosterButton){
+
+				//click the button
+				uiManager.GetComponent<PurchaseManager> ().transwarpBoosterUpButton.onClick.Invoke();
+
+			} else if(CurrentUIState == UIState.BuyItem && CurrentSelectables == BuyWarpDriveButton){
+
+				//click the button
+				uiManager.GetComponent<PurchaseManager> ().warpDriveUpButton.onClick.Invoke();
+
+			} else if(CurrentUIState == UIState.BuyItem && CurrentSelectables == BuyTranswarpDriveButton){
+
+				//click the button
+				uiManager.GetComponent<PurchaseManager> ().transwarpDriveUpButton.onClick.Invoke();
+
+			} else if(CurrentUIState == UIState.OutfitShip && CurrentSelectables == BuyPhasorRadarShotButton){
+
+				//click the button
+				uiManager.GetComponent<PurchaseManager> ().phasorRadarShotUpButton.onClick.Invoke();
+
+			} else if(CurrentUIState == UIState.OutfitShip && CurrentSelectables == BuyPhasorRadarArrayButton){
+
+				//click the button
+				uiManager.GetComponent<PurchaseManager> ().phasorRadarArrayUpButton.onClick.Invoke();
+
+			} else if(CurrentUIState == UIState.OutfitShip && CurrentSelectables == BuyXRayKernelButton){
+
+				//click the button
+				uiManager.GetComponent<PurchaseManager> ().xRayKernelUpButton.onClick.Invoke();
+
+			} else if(CurrentUIState == UIState.OutfitShip && CurrentSelectables == BuyTractorBeamButton){
+
+				//click the button
+				uiManager.GetComponent<PurchaseManager> ().tractorBeamUpButton.onClick.Invoke();
+
+			} else if(CurrentUIState == UIState.OutfitShip && CurrentSelectables == BuyLightTorpedoButton){
+
+				//click the button
+				uiManager.GetComponent<PurchaseManager> ().lightTorpedoUpButton.onClick.Invoke();
+
+			} else if(CurrentUIState == UIState.OutfitShip && CurrentSelectables == BuyHeavyTorpedoButton){
+
+				//click the button
+				uiManager.GetComponent<PurchaseManager> ().heavyTorpedoUpButton.onClick.Invoke();
+
+			} else if(CurrentUIState == UIState.OutfitShip && CurrentSelectables == BuyTorpedoLaserShotButton){
+
+				//click the button
+				uiManager.GetComponent<PurchaseManager> ().torpedoLaserShotUpButton.onClick.Invoke();
+
+			} else if(CurrentUIState == UIState.OutfitShip && CurrentSelectables == BuyTorpedoLaserGuidanceButton){
+
+				//click the button
+				uiManager.GetComponent<PurchaseManager> ().torpedoLaserGuidanceUpButton.onClick.Invoke();
+
+			} else if(CurrentUIState == UIState.OutfitShip && CurrentSelectables == BuyHighPressureTubesButton){
+
+				//click the button
+				uiManager.GetComponent<PurchaseManager> ().highPressureTubesUpButton.onClick.Invoke();
+
+			} else if(CurrentUIState == UIState.OutfitShip && CurrentSelectables == BuyDilithiumCrystalButton){
+
+				//click the button
+				uiManager.GetComponent<PurchaseManager> ().dilithiumCrystalUpButton.onClick.Invoke();
+
+			} else if(CurrentUIState == UIState.OutfitShip && CurrentSelectables == BuyTrilithiumCrystalButton){
+
+				//click the button
+				uiManager.GetComponent<PurchaseManager> ().trilithiumCrystalUpButton.onClick.Invoke();
+
+			} else if(CurrentUIState == UIState.OutfitShip && CurrentSelectables == BuyFlareButton){
+
+				//click the button
+				uiManager.GetComponent<PurchaseManager> ().flareDownButton.onClick.Invoke();
+
+			} else if(CurrentUIState == UIState.OutfitShip && CurrentSelectables == BuyRadarJammingButton){
+
+				//click the button
+				uiManager.GetComponent<PurchaseManager> ().radarJammingSystemUpButton.onClick.Invoke();
+
+			} else if(CurrentUIState == UIState.OutfitShip && CurrentSelectables == BuyLaserScatteringButton){
+
+				//click the button
+				uiManager.GetComponent<PurchaseManager> ().laserScatteringSystemUpButton.onClick.Invoke();
+
+			} else if(CurrentUIState == UIState.OutfitShip && CurrentSelectables == BuyRepairCrewButton){
+
+				//click the button
+				uiManager.GetComponent<PurchaseManager> ().repairCrewUpButton.onClick.Invoke();
+
+			} else if(CurrentUIState == UIState.OutfitShip && CurrentSelectables == BuyShieldEngineeringTeamButton){
+
+				//click the button
+				uiManager.GetComponent<PurchaseManager> ().shieldEngineeringTeamUpButton.onClick.Invoke();
+
+			} else if(CurrentUIState == UIState.OutfitShip && CurrentSelectables == BuyAdditionalBattleCrewButton){
+
+				//click the button
+				uiManager.GetComponent<PurchaseManager> ().battleCrewUpButton.onClick.Invoke();
+
+			} else if(CurrentUIState == UIState.OutfitShip && CurrentSelectables == BuyWarpBoosterButton){
+
+				//click the button
+				uiManager.GetComponent<PurchaseManager> ().warpBoosterUpButton.onClick.Invoke();
+
+			} else if(CurrentUIState == UIState.OutfitShip && CurrentSelectables == BuyTranswarpBoosterButton){
+
+				//click the button
+				uiManager.GetComponent<PurchaseManager> ().transwarpBoosterUpButton.onClick.Invoke();
+
+			} else if(CurrentUIState == UIState.OutfitShip && CurrentSelectables == BuyWarpDriveButton){
+
+				//click the button
+				uiManager.GetComponent<PurchaseManager> ().warpDriveUpButton.onClick.Invoke();
+
+			} else if(CurrentUIState == UIState.OutfitShip && CurrentSelectables == BuyTranswarpDriveButton){
+
+				//click the button
+				uiManager.GetComponent<PurchaseManager> ().transwarpDriveUpButton.onClick.Invoke();
+
 			} else if(CurrentUIState == UIState.Settings && CurrentSelectables == SettingsResolutionDropdown){
 
 				//adjust the dropdown value
@@ -467,13 +990,41 @@ public class UINavigationMain : MonoBehaviour {
 		if (Input.GetKeyDown (KeyCode.RightArrow)) {
 
 			//this checks if we have lost our selectable and goes back to it instead of advancing to the next one
-			if (eventSystem.currentSelectedGameObject == null) {
+			if (eventSystem.currentSelectedGameObject == null || eventSystem.currentSelectedGameObject != CurrentSelectables [currentSelectionIndex].gameObject) {
 
+				//the else check is if we have nothing selected or if we have something selected that's not our selectable in memory
+
+				//now check if our memory isn't null
 				if (CurrentSelectables != null && CurrentSelectables [currentSelectionIndex] != null) {
 
-					eventSystem.SetSelectedGameObject (CurrentSelectables [currentSelectionIndex].gameObject);
+					//check if the object in memory is either non-interactable or active - ie it is an invalid selection
+					if (CurrentSelectables [currentSelectionIndex].IsInteractable () == false || CurrentSelectables [currentSelectionIndex].IsActive () == false) {
 
-					return;
+						//check if we've got shift held for backwards cycling
+						if (Input.GetKey (KeyCode.LeftShift) || Input.GetKey (KeyCode.RightShift)) {
+
+							//advance to the next group backwards since our current memory is invalid
+							AdvanceSelectableGroup (true);
+
+							return;
+
+						} else{
+
+							//advance to the next group forward since our current memory is invalid
+							AdvanceSelectableGroup (false);
+
+							return;
+
+						}
+
+					} else {
+
+						//set the selected object to the one in memory because the memory object is valid
+						eventSystem.SetSelectedGameObject (CurrentSelectables [currentSelectionIndex].gameObject);
+
+						return;
+
+					}
 
 				}
 
@@ -513,13 +1064,41 @@ public class UINavigationMain : MonoBehaviour {
 		if (Input.GetKeyDown (KeyCode.LeftArrow)) {
 
 			//this checks if we have lost our selectable and goes back to it instead of advancing to the next one
-			if (eventSystem.currentSelectedGameObject == null) {
+			if (eventSystem.currentSelectedGameObject == null || eventSystem.currentSelectedGameObject != CurrentSelectables [currentSelectionIndex].gameObject) {
 
+				//the else check is if we have nothing selected or if we have something selected that's not our selectable in memory
+
+				//now check if our memory isn't null
 				if (CurrentSelectables != null && CurrentSelectables [currentSelectionIndex] != null) {
 
-					eventSystem.SetSelectedGameObject (CurrentSelectables [currentSelectionIndex].gameObject);
+					//check if the object in memory is either non-interactable or active - ie it is an invalid selection
+					if (CurrentSelectables [currentSelectionIndex].IsInteractable () == false || CurrentSelectables [currentSelectionIndex].IsActive () == false) {
 
-					return;
+						//check if we've got shift held for backwards cycling
+						if (Input.GetKey (KeyCode.LeftShift) || Input.GetKey (KeyCode.RightShift)) {
+
+							//advance to the next group backwards since our current memory is invalid
+							AdvanceSelectableGroup (true);
+
+							return;
+
+						} else{
+
+							//advance to the next group forward since our current memory is invalid
+							AdvanceSelectableGroup (false);
+
+							return;
+
+						}
+
+					} else {
+
+						//set the selected object to the one in memory because the memory object is valid
+						eventSystem.SetSelectedGameObject (CurrentSelectables [currentSelectionIndex].gameObject);
+
+						return;
+
+					}
 
 				}
 
@@ -567,13 +1146,41 @@ public class UINavigationMain : MonoBehaviour {
 				CurrentSelectables [currentSelectionIndex].GetComponent<TMP_Dropdown> ().Hide ();
 
 
-			} else if (eventSystem.currentSelectedGameObject == null) {
+			} else if (eventSystem.currentSelectedGameObject == null || eventSystem.currentSelectedGameObject != CurrentSelectables [currentSelectionIndex].gameObject) {
 
+				//the else check is if we have nothing selected or if we have something selected that's not our selectable in memory
+
+				//now check if our memory isn't null
 				if (CurrentSelectables != null && CurrentSelectables [currentSelectionIndex] != null) {
 
-					eventSystem.SetSelectedGameObject (CurrentSelectables [currentSelectionIndex].gameObject);
+					//check if the object in memory is either non-interactable or active - ie it is an invalid selection
+					if (CurrentSelectables [currentSelectionIndex].IsInteractable () == false || CurrentSelectables [currentSelectionIndex].IsActive () == false) {
 
-					return;
+						//check if we've got shift held for backwards cycling
+						if (Input.GetKey (KeyCode.LeftShift) || Input.GetKey (KeyCode.RightShift)) {
+
+							//advance to the next group backwards since our current memory is invalid
+							AdvanceSelectableGroup (true);
+
+							return;
+
+						} else{
+
+							//advance to the next group forward since our current memory is invalid
+							AdvanceSelectableGroup (false);
+
+							return;
+
+						}
+
+					} else {
+
+						//set the selected object to the one in memory because the memory object is valid
+						eventSystem.SetSelectedGameObject (CurrentSelectables [currentSelectionIndex].gameObject);
+
+						return;
+
+					}
 
 				}
 
@@ -911,6 +1518,24 @@ public class UINavigationMain : MonoBehaviour {
 
 		};
 
+		BuyItemSetUIStateAction = () => {
+
+			CurrentUIState = UIState.BuyItem;
+
+		};
+
+		BuyShipSetUIStateAction = () => {
+
+			CurrentUIState = UIState.BuyShip;
+
+		};
+
+		NameNewShipSetUIStateAction = (hex) => {
+
+			CurrentUIState = UIState.NameNewShip;
+
+		};
+
 		EndTurnSetUIStateAction = (toggleState) => {
 
 			if (toggleState == true) {
@@ -957,6 +1582,104 @@ public class UINavigationMain : MonoBehaviour {
 			//OnUIStateChange.Invoke();
 
 		};
+
+		CancelPurchaseItemAction = () => {
+
+			//check if we are coming from the BuyItem state or the OutfitShip state
+			if(CurrentUIState == UIState.BuyItem){
+
+				CurrentUIState = UIState.Selection;
+				
+				//returnUIState = UIState.Selection;
+				returnSelectable = ActionMenuButtons[7];
+
+				//returnSelectable = null;
+				delayReturnToSelectableCount = 2;
+
+			} else{
+
+				//the else is that we are coming from outfit ship state
+
+				CurrentUIState = UIState.Selection;
+
+				//returnUIState = UIState.Selection;
+				returnSelectable = ActionMenuButtons[8];
+
+				//returnSelectable = null;
+				delayReturnToSelectableCount = 2;
+
+			}
+				
+		};
+
+		AcceptPurchaseItemAction = () => {
+
+			//check if we are coming from the BuyItem state or the OutfitShip state
+			if(CurrentUIState == UIState.BuyItem){
+
+				CurrentUIState = UIState.Selection;
+
+				//returnUIState = UIState.Selection;
+				returnSelectable = ActionMenuButtons[7];
+
+				//returnSelectable = null;
+				delayReturnToSelectableCount = 2;
+
+			} else{
+
+				//the else is that we are coming from outfit ship state
+				CurrentUIState = UIState.PlaceNewShip;
+
+			}
+
+		};
+
+		CancelPurchaseShipAction = () => {
+
+			CurrentUIState = UIState.Selection;
+
+			//returnUIState = UIState.Selection;
+			returnSelectable = ActionMenuButtons[8];
+
+			//returnSelectable = null;
+			delayReturnToSelectableCount = 2;
+
+		};
+
+		AcceptPurchaseShipAction = () => {
+
+			//Debug.Log("outfitship");
+
+			CurrentUIState = UIState.OutfitShip;
+
+
+
+		};
+
+		CancelNameNewShipAction = () => {
+
+			CurrentUIState = UIState.Selection;
+
+			//returnUIState = UIState.Selection;
+			returnSelectable = ActionMenuButtons[8];
+
+			//returnSelectable = null;
+			delayReturnToSelectableCount = 2;
+
+		};
+
+		AcceptNameNewShipAction = (newUnitEventData) => {
+
+			CurrentUIState = UIState.Selection;
+
+			//returnUIState = UIState.Selection;
+			returnSelectable = ActionMenuButtons[8];
+
+			//returnSelectable = null;
+			delayReturnToSelectableCount = 2;
+
+		};
+
 
 		TractorBeamShipSetUIStateAction = (ship) => {SetInitialCurrentSelectables ();};
 
@@ -1018,6 +1741,22 @@ public class UINavigationMain : MonoBehaviour {
 
 		//add listener for cloaking toggle
 		uiManager.GetComponent<CloakingDeviceToggle>().cloakingDeviceToggle.onValueChanged.AddListener(CloakingToggleSetUIStateAction);
+
+		//add listeners for purchase item menu
+		uiManager.GetComponent<PurchaseManager>().openPurchaseItemsButton.onClick.AddListener(BuyItemSetUIStateAction);
+		uiManager.GetComponent<PurchaseManager>().cancelPurchaseItemsButton.onClick.AddListener(CancelPurchaseItemAction);
+		uiManager.GetComponent<PurchaseManager>().purchaseItemsButton.onClick.AddListener(AcceptPurchaseItemAction);
+
+		//add listeners for purchase ship menu
+		uiManager.GetComponent<PurchaseManager>().openPurchaseShipButton.onClick.AddListener(BuyShipSetUIStateAction);
+		uiManager.GetComponent<PurchaseManager>().cancelPurchaseShipButton.onClick.AddListener(CancelPurchaseShipAction);
+		uiManager.GetComponent<PurchaseManager>().purchaseShipButton.onClick.AddListener(AcceptPurchaseShipAction);
+
+		//add listeners for placing new unit
+		mouseManager.OnPlacedNewUnit.AddListener(NameNewShipSetUIStateAction);
+		uiManager.GetComponent<NameNewShip> ().OnPurchasedNewShip.AddListener (AcceptNameNewShipAction);
+		uiManager.GetComponent<NameNewShip> ().OnCanceledPurchase.AddListener (CancelNameNewShipAction);
+
 
 		//add listener for end turn toggle
 		uiManager.GetComponent<EndTurnToggle>().endTurnToggle.onValueChanged.AddListener(EndTurnSetUIStateAction);
@@ -1152,6 +1891,62 @@ public class UINavigationMain : MonoBehaviour {
 		CloakingMenuGroup [3] = FileMenuButtons;
 		CloakingMenuGroup [4] = NextUnitButtons;
 		CloakingMenuGroup [5] = StatusButton;
+
+		BuyItemGroup = new Selectable[22][];
+		BuyItemGroup [0] = BuyPhasorRadarShotButton;
+		BuyItemGroup [1] = BuyPhasorRadarArrayButton;
+		BuyItemGroup [2] = BuyXRayKernelButton;
+		BuyItemGroup [3] = BuyTractorBeamButton;
+		BuyItemGroup [4] = BuyLightTorpedoButton;
+		BuyItemGroup [5] = BuyHeavyTorpedoButton;
+		BuyItemGroup [6] = BuyTorpedoLaserShotButton;
+		BuyItemGroup [7] = BuyTorpedoLaserGuidanceButton;
+		BuyItemGroup [8] = BuyHighPressureTubesButton;
+		BuyItemGroup [9] = BuyDilithiumCrystalButton;
+		BuyItemGroup [10] = BuyTrilithiumCrystalButton;
+		BuyItemGroup [11] = BuyFlareButton;
+		BuyItemGroup [12] = BuyRadarJammingButton;
+		BuyItemGroup [13] = BuyLaserScatteringButton;
+		BuyItemGroup [14] = BuyRepairCrewButton;
+		BuyItemGroup [15] = BuyShieldEngineeringTeamButton;
+		BuyItemGroup [16] = BuyAdditionalBattleCrewButton;
+		BuyItemGroup [17] = BuyWarpBoosterButton;
+		BuyItemGroup [18] = BuyTranswarpBoosterButton;
+		BuyItemGroup [19] = BuyWarpDriveButton;
+		BuyItemGroup [20] = BuyTranswarpDriveButton;
+		BuyItemGroup [21] = BuyItemButtonRow;
+
+		BuyShipGroup = new Selectable[2][];
+		BuyShipGroup [0] = BuyShipsButtons;
+		BuyShipGroup [1] = BuyShipButtonRow;
+
+		OutfitShipGroup = new Selectable[22][];
+		OutfitShipGroup [0] = BuyPhasorRadarShotButton;
+		OutfitShipGroup [1] = BuyPhasorRadarArrayButton;
+		OutfitShipGroup [2] = BuyXRayKernelButton;
+		OutfitShipGroup [3] = BuyTractorBeamButton;
+		OutfitShipGroup [4] = BuyLightTorpedoButton;
+		OutfitShipGroup [5] = BuyHeavyTorpedoButton;
+		OutfitShipGroup [6] = BuyTorpedoLaserShotButton;
+		OutfitShipGroup [7] = BuyTorpedoLaserGuidanceButton;
+		OutfitShipGroup [8] = BuyHighPressureTubesButton;
+		OutfitShipGroup [9] = BuyDilithiumCrystalButton;
+		OutfitShipGroup [10] = BuyTrilithiumCrystalButton;
+		OutfitShipGroup [11] = BuyFlareButton;
+		OutfitShipGroup [12] = BuyRadarJammingButton;
+		OutfitShipGroup [13] = BuyLaserScatteringButton;
+		OutfitShipGroup [14] = BuyRepairCrewButton;
+		OutfitShipGroup [15] = BuyShieldEngineeringTeamButton;
+		OutfitShipGroup [16] = BuyAdditionalBattleCrewButton;
+		OutfitShipGroup [17] = BuyWarpBoosterButton;
+		OutfitShipGroup [18] = BuyTranswarpBoosterButton;
+		OutfitShipGroup [19] = BuyWarpDriveButton;
+		OutfitShipGroup [20] = BuyTranswarpDriveButton;
+		OutfitShipGroup [21] = BuyItemButtonRow;
+
+		NameNewShipGroup = new Selectable[2][];
+		NameNewShipGroup [0] = NameNewShipInputField;
+		NameNewShipGroup [1] = NameNewShipButtons;
 
 		EndTurnGroup = new Selectable[1][];
 		EndTurnGroup [0] = EndTurnButtons;
@@ -1307,7 +2102,163 @@ public class UINavigationMain : MonoBehaviour {
 			verticalCycling = false;
 			selectablesWrap = false;
 
-		} else if (CurrentSelectables == EndTurnButtons) {
+		} else if (CurrentSelectables == BuyPhasorRadarShotButton) {
+
+			horizontalCycling = false;
+			verticalCycling = false;
+			selectablesWrap = false;
+
+		} else if (CurrentSelectables == BuyPhasorRadarArrayButton) {
+
+			horizontalCycling = false;
+			verticalCycling = false;
+			selectablesWrap = false;
+
+		} else if (CurrentSelectables == BuyXRayKernelButton) {
+
+			horizontalCycling = false;
+			verticalCycling = false;
+			selectablesWrap = false;
+
+		} else if (CurrentSelectables == BuyTractorBeamButton) {
+
+			horizontalCycling = false;
+			verticalCycling = false;
+			selectablesWrap = false;
+
+		} else if (CurrentSelectables == BuyLightTorpedoButton) {
+
+			horizontalCycling = false;
+			verticalCycling = false;
+			selectablesWrap = false;
+
+		} else if (CurrentSelectables == BuyHeavyTorpedoButton) {
+
+			horizontalCycling = false;
+			verticalCycling = false;
+			selectablesWrap = false;
+
+		} else if (CurrentSelectables == BuyTorpedoLaserShotButton) {
+
+			horizontalCycling = false;
+			verticalCycling = false;
+			selectablesWrap = false;
+
+		} else if (CurrentSelectables == BuyTorpedoLaserGuidanceButton) {
+
+			horizontalCycling = false;
+			verticalCycling = false;
+			selectablesWrap = false;
+
+		} else if (CurrentSelectables == BuyHighPressureTubesButton) {
+
+			horizontalCycling = false;
+			verticalCycling = false;
+			selectablesWrap = false;
+
+		} else if (CurrentSelectables == BuyDilithiumCrystalButton) {
+
+			horizontalCycling = false;
+			verticalCycling = false;
+			selectablesWrap = false;
+
+		} else if (CurrentSelectables == BuyTrilithiumCrystalButton) {
+
+			horizontalCycling = false;
+			verticalCycling = false;
+			selectablesWrap = false;
+
+		} else if (CurrentSelectables == BuyFlareButton) {
+
+			horizontalCycling = false;
+			verticalCycling = false;
+			selectablesWrap = false;
+
+		} else if (CurrentSelectables == BuyRadarJammingButton) {
+
+			horizontalCycling = false;
+			verticalCycling = false;
+			selectablesWrap = false;
+
+		} else if (CurrentSelectables == BuyLaserScatteringButton) {
+
+			horizontalCycling = false;
+			verticalCycling = false;
+			selectablesWrap = false;
+
+		} else if (CurrentSelectables == BuyRepairCrewButton) {
+
+			horizontalCycling = false;
+			verticalCycling = false;
+			selectablesWrap = false;
+
+		} else if (CurrentSelectables == BuyShieldEngineeringTeamButton) {
+
+			horizontalCycling = false;
+			verticalCycling = false;
+			selectablesWrap = false;
+
+		} else if (CurrentSelectables == BuyAdditionalBattleCrewButton) {
+
+			horizontalCycling = false;
+			verticalCycling = false;
+			selectablesWrap = false;
+
+		} else if (CurrentSelectables == BuyWarpBoosterButton) {
+
+			horizontalCycling = false;
+			verticalCycling = false;
+			selectablesWrap = false;
+
+		} else if (CurrentSelectables == BuyTranswarpBoosterButton) {
+
+			horizontalCycling = false;
+			verticalCycling = false;
+			selectablesWrap = false;
+
+		} else if (CurrentSelectables == BuyWarpDriveButton) {
+
+			horizontalCycling = false;
+			verticalCycling = false;
+			selectablesWrap = false;
+
+		} else if (CurrentSelectables == BuyTranswarpDriveButton) {
+
+			horizontalCycling = false;
+			verticalCycling = false;
+			selectablesWrap = false;
+
+		} else if (CurrentSelectables == BuyItemButtonRow) {
+
+			horizontalCycling = true;
+			verticalCycling = false;
+			selectablesWrap = true;
+
+		} else if (CurrentSelectables == BuyShipsButtons) {
+
+			horizontalCycling = false;
+			verticalCycling = true;
+			selectablesWrap = true;
+
+		} else if (CurrentSelectables == BuyShipButtonRow) {
+
+			horizontalCycling = true;
+			verticalCycling = false;
+			selectablesWrap = true;
+
+		} else if (CurrentSelectables == NameNewShipInputField) {
+
+			horizontalCycling = false;
+			verticalCycling = false;
+			selectablesWrap = false;
+
+		} else if (CurrentSelectables == NameNewShipButtons) {
+
+			horizontalCycling = true;
+			verticalCycling = false;
+			selectablesWrap = true;
+
+		}else if (CurrentSelectables == EndTurnButtons) {
 
 			horizontalCycling = true;
 			verticalCycling = false;
@@ -2562,6 +3513,106 @@ public class UINavigationMain : MonoBehaviour {
 
 			break;
 
+		case UIState.BuyItem:
+
+			//set the current selectables group to match the UI state
+			currentSelectablesGroup = BuyItemGroup;
+
+			//find the first array in the group that has an interactable selectable
+			potentialCurrentSelectionGroupIndex = FindFirstInteractableArrayIndex (currentSelectablesGroup);
+
+			//Debug.Log ("potentialCurrentSelectionGroupIndex" + potentialCurrentSelectionGroupIndex);
+
+			//check if the potential group index is not -1, which would be the error return
+			if (potentialCurrentSelectionGroupIndex != -1) {
+
+				//set the currentSelectionGroupIndex
+				currentSelectionGroupIndex = potentialCurrentSelectionGroupIndex;
+
+				//set the currentSelectables based on the index returned
+				CurrentSelectables = currentSelectablesGroup [currentSelectionGroupIndex];
+
+			}
+
+			break;
+
+		case UIState.BuyShip:
+
+			//set the current selectables group to match the UI state
+			currentSelectablesGroup = BuyShipGroup;
+
+			//find the first array in the group that has an interactable selectable
+			potentialCurrentSelectionGroupIndex = FindFirstInteractableArrayIndex (currentSelectablesGroup);
+
+			//Debug.Log ("potentialCurrentSelectionGroupIndex" + potentialCurrentSelectionGroupIndex);
+
+			//check if the potential group index is not -1, which would be the error return
+			if (potentialCurrentSelectionGroupIndex != -1) {
+				
+					//set the currentSelectionGroupIndex
+					currentSelectionGroupIndex = potentialCurrentSelectionGroupIndex;
+
+					//set the currentSelectables based on the index returned
+					CurrentSelectables = currentSelectablesGroup [currentSelectionGroupIndex];
+
+			}
+
+			break;
+
+		case UIState.OutfitShip:
+
+			//set the current selectables group to match the UI state
+			currentSelectablesGroup = OutfitShipGroup;
+
+			//find the first array in the group that has an interactable selectable
+			potentialCurrentSelectionGroupIndex = FindFirstInteractableArrayIndex (currentSelectablesGroup);
+
+			//Debug.Log ("potentialCurrentSelectionGroupIndex" + potentialCurrentSelectionGroupIndex);
+
+			//check if the potential group index is not -1, which would be the error return
+			if (potentialCurrentSelectionGroupIndex != -1) {
+
+				//set the currentSelectionGroupIndex
+				currentSelectionGroupIndex = potentialCurrentSelectionGroupIndex;
+
+				//set the currentSelectables based on the index returned
+				CurrentSelectables = currentSelectablesGroup [currentSelectionGroupIndex];
+
+			}
+
+			break;
+
+		case UIState.PlaceNewShip:
+
+			//there is no UI while placing ship
+			currentSelectablesGroup = null;
+			currentSelectables = null;
+
+			return;
+
+		case UIState.NameNewShip:
+
+			//set the current selectables group to match the UI state
+			currentSelectablesGroup = NameNewShipGroup;
+
+			//find the first array in the group that has an interactable selectable
+			potentialCurrentSelectionGroupIndex = FindFirstInteractableArrayIndex (currentSelectablesGroup);
+
+			//Debug.Log ("potentialCurrentSelectionGroupIndex" + potentialCurrentSelectionGroupIndex);
+
+			//check if the potential group index is not -1, which would be the error return
+			if (potentialCurrentSelectionGroupIndex != -1) {
+
+				//set the currentSelectionGroupIndex
+				currentSelectionGroupIndex = potentialCurrentSelectionGroupIndex;
+
+				//set the currentSelectables based on the index returned
+				CurrentSelectables = currentSelectablesGroup [currentSelectionGroupIndex];
+
+			}
+
+			break;
+
 		case UIState.EndTurn:
 
 			//set the current selectables group to match the UI state
@@ -2939,7 +3990,7 @@ public class UINavigationMain : MonoBehaviour {
 			//Debug.Log ("selectables[" + i + "] IsInteractable = " + selectables [i].IsInteractable ().ToString());
 
 			//check if the first option is interactable
-			if (selectables [i].IsInteractable() == true) {
+			if (selectables [i].IsInteractable() == true && selectables [i].IsActive() == true ) {
 
 				//return the return int
 				returnInt = i;
@@ -2962,7 +4013,7 @@ public class UINavigationMain : MonoBehaviour {
 		for (int i = selectables.Length - 1; i >= 0; i--) {
 
 			//check if the last option is interactable
-			if (selectables [i].IsInteractable() == true) {
+			if (selectables [i].IsInteractable() == true && selectables [i].IsActive() == true) {
 
 				//return the return int
 				returnInt = i;
@@ -3131,7 +4182,7 @@ public class UINavigationMain : MonoBehaviour {
 
 					//we know the potential index is in the array bounds
 					//check if the potential index is interactable
-					if (CurrentSelectables [potentialIndex].IsInteractable () == true) {
+					if (CurrentSelectables [potentialIndex].IsInteractable () == true && CurrentSelectables [potentialIndex].IsActive () == true) {
 
 						//the potential index is interactable
 						//set the currentSelection to the selectable at the potential index
@@ -3162,7 +4213,7 @@ public class UINavigationMain : MonoBehaviour {
 
 					//we know the potential index is in the array bounds
 					//check if the potential index is interactable
-					if (CurrentSelectables [potentialIndex].IsInteractable () == true) {
+					if (CurrentSelectables [potentialIndex].IsInteractable () == true && CurrentSelectables [potentialIndex].IsActive () == true) {
 
 						//the potential index is interactable
 						//set the currentSelection to the selectable at the potential index
@@ -3421,7 +4472,7 @@ public class UINavigationMain : MonoBehaviour {
 
 		//check if the clicked selectable is in the new group
 		//only do this if there is a clicked selectable
-		if (clickedSelectable != null) {
+		if (clickedSelectable != null && currentSelectablesGroup != null) {
 
 			for (int i = 0; i < currentSelectablesGroup.Length; i++) {
 
@@ -3455,15 +4506,49 @@ public class UINavigationMain : MonoBehaviour {
 	private void ReturnToSelectable(){
 
 		if (returnSelectable != null) {
+
+			//check if the return selectable is interactable and active
+			if (returnSelectable.IsInteractable () == true && returnSelectable.IsActive () == true) {
 			
-			eventSystem.SetSelectedGameObject (returnSelectable.gameObject);
+				eventSystem.SetSelectedGameObject (returnSelectable.gameObject);
+
+			} else {
+
+				//find the returnSelectable in the group
+				for (int i = 0; i < currentSelectablesGroup.Length; i++) {
+
+					if (currentSelectablesGroup [i].Contains (returnSelectable)) {
+
+						//Debug.Log ("found return selectable group");
+
+						for (int j = 0; j < currentSelectablesGroup [i].Length; j++) {
+
+							if (currentSelectablesGroup [i] [j] == returnSelectable) {
+
+								//Debug.Log ("found return selectable");
+
+								//set the selectable to the first available after the return selectable
+								eventSystem.SetSelectedGameObject (currentSelectablesGroup [i] [FindFirstInteractableIndex (currentSelectablesGroup [i])].gameObject);
+
+							}
+
+						}
+
+					}
+
+				}
+
+				//eventSystem.SetSelectedGameObject (returnSelectable.gameObject);
+
+				//AdvanceSelectable (false);
+			}
 
 		} else {
 
 			eventSystem.SetSelectedGameObject (null);
 		}
 
-		CurrentUIState = returnUIState;
+		//CurrentUIState = returnUIState;
 
 		OnUIStateChange.Invoke ();
 
@@ -3521,6 +4606,20 @@ public class UINavigationMain : MonoBehaviour {
 			uiManager.GetComponent<CloakingDeviceMenu>().OnTurnOffCloakingDevice.RemoveListener(CombatUnitSetUIStateAction);
 			uiManager.GetComponent<CloakingDeviceMenu>().OnTurnOnCloakingDevice.RemoveListener(CombatUnitSetUIStateAction);
 
+			//remove listeners for purchase item menu
+			uiManager.GetComponent<PurchaseManager>().openPurchaseItemsButton.onClick.RemoveListener(BuyItemSetUIStateAction);
+			uiManager.GetComponent<PurchaseManager>().cancelPurchaseItemsButton.onClick.RemoveListener(CancelPurchaseItemAction);
+			uiManager.GetComponent<PurchaseManager>().purchaseItemsButton.onClick.RemoveListener(AcceptPurchaseItemAction);
+
+			//remove listeners for purchase ship menu
+			uiManager.GetComponent<PurchaseManager>().openPurchaseShipButton.onClick.RemoveListener(BuyShipSetUIStateAction);
+			uiManager.GetComponent<PurchaseManager>().cancelPurchaseShipButton.onClick.RemoveListener(CancelPurchaseShipAction);
+			uiManager.GetComponent<PurchaseManager>().purchaseShipButton.onClick.RemoveListener(AcceptPurchaseShipAction);
+
+			//remove listeners for name new ship menu
+			uiManager.GetComponent<NameNewShip> ().OnPurchasedNewShip.RemoveListener (AcceptNameNewShipAction);
+			uiManager.GetComponent<NameNewShip> ().OnCanceledPurchase.RemoveListener (CancelNameNewShipAction);
+
 			//remove listeners for end turn drop down
 			uiManager.GetComponent<EndTurnDropDown>().OnCancelEndTurnPrompt.RemoveListener(CancelEndTurnPromptAction);
 			uiManager.GetComponent<EndTurnDropDown>().OnAcceptEndTurnPrompt.RemoveListener(AcceptEndTurnPromptAction);
@@ -3574,6 +4673,10 @@ public class UINavigationMain : MonoBehaviour {
 			mouseManager.OnClearTargetedUnit.RemoveListener (ClearSetInitialSelectablesAction);
 			mouseManager.OnSetSelectedUnit.RemoveListener (SetInitialCurrentSelectables);
 			mouseManager.OnClearSelectedUnit.RemoveListener (ClearSetInitialSelectablesAction);
+
+
+			//remove listener for placing new unit
+			mouseManager.OnPlacedNewUnit.RemoveListener(NameNewShipSetUIStateAction);
 
 		}
 

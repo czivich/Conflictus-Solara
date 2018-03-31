@@ -218,13 +218,41 @@ public class UINavigationMainMenu : MonoBehaviour {
 		if (Input.GetKeyDown (KeyCode.DownArrow)) {
 
 			//this checks if we have lost our selectable and goes back to it instead of advancing to the next one
-			if (eventSystem.currentSelectedGameObject == null) {
+			if (eventSystem.currentSelectedGameObject == null || eventSystem.currentSelectedGameObject != CurrentSelectables [currentSelectionIndex].gameObject) {
 
+				//the else check is if we have nothing selected or if we have something selected that's not our selectable in memory
+
+				//now check if our memory isn't null
 				if (CurrentSelectables != null && CurrentSelectables [currentSelectionIndex] != null) {
 
-					eventSystem.SetSelectedGameObject (CurrentSelectables [currentSelectionIndex].gameObject);
+					//check if the object in memory is either non-interactable or active - ie it is an invalid selection
+					if (CurrentSelectables [currentSelectionIndex].IsInteractable () == false || CurrentSelectables [currentSelectionIndex].IsActive () == false) {
 
-					return;
+						//check if we've got shift held for backwards cycling
+						if (Input.GetKey (KeyCode.LeftShift) || Input.GetKey (KeyCode.RightShift)) {
+
+							//advance to the next group backwards since our current memory is invalid
+							AdvanceSelectableGroup (true);
+
+							return;
+
+						} else{
+
+							//advance to the next group forward since our current memory is invalid
+							AdvanceSelectableGroup (false);
+
+							return;
+
+						}
+
+					} else {
+
+						//set the selected object to the one in memory because the memory object is valid
+						eventSystem.SetSelectedGameObject (CurrentSelectables [currentSelectionIndex].gameObject);
+
+						return;
+
+					}
 
 				}
 
@@ -281,13 +309,41 @@ public class UINavigationMainMenu : MonoBehaviour {
 		if (Input.GetKeyDown (KeyCode.UpArrow)) {
 
 			//this checks if we have lost our selectable and goes back to it instead of advancing to the next one
-			if (eventSystem.currentSelectedGameObject == null) {
+			if (eventSystem.currentSelectedGameObject == null || eventSystem.currentSelectedGameObject != CurrentSelectables [currentSelectionIndex].gameObject) {
 
+				//the else check is if we have nothing selected or if we have something selected that's not our selectable in memory
+
+				//now check if our memory isn't null
 				if (CurrentSelectables != null && CurrentSelectables [currentSelectionIndex] != null) {
 
-					eventSystem.SetSelectedGameObject (CurrentSelectables [currentSelectionIndex].gameObject);
+					//check if the object in memory is either non-interactable or active - ie it is an invalid selection
+					if (CurrentSelectables [currentSelectionIndex].IsInteractable () == false || CurrentSelectables [currentSelectionIndex].IsActive () == false) {
 
-					return;
+						//check if we've got shift held for backwards cycling
+						if (Input.GetKey (KeyCode.LeftShift) || Input.GetKey (KeyCode.RightShift)) {
+
+							//advance to the next group backwards since our current memory is invalid
+							AdvanceSelectableGroup (true);
+
+							return;
+
+						} else{
+
+							//advance to the next group forward since our current memory is invalid
+							AdvanceSelectableGroup (false);
+
+							return;
+
+						}
+
+					} else {
+
+						//set the selected object to the one in memory because the memory object is valid
+						eventSystem.SetSelectedGameObject (CurrentSelectables [currentSelectionIndex].gameObject);
+
+						return;
+
+					}
 
 				}
 
@@ -344,13 +400,41 @@ public class UINavigationMainMenu : MonoBehaviour {
 		if (Input.GetKeyDown (KeyCode.RightArrow)) {
 
 			//this checks if we have lost our selectable and goes back to it instead of advancing to the next one
-			if (eventSystem.currentSelectedGameObject == null) {
+			if (eventSystem.currentSelectedGameObject == null || eventSystem.currentSelectedGameObject != CurrentSelectables [currentSelectionIndex].gameObject) {
 
+				//the else check is if we have nothing selected or if we have something selected that's not our selectable in memory
+
+				//now check if our memory isn't null
 				if (CurrentSelectables != null && CurrentSelectables [currentSelectionIndex] != null) {
 
-					eventSystem.SetSelectedGameObject (CurrentSelectables [currentSelectionIndex].gameObject);
+					//check if the object in memory is either non-interactable or active - ie it is an invalid selection
+					if (CurrentSelectables [currentSelectionIndex].IsInteractable () == false || CurrentSelectables [currentSelectionIndex].IsActive () == false) {
 
-					return;
+						//check if we've got shift held for backwards cycling
+						if (Input.GetKey (KeyCode.LeftShift) || Input.GetKey (KeyCode.RightShift)) {
+
+							//advance to the next group backwards since our current memory is invalid
+							AdvanceSelectableGroup (true);
+
+							return;
+
+						} else{
+
+							//advance to the next group forward since our current memory is invalid
+							AdvanceSelectableGroup (false);
+
+							return;
+
+						}
+
+					} else {
+
+						//set the selected object to the one in memory because the memory object is valid
+						eventSystem.SetSelectedGameObject (CurrentSelectables [currentSelectionIndex].gameObject);
+
+						return;
+
+					}
 
 				}
 
@@ -390,13 +474,41 @@ public class UINavigationMainMenu : MonoBehaviour {
 		if (Input.GetKeyDown (KeyCode.LeftArrow)) {
 
 			//this checks if we have lost our selectable and goes back to it instead of advancing to the next one
-			if (eventSystem.currentSelectedGameObject == null) {
+			if (eventSystem.currentSelectedGameObject == null || eventSystem.currentSelectedGameObject != CurrentSelectables [currentSelectionIndex].gameObject) {
 
+				//the else check is if we have nothing selected or if we have something selected that's not our selectable in memory
+
+				//now check if our memory isn't null
 				if (CurrentSelectables != null && CurrentSelectables [currentSelectionIndex] != null) {
 
-					eventSystem.SetSelectedGameObject (CurrentSelectables [currentSelectionIndex].gameObject);
+					//check if the object in memory is either non-interactable or active - ie it is an invalid selection
+					if (CurrentSelectables [currentSelectionIndex].IsInteractable () == false || CurrentSelectables [currentSelectionIndex].IsActive () == false) {
 
-					return;
+						//check if we've got shift held for backwards cycling
+						if (Input.GetKey (KeyCode.LeftShift) || Input.GetKey (KeyCode.RightShift)) {
+
+							//advance to the next group backwards since our current memory is invalid
+							AdvanceSelectableGroup (true);
+
+							return;
+
+						} else{
+
+							//advance to the next group forward since our current memory is invalid
+							AdvanceSelectableGroup (false);
+
+							return;
+
+						}
+
+					} else {
+
+						//set the selected object to the one in memory because the memory object is valid
+						eventSystem.SetSelectedGameObject (CurrentSelectables [currentSelectionIndex].gameObject);
+
+						return;
+
+					}
 
 				}
 
@@ -445,13 +557,41 @@ public class UINavigationMainMenu : MonoBehaviour {
 				CurrentSelectables[currentSelectionIndex].GetComponent<TMP_Dropdown> ().Hide();
 
 
-			} else if (eventSystem.currentSelectedGameObject == null) {
+			} else if (eventSystem.currentSelectedGameObject == null || eventSystem.currentSelectedGameObject != CurrentSelectables [currentSelectionIndex].gameObject) {
 
+				//the else check is if we have nothing selected or if we have something selected that's not our selectable in memory
+
+				//now check if our memory isn't null
 				if (CurrentSelectables != null && CurrentSelectables [currentSelectionIndex] != null) {
 
-					eventSystem.SetSelectedGameObject (CurrentSelectables [currentSelectionIndex].gameObject);
+					//check if the object in memory is either non-interactable or active - ie it is an invalid selection
+					if (CurrentSelectables [currentSelectionIndex].IsInteractable () == false || CurrentSelectables [currentSelectionIndex].IsActive () == false) {
 
-					return;
+						//check if we've got shift held for backwards cycling
+						if (Input.GetKey (KeyCode.LeftShift) || Input.GetKey (KeyCode.RightShift)) {
+
+							//advance to the next group backwards since our current memory is invalid
+							AdvanceSelectableGroup (true);
+
+							return;
+
+						} else{
+
+							//advance to the next group forward since our current memory is invalid
+							AdvanceSelectableGroup (false);
+
+							return;
+
+						}
+
+					} else {
+
+						//set the selected object to the one in memory because the memory object is valid
+						eventSystem.SetSelectedGameObject (CurrentSelectables [currentSelectionIndex].gameObject);
+
+						return;
+
+					}
 
 				}
 
@@ -1701,7 +1841,7 @@ public class UINavigationMainMenu : MonoBehaviour {
 
 		//check if the clicked selectable is in the new group
 		//only do this if there is a clicked selectable
-		if (clickedSelectable != null) {
+		if (clickedSelectable != null && currentSelectablesGroup != null) {
 
 			for (int i = 0; i < currentSelectablesGroup.Length; i++) {
 

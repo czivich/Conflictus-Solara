@@ -913,14 +913,14 @@ public class UINavigationMainMenu : MonoBehaviour {
 		uiManager.GetComponent<FileDeletePrompt>().OnFileDeleteCancelClicked.AddListener(OpenLoadLocalGameWindowAction);
 
 		//add listeners for entering the settings menu
-		uiManager.GetComponent<Settings>().settingsMenuButton.onClick.AddListener(OpenSettingsWindowAction);
+		uiManager.GetComponent<Settings>().OnSettingsWindowOpened.AddListener(OpenSettingsWindowAction);
 
 		//add listeners for exiting the settings menu
 		uiManager.GetComponent<Settings>().acceptButton.onClick.AddListener(ReturnToMainMenuAction);
 		uiManager.GetComponent<Settings>().exitButton.onClick.AddListener(ReturnToMainMenuAction);
 
 		//add listener for entering the exit game prompt
-		uiManager.GetComponent<ExitGamePrompt>().exitGameButton.onClick.AddListener(OpenExitGamePromptAction);
+		uiManager.GetComponent<ExitGamePrompt>().OnExitGamePromptOpened.AddListener(OpenExitGamePromptAction);
 
 		//add listener for exiting the exit game prompt
 		uiManager.GetComponent<ExitGamePrompt>().OnExitGameYesClicked.AddListener(ReturnToMainMenuAction);
@@ -1932,14 +1932,14 @@ public class UINavigationMainMenu : MonoBehaviour {
 			uiManager.GetComponent<FileDeletePrompt>().OnFileDeleteCancelClicked.RemoveListener(OpenLoadLocalGameWindowAction);
 
 			//remove listeners for entering the settings menu
-			uiManager.GetComponent<Settings>().settingsMenuButton.onClick.RemoveListener(OpenSettingsWindowAction);
+			uiManager.GetComponent<Settings>().OnSettingsWindowOpened.RemoveListener(OpenSettingsWindowAction);
 
 			//remove listeners for exiting the settings menu
 			uiManager.GetComponent<Settings>().acceptButton.onClick.RemoveListener(ReturnToMainMenuAction);
 			uiManager.GetComponent<Settings>().exitButton.onClick.RemoveListener(ReturnToMainMenuAction);
 
 			//remove listener for entering the exit game prompt
-			uiManager.GetComponent<ExitGamePrompt>().exitGameButton.onClick.RemoveListener(OpenExitGamePromptAction);
+			uiManager.GetComponent<ExitGamePrompt>().OnExitGamePromptOpened.RemoveListener(OpenExitGamePromptAction);
 
 			//remove listener for exiting the exit game prompt
 			uiManager.GetComponent<ExitGamePrompt>().OnExitGameYesClicked.RemoveListener(ReturnToMainMenuAction);

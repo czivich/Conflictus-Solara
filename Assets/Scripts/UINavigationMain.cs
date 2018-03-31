@@ -292,9 +292,7 @@ public class UINavigationMain : MonoBehaviour {
 	private UnityAction<GameManager.ActionMode> CancelRenameUnitAction;
 	private UnityAction<CombatUnit, string, GameManager.ActionMode> AcceptRenameUnitAction;
 
-
 	private UnityAction<Selectable> SelectableSetSelectionGroupsAction;
-	private UnityAction ReturnToSelectionAction;
 
 	private UnityAction OpenLoadLocalGameWindowAction;
 	private UnityAction CloseLoadLocalGameWindowAction;
@@ -307,7 +305,10 @@ public class UINavigationMain : MonoBehaviour {
 	private UnityAction CloseSettingsWindowAction;
 
 	private UnityAction OpenExitGamePromptAction;
+	private UnityAction CloseExitGamePromptAction;
+
 	private UnityAction<string> InputFieldEndEditIgnoreEscapeAction;
+
 	private UnityAction<Ship> TractorBeamShipSetUIStateAction;
 	private UnityAction ClearSetInitialSelectablesAction;
 	private UnityAction<CombatUnit> CombatUnitSetUIStateAction;
@@ -1842,8 +1843,6 @@ public class UINavigationMain : MonoBehaviour {
 
 		SelectableSetSelectionGroupsAction = (selectable) => {SetSelectionIndexFromPointerClick (selectable);};
 
-		ReturnToSelectionAction = () => {CurrentUIState = UIState.Selection;};
-
 		OpenLoadLocalGameWindowAction = () => {CurrentUIState = UIState.LoadLocalGame;};
 
 		CloseLoadLocalGameWindowAction = () => {
@@ -1881,6 +1880,18 @@ public class UINavigationMain : MonoBehaviour {
 		};
 
 		OpenExitGamePromptAction = () => {CurrentUIState = UIState.ExitGamePrompt;};
+
+		CloseExitGamePromptAction = () => {
+
+			CurrentUIState = UIState.Selection;
+
+			//returnUIState = UIState.Selection;
+			returnSelectable = FileMenuButtons[2];
+
+			//returnSelectable = null;
+			delayReturnToSelectableCount = 2;
+
+		};
 
 		InputFieldEndEditIgnoreEscapeAction = (eventString) => {ignoreEscape = true;};
 
@@ -2004,11 +2015,11 @@ public class UINavigationMain : MonoBehaviour {
 		uiManager.GetComponent<Settings>().exitButton.onClick.AddListener(CloseSettingsWindowAction);
 
 		//add listener for entering the exit game prompt
-		uiManager.GetComponent<ExitGamePrompt>().exitGameButton.onClick.AddListener(OpenExitGamePromptAction);
+		uiManager.GetComponent<ExitGamePrompt>().OnExitGamePromptOpened.AddListener(OpenExitGamePromptAction);
 
 		//add listener for exiting the exit game prompt
-		uiManager.GetComponent<ExitGamePrompt>().OnExitGameYesClicked.AddListener(ReturnToSelectionAction);
-		uiManager.GetComponent<ExitGamePrompt>().OnExitGameCancelClicked.AddListener(ReturnToSelectionAction);
+		uiManager.GetComponent<ExitGamePrompt>().OnExitGameYesClicked.AddListener(CloseExitGamePromptAction);
+		uiManager.GetComponent<ExitGamePrompt>().OnExitGameCancelClicked.AddListener(CloseExitGamePromptAction);
 
 		//add listener for new or loaded turn
 		gameManager.OnNewTurn.AddListener(NewTurnSetInitialSelectablesAction);
@@ -2033,6 +2044,11 @@ public class UINavigationMain : MonoBehaviour {
 
 		//add listener for Cutscene ending
 		uiManager.GetComponent<CutsceneManager>().OnCloseCutsceneDisplayPanel.AddListener(ReturnToSelectablesFromCombatAction);
+
+		//add listeners telling us the input fields just ended edit, so we can ignore hitting escape
+		uiManager.GetComponent<RenameShip> ().renameInputField.onEndEdit.AddListener (InputFieldEndEditIgnoreEscapeAction);
+		uiManager.GetComponent<NameNewShip> ().shipNameInputField.onEndEdit.AddListener (InputFieldEndEditIgnoreEscapeAction);
+
 
 	}
 
@@ -5019,11 +5035,11 @@ public class UINavigationMain : MonoBehaviour {
 			uiManager.GetComponent<Settings>().exitButton.onClick.RemoveListener(CloseSettingsWindowAction);
 
 			//remove listener for entering the exit game prompt
-			uiManager.GetComponent<ExitGamePrompt>().exitGameButton.onClick.RemoveListener(OpenExitGamePromptAction);
+			uiManager.GetComponent<ExitGamePrompt>().OnExitGamePromptOpened.RemoveListener(OpenExitGamePromptAction);
 
 			//remove listener for exiting the exit game prompt
-			uiManager.GetComponent<ExitGamePrompt>().OnExitGameYesClicked.RemoveListener(ReturnToSelectionAction);
-			uiManager.GetComponent<ExitGamePrompt>().OnExitGameCancelClicked.RemoveListener(ReturnToSelectionAction);
+			uiManager.GetComponent<ExitGamePrompt>().OnExitGameYesClicked.RemoveListener(CloseExitGamePromptAction);
+			uiManager.GetComponent<ExitGamePrompt>().OnExitGameCancelClicked.RemoveListener(CloseExitGamePromptAction);
 
 			//remove listeners for flare use 
 			uiManager.GetComponent<FlareManager>().OnShowFlarePanel.RemoveListener(UseFlaresSetUIStateAction);
@@ -5036,6 +5052,9 @@ public class UINavigationMain : MonoBehaviour {
 			//remove listener for Cutscene ending
 			uiManager.GetComponent<CutsceneManager>().OnCloseCutsceneDisplayPanel.RemoveListener(ReturnToSelectablesFromCombatAction);
 
+			//remove listeners telling us the input fields just ended edit, so we can ignore hitting escape
+			uiManager.GetComponent<RenameShip> ().renameInputField.onEndEdit.RemoveListener (InputFieldEndEditIgnoreEscapeAction);
+			uiManager.GetComponent<NameNewShip> ().shipNameInputField.onEndEdit.RemoveListener (InputFieldEndEditIgnoreEscapeAction);
 
 		}
 

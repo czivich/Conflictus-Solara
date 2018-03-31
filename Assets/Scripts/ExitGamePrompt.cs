@@ -27,6 +27,10 @@ public class ExitGamePrompt : MonoBehaviour {
 	//variable to hold the prompt text
 	public TextMeshProUGUI promptText;
 
+	//event to announce exit prompt opened
+	public UnityEvent OnExitGamePromptOpened = new UnityEvent();
+
+
 	//event to announce exitGameCancel pressed
 	public UnityEvent OnExitGameYesClicked = new UnityEvent();
 	public UnityEvent OnExitGameCancelClicked = new UnityEvent();
@@ -73,6 +77,8 @@ public class ExitGamePrompt : MonoBehaviour {
 
 		//update the font size if necessary
 		UIManager.AutoSizeTextMeshFont(promptText);
+
+		OnExitGamePromptOpened.Invoke ();
 
 	}
 

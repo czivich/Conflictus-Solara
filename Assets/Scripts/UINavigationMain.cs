@@ -40,6 +40,7 @@ public class UINavigationMain : MonoBehaviour {
 		EndTurn,
 		UseFlares,
 		CombatCutscene,
+		Status,
 		LoadLocalGame,
 		FileDeletePrompt,
 		Settings,
@@ -104,6 +105,7 @@ public class UINavigationMain : MonoBehaviour {
 	private Selectable[][] RenameShipGroup;
 	private Selectable[][] EndTurnGroup;
 	private Selectable[][] UseFlaresGroup;
+	private Selectable[][] StatusGroup;
 
 	private Selectable[][] LoadLocalGameGroup;
 	private Selectable[][] FileDeletePromptGroup;
@@ -176,7 +178,7 @@ public class UINavigationMain : MonoBehaviour {
 	public Selectable[] FlareAutoCalcButton;
 	public Selectable[] UseFlaresButtonRow;
 
-
+	public Selectable[] StatusButtons;
 
 	public Selectable[] LoadLocalGameFiles;
 	public Selectable[] LoadLocalGameButtonsRow;
@@ -274,6 +276,8 @@ public class UINavigationMain : MonoBehaviour {
 	private UnityAction UseFlaresSetUIStateAction;
 	private UnityAction CutsceneSetUIStateAction;
 
+	private UnityAction StatusSetUIStateAction;
+	private UnityAction CancelStatusAction;
 
 	private UnityAction CancelEndTurnPromptAction;
 	private UnityAction AcceptEndTurnPromptAction;
@@ -1614,6 +1618,24 @@ public class UINavigationMain : MonoBehaviour {
 
 		};
 
+		StatusSetUIStateAction = () => {
+
+			CurrentUIState = UIState.Status;
+
+		};
+
+		CancelStatusAction = () => {
+
+			CurrentUIState = UIState.Selection;
+
+			//returnUIState = UIState.Selection;
+			returnSelectable = StatusButton[0];
+
+			//returnSelectable = null;
+			delayReturnToSelectableCount = 2;
+
+		};
+
 
 		CancelEndTurnPromptAction = () => {
 
@@ -1897,6 +1919,10 @@ public class UINavigationMain : MonoBehaviour {
 		mouseManager.OnSetSelectedUnit.AddListener(SetInitialCurrentSelectables);
 		mouseManager.OnClearSelectedUnit.AddListener(ClearSetInitialSelectablesAction);
 
+		//add listeners for status panel
+		uiManager.GetComponent<StatusPanel>().openButton.onClick.AddListener(StatusSetUIStateAction);
+		uiManager.GetComponent<StatusPanel>().closeButton.onClick.AddListener(CancelStatusAction);
+
 		//add listener for load local game
 		uiManager.GetComponent<FileLoadWindow>().OnOpenFileLoadWindow.AddListener(OpenLoadLocalGameWindowAction);
 
@@ -2094,6 +2120,9 @@ public class UINavigationMain : MonoBehaviour {
 		UseFlaresGroup[0] = FlareCountDisplay;
 		UseFlaresGroup[1] = FlareAutoCalcButton;
 		UseFlaresGroup[2] = UseFlaresButtonRow;
+
+		StatusGroup = new Selectable[1][];
+		StatusGroup [0] = StatusButtons;
 
 		LoadLocalGameGroup = new Selectable[2][];
 		LoadLocalGameGroup [0] = LoadLocalGameFiles;
@@ -2436,6 +2465,12 @@ public class UINavigationMain : MonoBehaviour {
 			selectablesWrap = false;
 
 		} else if (CurrentSelectables == RenameShipButtons) {
+
+			horizontalCycling = true;
+			verticalCycling = false;
+			selectablesWrap = true;
+
+		} else if (CurrentSelectables == StatusButtons) {
 
 			horizontalCycling = true;
 			verticalCycling = false;
@@ -4008,6 +4043,31 @@ public class UINavigationMain : MonoBehaviour {
 
 			return;
 
+		case UIState.Status:
+
+			//Debug.Log ("status");
+
+			//set the current selectables group to match the UI state
+			currentSelectablesGroup = StatusGroup;
+
+			//find the first array in the group that has an interactable selectable
+			potentialCurrentSelectionGroupIndex = FindFirstInteractableArrayIndex (currentSelectablesGroup);
+
+			//Debug.Log ("potentialCurrentSelectionGroupIndex" + potentialCurrentSelectionGroupIndex);
+
+			//check if the potential group index is not -1, which would be the error return
+			if (potentialCurrentSelectionGroupIndex != -1) {
+
+				//set the currentSelectionGroupIndex
+				currentSelectionGroupIndex = potentialCurrentSelectionGroupIndex;
+
+				//set the currentSelectables based on the index returned
+				CurrentSelectables = currentSelectablesGroup [currentSelectionGroupIndex];
+
+			}
+
+			break;
+
 		case UIState.LoadLocalGame:
 
 			//reset inputs so it doesn't carry over from a previous ui state
@@ -4872,6 +4932,10 @@ public class UINavigationMain : MonoBehaviour {
 			//remove listeners for end turn drop down
 			uiManager.GetComponent<EndTurnDropDown>().OnCancelEndTurnPrompt.RemoveListener(CancelEndTurnPromptAction);
 			uiManager.GetComponent<EndTurnDropDown>().OnAcceptEndTurnPrompt.RemoveListener(AcceptEndTurnPromptAction);
+
+			//remove listeners for status panel
+			uiManager.GetComponent<StatusPanel>().openButton.onClick.RemoveListener(StatusSetUIStateAction);
+			uiManager.GetComponent<StatusPanel>().closeButton.onClick.RemoveListener(CancelStatusAction);
 
 			//remove listener for load local game
 			uiManager.GetComponent<FileLoadWindow>().OnOpenFileLoadWindow.RemoveListener(OpenLoadLocalGameWindowAction);

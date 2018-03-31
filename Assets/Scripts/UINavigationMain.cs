@@ -101,8 +101,7 @@ public class UINavigationMain : MonoBehaviour {
 	private Selectable[][] BuyShipGroup;
 	private Selectable[][] OutfitShipGroup;
 	private Selectable[][] NameNewShipGroup;
-
-
+	private Selectable[][] RenameShipGroup;
 	private Selectable[][] EndTurnGroup;
 	private Selectable[][] UseFlaresGroup;
 
@@ -168,6 +167,8 @@ public class UINavigationMain : MonoBehaviour {
 	public Selectable[] NameNewShipInputField;
 	public Selectable[] NameNewShipButtons;
 
+	public Selectable[] RenameShipInputField;
+	public Selectable[] RenameShipButtons;
 
 	public Selectable[] EndTurnButtons;
 
@@ -267,7 +268,7 @@ public class UINavigationMain : MonoBehaviour {
 	private UnityAction BuyItemSetUIStateAction;
 	private UnityAction BuyShipSetUIStateAction;
 	private UnityAction<Hex> NameNewShipSetUIStateAction;
-
+	private UnityAction RenameShipSetUIStateAction;
 	private UnityAction<bool> EndTurnSetUIStateAction;
 
 	private UnityAction UseFlaresSetUIStateAction;
@@ -281,9 +282,12 @@ public class UINavigationMain : MonoBehaviour {
 	private UnityAction CancelPurchaseShipAction;
 	private UnityAction AcceptPurchaseShipAction;
 	private UnityAction CancelNameNewShipAction;
+	private UnityAction<NameNewShip.NewUnitEventData> AcceptNameNewShipAction;
 	private UnityAction<FlareManager.FlareEventData> UseFlaresYesAction;
 	private UnityAction<FlareManager.FlareEventData> UseFlaresCancelAction;
-	private UnityAction<NameNewShip.NewUnitEventData> AcceptNameNewShipAction;
+	private UnityAction<GameManager.ActionMode> CancelRenameUnitAction;
+	private UnityAction<CombatUnit, string, GameManager.ActionMode> AcceptRenameUnitAction;
+
 
 	private UnityAction<Selectable> SelectableSetSelectionGroupsAction;
 	private UnityAction ReturnToSelectionAction;
@@ -1577,6 +1581,12 @@ public class UINavigationMain : MonoBehaviour {
 
 		};
 
+		RenameShipSetUIStateAction = () => {
+
+			CurrentUIState = UIState.RenameUnit;
+
+		};
+
 		EndTurnSetUIStateAction = (toggleState) => {
 
 			if (toggleState == true) {
@@ -1734,6 +1744,30 @@ public class UINavigationMain : MonoBehaviour {
 
 		};
 
+		CancelRenameUnitAction = (actionMode) => {
+
+			CurrentUIState = UIState.Selection;
+
+			//returnUIState = UIState.Selection;
+			returnSelectable = ActionMenuButtons[9];
+
+			//returnSelectable = null;
+			delayReturnToSelectableCount = 2;
+
+		};
+
+		AcceptRenameUnitAction = (combatUnit, untName, actionMode) => {
+
+			CurrentUIState = UIState.Selection;
+
+			//returnUIState = UIState.Selection;
+			returnSelectable = ActionMenuButtons[9];
+
+			//returnSelectable = null;
+			delayReturnToSelectableCount = 2;
+
+		};
+
 
 		UseFlaresYesAction = (flareData) => {
 
@@ -1845,6 +1879,12 @@ public class UINavigationMain : MonoBehaviour {
 		//add listener for disengaging cloaking device
 		uiManager.GetComponent<CloakingDeviceMenu>().OnTurnOffCloakingDevice.AddListener(CombatUnitSetUIStateAction);
 		uiManager.GetComponent<CloakingDeviceMenu>().OnTurnOnCloakingDevice.AddListener(CombatUnitSetUIStateAction);
+
+		//add listener for rename unit
+		uiManager.GetComponent<RenameShip>().OnEnterRenameMode.AddListener(RenameShipSetUIStateAction);
+		uiManager.GetComponent<RenameShip>().OnRenameUnit.AddListener(AcceptRenameUnitAction);
+		uiManager.GetComponent<RenameShip>().OnRenameCancel.AddListener(CancelRenameUnitAction);
+
 
 		//add listeners for end turn drop down
 		uiManager.GetComponent<EndTurnDropDown>().OnCancelEndTurnPrompt.AddListener(CancelEndTurnPromptAction);
@@ -2042,6 +2082,10 @@ public class UINavigationMain : MonoBehaviour {
 		NameNewShipGroup = new Selectable[2][];
 		NameNewShipGroup [0] = NameNewShipInputField;
 		NameNewShipGroup [1] = NameNewShipButtons;
+
+		RenameShipGroup = new Selectable[2][];
+		RenameShipGroup [0] = RenameShipInputField;
+		RenameShipGroup [1] = RenameShipButtons;
 
 		EndTurnGroup = new Selectable[1][];
 		EndTurnGroup [0] = EndTurnButtons;
@@ -2357,7 +2401,7 @@ public class UINavigationMain : MonoBehaviour {
 			verticalCycling = false;
 			selectablesWrap = true;
 
-		}else if (CurrentSelectables == EndTurnButtons) {
+		} else if (CurrentSelectables == EndTurnButtons) {
 
 			horizontalCycling = true;
 			verticalCycling = false;
@@ -2385,10 +2429,19 @@ public class UINavigationMain : MonoBehaviour {
 			verticalCycling = false;
 			selectablesWrap = true;
 
+		} else if (CurrentSelectables == RenameShipInputField) {
+
+			horizontalCycling = false;
+			verticalCycling = false;
+			selectablesWrap = false;
+
+		} else if (CurrentSelectables == RenameShipButtons) {
+
+			horizontalCycling = true;
+			verticalCycling = false;
+			selectablesWrap = true;
+
 		}
-
-
-
 		else if (CurrentSelectables == LoadLocalGameFiles) {
 
 			horizontalCycling = false;
@@ -2566,6 +2619,19 @@ public class UINavigationMain : MonoBehaviour {
 				//Debug.Log ("current is null");
 
 				//if there is no current selectable, we need to find a new valid selectable
+
+				//check if our last selectable is valid
+				if (CurrentSelectables != null && CurrentSelectables [currentSelectionIndex] != null &&
+				   CurrentSelectables [currentSelectionIndex].IsActive () == true && CurrentSelectables [currentSelectionIndex].IsInteractable () == true) {
+
+					//Debug.Log ("valid previous");
+
+					//if the last selectable is still valid, set the current to the last
+					eventSystem.SetSelectedGameObject(CurrentSelectables [currentSelectionIndex].gameObject);
+
+					return;
+				}
+
 
 				//find the first array in the group that has an interactable selectable
 				potentialCurrentSelectionGroupIndex = FindFirstInteractableArrayIndex (currentSelectablesGroup);
@@ -3738,6 +3804,29 @@ public class UINavigationMain : MonoBehaviour {
 
 			break;
 
+		case UIState.RenameUnit:
+
+			//set the current selectables group to match the UI state
+			currentSelectablesGroup = RenameShipGroup;
+
+			//find the first array in the group that has an interactable selectable
+			potentialCurrentSelectionGroupIndex = FindFirstInteractableArrayIndex (currentSelectablesGroup);
+
+			//Debug.Log ("potentialCurrentSelectionGroupIndex" + potentialCurrentSelectionGroupIndex);
+
+			//check if the potential group index is not -1, which would be the error return
+			if (potentialCurrentSelectionGroupIndex != -1) {
+
+				//set the currentSelectionGroupIndex
+				currentSelectionGroupIndex = potentialCurrentSelectionGroupIndex;
+
+				//set the currentSelectables based on the index returned
+				CurrentSelectables = currentSelectablesGroup [currentSelectionGroupIndex];
+
+			}
+
+			break;
+
 		case UIState.EndTurn:
 
 			//set the current selectables group to match the UI state
@@ -3890,7 +3979,7 @@ public class UINavigationMain : MonoBehaviour {
 
 		case UIState.UseFlares:
 
-			Debug.Log ("Use Flares");
+			//Debug.Log ("Use Flares");
 
 			//set the current selectables group to match the UI state
 			currentSelectablesGroup = UseFlaresGroup;
@@ -3915,7 +4004,7 @@ public class UINavigationMain : MonoBehaviour {
 
 		case UIState.CombatCutscene:
 
-			Debug.Log ("cutscene");
+			//Debug.Log ("cutscene");
 
 			return;
 
@@ -4774,6 +4863,11 @@ public class UINavigationMain : MonoBehaviour {
 			//remove listeners for name new ship menu
 			uiManager.GetComponent<NameNewShip> ().OnPurchasedNewShip.RemoveListener (AcceptNameNewShipAction);
 			uiManager.GetComponent<NameNewShip> ().OnCanceledPurchase.RemoveListener (CancelNameNewShipAction);
+
+			//remove listener for rename unit
+			uiManager.GetComponent<RenameShip>().OnEnterRenameMode.RemoveListener(RenameShipSetUIStateAction);
+			uiManager.GetComponent<RenameShip>().OnRenameUnit.RemoveListener(AcceptRenameUnitAction);
+			uiManager.GetComponent<RenameShip>().OnRenameCancel.RemoveListener(CancelRenameUnitAction);
 
 			//remove listeners for end turn drop down
 			uiManager.GetComponent<EndTurnDropDown>().OnCancelEndTurnPrompt.RemoveListener(CancelEndTurnPromptAction);

@@ -38,6 +38,8 @@ public class UINavigationMain : MonoBehaviour {
 		NameNewShip,
 		RenameUnit,
 		EndTurn,
+		UseFlares,
+		CombatCutscene,
 		LoadLocalGame,
 		FileDeletePrompt,
 		Settings,
@@ -102,6 +104,7 @@ public class UINavigationMain : MonoBehaviour {
 
 
 	private Selectable[][] EndTurnGroup;
+	private Selectable[][] UseFlaresGroup;
 
 	private Selectable[][] LoadLocalGameGroup;
 	private Selectable[][] FileDeletePromptGroup;
@@ -167,6 +170,10 @@ public class UINavigationMain : MonoBehaviour {
 
 
 	public Selectable[] EndTurnButtons;
+
+	public Selectable[] FlareCountDisplay;
+	public Selectable[] FlareAutoCalcButton;
+	public Selectable[] UseFlaresButtonRow;
 
 
 
@@ -241,6 +248,9 @@ public class UINavigationMain : MonoBehaviour {
 	//this int stores the index of the selected file when leaving the file load list
 	private int previousFileIndex;
 
+	//this stores the kind of combat we enter
+	private UIState combatType;
+
 	//event to announce UIState change
 	public UnityEvent OnUIStateChange = new UnityEvent();
 	public UnityEvent OnSelectablesChange = new UnityEvent();
@@ -259,6 +269,11 @@ public class UINavigationMain : MonoBehaviour {
 	private UnityAction<Hex> NameNewShipSetUIStateAction;
 
 	private UnityAction<bool> EndTurnSetUIStateAction;
+
+	private UnityAction UseFlaresSetUIStateAction;
+	private UnityAction CutsceneSetUIStateAction;
+
+
 	private UnityAction CancelEndTurnPromptAction;
 	private UnityAction AcceptEndTurnPromptAction;
 	private UnityAction CancelPurchaseItemAction;
@@ -266,6 +281,8 @@ public class UINavigationMain : MonoBehaviour {
 	private UnityAction CancelPurchaseShipAction;
 	private UnityAction AcceptPurchaseShipAction;
 	private UnityAction CancelNameNewShipAction;
+	private UnityAction<FlareManager.FlareEventData> UseFlaresYesAction;
+	private UnityAction<FlareManager.FlareEventData> UseFlaresCancelAction;
 	private UnityAction<NameNewShip.NewUnitEventData> AcceptNameNewShipAction;
 
 	private UnityAction<Selectable> SelectableSetSelectionGroupsAction;
@@ -283,6 +300,10 @@ public class UINavigationMain : MonoBehaviour {
 
 	private UnityAction<Selectable> PointerClickResolveBlockAction;
 
+	//these set the combat states
+	private UnityAction<CombatUnit,CombatUnit,string> PhasorAttackSetCombatStateToPhasorAction;
+	private UnityAction<CombatUnit,CombatUnit,string> TorpedoAttackSetCombatStateToTorpedoAction;
+	private UnityAction ReturnToSelectablesFromCombatAction;
 
 	// Use this for initialization
 	public void Init () {
@@ -640,6 +661,11 @@ public class UINavigationMain : MonoBehaviour {
 				//click the button
 				uiManager.GetComponent<PurchaseManager> ().transwarpDriveDownButton.onClick.Invoke();
 
+			} else if(CurrentUIState == UIState.UseFlares && CurrentSelectables == FlareCountDisplay){
+
+				//click the button
+				uiManager.GetComponent<FlareManager> ().flareCountDownButton.onClick.Invoke();
+
 			} else if(CurrentUIState == UIState.Settings && CurrentSelectables == SettingsResolutionDropdown){
 
 				//adjust the dropdown value
@@ -956,6 +982,11 @@ public class UINavigationMain : MonoBehaviour {
 
 				//click the button
 				uiManager.GetComponent<PurchaseManager> ().transwarpDriveUpButton.onClick.Invoke();
+
+			} else if(CurrentUIState == UIState.UseFlares && CurrentSelectables == FlareCountDisplay){
+
+				//click the button
+				uiManager.GetComponent<FlareManager> ().flareCountUpButton.onClick.Invoke();
 
 			} else if(CurrentUIState == UIState.Settings && CurrentSelectables == SettingsResolutionDropdown){
 
@@ -1451,7 +1482,17 @@ public class UINavigationMain : MonoBehaviour {
 
 			} else {
 
+				//check if the toggle is being turned off due to game state change for FlareMode
+				//if so, we don't want to go back to selection state
+				if(uiManager.GetComponent<FlareManager>().flareMenuPanel.gameObject.activeInHierarchy == true){
+
+					Debug.Log("Do Nothing");
+
+				}else{
+						
 				CurrentUIState = UIState.Selection;
+
+				}
 
 			}
 			;
@@ -1550,6 +1591,19 @@ public class UINavigationMain : MonoBehaviour {
 			;
 
 		};
+
+		UseFlaresSetUIStateAction = () => {
+
+			CurrentUIState = UIState.UseFlares;
+
+		};
+
+		CutsceneSetUIStateAction = () => {
+
+			CurrentUIState = UIState.CombatCutscene;
+
+		};
+
 
 		CancelEndTurnPromptAction = () => {
 
@@ -1681,6 +1735,19 @@ public class UINavigationMain : MonoBehaviour {
 		};
 
 
+		UseFlaresYesAction = (flareData) => {
+
+			CurrentUIState = UIState.CombatCutscene;
+
+		};
+
+		UseFlaresCancelAction = (flareData) => {
+
+			CurrentUIState = UIState.CombatCutscene;
+
+		};
+
+
 		TractorBeamShipSetUIStateAction = (ship) => {SetInitialCurrentSelectables ();};
 
 		CombatUnitSetUIStateAction = (combatUnit) => {delaySetInitialSelectablesCount = 1;};
@@ -1706,6 +1773,17 @@ public class UINavigationMain : MonoBehaviour {
 		InputFieldEndEditIgnoreEscapeAction = (eventString) => {ignoreEscape = true;};
 
 		PointerClickResolveBlockAction = (selectable) => {ResolvePointerClickBlock (selectable);};
+
+		PhasorAttackSetCombatStateToPhasorAction = (attackingUnit, targetedUnit, text) => {combatType = UIState.PhasorMenu;};
+		TorpedoAttackSetCombatStateToTorpedoAction = (attackingUnit, targetedUnit, text) => {combatType = UIState.TorpedoMenu;};
+
+		ReturnToSelectablesFromCombatAction = () => {
+
+			CurrentUIState = combatType;
+
+			SetInitialCurrentSelectables();
+
+		};
 
 	}
 
@@ -1814,8 +1892,25 @@ public class UINavigationMain : MonoBehaviour {
 		gameManager.OnNewTurn.AddListener(NewTurnSetInitialSelectablesAction);
 		gameManager.OnLoadedTurn.AddListener (NewTurnSetInitialSelectablesAction);
 
+		//add listeners for attacks starting
+		PhasorSection.OnFirePhasors.AddListener(PhasorAttackSetCombatStateToPhasorAction);
+		StarbasePhasorSection1.OnFirePhasors.AddListener(PhasorAttackSetCombatStateToPhasorAction);
+		StarbasePhasorSection2.OnFirePhasors.AddListener(PhasorAttackSetCombatStateToPhasorAction);
+		TorpedoSection.OnFireLightTorpedo.AddListener (TorpedoAttackSetCombatStateToTorpedoAction);
+		TorpedoSection.OnFireHeavyTorpedo.AddListener (TorpedoAttackSetCombatStateToTorpedoAction);
+		StarbaseTorpedoSection.OnFireLightTorpedo.AddListener (TorpedoAttackSetCombatStateToTorpedoAction);
+		StarbaseTorpedoSection.OnFireHeavyTorpedo.AddListener (TorpedoAttackSetCombatStateToTorpedoAction);
+
+		//add listeners for flare use 
+		uiManager.GetComponent<FlareManager>().OnShowFlarePanel.AddListener(UseFlaresSetUIStateAction);
+		uiManager.GetComponent<FlareManager>().OnUseFlaresYes.AddListener(UseFlaresYesAction);
+		uiManager.GetComponent<FlareManager>().OnUseFlaresCancel.AddListener(UseFlaresCancelAction);
+
+		//add listener for Cutscene starting
+		uiManager.GetComponent<CutsceneManager>().OnOpenCutsceneDisplayPanel.AddListener(CutsceneSetUIStateAction);
+
 		//add listener for Cutscene ending
-		uiManager.GetComponent<CutsceneManager>().OnCloseCutsceneDisplayPanel.AddListener(SetInitialCurrentSelectables);
+		uiManager.GetComponent<CutsceneManager>().OnCloseCutsceneDisplayPanel.AddListener(ReturnToSelectablesFromCombatAction);
 
 	}
 
@@ -1951,6 +2046,10 @@ public class UINavigationMain : MonoBehaviour {
 		EndTurnGroup = new Selectable[1][];
 		EndTurnGroup [0] = EndTurnButtons;
 
+		UseFlaresGroup = new Selectable[3][];
+		UseFlaresGroup[0] = FlareCountDisplay;
+		UseFlaresGroup[1] = FlareAutoCalcButton;
+		UseFlaresGroup[2] = UseFlaresButtonRow;
 
 		LoadLocalGameGroup = new Selectable[2][];
 		LoadLocalGameGroup [0] = LoadLocalGameFiles;
@@ -2264,7 +2363,33 @@ public class UINavigationMain : MonoBehaviour {
 			verticalCycling = false;
 			selectablesWrap = true;
 
-		} else if (CurrentSelectables == LoadLocalGameFiles) {
+		} else if (CurrentSelectables == FlareCountDisplay) {
+
+			horizontalCycling = false;
+			verticalCycling = false;
+			selectablesWrap = false;
+
+		}
+
+		else if (CurrentSelectables == FlareAutoCalcButton) {
+
+			horizontalCycling = false;
+			verticalCycling = false;
+			selectablesWrap = false;
+
+		}
+
+		else if (CurrentSelectables == UseFlaresButtonRow) {
+
+			horizontalCycling = true;
+			verticalCycling = false;
+			selectablesWrap = true;
+
+		}
+
+
+
+		else if (CurrentSelectables == LoadLocalGameFiles) {
 
 			horizontalCycling = false;
 			verticalCycling = true;
@@ -3763,6 +3888,36 @@ public class UINavigationMain : MonoBehaviour {
 
 			break;
 
+		case UIState.UseFlares:
+
+			Debug.Log ("Use Flares");
+
+			//set the current selectables group to match the UI state
+			currentSelectablesGroup = UseFlaresGroup;
+
+			//find the first array in the group that has an interactable selectable
+			potentialCurrentSelectionGroupIndex = FindFirstInteractableArrayIndex (currentSelectablesGroup);
+
+			//Debug.Log ("potentialCurrentSelectionGroupIndex" + potentialCurrentSelectionGroupIndex);
+
+			//check if the potential group index is not -1, which would be the error return
+			if (potentialCurrentSelectionGroupIndex != -1) {
+
+				//set the currentSelectionGroupIndex
+				currentSelectionGroupIndex = potentialCurrentSelectionGroupIndex;
+
+				//set the currentSelectables based on the index returned
+				CurrentSelectables = currentSelectablesGroup [currentSelectionGroupIndex];
+
+			}
+
+			break;
+
+		case UIState.CombatCutscene:
+
+			Debug.Log ("cutscene");
+
+			return;
 
 		case UIState.LoadLocalGame:
 
@@ -4652,8 +4807,17 @@ public class UINavigationMain : MonoBehaviour {
 			uiManager.GetComponent<ExitGamePrompt>().OnExitGameYesClicked.RemoveListener(ReturnToSelectionAction);
 			uiManager.GetComponent<ExitGamePrompt>().OnExitGameCancelClicked.RemoveListener(ReturnToSelectionAction);
 
+			//remove listeners for flare use 
+			uiManager.GetComponent<FlareManager>().OnShowFlarePanel.RemoveListener(UseFlaresSetUIStateAction);
+			uiManager.GetComponent<FlareManager>().OnUseFlaresYes.RemoveListener(UseFlaresYesAction);
+			uiManager.GetComponent<FlareManager>().OnUseFlaresCancel.RemoveListener(UseFlaresCancelAction);
+
+			//remove listener for Cutscene starting
+			uiManager.GetComponent<CutsceneManager>().OnOpenCutsceneDisplayPanel.RemoveListener(CutsceneSetUIStateAction);
+
 			//remove listener for Cutscene ending
-			uiManager.GetComponent<CutsceneManager>().OnCloseCutsceneDisplayPanel.RemoveListener(SetInitialCurrentSelectables);
+			uiManager.GetComponent<CutsceneManager>().OnCloseCutsceneDisplayPanel.RemoveListener(ReturnToSelectablesFromCombatAction);
+
 
 		}
 
@@ -4685,6 +4849,15 @@ public class UINavigationMain : MonoBehaviour {
 
 		//remove listener for a pointer click
 		UISelection.OnClickedSelectable.RemoveListener(PointerClickResolveBlockAction);
+
+		//remove listeners for attacks starting
+		PhasorSection.OnFirePhasors.RemoveListener(PhasorAttackSetCombatStateToPhasorAction);
+		StarbasePhasorSection1.OnFirePhasors.RemoveListener(PhasorAttackSetCombatStateToPhasorAction);
+		StarbasePhasorSection2.OnFirePhasors.RemoveListener(PhasorAttackSetCombatStateToPhasorAction);
+		TorpedoSection.OnFireLightTorpedo.RemoveListener (TorpedoAttackSetCombatStateToTorpedoAction);
+		TorpedoSection.OnFireHeavyTorpedo.RemoveListener (TorpedoAttackSetCombatStateToTorpedoAction);
+		StarbaseTorpedoSection.OnFireLightTorpedo.RemoveListener (TorpedoAttackSetCombatStateToTorpedoAction);
+		StarbaseTorpedoSection.OnFireHeavyTorpedo.RemoveListener (TorpedoAttackSetCombatStateToTorpedoAction);
 
 	}
 

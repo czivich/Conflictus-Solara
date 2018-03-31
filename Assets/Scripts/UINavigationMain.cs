@@ -295,7 +295,10 @@ public class UINavigationMain : MonoBehaviour {
 
 	private UnityAction<Selectable> SelectableSetSelectionGroupsAction;
 	private UnityAction ReturnToSelectionAction;
+
 	private UnityAction OpenLoadLocalGameWindowAction;
+	private UnityAction CloseLoadLocalGameWindowAction;
+
 	private UnityAction SelectableSetNavigationRulesAction;
 	private UnityAction<string> OpenFileDeletePromptAction;
 	private UnityAction<string> StringReturnToFileLoadWindowAction;
@@ -1814,6 +1817,21 @@ public class UINavigationMain : MonoBehaviour {
 
 		OpenLoadLocalGameWindowAction = () => {CurrentUIState = UIState.LoadLocalGame;};
 
+		CloseLoadLocalGameWindowAction = () => {
+
+			CurrentUIState = UIState.Selection;
+
+			//returnUIState = UIState.Selection;
+			returnSelectable = FileMenuButtons[2];
+
+			//returnSelectable = null;
+			delayReturnToSelectableCount = 2;
+
+		};
+
+
+
+
 		SelectableSetNavigationRulesAction = () => {SetNavigationRulesForSelectables();};
 
 		OpenFileDeletePromptAction = (fileName) => {CurrentUIState = UIState.FileDeletePrompt;};
@@ -1930,8 +1948,8 @@ public class UINavigationMain : MonoBehaviour {
 		OnSelectablesChange.AddListener(SelectableSetNavigationRulesAction);
 
 		//add listeners for exiting the file load window back to the main menu
-		uiManager.GetComponent<FileLoadWindow>().closeFileLoadWindowButton.onClick.AddListener(ReturnToSelectionAction);
-		uiManager.GetComponent<FileLoadWindow>().fileLoadCancelButton.onClick.AddListener(ReturnToSelectionAction);
+		uiManager.GetComponent<FileLoadWindow>().closeFileLoadWindowButton.onClick.AddListener(CloseLoadLocalGameWindowAction);
+		uiManager.GetComponent<FileLoadWindow>().fileLoadCancelButton.onClick.AddListener(CloseLoadLocalGameWindowAction);
 
 		//add listener for entering the file delete prompt
 		uiManager.GetComponent<FileLoadWindow>().OnFileDeleteYesClicked.AddListener(OpenFileDeletePromptAction);
@@ -4942,7 +4960,7 @@ public class UINavigationMain : MonoBehaviour {
 
 			//remove listeners for exiting the file load window back to the main menu
 			uiManager.GetComponent<FileLoadWindow>().closeFileLoadWindowButton.onClick.RemoveListener(ReturnToSelectionAction);
-			uiManager.GetComponent<FileLoadWindow>().fileLoadCancelButton.onClick.RemoveListener(ReturnToSelectionAction);
+			uiManager.GetComponent<FileLoadWindow>().fileLoadCancelButton.onClick.RemoveListener(CloseLoadLocalGameWindowAction);
 
 			//remove listener for entering the file delete prompt
 			uiManager.GetComponent<FileLoadWindow>().OnFileDeleteYesClicked.RemoveListener(OpenFileDeletePromptAction);

@@ -82,6 +82,8 @@ public class UINavigationMain : MonoBehaviour {
 				//set the flag
 				//blockPointerClickFlag = true;
 
+				//Debug.Log ("UIState = " + currentUIState.ToString ());
+
 				//invoke the event
 				OnUIStateChange.Invoke();
 
@@ -267,6 +269,10 @@ public class UINavigationMain : MonoBehaviour {
 	//event to announce UIState change
 	public UnityEvent OnUIStateChange = new UnityEvent();
 	public UnityEvent OnSelectablesChange = new UnityEvent();
+
+	public UnityEvent OnCancelClearTargetedUnit = new UnityEvent();
+	public UnityEvent OnCancelClearSelectedUnit = new UnityEvent();
+
 
 	public SaveFileSelectedEvent OnSelectSaveFile = new SaveFileSelectedEvent();
 	public class SaveFileSelectedEvent : UnityEvent<GameObject>{}
@@ -1433,40 +1439,290 @@ public class UINavigationMain : MonoBehaviour {
 		//check if the escape key is being pressed
 		if (Input.GetKeyDown (KeyCode.Escape)) {
 
+			/*
+			Selection,
+			PhasorMenu,
+			TorpedoMenu,
+			TractorBeamMenu,
+			UseItem,
+			Crew,
+			Cloaking,
+			*/
+
 			if (CurrentUIState == UIState.LoadLocalGame) {
 
 				//cancel out of the menu
 				uiManager.GetComponent<FileLoadWindow> ().closeFileLoadWindowButton.onClick.Invoke ();
 
-			} else if (CurrentUIState == UIState.SaveLocalGame && ignoreEscape == false) {
+			} 
+
+			else if (CurrentUIState == UIState.SaveLocalGame && ignoreEscape == false) {
 
 				//cancel out of the menu
 				uiManager.GetComponent<FileSaveWindow> ().closeFileSaveWindowButton.onClick.Invoke ();
 
-			} else if (CurrentUIState == UIState.FileDeletePrompt) {
+			} 
+
+			else if (CurrentUIState == UIState.FileDeletePrompt) {
 
 				//cancel out of the menu
 				uiManager.GetComponent<FileDeletePrompt> ().fileDeleteCancelButton.onClick.Invoke ();
 
-			} else if (CurrentUIState == UIState.FileOverwritePrompt) {
+			} 
+
+			else if (CurrentUIState == UIState.FileOverwritePrompt) {
 
 				//cancel out of the menu
 				uiManager.GetComponent<FileOverwritePrompt> ().fileOverwriteCancelButton.onClick.Invoke ();
 
-			} else if (CurrentUIState == UIState.Settings) {
+			}
+
+			else if (CurrentUIState == UIState.Settings) {
 
 				//cancel out of the menu
 				uiManager.GetComponent<Settings> ().exitButton.onClick.Invoke ();
 
-			} else if (CurrentUIState == UIState.ExitGamePrompt) {
+			} 
+
+			else if (CurrentUIState == UIState.ExitGamePrompt) {
 
 				//cancel out of the menu
 				uiManager.GetComponent<ExitGamePrompt> ().exitGameCancelButton.onClick.Invoke ();
 
-			} else if (CurrentUIState == UIState.Status) {
+			} 
+
+			else if (CurrentUIState == UIState.Status) {
 
 				//cancel out of the menu
 				uiManager.GetComponent<StatusPanel> ().closeButton.onClick.Invoke ();
+
+			} 
+
+			else if (CurrentUIState == UIState.UseFlares) {
+
+				//cancel out of the menu
+				uiManager.GetComponent<FlareManager> ().cancelFlaresButton.onClick.Invoke ();
+
+			} 
+
+			else if (CurrentUIState == UIState.RenameUnit && ignoreEscape == false) {
+
+				//cancel out of the menu
+				uiManager.GetComponent<RenameShip> ().cancelButton.onClick.Invoke ();
+
+			} 	
+
+			else if (CurrentUIState == UIState.NameNewShip && ignoreEscape == false) {
+
+				//cancel out of the menu
+				uiManager.GetComponent<NameNewShip> ().cancelButton.onClick.Invoke ();
+
+			} 
+
+			else if (CurrentUIState == UIState.BuyItem) {
+
+				//cancel out of the menu
+				uiManager.GetComponent<PurchaseManager> ().cancelPurchaseItemsButton.onClick.Invoke ();
+
+			} 
+
+			else if (CurrentUIState == UIState.OutfitShip) {
+
+				//cancel out of the menu
+				uiManager.GetComponent<PurchaseManager> ().cancelPurchaseItemsButton.onClick.Invoke ();
+
+			} 
+
+			else if (CurrentUIState == UIState.BuyShip) {
+
+				//cancel out of the menu
+				uiManager.GetComponent<PurchaseManager> ().cancelPurchaseShipButton.onClick.Invoke ();
+
+			} 
+
+			else if (CurrentUIState == UIState.EndTurn) {
+
+				//cancel out of the menu
+				uiManager.GetComponent<EndTurnDropDown> ().endTurnDropDownPanelCancelButton.onClick.Invoke ();
+
+			} 
+
+			else if (CurrentUIState == UIState.MoveMenu && gameManager.CurrentActionMode != GameManager.ActionMode.Animation && 
+				uiManager.GetComponent<CutsceneManager>().cutscenePanel.activeInHierarchy == false) {
+
+				//check if we have a targeted unit
+				if (mouseManager.targetedUnit != null) {
+
+					//clear the targeted unit
+					OnCancelClearTargetedUnit.Invoke ();
+
+				} else if (mouseManager.selectedUnit != null) {
+
+					//else check if we have a selected unit
+					OnCancelClearSelectedUnit.Invoke ();
+
+				} else {
+
+					//else we want to cancel out of the menu by clicking the toggle
+					uiManager.GetComponent<MoveToggle> ().moveToggle.isOn = false;
+
+				}
+
+			} 
+
+			else if (CurrentUIState == UIState.PhasorMenu && gameManager.CurrentActionMode != GameManager.ActionMode.Animation && 
+				uiManager.GetComponent<CutsceneManager>().cutscenePanel.activeInHierarchy == false) {
+
+				//check if we have a targeted unit
+				if (mouseManager.targetedUnit != null) {
+
+					//clear the targeted unit
+					OnCancelClearTargetedUnit.Invoke ();
+
+				} else if (mouseManager.selectedUnit != null) {
+
+					//else check if we have a selected unit
+					OnCancelClearSelectedUnit.Invoke ();
+
+				} else {
+
+					//else we want to cancel out of the menu by clicking the toggle
+					uiManager.GetComponent<PhasorToggle> ().phasorToggle.isOn = false;
+
+				}
+
+			} 
+
+			else if (CurrentUIState == UIState.TorpedoMenu && gameManager.CurrentActionMode != GameManager.ActionMode.Animation && 
+				uiManager.GetComponent<CutsceneManager>().cutscenePanel.activeInHierarchy == false) {
+
+				//check if we have a targeted unit
+				if (mouseManager.targetedUnit != null) {
+
+					//clear the targeted unit
+					OnCancelClearTargetedUnit.Invoke ();
+
+				} else if (mouseManager.selectedUnit != null) {
+
+					//else check if we have a selected unit
+					OnCancelClearSelectedUnit.Invoke ();
+
+				} else {
+
+					//else we want to cancel out of the menu by clicking the toggle
+					uiManager.GetComponent<TorpedoToggle> ().torpedoToggle.isOn = false;
+
+				}
+
+			} 
+
+			else if (CurrentUIState == UIState.TractorBeamMenu && gameManager.CurrentActionMode != GameManager.ActionMode.Animation && 
+				uiManager.GetComponent<CutsceneManager>().cutscenePanel.activeInHierarchy == false) {
+
+				//check if we have a targeted unit
+				if (mouseManager.targetedUnit != null) {
+
+					//clear the targeted unit
+					OnCancelClearTargetedUnit.Invoke ();
+
+				} else if (mouseManager.selectedUnit != null) {
+
+					//else check if we have a selected unit
+					OnCancelClearSelectedUnit.Invoke ();
+
+				} else {
+
+					//else we want to cancel out of the menu by clicking the toggle
+					uiManager.GetComponent<TractorBeamToggle> ().tractorBeamToggle.isOn = false;
+
+				}
+
+			} 
+
+			else if (CurrentUIState == UIState.UseItem && gameManager.CurrentActionMode != GameManager.ActionMode.Animation && 
+				uiManager.GetComponent<CutsceneManager>().cutscenePanel.activeInHierarchy == false) {
+
+				//check if we have a targeted unit
+				if (mouseManager.targetedUnit != null) {
+
+					//clear the targeted unit
+					OnCancelClearTargetedUnit.Invoke ();
+
+				} else if (mouseManager.selectedUnit != null) {
+
+					//else check if we have a selected unit
+					OnCancelClearSelectedUnit.Invoke ();
+
+				} else {
+
+					//else we want to cancel out of the menu by clicking the toggle
+					uiManager.GetComponent<UseItemToggle> ().useItemToggle.isOn = false;
+
+				}
+
+			} 
+
+			else if (CurrentUIState == UIState.Crew && gameManager.CurrentActionMode != GameManager.ActionMode.Animation && 
+				uiManager.GetComponent<CutsceneManager>().cutscenePanel.activeInHierarchy == false) {
+
+				//check if we have a targeted unit
+				if (mouseManager.targetedUnit != null) {
+
+					//clear the targeted unit
+					OnCancelClearTargetedUnit.Invoke ();
+
+				} else if (mouseManager.selectedUnit != null) {
+
+					//else check if we have a selected unit
+					OnCancelClearSelectedUnit.Invoke ();
+
+				} else {
+
+					//else we want to cancel out of the menu by clicking the toggle
+					uiManager.GetComponent<CrewToggle> ().crewToggle.isOn = false;
+
+				}
+
+			} 
+
+			else if (CurrentUIState == UIState.Cloaking && gameManager.CurrentActionMode != GameManager.ActionMode.Animation && 
+				uiManager.GetComponent<CutsceneManager>().cutscenePanel.activeInHierarchy == false) {
+
+				//check if we have a targeted unit
+				if (mouseManager.targetedUnit != null) {
+
+					//clear the targeted unit
+					OnCancelClearTargetedUnit.Invoke ();
+
+				} else if (mouseManager.selectedUnit != null) {
+
+					//else check if we have a selected unit
+					OnCancelClearSelectedUnit.Invoke ();
+
+				} else {
+
+					//else we want to cancel out of the menu by clicking the toggle
+					uiManager.GetComponent<CloakingDeviceToggle> ().cloakingDeviceToggle.isOn = false;
+
+				}
+
+			} 
+
+			else if (CurrentUIState == UIState.Selection && gameManager.CurrentActionMode != GameManager.ActionMode.Animation && 
+				uiManager.GetComponent<CutsceneManager>().cutscenePanel.activeInHierarchy == false) {
+
+				//check if we have a targeted unit
+				if (mouseManager.targetedUnit != null) {
+
+					//clear the targeted unit
+					OnCancelClearTargetedUnit.Invoke ();
+
+				} else if (mouseManager.selectedUnit != null) {
+
+					//else check if we have a selected unit
+					OnCancelClearSelectedUnit.Invoke ();
+
+				} 
 
 			} 
 
@@ -1583,7 +1839,11 @@ public class UINavigationMain : MonoBehaviour {
 	//this function sets the UnityActions
 	private void SetUnityActions(){
 
-		NewTurnSetInitialSelectablesAction = (player) => {SetInitialCurrentSelectables ();};
+		NewTurnSetInitialSelectablesAction = (player) => {
+
+			SetInitialCurrentSelectables ();
+		
+		};
 
 		MoveToggleSetUIStateAction = (toggleState) => {
 
@@ -1627,7 +1887,7 @@ public class UINavigationMain : MonoBehaviour {
 				//if so, we don't want to go back to selection state
 				if(uiManager.GetComponent<FlareManager>().flareMenuPanel.gameObject.activeInHierarchy == true){
 
-					Debug.Log("Do Nothing");
+					//Debug.Log("Do Nothing");
 
 				}else{
 						
@@ -1731,9 +1991,15 @@ public class UINavigationMain : MonoBehaviour {
 				CurrentUIState = UIState.EndTurn;
 
 			} else {
-
+				
 				CurrentUIState = UIState.Selection;
 
+				returnSelectable = ActionMenuButtons[10];
+
+				//set currentSelectables to null so that when we go back to selection case we don't try to restore the chat input
+				//CurrentSelectables = null;
+
+				delayReturnToSelectableCount = 2;
 			}
 			;
 
@@ -1789,7 +2055,7 @@ public class UINavigationMain : MonoBehaviour {
 		AcceptEndTurnPromptAction = () => {
 
 			//returnUIState = UIState.Selection;
-			returnSelectable = null;
+			//returnSelectable = null;
 
 			//returnSelectable = null;
 			delayReturnToSelectableCount = 2;
@@ -2189,6 +2455,11 @@ public class UINavigationMain : MonoBehaviour {
 		uiManager.GetComponent<RenameShip> ().renameInputField.onEndEdit.AddListener (InputFieldEndEditIgnoreEscapeAction);
 		uiManager.GetComponent<NameNewShip> ().shipNameInputField.onEndEdit.AddListener (InputFieldEndEditIgnoreEscapeAction);
 		uiManager.GetComponent<FileSaveWindow> ().fileNameInputField.onEndEdit.AddListener (InputFieldEndEditIgnoreEscapeAction);
+
+		//listeners for new turn
+		//gameManager.OnBeginMainPhase.AddListener(BeginNewTurnPhaseAction);
+		//gameManager.OnNewTurn.AddListener(BeginNewTurnPhaseAction);
+
 
 	}
 
@@ -4109,6 +4380,8 @@ public class UINavigationMain : MonoBehaviour {
 
 		case UIState.EndTurn:
 
+			//Debug.Log ("End Turn");
+
 			//set the current selectables group to match the UI state
 			currentSelectablesGroup = EndTurnGroup;
 
@@ -4117,135 +4390,8 @@ public class UINavigationMain : MonoBehaviour {
 
 			//Debug.Log ("potentialCurrentSelectionGroupIndex" + potentialCurrentSelectionGroupIndex);
 
-			//check if the potential group index is 0, which would indicate the torpedo dropdown
-			if (potentialCurrentSelectionGroupIndex != 0) {
-
-				//if the index is not zero, that means we can't be on the dropdown, because there are no interactable selectables in the dropdown
-				//in this case, we want to stay on the toggle that turned on the dropdown
-				//check to make sure that current selected object is in the new group
-
-				//only do this if there is a current selectable
-				if (EventSystem.current.currentSelectedGameObject != null) {
-
-					for (int i = 0; i < currentSelectablesGroup.Length; i++) {
-
-						//check if the current selectable is within the array at the ith index
-						if (currentSelectablesGroup [i].Contains (EventSystem.current.currentSelectedGameObject.GetComponent<Selectable> ())) {
-
-							//set the currentSelectionGroupIndex
-							currentSelectionGroupIndex = i;
-
-							//set the currentSelectables based on the index returned
-							CurrentSelectables = currentSelectablesGroup [currentSelectionGroupIndex];
-
-							//set the flag
-							currentSelectableInNewGroup = true;
-
-							//break out of the for loop
-							break;
-						}
-
-					}
-
-					//check if the current selectable was found in the new group
-					if (currentSelectableInNewGroup == true) {
-
-						//set the index based on the selectable's location in the new group
-						for (int i = 0; i < currentSelectables.Length; i++) {
-
-							//check if the current selectable is within the array at the ith index
-							if (currentSelectables [i] == eventSystem.currentSelectedGameObject.GetComponent<Selectable> ()) {
-
-								//set the currentSelectionIndex
-								currentSelectionIndex = i;
-
-								//we have the group index and the selectable index set, and we have the currentSelectable set
-								//we can return from the method
-								return;
-
-							}
-
-						}
-
-					} else {
-
-						//if the current is not in the group, we need to find a new valid selectable
-
-						//set the selectable array that contains an interactable
-						if (potentialCurrentSelectionGroupIndex != -1) {
-
-							//set the currentSelectionGroupIndex
-							currentSelectionGroupIndex = potentialCurrentSelectionGroupIndex;
-
-							//set the currentSelectables based on the index returned
-							CurrentSelectables = currentSelectablesGroup [currentSelectionGroupIndex];
-
-							//check if the current selectables is the action menu buttons
-							if (CurrentSelectables == ActionMenuButtons) {
-
-								if (CurrentSelectables [10].IsInteractable() == true) {
-
-									//Debug.Log ("torpedo current selectables 2 is interactable");
-
-									//set the index
-									currentSelectionIndex = 10;
-
-									//set the current selectable to the torpedo toggle
-									eventSystem.SetSelectedGameObject (CurrentSelectables [currentSelectionIndex].gameObject);
-
-									//return from the funcction
-									return;
-
-								}
-
-							}
-
-						}
-
-					}
-
-				} else {
-
-					//Debug.Log ("current selected is null");
-
-					//if there is no current selectable, we need to find a new valid selectable
-
-					//set the selectable array that contains an interactable
-					if (potentialCurrentSelectionGroupIndex != -1) {
-
-						//set the currentSelectionGroupIndex
-						currentSelectionGroupIndex = potentialCurrentSelectionGroupIndex;
-
-						//set the currentSelectables based on the index returned
-						CurrentSelectables = currentSelectablesGroup [currentSelectionGroupIndex];
-
-						//check if the current selectables is the action menu buttons
-						if (CurrentSelectables == ActionMenuButtons) {
-
-							if (CurrentSelectables [10].interactable == true) {
-
-								//Debug.Log ("current selectables 2 is interactable");
-
-								//set the index
-								currentSelectionIndex = 10;
-
-								//set the current selectable to the torpedo toggle
-								eventSystem.SetSelectedGameObject (CurrentSelectables [currentSelectionIndex].gameObject);
-
-								//return from the funcction
-								return;
-
-							}
-
-						}
-
-					}
-
-				}
-
-			} else {
-
-				//the else is that the potential is group zero
+			//check if the potential group index is not -1, which would be the error return
+			if (potentialCurrentSelectionGroupIndex != -1) {
 
 				//set the currentSelectionGroupIndex
 				currentSelectionGroupIndex = potentialCurrentSelectionGroupIndex;
@@ -5189,7 +5335,7 @@ public class UINavigationMain : MonoBehaviour {
 
 			//check if the return selectable is interactable and active
 			if (returnSelectable.IsInteractable () == true && returnSelectable.IsActive () == true) {
-			
+
 				eventSystem.SetSelectedGameObject (returnSelectable.gameObject);
 
 			} else {

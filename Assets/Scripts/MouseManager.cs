@@ -178,6 +178,11 @@ public class MouseManager : MonoBehaviour {
 
 		//add listener for mouse zoom speed
 		uiManager.GetComponent<Settings>().OnChangeMouseZoomSensitivity.AddListener(intSetMouseZoomSensitivityAction);
+
+		//add listeners for keyboard cancels
+		uiManager.GetComponent<UINavigationMain>().OnCancelClearTargetedUnit.AddListener(ClearTargetedUnit);
+		uiManager.GetComponent<UINavigationMain>().OnCancelClearSelectedUnit.AddListener(ClearSelectedUnit);
+
 			
 	}
 
@@ -2208,6 +2213,9 @@ public class MouseManager : MonoBehaviour {
 			//remove listener for mouse zoom speed
 			uiManager.GetComponent<Settings>().OnChangeMouseZoomSensitivity.RemoveListener(intSetMouseZoomSensitivityAction);
 
+			//remove listeners for keyboard cancels
+			uiManager.GetComponent<UINavigationMain>().OnCancelClearTargetedUnit.RemoveListener(ClearTargetedUnit);
+			uiManager.GetComponent<UINavigationMain>().OnCancelClearSelectedUnit.RemoveListener(ClearSelectedUnit);
 
 		}
 

@@ -15,8 +15,8 @@ public class FileListItem : MonoBehaviour,IPointerClickHandler {
 	//variable to hold the input field that we want to copy the filename text to
 	public TMP_InputField fileNameInputField;
 
-	private Color selectedColor = new Color( 0f, 1f, 1f, 1f);
-	private Color notSelectedColor = new Color( 1f, 1f, 1f, 0f);
+	private Color selectedColor = new Color32 (160, 255, 255, 255);
+	private Color notSelectedColor = new Color32( 255, 255, 255, 0);
 
 	//class and event to announce a highlighted file
 	public static FileSelectedEvent OnSaveFileSelected = new FileSelectedEvent();
@@ -25,6 +25,7 @@ public class FileListItem : MonoBehaviour,IPointerClickHandler {
 	//UnityActions
 	private UnityAction<FileListItem> fileListItemSetHighlightedStateAction;
 	private UnityAction<string> stringSetHighlightedStatusAction;
+	private UnityAction<GameObject> setSelectedFileListItemAction;
 
 	//this function handles initialization
 	public void Init(){
@@ -38,12 +39,16 @@ public class FileListItem : MonoBehaviour,IPointerClickHandler {
 		//set the actions
 		fileListItemSetHighlightedStateAction = (fileListItem) => {SetHighlightedState(fileListItem);};
 		stringSetHighlightedStatusAction = (fileName) => {SetHighlightedStatus(fileName);};
+		setSelectedFileListItemAction = (gameObject) => {OnSelectFile(gameObject);};
 
 		//add a listener for the OnSaveFileSelectedEvent
 		FileListItem.OnSaveFileSelected.AddListener(fileListItemSetHighlightedStateAction);
 
 		//add a listener for the inputField changing
 		uiManager.GetComponent<FileSaveWindow>().fileNameInputField.onValueChanged.AddListener(stringSetHighlightedStatusAction);
+
+		//add a listener for the file getting selected
+		uiManager.GetComponent<UINavigationMain>().OnSelectSaveFile.AddListener(setSelectedFileListItemAction);
 
 	}
 
@@ -55,6 +60,22 @@ public class FileListItem : MonoBehaviour,IPointerClickHandler {
 
 		//invoke the OnSaveFileSelectedEvent
 		OnSaveFileSelected.Invoke(this);
+
+	}
+
+	//this function handles the selection from arrow keys
+	public void OnSelectFile(GameObject gameObject){
+
+		//check if this is the gameObject
+		if (this.gameObject == gameObject) {
+
+			//copy the file name text to the input field
+			fileNameInputField.text = transform.GetComponentInChildren<TextMeshProUGUI> ().text;
+
+			//invoke the OnSaveFileSelectedEvent
+			OnSaveFileSelected.Invoke (this);
+
+		}
 
 	}
 
@@ -111,6 +132,9 @@ public class FileListItem : MonoBehaviour,IPointerClickHandler {
 			
 			//remove a listener for the inputField changing
 			uiManager.GetComponent<FileSaveWindow> ().fileNameInputField.onValueChanged.RemoveListener (stringSetHighlightedStatusAction);
+
+			//remove a listener for the file getting selected
+			uiManager.GetComponent<UINavigationMain>().OnSelectSaveFile.RemoveListener(setSelectedFileListItemAction);
 
 		}
 

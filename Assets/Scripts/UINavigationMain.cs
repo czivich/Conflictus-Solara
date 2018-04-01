@@ -41,6 +41,8 @@ public class UINavigationMain : MonoBehaviour {
 		UseFlares,
 		CombatCutscene,
 		Status,
+		SaveLocalGame,
+		FileOverwritePrompt,
 		LoadLocalGame,
 		FileDeletePrompt,
 		Settings,
@@ -49,6 +51,7 @@ public class UINavigationMain : MonoBehaviour {
 	}
 
 	//this bool will wait a frame when needed
+	private int delaySaveFilesWindowCount = 0;
 	private int delayLoadFilesWindowCount = 0;
 	private int delaySetInitialSelectablesCount = 0;
 	private int delayReturnToSelectableCount = 0;
@@ -106,7 +109,8 @@ public class UINavigationMain : MonoBehaviour {
 	private Selectable[][] EndTurnGroup;
 	private Selectable[][] UseFlaresGroup;
 	private Selectable[][] StatusGroup;
-
+	private Selectable[][] SaveLocalGameGroup;
+	private Selectable[][] FileOverwritePromptGroup;
 	private Selectable[][] LoadLocalGameGroup;
 	private Selectable[][] FileDeletePromptGroup;
 	private Selectable[][] SettingsGroup;
@@ -180,10 +184,16 @@ public class UINavigationMain : MonoBehaviour {
 
 	public Selectable[] StatusButtons;
 
+	public Selectable[] SaveLocalGameFiles;
+	public Selectable[] SaveLocalGameInputField;
+	public Selectable[] SaveLocalGameButtonsRow;
+
 	public Selectable[] LoadLocalGameFiles;
 	public Selectable[] LoadLocalGameButtonsRow;
 
 	public Selectable[] FileDeleteButtons;
+
+	public Selectable[] FileOverwriteButtons;
 
 	public Selectable[] SettingsResolutionDropdown;
 	public Selectable[] SettingsResolutionApply;
@@ -258,6 +268,9 @@ public class UINavigationMain : MonoBehaviour {
 	public UnityEvent OnUIStateChange = new UnityEvent();
 	public UnityEvent OnSelectablesChange = new UnityEvent();
 
+	public SaveFileSelectedEvent OnSelectSaveFile = new SaveFileSelectedEvent();
+	public class SaveFileSelectedEvent : UnityEvent<GameObject>{}
+
 	//unityActions
 	private UnityAction<Player> NewTurnSetInitialSelectablesAction;
 	private UnityAction<bool> MoveToggleSetUIStateAction;
@@ -294,10 +307,15 @@ public class UINavigationMain : MonoBehaviour {
 
 	private UnityAction<Selectable> SelectableSetSelectionGroupsAction;
 
+	private UnityAction OpenSaveLocalGameWindowAction;
+	private UnityAction CloseSaveLocalGameWindowAction;
+
+	private UnityAction<string> OpenFileOverwritePromptAction;
+	private UnityAction<string> StringReturnToFileSaveWindowAction;
+
 	private UnityAction OpenLoadLocalGameWindowAction;
 	private UnityAction CloseLoadLocalGameWindowAction;
 
-	private UnityAction SelectableSetNavigationRulesAction;
 	private UnityAction<string> OpenFileDeletePromptAction;
 	private UnityAction<string> StringReturnToFileLoadWindowAction;
 
@@ -306,6 +324,8 @@ public class UINavigationMain : MonoBehaviour {
 
 	private UnityAction OpenExitGamePromptAction;
 	private UnityAction CloseExitGamePromptAction;
+
+	private UnityAction SelectableSetNavigationRulesAction;
 
 	private UnityAction<string> InputFieldEndEditIgnoreEscapeAction;
 
@@ -356,6 +376,20 @@ public class UINavigationMain : MonoBehaviour {
 			if (delayLoadFilesWindowCount == 0) {
 
 				CurrentUIState = UIState.LoadLocalGame;
+				return;
+
+			}
+
+		}
+
+		//check if we need to wait a frame for the save local game file list to destroy the old list and repopulate a new list
+		if (delaySaveFilesWindowCount > 0) {
+
+			delaySaveFilesWindowCount--;
+
+			if (delaySaveFilesWindowCount == 0) {
+
+				CurrentUIState = UIState.SaveLocalGame;
 				return;
 
 			}
@@ -459,6 +493,14 @@ public class UINavigationMain : MonoBehaviour {
 
 					//here we are selecting a lower file in the scroll rect
 					FitCurrentSelectableIntoScrollRect ();
+
+				} else if (CurrentUIState == UIState.SaveLocalGame && CurrentSelectables == SaveLocalGameFiles) {
+
+					//here we are selecting a lower file in the scroll rect
+					FitCurrentSelectableIntoScrollRect ();
+
+					//call the select save file event, passing the current selectable object
+					OnSelectSaveFile.Invoke(CurrentSelectables[currentSelectionIndex].gameObject);
 
 				}
 
@@ -791,6 +833,14 @@ public class UINavigationMain : MonoBehaviour {
 					//here we are selecting a lower file in the scroll rect
 
 					FitCurrentSelectableIntoScrollRect ();
+
+				} else if (CurrentUIState == UIState.SaveLocalGame && CurrentSelectables == SaveLocalGameFiles) {
+
+					//here we are selecting a lower file in the scroll rect
+					FitCurrentSelectableIntoScrollRect ();
+
+					//call the select save file event, passing the current selectable object
+					OnSelectSaveFile.Invoke(CurrentSelectables[currentSelectionIndex].gameObject);
 
 				}
 
@@ -1262,8 +1312,8 @@ public class UINavigationMain : MonoBehaviour {
 			//if we are holding a shift key, we want tab to cycle backwards
 			else if (Input.GetKey (KeyCode.LeftShift) || Input.GetKey (KeyCode.RightShift)) {
 
-				//check if we are in the load files - if we are here, we don't want tab to cycle through the files
-				if (CurrentSelectables == LoadLocalGameFiles) {
+				//check if we are in the load files or save files - if we are here, we don't want tab to cycle through the files
+				if (CurrentSelectables == LoadLocalGameFiles || CurrentSelectables == SaveLocalGameFiles) {
 					
 					//store the file index
 					previousFileIndex = currentSelectionIndex;
@@ -1281,6 +1331,15 @@ public class UINavigationMain : MonoBehaviour {
 
 						//directly set the selectable group
 						CurrentSelectables = LoadLocalGameFiles;
+						currentSelectionGroupIndex = 0;
+						EventSystem.current.SetSelectedGameObject (CurrentSelectables [previousFileIndex].gameObject);
+						currentSelectionIndex = previousFileIndex;
+
+					} //check if the next group is save files
+					else if (GetNextSelectableGroup (true) == SaveLocalGameFiles) {
+
+						//directly set the selectable group
+						CurrentSelectables = SaveLocalGameFiles;
 						currentSelectionGroupIndex = 0;
 						EventSystem.current.SetSelectedGameObject (CurrentSelectables [previousFileIndex].gameObject);
 						currentSelectionIndex = previousFileIndex;
@@ -1313,7 +1372,7 @@ public class UINavigationMain : MonoBehaviour {
 				//the else is that a shift is not held down, and we should cycle forward
 
 				//check if we are in the load files - if we are here, we don't want tab to cycle through the files
-				if (CurrentSelectables == LoadLocalGameFiles) {
+				if (CurrentSelectables == LoadLocalGameFiles || CurrentSelectables == SaveLocalGameFiles) {
 
 					//store the file index
 					previousFileIndex = currentSelectionIndex;
@@ -1331,6 +1390,15 @@ public class UINavigationMain : MonoBehaviour {
 
 						//directly set the selectable group
 						CurrentSelectables = LoadLocalGameFiles;
+						currentSelectionGroupIndex = 0;
+						EventSystem.current.SetSelectedGameObject (CurrentSelectables [previousFileIndex].gameObject);
+						currentSelectionIndex = previousFileIndex;
+
+					} //check if the next group is save files
+					else if (GetNextSelectableGroup (false) == SaveLocalGameFiles) {
+
+						//directly set the selectable group
+						CurrentSelectables = SaveLocalGameFiles;
 						currentSelectionGroupIndex = 0;
 						EventSystem.current.SetSelectedGameObject (CurrentSelectables [previousFileIndex].gameObject);
 						currentSelectionIndex = previousFileIndex;
@@ -1370,10 +1438,20 @@ public class UINavigationMain : MonoBehaviour {
 				//cancel out of the menu
 				uiManager.GetComponent<FileLoadWindow> ().closeFileLoadWindowButton.onClick.Invoke ();
 
+			} else if (CurrentUIState == UIState.SaveLocalGame && ignoreEscape == false) {
+
+				//cancel out of the menu
+				uiManager.GetComponent<FileSaveWindow> ().closeFileSaveWindowButton.onClick.Invoke ();
+
 			} else if (CurrentUIState == UIState.FileDeletePrompt) {
 
 				//cancel out of the menu
 				uiManager.GetComponent<FileDeletePrompt> ().fileDeleteCancelButton.onClick.Invoke ();
+
+			} else if (CurrentUIState == UIState.FileOverwritePrompt) {
+
+				//cancel out of the menu
+				uiManager.GetComponent<FileOverwritePrompt> ().fileOverwriteCancelButton.onClick.Invoke ();
 
 			} else if (CurrentUIState == UIState.Settings) {
 
@@ -1384,6 +1462,11 @@ public class UINavigationMain : MonoBehaviour {
 
 				//cancel out of the menu
 				uiManager.GetComponent<ExitGamePrompt> ().exitGameCancelButton.onClick.Invoke ();
+
+			} else if (CurrentUIState == UIState.Status) {
+
+				//cancel out of the menu
+				uiManager.GetComponent<StatusPanel> ().closeButton.onClick.Invoke ();
 
 			} 
 
@@ -1397,6 +1480,12 @@ public class UINavigationMain : MonoBehaviour {
 
 				//call the load game button on-click
 				uiManager.GetComponent<FileLoadWindow>().fileLoadYesButton.onClick.Invoke();
+
+			} else if (CurrentUIState == UIState.SaveLocalGame && CurrentSelectables == SaveLocalGameFiles) {
+
+				//check if we are currently on a file for save
+				//call the save button click
+				uiManager.GetComponent<FileSaveWindow>().fileSaveYesButton.onClick.Invoke();
 
 			}
 
@@ -1430,7 +1519,18 @@ public class UINavigationMain : MonoBehaviour {
 
 			}
 
-		}
+		} else if (CurrentUIState == UIState.SaveLocalGame) {
+
+			//check if the current selected object is a file list item
+
+			if (CurrentSelectables == SaveLocalGameFiles) {
+
+				//cache the previous index
+				previousFileIndex = currentSelectionIndex;
+
+			}
+
+		}  
 
 		//this will prevent the uncontrollable event order from screwing up the selectCurrentObject
 		//blockPointerClickFlag = false;
@@ -1843,6 +1943,27 @@ public class UINavigationMain : MonoBehaviour {
 
 		SelectableSetSelectionGroupsAction = (selectable) => {SetSelectionIndexFromPointerClick (selectable);};
 
+		//save window actions
+		OpenSaveLocalGameWindowAction = () => {CurrentUIState = UIState.SaveLocalGame;};
+
+		CloseSaveLocalGameWindowAction = () => {
+
+			CurrentUIState = UIState.Selection;
+
+			//returnUIState = UIState.Selection;
+			returnSelectable = FileMenuButtons[0];
+
+			//returnSelectable = null;
+			delayReturnToSelectableCount = 2;
+
+		};
+
+		//overwrite window actions
+		OpenFileOverwritePromptAction = (fileName) => {CurrentUIState = UIState.FileOverwritePrompt;};
+
+		StringReturnToFileSaveWindowAction = (fileName) => {delaySaveFilesWindowCount = 2;};
+
+		//load window actions
 		OpenLoadLocalGameWindowAction = () => {CurrentUIState = UIState.LoadLocalGame;};
 
 		CloseLoadLocalGameWindowAction = () => {
@@ -1857,11 +1978,15 @@ public class UINavigationMain : MonoBehaviour {
 
 		};
 
-		SelectableSetNavigationRulesAction = () => {SetNavigationRulesForSelectables();};
 
+		//delete window actions
 		OpenFileDeletePromptAction = (fileName) => {CurrentUIState = UIState.FileDeletePrompt;};
 
 		StringReturnToFileLoadWindowAction = (fileName) => {delayLoadFilesWindowCount = 2;};
+
+
+
+		SelectableSetNavigationRulesAction = () => {SetNavigationRulesForSelectables();};
 
 		ClearSetInitialSelectablesAction = () => {delaySetInitialSelectablesCount = 1;};
 
@@ -1990,6 +2115,21 @@ public class UINavigationMain : MonoBehaviour {
 		uiManager.GetComponent<StatusPanel>().openButton.onClick.AddListener(StatusSetUIStateAction);
 		uiManager.GetComponent<StatusPanel>().closeButton.onClick.AddListener(CancelStatusAction);
 
+		//add listener for save local game
+		uiManager.GetComponent<FileSaveWindow>().OnOpenFileSaveWindow.AddListener(OpenSaveLocalGameWindowAction);
+
+		//add listeners for exiting the file save window back to the main menu
+		uiManager.GetComponent<FileSaveWindow>().OnCloseFileSaveWindow.AddListener(CloseSaveLocalGameWindowAction);
+
+		//add listener for entering the file overwrite prompt
+		uiManager.GetComponent<FileSaveWindow>().OnFileSaveYesClickedExistingFile.AddListener(OpenFileOverwritePromptAction);
+
+
+		//add listeners for exiting the file overwrite prompt back to the save file window
+		uiManager.GetComponent<FileOverwritePrompt>().OnFileOverwriteYesClicked.AddListener(StringReturnToFileSaveWindowAction);
+		uiManager.GetComponent<FileOverwritePrompt>().OnFileSaveCancelClicked.AddListener(OpenSaveLocalGameWindowAction);
+
+
 		//add listener for load local game
 		uiManager.GetComponent<FileLoadWindow>().OnOpenFileLoadWindow.AddListener(OpenLoadLocalGameWindowAction);
 
@@ -2048,7 +2188,7 @@ public class UINavigationMain : MonoBehaviour {
 		//add listeners telling us the input fields just ended edit, so we can ignore hitting escape
 		uiManager.GetComponent<RenameShip> ().renameInputField.onEndEdit.AddListener (InputFieldEndEditIgnoreEscapeAction);
 		uiManager.GetComponent<NameNewShip> ().shipNameInputField.onEndEdit.AddListener (InputFieldEndEditIgnoreEscapeAction);
-
+		uiManager.GetComponent<FileSaveWindow> ().fileNameInputField.onEndEdit.AddListener (InputFieldEndEditIgnoreEscapeAction);
 
 	}
 
@@ -2195,6 +2335,14 @@ public class UINavigationMain : MonoBehaviour {
 
 		StatusGroup = new Selectable[1][];
 		StatusGroup [0] = StatusButtons;
+
+		SaveLocalGameGroup = new Selectable[3][];
+		SaveLocalGameGroup [0] = SaveLocalGameFiles;
+		SaveLocalGameGroup [1] = SaveLocalGameInputField;
+		SaveLocalGameGroup [2] = SaveLocalGameButtonsRow;
+
+		FileOverwritePromptGroup = new Selectable[1][];
+		FileOverwritePromptGroup [0] = FileOverwriteButtons;
 
 		LoadLocalGameGroup = new Selectable[2][];
 		LoadLocalGameGroup [0] = LoadLocalGameFiles;
@@ -2543,6 +2691,31 @@ public class UINavigationMain : MonoBehaviour {
 			selectablesWrap = true;
 
 		} else if (CurrentSelectables == StatusButtons) {
+
+			horizontalCycling = true;
+			verticalCycling = false;
+			selectablesWrap = true;
+
+		}
+		else if (CurrentSelectables == SaveLocalGameFiles) {
+
+			horizontalCycling = false;
+			verticalCycling = true;
+			selectablesWrap = false;
+
+		} else if (CurrentSelectables == SaveLocalGameInputField){
+
+			horizontalCycling = false;
+			verticalCycling = false;
+			selectablesWrap = false;
+
+		}else if (CurrentSelectables == SaveLocalGameButtonsRow){
+
+			horizontalCycling = true;
+			verticalCycling = false;
+			selectablesWrap = true;
+
+		} else if (CurrentSelectables == FileOverwriteButtons){
 
 			horizontalCycling = true;
 			verticalCycling = false;
@@ -4140,6 +4313,130 @@ public class UINavigationMain : MonoBehaviour {
 
 			break;
 
+		case UIState.SaveLocalGame:
+
+			//reset inputs so it doesn't carry over from a previous ui state
+			Input.ResetInputAxes();
+
+			//need to get the game files after the window opens
+			//set the size of the LoadLocalGameFiles array
+			SaveLocalGameFiles = new Selectable[uiManager.GetComponent<FileSaveWindow> ().fileList.transform.childCount];
+
+			//Debug.Log ("SaveLocalGameFiles.Length = " + SaveLocalGameFiles.Length);
+
+			//loop through the filelist
+			for (int i = 0; i < uiManager.GetComponent<FileSaveWindow> ().fileList.transform.childCount; i++) {
+
+				SaveLocalGameFiles [i] = uiManager.GetComponent<FileSaveWindow> ().fileList.transform.GetChild (i).GetComponent<Selectable> ();
+
+			}
+
+			//redefine Selectable Groups since we have dynamically changed the LoadLocalGameFiles
+			DefineSelectablesGroups();
+
+			//Debug.Log ("LoadLocalGameFiles length = " + LoadLocalGameFiles.Length);
+
+			//set the current selectables group to match the UI state
+			currentSelectablesGroup = SaveLocalGameGroup;
+
+			//find the first array in the group that has an interactable selectable
+			potentialCurrentSelectionGroupIndex = FindFirstInteractableArrayIndex (currentSelectablesGroup);
+
+			//Debug.Log ("potentialCurrentSelectionGroupIndex = " + potentialCurrentSelectionGroupIndex);
+
+			//set the selectable array that contains an interactable
+			if (potentialCurrentSelectionGroupIndex != -1) {
+
+				//set the currentSelectionGroupIndex
+				currentSelectionGroupIndex = potentialCurrentSelectionGroupIndex;
+
+				//set the currentSelectables based on the index returned
+				CurrentSelectables = currentSelectablesGroup[currentSelectionGroupIndex];
+
+				//Debug.Log ("current selectables length = " + CurrentSelectables.Length);
+
+				if (CurrentSelectables == SaveLocalGameFiles) {
+					
+					//set the scrollbar to the top
+					CurrentSelectables [currentSelectionIndex].transform.parent.parent.GetComponent<ScrollRect> ().verticalNormalizedPosition = 
+					1.0f * CurrentSelectables [currentSelectionIndex].transform.parent.parent.GetComponent<ScrollRect> ().verticalNormalizedPosition;
+
+				}
+
+				//fit the object in the scroll window
+				//FitCurrentSelectableIntoScrollRect();
+
+			}
+
+			//check if the previousFileIndex is a valid selectable
+			if (CurrentSelectables == SaveLocalGameFiles && previousFileIndex < CurrentSelectables.Length) {
+
+				//set the current selectable to the previous index
+				//set the Selected object
+				eventSystem.SetSelectedGameObject (CurrentSelectables [previousFileIndex].gameObject);
+
+				//store the index of the current selection
+				currentSelectionIndex = previousFileIndex;
+
+				//fit the object in the scroll window
+				FitCurrentSelectableIntoScrollRect();
+
+				//Debug.Log ("Set selectable to previous index");
+
+				//call the set save file event
+				OnSelectSaveFile.Invoke(CurrentSelectables[currentSelectionIndex].gameObject);
+
+				//return from the function
+				return;
+
+			} else if (CurrentSelectables == SaveLocalGameFiles && (previousFileIndex - 1)< CurrentSelectables.Length) {
+
+				//else check if one less than the index is valid - for example if we were the highest index and deleted that file
+
+				//set the current selectable to the previous index - 1
+				//set the Selected object
+				eventSystem.SetSelectedGameObject (CurrentSelectables [previousFileIndex -1].gameObject);
+
+				//store the index of the current selection
+				currentSelectionIndex = previousFileIndex - 1;
+
+				//fit the object in the scroll window
+				FitCurrentSelectableIntoScrollRect();
+
+				//call the set save file event
+				OnSelectSaveFile.Invoke(CurrentSelectables[currentSelectionIndex].gameObject);
+
+				//return from the function
+				return;
+
+			}
+
+			break;
+
+		case UIState.FileOverwritePrompt:
+
+			//clear the saveLocalGameFiles
+			SaveLocalGameFiles = null;
+
+			//set the current selectables group to match the UI state
+			currentSelectablesGroup = FileOverwritePromptGroup;
+
+			//find the first array in the group that has an interactable selectable
+			potentialCurrentSelectionGroupIndex = FindFirstInteractableArrayIndex (currentSelectablesGroup);
+
+			//set the selectable array that contains an interactable
+			if (potentialCurrentSelectionGroupIndex != -1) {
+
+				//set the currentSelectionGroupIndex
+				currentSelectionGroupIndex = potentialCurrentSelectionGroupIndex;
+
+				//set the currentSelectables based on the index returned
+				CurrentSelectables = currentSelectablesGroup[currentSelectionGroupIndex];
+
+			}
+
+			break;
+
 		case UIState.LoadLocalGame:
 
 			//reset inputs so it doesn't carry over from a previous ui state
@@ -4182,10 +4479,13 @@ public class UINavigationMain : MonoBehaviour {
 
 				//Debug.Log ("current selectables length = " + CurrentSelectables.Length);
 
-				//set the scrollbar to the top
-				CurrentSelectables [currentSelectionIndex].transform.parent.parent.GetComponent<ScrollRect> ().verticalNormalizedPosition = 
-					1.0f*CurrentSelectables [currentSelectionIndex].transform.parent.parent.GetComponent<ScrollRect> ().verticalNormalizedPosition;
+				if (CurrentSelectables == LoadLocalGameFiles) {
+					
+					//set the scrollbar to the top
+					CurrentSelectables [currentSelectionIndex].transform.parent.parent.GetComponent<ScrollRect> ().verticalNormalizedPosition = 
+					1.0f * CurrentSelectables [currentSelectionIndex].transform.parent.parent.GetComponent<ScrollRect> ().verticalNormalizedPosition;
 
+				}
 				//fit the object in the scroll window
 				//FitCurrentSelectableIntoScrollRect();
 
@@ -4257,7 +4557,7 @@ public class UINavigationMain : MonoBehaviour {
 
 		case UIState.Settings:
 
-			Debug.Log ("Settings");
+			//Debug.Log ("Settings");
 
 			//set the current selectables group to match the UI state
 			currentSelectablesGroup = SettingsGroup;
@@ -4265,7 +4565,7 @@ public class UINavigationMain : MonoBehaviour {
 			//find the first array in the group that has an interactable selectable
 			potentialCurrentSelectionGroupIndex = FindFirstInteractableArrayIndex (currentSelectablesGroup);
 
-			Debug.Log ("potentialCurrentSelectionGroupIndex = "+ potentialCurrentSelectionGroupIndex);
+			//Debug.Log ("potentialCurrentSelectionGroupIndex = "+ potentialCurrentSelectionGroupIndex);
 
 			//set the selectable array that contains an interactable
 			if (potentialCurrentSelectionGroupIndex != -1) {
@@ -5012,6 +5312,17 @@ public class UINavigationMain : MonoBehaviour {
 			//remove listeners for status panel
 			uiManager.GetComponent<StatusPanel>().openButton.onClick.RemoveListener(StatusSetUIStateAction);
 			uiManager.GetComponent<StatusPanel>().closeButton.onClick.RemoveListener(CancelStatusAction);
+
+			//remove listeners for exiting the file save window back to the main menu
+			uiManager.GetComponent<FileSaveWindow>().OnCloseFileSaveWindow.RemoveListener(CloseSaveLocalGameWindowAction);
+
+			//remove listener for entering the file overwrite prompt
+			uiManager.GetComponent<FileSaveWindow>().OnFileSaveYesClickedExistingFile.RemoveListener(OpenFileOverwritePromptAction);
+
+			//remove listeners for exiting the file overwrite prompt back to the save file window
+			uiManager.GetComponent<FileOverwritePrompt>().OnFileOverwriteYesClicked.RemoveListener(StringReturnToFileSaveWindowAction);
+			uiManager.GetComponent<FileOverwritePrompt>().OnFileSaveCancelClicked.RemoveListener(OpenSaveLocalGameWindowAction);
+
 
 			//remove listener for load local game
 			uiManager.GetComponent<FileLoadWindow>().OnOpenFileLoadWindow.RemoveListener(OpenLoadLocalGameWindowAction);

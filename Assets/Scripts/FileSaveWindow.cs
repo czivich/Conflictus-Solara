@@ -52,6 +52,8 @@ public class FileSaveWindow : MonoBehaviour {
 
 	//event to announce opening FileSaveWindow
 	public UnityEvent OnOpenFileSaveWindow;
+	public UnityEvent OnCloseFileSaveWindow;
+
 
 	//event to announce fileSaveCancel pressed
 	public UnityEvent OnFileSaveCancelClicked = new UnityEvent();
@@ -168,6 +170,8 @@ public class FileSaveWindow : MonoBehaviour {
 
 		//clear the text input box
 		fileNameInputField.text = "";
+
+		OnCloseFileSaveWindow.Invoke ();
 
 	}
 

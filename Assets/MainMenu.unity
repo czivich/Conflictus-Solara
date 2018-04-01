@@ -25120,6 +25120,11 @@ MonoBehaviour:
   exitGameYesButton: {fileID: 1567987382}
   exitGameCancelButton: {fileID: 2107188410}
   promptText: {fileID: 415962145}
+  OnExitGamePromptOpened:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
   OnExitGameYesClicked:
     m_PersistentCalls:
       m_Calls: []
@@ -25261,6 +25266,11 @@ MonoBehaviour:
   scrollRects:
   - {fileID: 473168015}
   - {fileID: 528983290}
+  OnSettingsWindowOpened:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
   OnChangeResolution:
     m_PersistentCalls:
       m_Calls: []

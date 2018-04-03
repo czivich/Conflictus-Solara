@@ -259,9 +259,19 @@ public class TorpedoMenu : MonoBehaviour {
 							//the else condition is that the laser shot quantity is greater than zero
 							else {
 
-								useTorpedoLaserShotToggle.interactable = true;
+								//check if we have a laser guidance system
+								if (mouseMananger.selectedUnit.GetComponentInChildren<StarbaseTorpedoSection> ().torpedoLaserGuidanceSystem == true) {
 
-								torpedoLaserShotCountToggle.interactable = true;
+									//if we have the system, the shot can't be used
+									useTorpedoLaserShotToggle.interactable = false;
+									torpedoLaserShotCountToggle.interactable = false;
+
+								} else {
+
+									useTorpedoLaserShotToggle.interactable = true;
+									torpedoLaserShotCountToggle.interactable = true;
+
+								}
 
 							}
 
@@ -430,9 +440,19 @@ public class TorpedoMenu : MonoBehaviour {
 												//the else condition is that the laser shot quantity is greater than zero
 												else {
 
-													useTorpedoLaserShotToggle.interactable = true;
+													//check if we have a laser guidance system
+													if (mouseMananger.selectedUnit.GetComponentInChildren<StarbaseTorpedoSection> ().torpedoLaserGuidanceSystem == true) {
 
-													torpedoLaserShotCountToggle.interactable = true;
+														//if we have the system, the shot can't be used
+														useTorpedoLaserShotToggle.interactable = false;
+														torpedoLaserShotCountToggle.interactable = false;
+
+													} else {
+
+														useTorpedoLaserShotToggle.interactable = true;
+														torpedoLaserShotCountToggle.interactable = true;
+
+													}
 
 												}
 
@@ -558,9 +578,19 @@ public class TorpedoMenu : MonoBehaviour {
 											//the else condition is that the laser shot quantity is greater than zero
 											else {
 
-												useTorpedoLaserShotToggle.interactable = true;
+												//check if we have a laser guidance system
+												if (mouseMananger.selectedUnit.GetComponentInChildren<StarbaseTorpedoSection> ().torpedoLaserGuidanceSystem == true) {
 
-												torpedoLaserShotCountToggle.interactable = true;
+													//if we have the system, the shot can't be used
+													useTorpedoLaserShotToggle.interactable = false;
+													torpedoLaserShotCountToggle.interactable = false;
+
+												} else {
+
+													useTorpedoLaserShotToggle.interactable = true;
+													torpedoLaserShotCountToggle.interactable = true;
+
+												}
 
 											}
 
@@ -746,9 +776,19 @@ public class TorpedoMenu : MonoBehaviour {
 											//the else condition is that the laser shot quantity is greater than zero
 											else {
 
-												useTorpedoLaserShotToggle.interactable = true;
+												//check if we have a laser guidance system
+												if (mouseMananger.selectedUnit.GetComponentInChildren<StarbaseTorpedoSection> ().torpedoLaserGuidanceSystem == true) {
 
-												torpedoLaserShotCountToggle.interactable = true;
+													//if we have the system, the shot can't be used
+													useTorpedoLaserShotToggle.interactable = false;
+													torpedoLaserShotCountToggle.interactable = false;
+
+												} else {
+
+													useTorpedoLaserShotToggle.interactable = true;
+													torpedoLaserShotCountToggle.interactable = true;
+
+												}
 
 											}
 
@@ -1025,9 +1065,19 @@ public class TorpedoMenu : MonoBehaviour {
 								//the else condition is that the radar shot quantity is greater than zero
 								else {
 
-									useTorpedoLaserShotToggle.interactable = true;
+									//check if we have a laser guidance system
+									if (mouseMananger.selectedUnit.GetComponentInChildren<TorpedoSection> ().torpedoLaserGuidanceSystem == true) {
 
-									torpedoLaserShotCountToggle.interactable = true;
+										//if we have the system, the shot can't be used
+										useTorpedoLaserShotToggle.interactable = false;
+										torpedoLaserShotCountToggle.interactable = false;
+
+									} else {
+
+										useTorpedoLaserShotToggle.interactable = true;
+										torpedoLaserShotCountToggle.interactable = true;
+
+									}
 
 								}
 
@@ -1196,9 +1246,19 @@ public class TorpedoMenu : MonoBehaviour {
 													//the else condition is that the radar shot quantity is greater than zero
 													else {
 
-														useTorpedoLaserShotToggle.interactable = true;
+														//check if we have a laser guidance system
+														if (mouseMananger.selectedUnit.GetComponentInChildren<TorpedoSection> ().torpedoLaserGuidanceSystem == true) {
 
-														torpedoLaserShotCountToggle.interactable = true;
+															//if we have the system, the shot can't be used
+															useTorpedoLaserShotToggle.interactable = false;
+															torpedoLaserShotCountToggle.interactable = false;
+
+														} else {
+
+															useTorpedoLaserShotToggle.interactable = true;
+															torpedoLaserShotCountToggle.interactable = true;
+
+														}
 
 													}
 
@@ -1323,9 +1383,19 @@ public class TorpedoMenu : MonoBehaviour {
 												//the else condition is that the radar shot quantity is greater than zero
 												else {
 
-													useTorpedoLaserShotToggle.interactable = true;
+													//check if we have a laser guidance system
+													if (mouseMananger.selectedUnit.GetComponentInChildren<TorpedoSection> ().torpedoLaserGuidanceSystem == true) {
 
-													torpedoLaserShotCountToggle.interactable = true;
+														//if we have the system, the shot can't be used
+														useTorpedoLaserShotToggle.interactable = false;
+														torpedoLaserShotCountToggle.interactable = false;
+
+													} else {
+
+														useTorpedoLaserShotToggle.interactable = true;
+														torpedoLaserShotCountToggle.interactable = true;
+
+													}
 
 												}
 
@@ -1511,9 +1581,19 @@ public class TorpedoMenu : MonoBehaviour {
 												//the else condition is that the radar shot quantity is greater than zero
 												else {
 
-													useTorpedoLaserShotToggle.interactable = true;
+													//check if we have a laser guidance system
+													if (mouseMananger.selectedUnit.GetComponentInChildren<TorpedoSection> ().torpedoLaserGuidanceSystem == true) {
 
-													torpedoLaserShotCountToggle.interactable = true;
+														//if we have the system, the shot can't be used
+														useTorpedoLaserShotToggle.interactable = false;
+														torpedoLaserShotCountToggle.interactable = false;
+
+													} else {
+
+														useTorpedoLaserShotToggle.interactable = true;
+														torpedoLaserShotCountToggle.interactable = true;
+
+													}
 
 												}
 

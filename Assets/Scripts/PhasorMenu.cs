@@ -223,10 +223,20 @@ public class PhasorMenu : MonoBehaviour {
 							}
 							//the else condition is that the radar shot quantity is non-zero
 							else {
+								
+								//check if we have a radar array
+								if (mouseMananger.selectedUnit.GetComponentInChildren<StarbasePhasorSection1> ().phasorRadarArray == true) {
 
-								usePhasorRadarShotToggle.interactable = true;
+									//if we have the array, the shot can't be used
+									usePhasorRadarShotToggle.interactable = false;
+									phasorRadarShotCountToggle.interactable = false;
 
-								phasorRadarShotCountToggle.interactable = true;
+								} else {
+
+									usePhasorRadarShotToggle.interactable = true;
+									phasorRadarShotCountToggle.interactable = true;
+
+								}
 
 							}
 
@@ -321,9 +331,19 @@ public class PhasorMenu : MonoBehaviour {
 												//the else condition is that the radar shot quantity is non-zero
 												else {
 
-													usePhasorRadarShotToggle.interactable = true;
+													//check if we have a radar array
+													if (mouseMananger.selectedUnit.GetComponentInChildren<StarbasePhasorSection1> ().phasorRadarArray == true) {
 
-													phasorRadarShotCountToggle.interactable = true;
+														//if we have the array, the shot can't be used
+														usePhasorRadarShotToggle.interactable = false;
+														phasorRadarShotCountToggle.interactable = false;
+
+													} else {
+
+														usePhasorRadarShotToggle.interactable = true;
+														phasorRadarShotCountToggle.interactable = true;
+
+													}
 
 												}
 
@@ -377,9 +397,19 @@ public class PhasorMenu : MonoBehaviour {
 											//the else condition is that the radar shot quantity is non-zero
 											else {
 
-												usePhasorRadarShotToggle.interactable = true;
+												//check if we have a radar array
+												if (mouseMananger.selectedUnit.GetComponentInChildren<StarbasePhasorSection1> ().phasorRadarArray == true) {
 
-												phasorRadarShotCountToggle.interactable = true;
+													//if we have the array, the shot can't be used
+													usePhasorRadarShotToggle.interactable = false;
+													phasorRadarShotCountToggle.interactable = false;
+
+												} else {
+
+													usePhasorRadarShotToggle.interactable = true;
+													phasorRadarShotCountToggle.interactable = true;
+
+												}
 
 											}
 
@@ -460,9 +490,19 @@ public class PhasorMenu : MonoBehaviour {
 											//the else condition is that the radar shot quantity is non-zero
 											else {
 
-												usePhasorRadarShotToggle.interactable = true;
+												//check if we have a radar array
+												if (mouseMananger.selectedUnit.GetComponentInChildren<StarbasePhasorSection1> ().phasorRadarArray == true) {
 
-												phasorRadarShotCountToggle.interactable = true;
+													//if we have the array, the shot can't be used
+													usePhasorRadarShotToggle.interactable = false;
+													phasorRadarShotCountToggle.interactable = false;
+
+												} else {
+
+													usePhasorRadarShotToggle.interactable = true;
+													phasorRadarShotCountToggle.interactable = true;
+
+												}
 
 											}
 
@@ -639,9 +679,19 @@ public class PhasorMenu : MonoBehaviour {
 								//the else condition is that the radar shot quantity is non-zero
 								else {
 
-									usePhasorRadarShotToggle.interactable = true;
+									//check if we have a radar array
+									if (mouseMananger.selectedUnit.GetComponentInChildren<PhasorSection> ().phasorRadarArray == true) {
 
-									phasorRadarShotCountToggle.interactable = true;
+										//if we have the array, the shot can't be used
+										usePhasorRadarShotToggle.interactable = false;
+										phasorRadarShotCountToggle.interactable = false;
+
+									} else {
+
+										usePhasorRadarShotToggle.interactable = true;
+										phasorRadarShotCountToggle.interactable = true;
+
+									}
 
 								}
 
@@ -735,10 +785,20 @@ public class PhasorMenu : MonoBehaviour {
 													}
 													//the else condition is that the radar shot quantity is non-zero
 													else {
+														
+														//check if we have a radar array
+														if (mouseMananger.selectedUnit.GetComponentInChildren<PhasorSection> ().phasorRadarArray == true) {
 
-														usePhasorRadarShotToggle.interactable = true;
+															//if we have the array, the shot can't be used
+															usePhasorRadarShotToggle.interactable = false;
+															phasorRadarShotCountToggle.interactable = false;
 
-														phasorRadarShotCountToggle.interactable = true;
+														} else {
+
+															usePhasorRadarShotToggle.interactable = true;
+															phasorRadarShotCountToggle.interactable = true;
+
+														}
 
 													}
 
@@ -790,10 +850,20 @@ public class PhasorMenu : MonoBehaviour {
 												}
 												//the else condition is that the radar shot quantity is non-zero
 												else {
+													
+													//check if we have a radar array
+													if (mouseMananger.selectedUnit.GetComponentInChildren<PhasorSection> ().phasorRadarArray == true) {
 
-													usePhasorRadarShotToggle.interactable = true;
+														//if we have the array, the shot can't be used
+														usePhasorRadarShotToggle.interactable = false;
+														phasorRadarShotCountToggle.interactable = false;
 
-													phasorRadarShotCountToggle.interactable = true;
+													} else {
+
+														usePhasorRadarShotToggle.interactable = true;
+														phasorRadarShotCountToggle.interactable = true;
+
+													}
 
 												}
 
@@ -873,10 +943,20 @@ public class PhasorMenu : MonoBehaviour {
 												}
 												//the else condition is that the radar shot quantity is non-zero
 												else {
+													
+													//check if we have a radar array
+													if (mouseMananger.selectedUnit.GetComponentInChildren<PhasorSection> ().phasorRadarArray == true) {
 
-													usePhasorRadarShotToggle.interactable = true;
+														//if we have the array, the shot can't be used
+														usePhasorRadarShotToggle.interactable = false;
+														phasorRadarShotCountToggle.interactable = false;
 
-													phasorRadarShotCountToggle.interactable = true;
+													} else {
+
+														usePhasorRadarShotToggle.interactable = true;
+														phasorRadarShotCountToggle.interactable = true;
+
+													}
 
 												}
 

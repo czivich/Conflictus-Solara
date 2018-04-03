@@ -484,7 +484,9 @@ public class PurchaseManager : MonoBehaviour {
 			//can clear the selected ship type
 			selectedShipType = null;
 
-			OpenPurchaseItemsPanel();};
+			OpenPurchaseItemsPanel();
+		
+		};
 
 		setOpenButtonStatusAction = () => {SetOpenButtonStatus();};
 		playerSetOpenButtonStatusAction = (player) => {SetOpenButtonStatus();};
@@ -683,20 +685,19 @@ public class PurchaseManager : MonoBehaviour {
 			ClearPurchasedItems(transwarpDriveQuantityToBuy,transwarpDriveValueToBuy);
 
 			//only want to allow the obsoleted item to be bought again if the trigger item is not in inventory
-			if(warpDriveInventory.GetComponentInChildren<TextMeshProUGUI>().text == "0"){
+			if(warpDriveInventory.GetComponentInChildren<TextMeshProUGUI>().text == "0" && 
+				transwarpDriveInventory.GetComponentInChildren<TextMeshProUGUI>().text == "0"){
 
-				UndoCancelPurchaseOfObsoletedItem(warpBoosterQuantityToBuy,warpBoosterValueToBuy);
-
-			}
-
-			//only want to allow the obsoleted item to be bought again if the trigger item is not in inventory
-			if(transwarpDriveInventory.GetComponentInChildren<TextMeshProUGUI>().text == "0"){
-
+				//if both drives are not purchased, we can allow purchase of both booster types
 				UndoCancelPurchaseOfObsoletedItem(warpBoosterQuantityToBuy,warpBoosterValueToBuy);
 				UndoCancelPurchaseOfObsoletedItem(transwarpBoosterQuantityToBuy,transwarpBoosterValueToBuy);
-				UndoCancelPurchaseOfObsoletedItem(warpDriveQuantityToBuy,warpDriveValueToBuy);
 
-			}
+			} else if (transwarpDriveInventory.GetComponentInChildren<TextMeshProUGUI>().text == "0"){
+
+				//if the transwarp drive is zero but the warp booster is not (it is 1), then we only should allow transwarp booster
+				UndoCancelPurchaseOfObsoletedItem(transwarpBoosterQuantityToBuy,transwarpBoosterValueToBuy);
+
+			} 
 
 			//update the totals
 			CalculateTotalItemCost();
@@ -942,6 +943,9 @@ public class PurchaseManager : MonoBehaviour {
 		//set the border color
 		SetPurchaseItemBorderColor(gameManager.currentTurnPlayer.color);
 
+		//set default interactable status
+		SetDefaultInteractableStatus();
+
 		//set the available sections
 		SetAvailableSections();
 
@@ -1050,6 +1054,74 @@ public class PurchaseManager : MonoBehaviour {
 
 	}
 
+	//this function initially sets all the quantities and values to buy to be interactable, which are then turned off 
+	//as needed using calls to BlockPurchaseOfObsoleteItems functions
+	private void SetDefaultInteractableStatus(){
+
+		//phasor section purchase qty displays
+		phasorRadarShotQuantityToBuy.interactable = true;
+		phasorRadarArrayQuantityToBuy.interactable = true;
+		xRayKernelQuantityToBuy.interactable = true;
+		tractorBeamQuantityToBuy.interactable = true;
+
+		//torpedo section purchase qty displays
+		lightTorpedoQuantityToBuy.interactable = true;
+		heavyTorpedoQuantityToBuy.interactable = true;
+		torpedoLaserShotQuantityToBuy.interactable = true;
+		torpedoLaserGuidanceQuantityToBuy.interactable = true;
+		highPressureTubesQuantityToBuy.interactable = true;
+
+		//storage section purchase qty displays
+		dilithiumCrystalQuantityToBuy.interactable = true;
+		trilithiumCrystalQuantityToBuy.interactable = true;
+		flareQuantityToBuy.interactable = true;
+		radarJammingQuantityToBuy.interactable = true;
+		laserScatteringQuantityToBuy.interactable = true;
+
+		//crew section purchase qty displays
+		repairCrewQuantityToBuy.interactable = true;
+		shieldEngineeringTeamQuantityToBuy.interactable = true;
+		battleCrewQuantityToBuy.interactable = true;
+
+		//engine section purchase qty displays
+		warpBoosterQuantityToBuy.interactable = true;
+		transwarpBoosterQuantityToBuy.interactable = true;
+		warpDriveQuantityToBuy.interactable = true;
+		transwarpDriveQuantityToBuy.interactable = true;
+
+		//phasor section purchase value displays
+		phasorRadarShotValueToBuy.interactable = true;
+		phasorRadarArrayValueToBuy.interactable = true;
+		xRayKernelValueToBuy.interactable = true;
+		tractorBeamValueToBuy.interactable = true;
+
+		//torpedo section purchase value displays
+		lightTorpedoValueToBuy.interactable = true;
+		heavyTorpedoValueToBuy.interactable = true;
+		torpedoLaserShotValueToBuy.interactable = true;
+		torpedoLaserGuidanceValueToBuy.interactable = true;
+		highPressureTubesValueToBuy.interactable = true;
+
+		//storage section purchase value displays
+		dilithiumCrystalValueToBuy.interactable = true;
+		trilithiumCrystalValueToBuy.interactable = true;
+		flareValueToBuy.interactable = true;
+		radarJammingValueToBuy.interactable = true;
+		laserScatteringValueToBuy.interactable = true;
+
+		//crew section purchase value displays
+		repairCrewValueToBuy.interactable = true;
+		shieldEngineeringTeamValueToBuy.interactable = true;
+		battleCrewValueToBuy.interactable = true;
+
+		//engine section purchase value displays
+		warpBoosterValueToBuy.interactable = true;
+		transwarpBoosterValueToBuy.interactable = true;
+		warpDriveValueToBuy.interactable = true;
+		transwarpDriveValueToBuy.interactable = true;
+
+	}
+
 	//this function will check what kind of ship is selected and display the appropriate section options
 	private void SetAvailableSections(){
 
@@ -1067,6 +1139,8 @@ public class PurchaseManager : MonoBehaviour {
 			}
 
 			referenceUnit = mouseManager.selectedUnit;
+
+
 
 		} else {
 
@@ -1119,7 +1193,7 @@ public class PurchaseManager : MonoBehaviour {
 				SetPhasorSectionCurrentInventory(referenceUnit.GetComponent<CombatUnit>());
 
 				//block any potentially obsolete inventory
-				BlockPurchaseOfObsoletePhasorItems(referenceUnit.GetComponent<CombatUnit>());
+				BlockPurchaseOfObsoletePhasorItems();
 
 			} else {
 
@@ -1148,7 +1222,7 @@ public class PurchaseManager : MonoBehaviour {
 				SetTorpedoSectionCurrentInventory(referenceUnit.GetComponent<CombatUnit>());
 
 				//block any potentially obsolete inventory
-				BlockPurchaseOfObsoleteTorpedoItems(referenceUnit.GetComponent<CombatUnit>());
+				BlockPurchaseOfObsoleteTorpedoItems();
 
 			} else {
 
@@ -1177,7 +1251,7 @@ public class PurchaseManager : MonoBehaviour {
 				SetStorageSectionCurrentInventory(referenceUnit.GetComponent<CombatUnit>());
 
 				//block any potentially obsolete inventory
-				BlockPurchaseOfObsoleteStorageItems(referenceUnit.GetComponent<CombatUnit>());
+				BlockPurchaseOfObsoleteStorageItems();
 
 			} else {
 
@@ -1206,7 +1280,7 @@ public class PurchaseManager : MonoBehaviour {
 				SetCrewSectionCurrentInventory(referenceUnit.GetComponent<CombatUnit>());
 
 				//block any potentially obsolete inventory
-				BlockPurchaseOfObsoleteCrewItems(referenceUnit.GetComponent<CombatUnit>());
+				BlockPurchaseOfObsoleteCrewItems();
 
 			} else {
 
@@ -1235,7 +1309,7 @@ public class PurchaseManager : MonoBehaviour {
 				SetEngineSectionCurrentInventory(referenceUnit.GetComponent<CombatUnit>());
 
 				//block any potentially obsolete inventory
-				BlockPurchaseOfObsoleteEngineItems(referenceUnit.GetComponent<CombatUnit>());
+				BlockPurchaseOfObsoleteEngineItems();
 
 			} else {
 
@@ -2135,10 +2209,10 @@ public class PurchaseManager : MonoBehaviour {
 	}
 
 	//this function prevents purchasing obsolete phasor items based on current inventory
-	private void BlockPurchaseOfObsoletePhasorItems(CombatUnit combatUnit){
+	private void BlockPurchaseOfObsoletePhasorItems(){
 
 		//check if the unit has a phasor radar array
-		if (combatUnit.GetComponent<PhasorSection> ().phasorRadarArray == true) {
+		if (phasorRadarArrayInventory.GetComponentInChildren<TextMeshProUGUI> ().text == "1") {
 
 			//need to block buying phasor radar shot and phasor radar array
 			CancelPurchaseOfObsoletedItem(phasorRadarShotQuantityToBuy,phasorRadarShotValueToBuy);
@@ -2147,7 +2221,7 @@ public class PurchaseManager : MonoBehaviour {
 		}
 
 		//check if the unit has an Xray kernel
-		if (combatUnit.GetComponent<PhasorSection> ().xRayKernalUpgrade == true) {
+		if (xRayKernelInventory.GetComponentInChildren<TextMeshProUGUI> ().text == "1") {
 
 			//need to block buying x-ray kernel
 			CancelPurchaseOfObsoletedItem(xRayKernelQuantityToBuy,xRayKernelValueToBuy);
@@ -2155,9 +2229,9 @@ public class PurchaseManager : MonoBehaviour {
 		}
 
 		//check if the unit has a tractor beam
-		if (combatUnit.GetComponent<PhasorSection> ().tractorBeam == true) {
+		if (tractorBeamInventory.GetComponentInChildren<TextMeshProUGUI> ().text == "1") {
 
-			//need to block buying x-ray kernel
+			//need to block buying tractor beam
 			CancelPurchaseOfObsoletedItem(tractorBeamQuantityToBuy,tractorBeamValueToBuy);
 
 		}
@@ -2165,10 +2239,10 @@ public class PurchaseManager : MonoBehaviour {
 	}
 
 	//this function prevents purchasing obsolete torpedo items based on current inventory
-	private void BlockPurchaseOfObsoleteTorpedoItems(CombatUnit combatUnit){
+	private void BlockPurchaseOfObsoleteTorpedoItems(){
 
 		//check if the unit has a torpedo laser guidance system
-		if (combatUnit.GetComponent<TorpedoSection> ().torpedoLaserGuidanceSystem == true) {
+		if (torpedoLaserGuidanceInventory.GetComponentInChildren<TextMeshProUGUI> ().text == "1") {
 
 			//need to block buying torpedo laser shot and guidance system
 			CancelPurchaseOfObsoletedItem(torpedoLaserShotQuantityToBuy,torpedoLaserShotValueToBuy);
@@ -2177,7 +2251,7 @@ public class PurchaseManager : MonoBehaviour {
 		}
 
 		//check if the unit has high pressure tubes
-		if (combatUnit.GetComponent<TorpedoSection> ().highPressureTubes == true) {
+		if (highPressureTubesInventory.GetComponentInChildren<TextMeshProUGUI> ().text == "1") {
 
 			//need to block buying high pressure tubes
 			CancelPurchaseOfObsoletedItem(highPressureTubesQuantityToBuy,highPressureTubesValueToBuy);
@@ -2187,10 +2261,10 @@ public class PurchaseManager : MonoBehaviour {
 	}
 
 	//this function prevents purchasing obsolete storage items based on current inventory
-	private void BlockPurchaseOfObsoleteStorageItems(CombatUnit combatUnit){
+	private void BlockPurchaseOfObsoleteStorageItems(){
 		
 		//check if the unit has radar jamming
-		if (combatUnit.GetComponent<StorageSection> ().radarJammingSystem == true) {
+		if (radarJammingInventory.GetComponentInChildren<TextMeshProUGUI> ().text == "1") {
 
 			//need to block buying another radar jamming system
 			CancelPurchaseOfObsoletedItem(radarJammingQuantityToBuy,radarJammingValueToBuy);
@@ -2198,7 +2272,7 @@ public class PurchaseManager : MonoBehaviour {
 		}
 
 		//check if the unit has a torpedo laser scattering system
-		if (combatUnit.GetComponent<StorageSection> ().laserScatteringSystem == true) {
+		if (laserScatteringInventory.GetComponentInChildren<TextMeshProUGUI> ().text == "1") {
 
 			//need to block buying a laser scattering system
 			CancelPurchaseOfObsoletedItem(laserScatteringQuantityToBuy,laserScatteringValueToBuy);
@@ -2208,10 +2282,10 @@ public class PurchaseManager : MonoBehaviour {
 	}
 
 	//this function prevents purchasing obsolete crew items based on current inventory
-	private void BlockPurchaseOfObsoleteCrewItems(CombatUnit combatUnit){
+	private void BlockPurchaseOfObsoleteCrewItems(){
 
 		//check if the unit has a repair crew
-		if (combatUnit.GetComponent<CrewSection> ().repairCrew == true) {
+		if (repairCrewInventory.GetComponentInChildren<TextMeshProUGUI> ().text == "1") {
 
 			//need to block buying another repair crew
 			CancelPurchaseOfObsoletedItem(repairCrewQuantityToBuy,repairCrewValueToBuy);
@@ -2219,7 +2293,7 @@ public class PurchaseManager : MonoBehaviour {
 		}
 
 		//check if the unit has a shield engineering team
-		if (combatUnit.GetComponent<CrewSection> ().shieldEngineeringTeam == true) {
+		if (shieldEngineeringTeamInventory.GetComponentInChildren<TextMeshProUGUI> ().text == "1") {
 
 			//need to block buying a shield engineering team
 			CancelPurchaseOfObsoletedItem(shieldEngineeringTeamQuantityToBuy,shieldEngineeringTeamValueToBuy);
@@ -2227,7 +2301,7 @@ public class PurchaseManager : MonoBehaviour {
 		}
 
 		//check if the unit has a battle crew
-		if (combatUnit.GetComponent<CrewSection> ().battleCrew == true) {
+		if (battleCrewInventory.GetComponentInChildren<TextMeshProUGUI> ().text == "1") {
 
 			//need to block buying a battle crew
 			CancelPurchaseOfObsoletedItem(battleCrewQuantityToBuy,battleCrewValueToBuy);
@@ -2237,11 +2311,11 @@ public class PurchaseManager : MonoBehaviour {
 	}
 
 	//this function prevents purchasing obsolete engine items based on current inventory
-	private void BlockPurchaseOfObsoleteEngineItems(CombatUnit combatUnit){
+	private void BlockPurchaseOfObsoleteEngineItems(){
 
 		//check if the unit has a warp drive
-		if (combatUnit.GetComponent<EngineSection> ().warpDrive == true) {
-
+		if (warpDriveInventory.GetComponentInChildren<TextMeshProUGUI> ().text == "1") {
+			
 			//need to block buying warp booster and warp drive
 			CancelPurchaseOfObsoletedItem(warpBoosterQuantityToBuy,warpBoosterValueToBuy);
 			CancelPurchaseOfObsoletedItem(warpDriveQuantityToBuy,warpDriveValueToBuy);
@@ -2249,12 +2323,13 @@ public class PurchaseManager : MonoBehaviour {
 		}
 
 		//check if the unit has a transwarp drive
-		if (combatUnit.GetComponent<EngineSection> ().transwarpDrive == true) {
+		if (transwarpDriveInventory.GetComponentInChildren<TextMeshProUGUI> ().text == "1") {
 
-			//need to block buying warp booster, transwarp booster, and warp drive
+			//need to block buying warp booster, transwarp booster, and warp drive, and transwarp drive
 			CancelPurchaseOfObsoletedItem(warpBoosterQuantityToBuy,warpBoosterValueToBuy);
+			CancelPurchaseOfObsoletedItem(transwarpBoosterQuantityToBuy,transwarpBoosterValueToBuy);
 			CancelPurchaseOfObsoletedItem(warpDriveQuantityToBuy,warpDriveValueToBuy);
-			CancelPurchaseOfObsoletedItem(warpDriveQuantityToBuy,warpDriveValueToBuy);
+			CancelPurchaseOfObsoletedItem(transwarpDriveQuantityToBuy,transwarpDriveValueToBuy);
 
 		}
 

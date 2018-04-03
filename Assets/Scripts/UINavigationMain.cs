@@ -2025,7 +2025,8 @@ public class UINavigationMain : MonoBehaviour {
 
 		CancelStatusAction = () => {
 
-			CurrentUIState = UIState.Selection;
+			//CurrentUIState = UIState.Selection;
+			DetermineUIState();
 
 			//returnUIState = UIState.Selection;
 			returnSelectable = StatusButton[0];
@@ -2073,8 +2074,9 @@ public class UINavigationMain : MonoBehaviour {
 			//check if we are coming from the BuyItem state or the OutfitShip state
 			if(CurrentUIState == UIState.BuyItem){
 
-				CurrentUIState = UIState.Selection;
-				
+				//CurrentUIState = UIState.Selection;
+				DetermineUIState();
+
 				//returnUIState = UIState.Selection;
 				returnSelectable = ActionMenuButtons[7];
 
@@ -2085,7 +2087,8 @@ public class UINavigationMain : MonoBehaviour {
 
 				//the else is that we are coming from outfit ship state
 
-				CurrentUIState = UIState.Selection;
+				//CurrentUIState = UIState.Selection;
+				DetermineUIState();
 
 				//returnUIState = UIState.Selection;
 				returnSelectable = ActionMenuButtons[8];
@@ -2102,7 +2105,8 @@ public class UINavigationMain : MonoBehaviour {
 			//check if we are coming from the BuyItem state or the OutfitShip state
 			if(CurrentUIState == UIState.BuyItem){
 
-				CurrentUIState = UIState.Selection;
+				//CurrentUIState = UIState.Selection;
+				DetermineUIState();
 
 				//returnUIState = UIState.Selection;
 				returnSelectable = ActionMenuButtons[7];
@@ -2121,7 +2125,8 @@ public class UINavigationMain : MonoBehaviour {
 
 		CancelPurchaseShipAction = () => {
 
-			CurrentUIState = UIState.Selection;
+			//CurrentUIState = UIState.Selection;
+			DetermineUIState();
 
 			//returnUIState = UIState.Selection;
 			returnSelectable = ActionMenuButtons[8];
@@ -2143,7 +2148,8 @@ public class UINavigationMain : MonoBehaviour {
 
 		CancelNameNewShipAction = () => {
 
-			CurrentUIState = UIState.Selection;
+			//CurrentUIState = UIState.Selection;
+			DetermineUIState();
 
 			//returnUIState = UIState.Selection;
 			returnSelectable = ActionMenuButtons[8];
@@ -2155,7 +2161,8 @@ public class UINavigationMain : MonoBehaviour {
 
 		AcceptNameNewShipAction = (newUnitEventData) => {
 
-			CurrentUIState = UIState.Selection;
+			//CurrentUIState = UIState.Selection;
+			DetermineUIState();
 
 			//returnUIState = UIState.Selection;
 			returnSelectable = ActionMenuButtons[8];
@@ -2167,7 +2174,8 @@ public class UINavigationMain : MonoBehaviour {
 
 		CancelRenameUnitAction = (actionMode) => {
 
-			CurrentUIState = UIState.Selection;
+			//CurrentUIState = UIState.Selection;
+			DetermineUIState();
 
 			//returnUIState = UIState.Selection;
 			returnSelectable = ActionMenuButtons[9];
@@ -2179,7 +2187,8 @@ public class UINavigationMain : MonoBehaviour {
 
 		AcceptRenameUnitAction = (combatUnit, untName, actionMode) => {
 
-			CurrentUIState = UIState.Selection;
+			//CurrentUIState = UIState.Selection;
+			DetermineUIState();
 
 			//returnUIState = UIState.Selection;
 			returnSelectable = ActionMenuButtons[9];
@@ -2214,7 +2223,8 @@ public class UINavigationMain : MonoBehaviour {
 
 		CloseSaveLocalGameWindowAction = () => {
 
-			CurrentUIState = UIState.Selection;
+			//CurrentUIState = UIState.Selection;
+			DetermineUIState();
 
 			//returnUIState = UIState.Selection;
 			returnSelectable = FileMenuButtons[0];
@@ -2234,7 +2244,8 @@ public class UINavigationMain : MonoBehaviour {
 
 		CloseLoadLocalGameWindowAction = () => {
 
-			CurrentUIState = UIState.Selection;
+			//CurrentUIState = UIState.Selection;
+			DetermineUIState();
 
 			//returnUIState = UIState.Selection;
 			returnSelectable = FileMenuButtons[1];
@@ -2260,7 +2271,8 @@ public class UINavigationMain : MonoBehaviour {
 
 		CloseSettingsWindowAction = () => {
 
-			CurrentUIState = UIState.Selection;
+			//CurrentUIState = UIState.Selection;
+			DetermineUIState();
 
 			//returnUIState = UIState.Selection;
 			returnSelectable = FileMenuButtons[3];
@@ -2274,7 +2286,8 @@ public class UINavigationMain : MonoBehaviour {
 
 		CloseExitGamePromptAction = () => {
 
-			CurrentUIState = UIState.Selection;
+			//CurrentUIState = UIState.Selection;
+			DetermineUIState();
 
 			//returnUIState = UIState.Selection;
 			returnSelectable = FileMenuButtons[2];
@@ -3352,6 +3365,10 @@ public class UINavigationMain : MonoBehaviour {
 
 			//Debug.Log ("case phasor");
 
+			//reset the phasor targeting dropdown value - this prevents a bug where if a radar array system is equipped,
+			//the dropdown remembers the previous selected section, but it doesn't count it and doesn't allow firing
+			PhasorTargetingDropdown[0].GetComponent<TMP_Dropdown>().value = 0;
+
 			//set the current selectables group to match the UI state
 			currentSelectablesGroup = PhasorMenuGroup;
 
@@ -3501,6 +3518,10 @@ public class UINavigationMain : MonoBehaviour {
 
 		case UIState.TorpedoMenu:
 
+			//reset the torpedo targeting dropdown value - this prevents a bug where if a laser guidance system is equipped,
+			//the dropdown remembers the previous selected section, but it doesn't count it and doesn't allow firing
+			TorpedoTargetingDropdown[0].GetComponent<TMP_Dropdown>().value = 0;
+
 			//set the current selectables group to match the UI state
 			currentSelectablesGroup = TorpedoMenuGroup;
 
@@ -3644,6 +3665,9 @@ public class UINavigationMain : MonoBehaviour {
 			} else {
 
 				//the else is that the potential is group zero
+
+				//Debug.Log ("potential is group zero");
+
 
 				//set the currentSelectionGroupIndex
 				currentSelectionGroupIndex = potentialCurrentSelectionGroupIndex;
@@ -3807,6 +3831,10 @@ public class UINavigationMain : MonoBehaviour {
 
 		case UIState.UseItem:
 
+			//reset the targeting dropdown value - this prevents a bug where if a system is equipped,
+			//the dropdown remembers the previous selected section, but it doesn't count it and doesn't allow firing
+			ItemTargetingDropdown[0].GetComponent<TMP_Dropdown>().value = 0;
+
 			//set the current selectables group to match the UI state
 			currentSelectablesGroup = UseItemMenuGroup;
 
@@ -3956,6 +3984,10 @@ public class UINavigationMain : MonoBehaviour {
 			break;
 
 		case UIState.Crew:
+
+			//reset the targeting dropdown value - this prevents a bug where if a system is equipped,
+			//the dropdown remembers the previous selected section, but it doesn't count it and doesn't allow firing
+			CrewTargetingDropdown[0].GetComponent<TMP_Dropdown>().value = 0;
 
 			//set the current selectables group to match the UI state
 			currentSelectablesGroup = CrewMenuGroup;
@@ -4767,7 +4799,7 @@ public class UINavigationMain : MonoBehaviour {
 			//set the Selected object
 			eventSystem.SetSelectedGameObject (CurrentSelectables [potentialCurrentSelectionIndex].gameObject);
 
-			//Debug.Log (eventSystem.currentSelectedGameObject.name);
+			//Debug.Log ("eventSystem.currentSelectedGameObject.name = " + eventSystem.currentSelectedGameObject.name);
 
 			//store the index of the current selection
 			currentSelectionIndex = potentialCurrentSelectionIndex;
@@ -5378,6 +5410,50 @@ public class UINavigationMain : MonoBehaviour {
 
 		OnUIStateChange.Invoke ();
 
+
+	}
+
+	//this function determines the UI state after returning from a window based on what toggle is active in the action menu
+	private void DetermineUIState(){
+
+		//check the action menu buttons
+		if (uiManager.GetComponent<MoveToggle> ().moveToggle.isOn == true) {
+
+			CurrentUIState = UIState.MoveMenu;
+
+		} else if (uiManager.GetComponent<PhasorToggle> ().phasorToggle.isOn == true) {
+
+			CurrentUIState = UIState.PhasorMenu;
+
+		} else if (uiManager.GetComponent<TorpedoToggle> ().torpedoToggle.isOn == true) {
+
+			CurrentUIState = UIState.TorpedoMenu;
+
+		} else if (uiManager.GetComponent<TractorBeamToggle> ().tractorBeamToggle.isOn == true) {
+
+			CurrentUIState = UIState.TractorBeamMenu;
+
+		} else if (uiManager.GetComponent<UseItemToggle> ().useItemToggle.isOn == true) {
+
+			CurrentUIState = UIState.UseItem;
+
+		} else if (uiManager.GetComponent<CrewToggle> ().crewToggle.isOn == true) {
+
+			CurrentUIState = UIState.Crew;
+
+		} else if (uiManager.GetComponent<CloakingDeviceToggle> ().cloakingDeviceToggle.isOn == true) {
+
+			CurrentUIState = UIState.Cloaking;
+
+		} else if (uiManager.GetComponent<EndTurnToggle> ().endTurnToggle.isOn == true) {
+
+			CurrentUIState = UIState.EndTurn;
+
+		} else {
+
+			CurrentUIState = UIState.Selection;
+
+		}
 
 	}
 

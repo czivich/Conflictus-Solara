@@ -228,7 +228,7 @@ public class MouseManager : MonoBehaviour {
 					//increment the timer by the amount of time since last frame
 					mouseClickTimer += Time.deltaTime;
 
-				}
+				} 
 				
 				//use viewportPointToRay instead of ScreenPoint so that stuff behind the sidebar gui isn't affected
 				viewPortPoint = Camera.main.ScreenToViewportPoint (Input.mousePosition);
@@ -246,6 +246,8 @@ public class MouseManager : MonoBehaviour {
 
 						//set the dragging flag to true
 						mouseDragging = true;
+
+						//Debug.Log ("mousedrag on");
 
 					}
 
@@ -1751,10 +1753,20 @@ public class MouseManager : MonoBehaviour {
 				//release the dragging
 				mouseDragging = false;
 
+				//Debug.Log ("mousedrag off");
+
 				//reset the timer
 				mouseClickTimer = 0.0f;
 
 			}
+
+		}
+
+		//check if the mouse button is not held down
+		if (Input.GetMouseButton (0) == false) {
+
+			//if the button is not down, dragging should be off
+			mouseDragging = false;
 
 		}
 

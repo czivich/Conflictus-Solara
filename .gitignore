@@ -39,3 +39,9 @@ sysinfo.txt
 Icon?
 ehthumbs.db
 Thumbs.db
+
+###
+# Mac build files
+###
+*.tar
+*.app

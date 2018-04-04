@@ -177,6 +177,15 @@ public class FileSaveWindow : MonoBehaviour {
 
 	//this function gets the existing save files
 	private void GetExistingSaveFiles(){
+		
+		//check if the saves directory exists
+		if (Directory.Exists (FileManager.FileSaveBasePath ()) == false) {
+
+			//the save directory does not exist.  we need to create it
+			//if it doesn't exist, create it
+			Directory.CreateDirectory (FileManager.FileSaveBasePath ());
+
+		}
 
 		//get an array of strings for all the exising save files
 		string[] existingSaves = Directory.GetFiles (FileManager.FileSaveBasePath ());
@@ -195,19 +204,19 @@ public class FileSaveWindow : MonoBehaviour {
 		foreach (string saveFileName in existingSaves) {
 
 			//instantiate an object from the prefab
-			GameObject fileListItem = (GameObject)Instantiate(fileListItemPrefab);
+			GameObject fileListItem = (GameObject)Instantiate (fileListItemPrefab);
 
 			//run the fileListItem Init()
-			fileListItem.GetComponent<FileListItem>().Init();
+			fileListItem.GetComponent<FileListItem> ().Init ();
 
 			//Set the parent of the new fileListItem
-			fileListItem.transform.SetParent(fileList.transform);
+			fileListItem.transform.SetParent (fileList.transform);
 
 			//set the scale of the new item
 			fileListItem.transform.localScale = Vector3.one;
 
 			//set the text in the fileListItem to match the fileName
-			fileListItem.GetComponentInChildren<TextMeshProUGUI>().text = (Path.GetFileNameWithoutExtension(saveFileName));
+			fileListItem.GetComponentInChildren<TextMeshProUGUI> ().text = (Path.GetFileNameWithoutExtension (saveFileName));
 
 		}
 

@@ -4534,10 +4534,12 @@ public class UINavigationMain : MonoBehaviour {
 				//Debug.Log ("current selectables length = " + CurrentSelectables.Length);
 
 				if (CurrentSelectables == SaveLocalGameFiles) {
-					
+
+					//Debug.Log ("currentSelectionIndex = " + currentSelectionIndex);
+
 					//set the scrollbar to the top
-					CurrentSelectables [currentSelectionIndex].transform.parent.parent.GetComponent<ScrollRect> ().verticalNormalizedPosition = 
-					1.0f * CurrentSelectables [currentSelectionIndex].transform.parent.parent.GetComponent<ScrollRect> ().verticalNormalizedPosition;
+					CurrentSelectables [0].transform.parent.parent.GetComponent<ScrollRect> ().verticalNormalizedPosition = 
+					1.0f * CurrentSelectables [0].transform.parent.parent.GetComponent<ScrollRect> ().verticalNormalizedPosition;
 
 				}
 
@@ -4660,8 +4662,8 @@ public class UINavigationMain : MonoBehaviour {
 				if (CurrentSelectables == LoadLocalGameFiles) {
 					
 					//set the scrollbar to the top
-					CurrentSelectables [currentSelectionIndex].transform.parent.parent.GetComponent<ScrollRect> ().verticalNormalizedPosition = 
-					1.0f * CurrentSelectables [currentSelectionIndex].transform.parent.parent.GetComponent<ScrollRect> ().verticalNormalizedPosition;
+					CurrentSelectables [0].transform.parent.parent.GetComponent<ScrollRect> ().verticalNormalizedPosition = 
+					1.0f * CurrentSelectables [0].transform.parent.parent.GetComponent<ScrollRect> ().verticalNormalizedPosition;
 
 				}
 				//fit the object in the scroll window

@@ -57,7 +57,7 @@ public class UINavigationMain : MonoBehaviour {
 	private int delayReturnToSelectableCount = 0;
 
 	private Selectable returnSelectable;
-	private UIState returnUIState;
+	//private UIState returnUIState;
 
 	//this keeps track of what the current UI state is
 	private UIState currentUIState;
@@ -345,6 +345,9 @@ public class UINavigationMain : MonoBehaviour {
 	private UnityAction<CombatUnit,CombatUnit,string> PhasorAttackSetCombatStateToPhasorAction;
 	private UnityAction<CombatUnit,CombatUnit,string> TorpedoAttackSetCombatStateToTorpedoAction;
 	private UnityAction ReturnToSelectablesFromCombatAction;
+
+	//this action catches a redirect from a clicked up/down button to the selectable count
+	private UnityAction<Selectable> ButtonRedirectSetSelectedObjectAction;
 
 	// Use this for initialization
 	public void Init () {
@@ -1760,6 +1763,33 @@ public class UINavigationMain : MonoBehaviour {
 
 		}
 
+		//check if we are pressing the comma key (less than) 
+		if (Input.GetKeyDown (KeyCode.Comma) == true) {
+
+			//check if the previous unit button is interactable and enabled
+			if (uiManager.GetComponent<NextUnit>().previousUnitButton.IsInteractable() == true && 
+				uiManager.GetComponent<NextUnit>().previousUnitButton.IsActive() == true) {
+
+				//call the previous button on-click
+				uiManager.GetComponent<NextUnit>().previousUnitButton.onClick.Invoke();
+
+			}
+
+		}
+
+		//check if we are pressing the period key (greater than) 
+		if (Input.GetKeyDown (KeyCode.Period) == true) {
+
+			//check if the previous unit button is interactable and enabled
+			if (uiManager.GetComponent<NextUnit>().nextUnitButton.IsInteractable() == true && 
+				uiManager.GetComponent<NextUnit>().nextUnitButton.IsActive() == true) {
+
+				//call the next button on-click
+				uiManager.GetComponent<NextUnit>().nextUnitButton.onClick.Invoke();
+
+			}
+
+		}
 
 		//at the end of a frame, we can stop ignoring escape
 		//if we still need to ignore it, the input field events will trigger again
@@ -2312,6 +2342,22 @@ public class UINavigationMain : MonoBehaviour {
 
 		};
 
+		//this action sets the group index and selection index to the selectable that we redirect to, then sets the selected object to it
+		ButtonRedirectSetSelectedObjectAction = (redirectSelectable) => {
+
+			//check if the redirect selectable is interactable and enabled
+			if(redirectSelectable.IsInteractable() == true && redirectSelectable.IsActive() == true){
+
+			//set the indexes as if we had clicked the redirect target
+			SetSelectionIndexFromPointerClick(redirectSelectable);
+
+			//set the current selected game object to the redirected target
+			eventSystem.SetSelectedGameObject(redirectSelectable.gameObject);
+
+			}
+
+		};
+
 	}
 
 	//this function adds event listeners
@@ -2472,6 +2518,9 @@ public class UINavigationMain : MonoBehaviour {
 		//listeners for new turn
 		//gameManager.OnBeginMainPhase.AddListener(BeginNewTurnPhaseAction);
 		//gameManager.OnNewTurn.AddListener(BeginNewTurnPhaseAction);
+
+		//add listener for the redirect click
+		UIButtonSelectionRedirect.OnClickedButtonForRedirect.AddListener(ButtonRedirectSetSelectedObjectAction);
 
 
 	}
@@ -5630,6 +5679,9 @@ public class UINavigationMain : MonoBehaviour {
 		TorpedoSection.OnFireHeavyTorpedo.RemoveListener (TorpedoAttackSetCombatStateToTorpedoAction);
 		StarbaseTorpedoSection.OnFireLightTorpedo.RemoveListener (TorpedoAttackSetCombatStateToTorpedoAction);
 		StarbaseTorpedoSection.OnFireHeavyTorpedo.RemoveListener (TorpedoAttackSetCombatStateToTorpedoAction);
+
+		//remove listener for the redirect click
+		UIButtonSelectionRedirect.OnClickedButtonForRedirect.RemoveListener(ButtonRedirectSetSelectedObjectAction);
 
 	}
 

@@ -107,6 +107,12 @@ public class UINavigationMainMenu : MonoBehaviour {
 	public Slider MusicVolumeSlider;
 	public Slider SfxVolumeSlider;
 
+	//this selectable is the one we want to return to at the main menu
+	private Selectable returnSelectable;
+
+	//this counter tracks whether we need to return to the return selectable
+	private int delayReturnToSelectableCount = 0;
+
 	//this array will hold the selectables which are currently being navigated
 	private Selectable[][] currentSelectablesGroup;
 
@@ -162,17 +168,28 @@ public class UINavigationMainMenu : MonoBehaviour {
 
 	//unityActions
 	private UnityAction OpenNewLocalGameWindowAction;
-	private UnityAction<Selectable> SelectableSetSelectionGroupsAction;
-	private UnityAction ReturnToMainMenuAction;
+	private UnityAction CloseNewLocalGameWindowAction;
+
 	private UnityAction OpenLoadLocalGameWindowAction;
-	private UnityAction SelectableSetNavigationRulesAction;
+	private UnityAction CloseLoadLocalGameWindowAction;
+
 	private UnityAction<string> OpenFileDeletePromptAction;
 	private UnityAction<string> StringReturnToFileLoadWindowAction;
+
 	private UnityAction OpenSettingsWindowAction;
+	private UnityAction CloseSettingsWindowAction;
+
 	private UnityAction OpenExitGamePromptAction;
+	private UnityAction CloseExitGamePromptAction;
+
+	private UnityAction SelectableSetNavigationRulesAction;
+	private UnityAction<Selectable> SelectableSetSelectionGroupsAction;
+
 	private UnityAction<string> InputFieldEndEditIgnoreEscapeAction;
 	private UnityAction<Selectable> PointerClickResolveBlockAction;
 
+	//this action catches a redirect from a clicked up/down button to the selectable count
+	private UnityAction<Selectable> ButtonRedirectSetSelectedObjectAction;
 
 	// Use this for initialization
 	public void Init () {
@@ -208,6 +225,20 @@ public class UINavigationMainMenu : MonoBehaviour {
 			if (delayLoadFilesWindowCount == 0) {
 				
 				CurrentUIState = UIState.LoadLocalGame;
+				return;
+
+			}
+
+		}
+
+		//check if we need to wait a frame for the return selectables
+		if (delayReturnToSelectableCount > 0) {
+
+			delayReturnToSelectableCount--;
+
+			if (delayReturnToSelectableCount == 0) {
+
+				ReturnToSelectable ();
 				return;
 
 			}
@@ -854,25 +885,94 @@ public class UINavigationMainMenu : MonoBehaviour {
 
 		OpenNewLocalGameWindowAction = () => {CurrentUIState = UIState.NewLocalGame;};
 
-		SelectableSetSelectionGroupsAction = (selectable) => {SetSelectionIndexFromPointerClick (selectable);};
+		CloseNewLocalGameWindowAction = () => {
 
-		ReturnToMainMenuAction = () => {CurrentUIState = UIState.MainMenu;};
+			CurrentUIState = UIState.MainMenu;
+
+			//returnUIState = UIState.Selection;
+			returnSelectable = MainMenuButtons[0];
+
+			//returnSelectable = null;
+			delayReturnToSelectableCount = 2;
+
+		};
+
 
 		OpenLoadLocalGameWindowAction = () => {CurrentUIState = UIState.LoadLocalGame;};
 
-		SelectableSetNavigationRulesAction = () => {SetNavigationRulesForSelectables();};
+		CloseLoadLocalGameWindowAction = () => {
+
+			CurrentUIState = UIState.MainMenu;
+
+			//returnUIState = UIState.Selection;
+			returnSelectable = MainMenuButtons[1];
+
+			//returnSelectable = null;
+			delayReturnToSelectableCount = 2;
+
+		};
+
 
 		OpenFileDeletePromptAction = (fileName) => {CurrentUIState = UIState.FileDeletePrompt;};
 
 		StringReturnToFileLoadWindowAction = (fileName) => {delayLoadFilesWindowCount = 2;};
 
+
 		OpenSettingsWindowAction = () => {CurrentUIState = UIState.Settings;}; 
+
+		CloseSettingsWindowAction = () => {
+
+			CurrentUIState = UIState.MainMenu;
+
+			//returnUIState = UIState.Selection;
+			returnSelectable = MainMenuButtons[5];
+
+			//returnSelectable = null;
+			delayReturnToSelectableCount = 2;
+
+		};
+
 
 		OpenExitGamePromptAction = () => {CurrentUIState = UIState.ExitGamePrompt;};
 
+		CloseExitGamePromptAction = () => {
+
+			CurrentUIState = UIState.MainMenu;
+
+			//returnUIState = UIState.Selection;
+			returnSelectable = MainMenuButtons[6];
+
+			//returnSelectable = null;
+			delayReturnToSelectableCount = 2;
+
+		};
+
+
+		SelectableSetNavigationRulesAction = () => {SetNavigationRulesForSelectables();};
+
+		SelectableSetSelectionGroupsAction = (selectable) => {SetSelectionIndexFromPointerClick (selectable);};
+
+
 		InputFieldEndEditIgnoreEscapeAction = (eventString) => {ignoreEscape = true;};
 
+
 		PointerClickResolveBlockAction = (selectable) => {ResolvePointerClickBlock (selectable);};
+
+		//this action sets the group index and selection index to the selectable that we redirect to, then sets the selected object to it
+		ButtonRedirectSetSelectedObjectAction = (redirectSelectable) => {
+
+			//check if the redirect selectable is interactable and enabled
+			if(redirectSelectable.IsInteractable() == true && redirectSelectable.IsActive() == true){
+
+				//set the indexes as if we had clicked the redirect target
+				SetSelectionIndexFromPointerClick(redirectSelectable);
+
+				//set the current selected game object to the redirected target
+				eventSystem.SetSelectedGameObject(redirectSelectable.gameObject);
+
+			}
+
+		};
 
 	}
 
@@ -885,25 +985,16 @@ public class UINavigationMainMenu : MonoBehaviour {
 		//add listener for new local game
 		uiManager.GetComponent<ConfigureLocalGameWindow>().newLocalGameButton.onClick.AddListener(OpenNewLocalGameWindowAction);
 
-		//add listener for a pointer click selection
-		UISelection.OnSetSelectedGameObject.AddListener(SelectableSetSelectionGroupsAction);
-
-		//add listener for a pointer click
-		UISelection.OnClickedSelectable.AddListener(PointerClickResolveBlockAction);
-
 		//add listeners for exiting the new local game window to the main menu
-		uiManager.GetComponent<ConfigureLocalGameWindow>().cancelButton.onClick.AddListener(ReturnToMainMenuAction);
-		uiManager.GetComponent<ConfigureLocalGameWindow>().exitWindowButton.onClick.AddListener(ReturnToMainMenuAction);
+		uiManager.GetComponent<ConfigureLocalGameWindow>().cancelButton.onClick.AddListener(CloseNewLocalGameWindowAction);
+		uiManager.GetComponent<ConfigureLocalGameWindow>().exitWindowButton.onClick.AddListener(CloseNewLocalGameWindowAction);
 
 		//add listener for load local game
 		uiManager.GetComponent<FileLoadWindow>().OnOpenFileLoadWindow.AddListener(OpenLoadLocalGameWindowAction);
 
-		//add listener for setting selectables
-		OnSelectablesChange.AddListener(SelectableSetNavigationRulesAction);
-
 		//add listeners for exiting the file load window back to the main menu
-		uiManager.GetComponent<FileLoadWindow>().closeFileLoadWindowButton.onClick.AddListener(ReturnToMainMenuAction);
-		uiManager.GetComponent<FileLoadWindow>().fileLoadCancelButton.onClick.AddListener(ReturnToMainMenuAction);
+		uiManager.GetComponent<FileLoadWindow>().closeFileLoadWindowButton.onClick.AddListener(CloseLoadLocalGameWindowAction);
+		uiManager.GetComponent<FileLoadWindow>().fileLoadCancelButton.onClick.AddListener(CloseLoadLocalGameWindowAction);
 
 		//add listener for entering the file delete prompt
 		uiManager.GetComponent<FileLoadWindow>().OnFileDeleteYesClicked.AddListener(OpenFileDeletePromptAction);
@@ -916,21 +1007,33 @@ public class UINavigationMainMenu : MonoBehaviour {
 		uiManager.GetComponent<Settings>().OnSettingsWindowOpened.AddListener(OpenSettingsWindowAction);
 
 		//add listeners for exiting the settings menu
-		uiManager.GetComponent<Settings>().acceptButton.onClick.AddListener(ReturnToMainMenuAction);
-		uiManager.GetComponent<Settings>().exitButton.onClick.AddListener(ReturnToMainMenuAction);
+		uiManager.GetComponent<Settings>().acceptButton.onClick.AddListener(CloseSettingsWindowAction);
+		uiManager.GetComponent<Settings>().exitButton.onClick.AddListener(CloseSettingsWindowAction);
 
 		//add listener for entering the exit game prompt
 		uiManager.GetComponent<ExitGamePrompt>().OnExitGamePromptOpened.AddListener(OpenExitGamePromptAction);
 
 		//add listener for exiting the exit game prompt
-		uiManager.GetComponent<ExitGamePrompt>().OnExitGameYesClicked.AddListener(ReturnToMainMenuAction);
-		uiManager.GetComponent<ExitGamePrompt>().OnExitGameCancelClicked.AddListener(ReturnToMainMenuAction);
+		uiManager.GetComponent<ExitGamePrompt>().OnExitGameYesClicked.AddListener(CloseExitGamePromptAction);
+		uiManager.GetComponent<ExitGamePrompt>().OnExitGameCancelClicked.AddListener(CloseExitGamePromptAction);
 
 		//add listeners telling us the input fields just ended edit, so we can ignore hitting escape
 		uiManager.GetComponent<ConfigureLocalGameWindow> ().greenPlayerInputField.onEndEdit.AddListener (InputFieldEndEditIgnoreEscapeAction);
 		uiManager.GetComponent<ConfigureLocalGameWindow> ().redPlayerInputField.onEndEdit.AddListener (InputFieldEndEditIgnoreEscapeAction);
 		uiManager.GetComponent<ConfigureLocalGameWindow> ().purplePlayerInputField.onEndEdit.AddListener (InputFieldEndEditIgnoreEscapeAction);
 		uiManager.GetComponent<ConfigureLocalGameWindow> ().bluePlayerInputField.onEndEdit.AddListener (InputFieldEndEditIgnoreEscapeAction);
+
+		//add listener for setting selectables
+		OnSelectablesChange.AddListener(SelectableSetNavigationRulesAction);
+
+		//add listener for a pointer click selection
+		UISelection.OnSetSelectedGameObject.AddListener(SelectableSetSelectionGroupsAction);
+
+		//add listener for a pointer click
+		UISelection.OnClickedSelectable.AddListener(PointerClickResolveBlockAction);
+
+		//add listener for the redirect click
+		UIButtonSelectionRedirect.OnClickedButtonForRedirect.AddListener(ButtonRedirectSetSelectedObjectAction);
 
 	}
 
@@ -1114,6 +1217,9 @@ public class UINavigationMainMenu : MonoBehaviour {
 		//local variable to hold the potential index of the selection group which has a valid interactable selectable
 		int potentialCurrentSelectionGroupIndex;
 
+		//bool to determine if the current selectable is in the new group
+		bool currentSelectableInNewGroup = false;
+
 		//switch case based on UI state
 		switch (CurrentUIState) {
 
@@ -1122,17 +1228,105 @@ public class UINavigationMainMenu : MonoBehaviour {
 			//set the current selectables group to match the UI state
 			currentSelectablesGroup = MainMenuGroup;
 
-			//find the first array in the group that has an interactable selectable
-			potentialCurrentSelectionGroupIndex = FindFirstInteractableArrayIndex (currentSelectablesGroup);
 
-			//set the selectable array that contains an interactable
-			if (potentialCurrentSelectionGroupIndex != -1) {
-				
-				//set the currentSelectionGroupIndex
-				currentSelectionGroupIndex = potentialCurrentSelectionGroupIndex;
+			//check if the current selectable is within the new selectables group
+			//if the current selectable is within the new group, we don't want set the selectables to the first interactable option,
+			//we want to leave it where it is
+			//but we will need to know what the group index is within the context of the new group
 
-				//set the currentSelectables based on the index returned
-				CurrentSelectables = currentSelectablesGroup[currentSelectionGroupIndex];
+			//only do this if there is a current selectable
+			if (EventSystem.current.currentSelectedGameObject != null) {
+
+				for (int i = 0; i < currentSelectablesGroup.Length; i++) {
+
+					//check if the current selectable is within the array at the ith index
+					if (currentSelectablesGroup [i].Contains (EventSystem.current.currentSelectedGameObject.GetComponent<Selectable> ())) {
+
+						//set the currentSelectionGroupIndex
+						currentSelectionGroupIndex = i;
+
+						//set the currentSelectables based on the index returned
+						CurrentSelectables = currentSelectablesGroup [currentSelectionGroupIndex];
+
+						//set the flag
+						currentSelectableInNewGroup = true;
+
+						//break out of the for loop
+						break;
+					}
+
+				}
+
+				//check if the current selectable was found in the new group
+				if (currentSelectableInNewGroup == true) {
+
+					//set the index based on the selectable's location in the new group
+					for (int i = 0; i < currentSelectables.Length; i++) {
+
+						//check if the current selectable is within the array at the ith index
+						if (currentSelectables [i] == eventSystem.currentSelectedGameObject.GetComponent<Selectable> ()) {
+
+							//set the currentSelectionIndex
+							currentSelectionIndex = i;
+
+							//we have the group index and the selectable index set, and we have the currentSelectable set
+							//we can return from the method
+							return;
+
+						}
+
+					}
+
+				} else {
+
+					//if the current is not in the group, we need to find a new valid selectable
+
+					//find the first array in the group that has an interactable selectable
+					potentialCurrentSelectionGroupIndex = FindFirstInteractableArrayIndex (currentSelectablesGroup);
+
+					//set the selectable array that contains an interactable
+					if (potentialCurrentSelectionGroupIndex != -1) {
+
+						//set the currentSelectionGroupIndex
+						currentSelectionGroupIndex = potentialCurrentSelectionGroupIndex;
+
+						//set the currentSelectables based on the index returned
+						CurrentSelectables = currentSelectablesGroup [currentSelectionGroupIndex];
+
+					}
+
+				}
+
+			} else {
+
+				//if there is no current selectable, we need to find a new valid selectable
+
+				//check if our last selectable is valid
+				if (CurrentSelectables != null && CurrentSelectables [currentSelectionIndex] != null &&
+					CurrentSelectables [currentSelectionIndex].IsActive () == true && CurrentSelectables [currentSelectionIndex].IsInteractable () == true) {
+
+					//Debug.Log ("valid previous");
+
+					//if the last selectable is still valid, set the current to the last
+					eventSystem.SetSelectedGameObject(CurrentSelectables [currentSelectionIndex].gameObject);
+
+					return;
+				}
+
+
+				//find the first array in the group that has an interactable selectable
+				potentialCurrentSelectionGroupIndex = FindFirstInteractableArrayIndex (currentSelectablesGroup);
+
+				//set the selectable array that contains an interactable
+				if (potentialCurrentSelectionGroupIndex != -1) {
+
+					//set the currentSelectionGroupIndex
+					currentSelectionGroupIndex = potentialCurrentSelectionGroupIndex;
+
+					//set the currentSelectables based on the index returned
+					CurrentSelectables = currentSelectablesGroup [currentSelectionGroupIndex];
+
+				}
 
 			}
 
@@ -1202,8 +1396,8 @@ public class UINavigationMainMenu : MonoBehaviour {
 				//Debug.Log ("current selectables length = " + CurrentSelectables.Length);
 
 				//set the scrollbar to the top
-				CurrentSelectables [currentSelectionIndex].transform.parent.parent.GetComponent<ScrollRect> ().verticalNormalizedPosition = 
-					1.0f*CurrentSelectables [currentSelectionIndex].transform.parent.parent.GetComponent<ScrollRect> ().verticalNormalizedPosition;
+				CurrentSelectables [0].transform.parent.parent.GetComponent<ScrollRect> ().verticalNormalizedPosition = 
+					1.0f*CurrentSelectables [0].transform.parent.parent.GetComponent<ScrollRect> ().verticalNormalizedPosition;
 
 				//fit the object in the scroll window
 				//FitCurrentSelectableIntoScrollRect();
@@ -1891,6 +2085,54 @@ public class UINavigationMainMenu : MonoBehaviour {
 
 	}
 
+	//this function returns to a specific selectable
+	private void ReturnToSelectable(){
+
+		if (returnSelectable != null) {
+
+			//check if the return selectable is interactable and active
+			if (returnSelectable.IsInteractable () == true && returnSelectable.IsActive () == true) {
+
+				eventSystem.SetSelectedGameObject (returnSelectable.gameObject);
+
+			} else {
+
+				//find the returnSelectable in the group
+				for (int i = 0; i < currentSelectablesGroup.Length; i++) {
+
+					if (currentSelectablesGroup [i].Contains (returnSelectable)) {
+
+						//Debug.Log ("found return selectable group");
+
+						for (int j = 0; j < currentSelectablesGroup [i].Length; j++) {
+
+							if (currentSelectablesGroup [i] [j] == returnSelectable) {
+
+								//Debug.Log ("found return selectable");
+
+								//set the selectable to the first available after the return selectable
+								eventSystem.SetSelectedGameObject (currentSelectablesGroup [i] [FindFirstInteractableIndex (currentSelectablesGroup [i])].gameObject);
+
+							}
+
+						}
+
+					}
+
+				}
+			}
+
+		} else {
+
+			eventSystem.SetSelectedGameObject (null);
+		}
+
+		//CurrentUIState = returnUIState;
+
+		OnUIStateChange.Invoke ();
+
+	}
+
 	//this function handles on destroy
 	private void OnDestroy(){
 
@@ -1914,15 +2156,15 @@ public class UINavigationMainMenu : MonoBehaviour {
 			uiManager.GetComponent<ConfigureLocalGameWindow> ().newLocalGameButton.onClick.RemoveListener (OpenNewLocalGameWindowAction);
 
 			//remove listeners for exiting the new local game window to the main menu
-			uiManager.GetComponent<ConfigureLocalGameWindow>().cancelButton.onClick.RemoveListener(ReturnToMainMenuAction);
-			uiManager.GetComponent<ConfigureLocalGameWindow>().exitWindowButton.onClick.RemoveListener(ReturnToMainMenuAction);
+			uiManager.GetComponent<ConfigureLocalGameWindow>().cancelButton.onClick.RemoveListener(CloseNewLocalGameWindowAction);
+			uiManager.GetComponent<ConfigureLocalGameWindow>().exitWindowButton.onClick.RemoveListener(CloseNewLocalGameWindowAction);
 
 			//remove listener for load local game
 			uiManager.GetComponent<FileLoadWindow>().OnOpenFileLoadWindow.RemoveListener(OpenLoadLocalGameWindowAction);
 
 			//remove listeners for exiting the file load window back to the main menu
-			uiManager.GetComponent<FileLoadWindow>().closeFileLoadWindowButton.onClick.RemoveListener(ReturnToMainMenuAction);
-			uiManager.GetComponent<FileLoadWindow>().fileLoadCancelButton.onClick.RemoveListener(ReturnToMainMenuAction);
+			uiManager.GetComponent<FileLoadWindow>().closeFileLoadWindowButton.onClick.RemoveListener(CloseLoadLocalGameWindowAction);
+			uiManager.GetComponent<FileLoadWindow>().fileLoadCancelButton.onClick.RemoveListener(CloseLoadLocalGameWindowAction);
 
 			//remove listener for entering the file delete prompt
 			uiManager.GetComponent<FileLoadWindow>().OnFileDeleteYesClicked.RemoveListener(OpenFileDeletePromptAction);
@@ -1935,15 +2177,15 @@ public class UINavigationMainMenu : MonoBehaviour {
 			uiManager.GetComponent<Settings>().OnSettingsWindowOpened.RemoveListener(OpenSettingsWindowAction);
 
 			//remove listeners for exiting the settings menu
-			uiManager.GetComponent<Settings>().acceptButton.onClick.RemoveListener(ReturnToMainMenuAction);
-			uiManager.GetComponent<Settings>().exitButton.onClick.RemoveListener(ReturnToMainMenuAction);
+			uiManager.GetComponent<Settings>().acceptButton.onClick.RemoveListener(CloseSettingsWindowAction);
+			uiManager.GetComponent<Settings>().exitButton.onClick.RemoveListener(CloseSettingsWindowAction);
 
 			//remove listener for entering the exit game prompt
 			uiManager.GetComponent<ExitGamePrompt>().OnExitGamePromptOpened.RemoveListener(OpenExitGamePromptAction);
 
 			//remove listener for exiting the exit game prompt
-			uiManager.GetComponent<ExitGamePrompt>().OnExitGameYesClicked.RemoveListener(ReturnToMainMenuAction);
-			uiManager.GetComponent<ExitGamePrompt>().OnExitGameCancelClicked.RemoveListener(ReturnToMainMenuAction);
+			uiManager.GetComponent<ExitGamePrompt>().OnExitGameYesClicked.RemoveListener(CloseExitGamePromptAction);
+			uiManager.GetComponent<ExitGamePrompt>().OnExitGameCancelClicked.RemoveListener(CloseExitGamePromptAction);
 
 			//remove listeners telling us the input fields just ended edit, so we can ignore hitting escape
 			uiManager.GetComponent<ConfigureLocalGameWindow> ().greenPlayerInputField.onEndEdit.RemoveListener (InputFieldEndEditIgnoreEscapeAction);
@@ -1958,6 +2200,9 @@ public class UINavigationMainMenu : MonoBehaviour {
 
 		//remove listener for a pointer click
 		UISelection.OnClickedSelectable.RemoveListener(PointerClickResolveBlockAction);
+
+		//remove listener for the redirect click
+		UIButtonSelectionRedirect.OnClickedButtonForRedirect.RemoveListener(ButtonRedirectSetSelectedObjectAction);
 
 	}
 

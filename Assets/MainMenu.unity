@@ -17277,6 +17277,7 @@ GameObject:
   - component: {fileID: 1151553445}
   - component: {fileID: 1151553444}
   - component: {fileID: 1151553443}
+  - component: {fileID: 1151553447}
   m_Layer: 5
   m_Name: DecreaseButton
   m_TagString: Untagged
@@ -17395,6 +17396,18 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1151553441}
+--- !u!114 &1151553447
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1151553441}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d02d44061bdd7e4582aeea063d97a58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  redirectSelectable: {fileID: 1432365671}
 --- !u!1 &1154043257
 GameObject:
   m_ObjectHideFlags: 0
@@ -28339,6 +28352,7 @@ GameObject:
   - component: {fileID: 1805983962}
   - component: {fileID: 1805983961}
   - component: {fileID: 1805983960}
+  - component: {fileID: 1805983964}
   m_Layer: 5
   m_Name: IncreaseButton
   m_TagString: Untagged
@@ -28457,6 +28471,18 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1805983958}
+--- !u!114 &1805983964
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1805983958}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d02d44061bdd7e4582aeea063d97a58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  redirectSelectable: {fileID: 1432365671}
 --- !u!1 &1827301753
 GameObject:
   m_ObjectHideFlags: 0

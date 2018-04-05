@@ -81,7 +81,10 @@ public class NextUnit : MonoBehaviour {
 	}
 
 	//this is the function that will snap the selected unit to the next available unit
-	private void GetNextUnit(){
+	//I swapped the names of GetNextUnit() and GetPreviousUnit() in order to cycle through the units from most recent to oldest
+	//"next" now refers to the unit just older than the current (moving up the hierarchy in unity)
+	//"previous" now refers to the unit just newer than the current (moving down the hierarchy in unity)
+	private void GetPreviousUnit(){
 
 		//to start, we want to grab the current player
 		Player currentPlayer = gameManager.currentTurnPlayer;
@@ -96,12 +99,14 @@ public class NextUnit : MonoBehaviour {
 			//we can now set the mostRecentPlayer to current player
 			mostRecentPlayer = currentPlayer;
 
-			//if this is a new player, we can reset the unitIndex
-			unitIndex = 0;
-
 			//next, we want to create an array of all combat units owned by that player
 			//start by getting the game object collector for the current player
 			currentPlayerCollector = GetCurrentPlayerCollector();
+
+			//if this is a new player, we can reset the unitIndex
+			//back when units were cycling from oldest to newest, this was unitIndex = 0
+			//now that I want to go from newest to oldest, I am setting this to the childCount - 1
+			unitIndex = currentPlayerCollector.transform.childCount - 1;
 
 			//get a count of how many children units there are under the collector
 			int numberOfUnits = currentPlayerCollector.transform.childCount;
@@ -198,20 +203,6 @@ public class NextUnit : MonoBehaviour {
 				//set the main camera to snap to the selected unit current hex location
 				CenterCameraOnUnit (currentPlayerUnits [unitIndex]);
 
-				/*
-				//if the hex cursor is null, grab it
-				if (hexCursor == null) {
-
-					hexCursor = GameObject.FindGameObjectWithTag("HexCursor").GetComponent<HexCursor>();
-
-				}
-
-				//set the hexCursor position to the selected unit location
-				hexCursor.transform.position = new Vector3(tileMap.HexToWorldCoordinates (currentPlayerUnits [unitIndex].currentLocation).x,
-					hexCursor.transform.position.y,
-					tileMap.HexToWorldCoordinates (currentPlayerUnits [unitIndex].currentLocation).z);
-
-				*/
 			}
 
 		}
@@ -219,7 +210,10 @@ public class NextUnit : MonoBehaviour {
 	}
 
 	//this is the function that will snap the selected unit to the next available unit, cycling backwards
-	private void GetPreviousUnit(){
+	//I swapped the names of GetNextUnit() and GetPreviousUnit() in order to cycle through the units from most recent to oldest
+	//"next" now refers to the unit just older than the current (moving up the hierarchy in unity)
+	//"previous" now refers to the unit just newer than the current (moving down the hierarchy in unity)
+	private void GetNextUnit(){
 
 		//to start, we want to grab the current player
 		Player currentPlayer = gameManager.currentTurnPlayer;
@@ -234,12 +228,14 @@ public class NextUnit : MonoBehaviour {
 			//we can now set the mostRecentPlayer to current player
 			mostRecentPlayer = currentPlayer;
 
-			//if this is a new player, we can reset the unitIndex
-			unitIndex = 0;
-
 			//next, we want to create an array of all combat units owned by that player
 			//start by getting the game object collector for the current player
 			currentPlayerCollector = GetCurrentPlayerCollector();
+
+			//if this is a new player, we can reset the unitIndex
+			//back when units were cycling from oldest to newest, this was unitIndex = 0
+			//now that I want to go from newest to oldest, I am setting this to the childCount - 1
+			unitIndex = currentPlayerCollector.transform.childCount - 1;
 
 			//get a count of how many children units there are under the collector
 			int numberOfUnits = currentPlayerCollector.transform.childCount;
@@ -335,20 +331,6 @@ public class NextUnit : MonoBehaviour {
 				//set the main camera to snap to the selected unit current hex location
 				CenterCameraOnUnit (currentPlayerUnits [unitIndex]);
 
-					/*
-				//if the hex cursor is null, grab it
-				if (hexCursor == null) {
-
-					hexCursor = GameObject.FindGameObjectWithTag("HexCursor").GetComponent<HexCursor>();
-
-				}
-
-				//set the hexCursor position to the selected unit location
-				hexCursor.transform.position = new Vector3(tileMap.HexToWorldCoordinates (currentPlayerUnits [unitIndex].currentLocation).x,
-					hexCursor.transform.position.y,
-					tileMap.HexToWorldCoordinates (currentPlayerUnits [unitIndex].currentLocation).z);
-
-				*/
 			}
 
 		}
@@ -381,6 +363,7 @@ public class NextUnit : MonoBehaviour {
 	}
 
 	//create a function to get the current player's first unit
+	//i have updated this function to return the most recent unit instead of the oldest unit
 	private CombatUnit GetCurrentPlayerFirstUnit(){
 
 		//get the first unit of the starting player
@@ -388,7 +371,8 @@ public class NextUnit : MonoBehaviour {
 
 		if (playerCollector.transform.childCount > 0) {
 
-			return playerCollector.transform.GetChild (0).gameObject.GetComponent<CombatUnit> ();
+			//the expression (playerCollector.transform.childCount - 1) was (0) when I wanted the oldest unit 
+			return playerCollector.transform.GetChild (playerCollector.transform.childCount - 1).gameObject.GetComponent<CombatUnit> ();
 
 		} else {
 

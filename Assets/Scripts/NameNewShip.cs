@@ -32,9 +32,13 @@ public class NameNewShip : MonoBehaviour {
 	//objects for the buttons
 	public Button purchaseButton;
 	public Button cancelButton;
+	public Button backButton;
 
 	//event to cancel the purchase
 	public UnityEvent OnCanceledPurchase = new UnityEvent();
+
+	//event to return to place unit
+	public UnityEvent OnReturnToPlaceUnit = new UnityEvent();
 
 	//event to announce a new ship has been purchased
 	public PurchasedNewShipEvent OnPurchasedNewShip = new PurchasedNewShipEvent();
@@ -91,6 +95,8 @@ public class NameNewShip : MonoBehaviour {
 		//add listeners to the button presses
 		purchaseButton.onClick.AddListener(ResolvePurchaseButtonClick);
 		cancelButton.onClick.AddListener (ResolveCancelButtonClick);
+		backButton.onClick.AddListener (ResolveBackButtonClick);
+
 
 		//add listener for the input submit event
 		shipNameInputField.onEndEdit.AddListener(stringResolvedEnteredNameAction);
@@ -330,11 +336,30 @@ public class NameNewShip : MonoBehaviour {
 
 	}
 
+	//this function responds to clicking the back button
+	private void ResolveBackButtonClick(){
+
+		//invoke a return event
+		OnReturnToPlaceUnit.Invoke();
+
+		//close the panel
+		CloseNameNewShipPanel();
+
+	}
+
 	//this function responds to a user entering a ship name
 	private void ResolveEnteredName(string userInput){
 
 		//set the new unit name to the user input
 		newUnitName = userInput;
+
+		//check if the user has hit enter with a valid rename string entered
+		if (userInput != "" && (Input.GetKey (KeyCode.Return) == true || Input.GetKey (KeyCode.KeypadEnter) == true)) {
+
+			//if so, treat that as hitting the yes button
+			purchaseButton.onClick.Invoke();
+
+		}
 
 	}
 

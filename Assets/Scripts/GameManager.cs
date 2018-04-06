@@ -2170,6 +2170,14 @@ public class GameManager : MonoBehaviour {
 		//add listener for placing a new unit
 		uiManager.GetComponent<PurchaseManager> ().OnOutfittedShip.AddListener (purchaseSetActionModeToPlaceUnitAction);
 
+		//add listener for cancelling unit outfit
+		uiManager.GetComponent<PurchaseManager>().cancelPurchaseItemsButton.onClick.AddListener(setActionModeToSelectionAction);
+		uiManager.GetComponent<PurchaseManager>().cancelPurchaseShipButton.onClick.AddListener(setActionModeToSelectionAction);
+
+		//add listener for cancelling from unit placement
+		uiManager.GetComponent<InstructionPanel>().OnCancelPlaceUnit.AddListener(setActionModeToSelectionAction);
+
+
 		//add listener for choosing an option at the name new ship panel
 		uiManager.GetComponent<NameNewShip>().OnCanceledPurchase.AddListener(setActionModeToSelectionAction);
 		uiManager.GetComponent<NameNewShip>().OnPurchasedNewShip.AddListener(purchaseSetActionModeToSelectionAction);
@@ -2504,6 +2512,13 @@ public class GameManager : MonoBehaviour {
 
 			//remove listener for placing a new unit
 			uiManager.GetComponent<PurchaseManager> ().OnOutfittedShip.RemoveListener (purchaseSetActionModeToPlaceUnitAction);
+
+			//remove listener for cancelling unit outfit
+			uiManager.GetComponent<PurchaseManager>().cancelPurchaseItemsButton.onClick.RemoveListener(setActionModeToSelectionAction);
+			uiManager.GetComponent<PurchaseManager>().cancelPurchaseShipButton.onClick.RemoveListener(setActionModeToSelectionAction);
+
+			//remove listener for cancelling from unit placement
+			uiManager.GetComponent<InstructionPanel>().OnCancelPlaceUnit.RemoveListener(setActionModeToSelectionAction);
 
 			//remove listener for choosing an option at the name new ship panel
 			uiManager.GetComponent<NameNewShip>().OnCanceledPurchase.RemoveListener(setActionModeToSelectionAction);

@@ -67,6 +67,7 @@ public class RangeTile : MonoBehaviour {
 		//get the managers
 		mouseManager = GameObject.FindGameObjectWithTag("MouseManager").GetComponent<MouseManager>();
 		gameManager = GameObject.FindGameObjectWithTag ("GameManager").GetComponent<GameManager> ();
+		//uiManager = GameObject.FindGameObjectWithTag ("UIManager").GetComponent<UIManager> ();
 
 		//get the tileMap
 		tileMap = GameObject.FindGameObjectWithTag("TileMap").GetComponent<TileMap>();

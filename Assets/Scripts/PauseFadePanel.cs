@@ -86,6 +86,11 @@ public class PauseFadePanel : MonoBehaviour {
 		//add listeners for either purchasing or canceling from the name new unit panel
 		uiManager.GetComponent<NameNewShip>().OnCanceledPurchase.AddListener(disablePauseFadePanelAction);
 		uiManager.GetComponent<NameNewShip>().OnPurchasedNewShip.AddListener(newUnitDataDisablePauseFadePanelAction);
+		uiManager.GetComponent<NameNewShip>().OnReturnToPlaceUnit.AddListener(disablePauseFadePanelAction);
+
+		//add listener for returning from placement to outfitting
+		uiManager.GetComponent<InstructionPanel>().OnReturnToOutfitShip.AddListener(enablePauseFadePanelAction);
+
 
 		//add listeners for the rename ship buttons
 		renameShipMenuButton.onClick.AddListener(EnablePauseFadePanel);
@@ -222,6 +227,10 @@ public class PauseFadePanel : MonoBehaviour {
 			//remove listeners for either purchasing or canceling from the name new unit panel
 			uiManager.GetComponent<NameNewShip> ().OnCanceledPurchase.RemoveListener (disablePauseFadePanelAction);
 			uiManager.GetComponent<NameNewShip> ().OnPurchasedNewShip.RemoveListener (newUnitDataDisablePauseFadePanelAction);
+			uiManager.GetComponent<NameNewShip>().OnReturnToPlaceUnit.RemoveListener(disablePauseFadePanelAction);
+
+			//remove listener for returning from placement to outfitting
+			uiManager.GetComponent<InstructionPanel>().OnReturnToOutfitShip.RemoveListener(enablePauseFadePanelAction);
 
 			//remove listeners for flare use panel
 			uiManager.GetComponent<FlareManager> ().OnShowFlarePanel.RemoveListener (enablePauseFadePanelAction);

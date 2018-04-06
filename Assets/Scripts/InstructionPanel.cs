@@ -15,9 +15,19 @@ public class InstructionPanel : MonoBehaviour {
 	//object to hold the panel
 	public GameObject instructionPanel;
 
+	//buttons
+	public Button backButton;
+	public Button cancelButton;
+
+	//unityEvents
+	public UnityEvent OnReturnToOutfitShip = new UnityEvent();
+	public UnityEvent OnCancelPlaceUnit = new UnityEvent();
+
 	//unityActions
 	UnityAction<Dictionary<string,int>,int,CombatUnit.UnitType> purchaseSetInstructionsForPlaceNewUnitAction;
 	UnityAction<Hex> placeUnitCloseInstructionPanelAction;
+	UnityAction returnFromNameNewShipAction;
+
 
 	// Use this for initialization
 	public void Init () {
@@ -30,12 +40,22 @@ public class InstructionPanel : MonoBehaviour {
 		//set the actions
 		purchaseSetInstructionsForPlaceNewUnitAction = (purchasedItems,purchaseCost,unitType) => {SetInstructionsForPlaceNewUnit ();};
 		placeUnitCloseInstructionPanelAction = (localHex) => {CloseInstructionPanel();};
+		returnFromNameNewShipAction = () => {SetInstructionsForPlaceNewUnit ();};
 
 		//add listener for placing new unit
 		uiManager.GetComponent<PurchaseManager>().OnOutfittedShip.AddListener (purchaseSetInstructionsForPlaceNewUnitAction);
 
 		//add listener for actually placing the new unit
 		mouseManager.OnPlacedNewUnit.AddListener(placeUnitCloseInstructionPanelAction);
+
+		//add listener for returning to placement from name new unit
+		uiManager.GetComponent<NameNewShip>().OnReturnToPlaceUnit.AddListener(returnFromNameNewShipAction);
+
+		//add listener for back button
+		backButton.onClick.AddListener(ResolveBackButtonClick);
+
+		//add listener for cancel button
+		cancelButton.onClick.AddListener(ResolveCancelButtonClick);
 
 		//start with the panel closed
 		CloseInstructionPanel();
@@ -107,6 +127,28 @@ public class InstructionPanel : MonoBehaviour {
 
 	}
 
+	//this function resolves the cancel button press
+	private void ResolveCancelButtonClick(){
+
+		//close the panel
+		CloseInstructionPanel();
+
+		//invokve the event
+		OnCancelPlaceUnit.Invoke();
+
+	}
+
+	//this function resolves the back button press
+	private void ResolveBackButtonClick(){
+
+		//close the panel
+		CloseInstructionPanel();
+
+		//invokve the event
+		OnReturnToOutfitShip.Invoke();
+
+	}
+
 	//function for handling onDestroy
 	private void OnDestroy(){
 
@@ -122,12 +164,29 @@ public class InstructionPanel : MonoBehaviour {
 			//remove listener for placing new unit
 			uiManager.GetComponent<PurchaseManager> ().OnOutfittedShip.RemoveListener (purchaseSetInstructionsForPlaceNewUnitAction);
 
+			//remove listener for returning to placement from name new unit
+			uiManager.GetComponent<NameNewShip>().OnReturnToPlaceUnit.RemoveListener(returnFromNameNewShipAction);
+
 		}
 
 		if (gameManager != null) {
 
 			//remove listener for actually placing the new unit
 			mouseManager.OnPlacedNewUnit.RemoveListener (placeUnitCloseInstructionPanelAction);
+
+		}
+
+		if (backButton != null) {
+
+			//remove listener for back button
+			backButton.onClick.RemoveListener (ResolveBackButtonClick);
+
+		}
+
+		if (cancelButton != null) {
+
+			//remove listener for cancel button
+			cancelButton.onClick.RemoveListener (ResolveCancelButtonClick);
 
 		}
 

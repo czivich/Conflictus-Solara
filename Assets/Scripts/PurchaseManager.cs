@@ -43,6 +43,7 @@ public class PurchaseManager : MonoBehaviour {
 	//managers
 	private MouseManager mouseManager;
 	private GameManager	gameManager;
+	private UIManager	uiManager;
 
 	//tileMap
 	private TileMap tileMap;
@@ -250,9 +251,15 @@ public class PurchaseManager : MonoBehaviour {
 	//this button is for cancelling out of the purchase items
 	public Button cancelPurchaseItemsButton;
 
+	//this button is for backing out of the ship outfitting
+	public Button backPurchaseItemsButton;
+
 	//gameObject to hold the purchaseItemPanel
 	public GameObject purchaseItemsPanel;
 
+	//this bool keeps track of whether we are returning back from the next step in a ship purchase
+	public bool returningBackToPurchaseShip {get; private set;}
+	public bool returningBackToOutfitShip{ get; private set;}
 
 	//scout row stuff
 	public Toggle scoutQtyAlreadyPurchasedToggle;
@@ -332,7 +339,7 @@ public class PurchaseManager : MonoBehaviour {
 	private bool outfittingShip = false;
 
 	//this holds the type of ship which was selected
-	private string selectedShipType;
+	public string selectedShipType {get; private set;}
 
 	//button for the open purchaseShip panel
 	public Button openPurchaseShipButton;
@@ -360,6 +367,12 @@ public class PurchaseManager : MonoBehaviour {
 	public rawImageEvent OnSetPurchaseShipIcon = new rawImageEvent();
 
 	public class rawImageEvent : UnityEvent<GraphicsManager.MyUnit,RawImage>{}; 
+
+	//event for opening purchase ship
+	public UnityEvent OnOpenPurchaseShip = new UnityEvent();
+
+	//event for returning to purchase ship
+	public UnityEvent OnReturnToPurchaseShip = new UnityEvent();
 
 	//color for selected button tab
 	private Color selectedButtonColor = new Color (240.0f / 255.0f, 240.0f / 255.0f, 20.0f / 255.0f, 255.0f / 255.0f);
@@ -424,12 +437,14 @@ public class PurchaseManager : MonoBehaviour {
 	private UnityAction<Player> playerSetPurchaseShipButtonAction;
 	private UnityAction<GameManager.ActionMode> actionModeSetPurchaseShipButtonAction;
 	private UnityAction purchaseShipButtonAction;
+	private UnityAction returnToOutfitShipAction;
 	private UnityAction purchaseScoutButtonAction;
 	private UnityAction purchaseBirdOfPreyButtonAction;
 	private UnityAction purchaseDestroyerButtonAction;
 	private UnityAction purchaseStarshipButtonAction;
 
-
+	private UnityAction openPurchaseShipAction;
+	private UnityAction returnToPurchaseShipAction;
 
 	// Use this for initialization
 	public void Init () {
@@ -437,6 +452,7 @@ public class PurchaseManager : MonoBehaviour {
 		//get the manager
 		mouseManager = GameObject.FindGameObjectWithTag ("MouseManager").GetComponent<MouseManager> ();
 		gameManager = GameObject.FindGameObjectWithTag ("GameManager").GetComponent<GameManager> ();
+		uiManager = GameObject.FindGameObjectWithTag ("UIManager").GetComponent<UIManager> ();
 
 		//get the tileMap
 		tileMap = GameObject.FindGameObjectWithTag ("TileMap").GetComponent<TileMap> ();
@@ -480,6 +496,9 @@ public class PurchaseManager : MonoBehaviour {
 
 			//set the flag to false when the panel is opened this way
 			outfittingShip = false;
+
+			//set the return flag to false
+			returningBackToOutfitShip = false;
 
 			//can clear the selected ship type
 			selectedShipType = null;
@@ -688,13 +707,14 @@ public class PurchaseManager : MonoBehaviour {
 			if(warpDriveInventory.GetComponentInChildren<TextMeshProUGUI>().text == "0" && 
 				transwarpDriveInventory.GetComponentInChildren<TextMeshProUGUI>().text == "0"){
 
-				//if both drives are not purchased, we can allow purchase of both booster types
+				//if both drives are not purchased, we can allow purchase of both booster types plus the warp engine
 				UndoCancelPurchaseOfObsoletedItem(warpBoosterQuantityToBuy,warpBoosterValueToBuy);
 				UndoCancelPurchaseOfObsoletedItem(transwarpBoosterQuantityToBuy,transwarpBoosterValueToBuy);
+				UndoCancelPurchaseOfObsoletedItem(warpDriveQuantityToBuy,warpDriveValueToBuy);
 
 			} else if (transwarpDriveInventory.GetComponentInChildren<TextMeshProUGUI>().text == "0"){
 
-				//if the transwarp drive is zero but the warp booster is not (it is 1), then we only should allow transwarp booster
+				//if the transwarp drive is zero but the warp drive is not (it is 1), then we only should allow transwarp drive
 				UndoCancelPurchaseOfObsoletedItem(transwarpBoosterQuantityToBuy,transwarpBoosterValueToBuy);
 
 			} 
@@ -713,12 +733,29 @@ public class PurchaseManager : MonoBehaviour {
 
 		purchaseShipButtonAction = () => {
 
-			//set the flag to false when the panel is opened this way
+			//set the flag to true when the panel is opened this way
 			outfittingShip = true;
+
+			//set the return flag to false
+			returningBackToOutfitShip = false;
 
 			CancelPurchaseShipPanel();
 
-			OpenPurchaseItemsPanel();};
+			OpenPurchaseItemsPanel();
+		
+		};
+
+		returnToOutfitShipAction = () => {
+
+			//set the flag to true when the panel is opened this way
+			outfittingShip = true;
+
+			//set the return flag to true
+			returningBackToOutfitShip = true;
+
+			OpenPurchaseItemsPanel();
+
+		};
 
 		purchaseScoutButtonAction = () => {
 
@@ -784,6 +821,37 @@ public class PurchaseManager : MonoBehaviour {
 
 		};
 
+		//this action is for initially opening the purchase ship panel
+		openPurchaseShipAction = () => {
+
+			//set the return flag to false
+			returningBackToPurchaseShip = false;
+
+			//open the panel
+			OpenPurchaseShipPanel ();
+
+			//invoke the open action
+			OnOpenPurchaseShip.Invoke();
+
+		};
+
+		//this action is for hitting the back button from the outfit to the ship purchase screen
+		returnToPurchaseShipAction = () => {
+
+			//set the return flag to false
+			returningBackToPurchaseShip = true;
+
+			//close the item panel
+			ClosePurchaseItemsPanel();
+
+			//open the ship panel
+			OpenPurchaseShipPanel ();
+
+			//invoke the return action
+			OnReturnToPurchaseShip.Invoke();
+
+		};
+
 	}
 
 	//this fucntion adds all listeners
@@ -794,6 +862,9 @@ public class PurchaseManager : MonoBehaviour {
 
 		//add a listener to the open button on-click
 		openPurchaseItemsButton.onClick.AddListener (openPurchaseItemsPanelAction);
+
+		//add a listener to the return to outfit ship event
+		uiManager.GetComponent<InstructionPanel>().OnReturnToOutfitShip.AddListener(returnToOutfitShipAction);
 
 		//add listeners to changes in the selected unit
 		mouseManager.OnSetSelectedUnit.AddListener(setOpenButtonStatusAction);
@@ -887,12 +958,15 @@ public class PurchaseManager : MonoBehaviour {
 		//add listeners for clear items button
 		clearItemCartButton.onClick.AddListener (clearItemCartAction);
 
+		//add listener for the back button
+		backPurchaseItemsButton.onClick.AddListener(returnToPurchaseShipAction);
+
 		///////////////////////////
 		/// This is the PurchaseShips section
 		/////////////////////////// 
 
 		//add listener for opening the purchase ship panel
-		openPurchaseShipButton.onClick.AddListener (OpenPurchaseShipPanel);
+		openPurchaseShipButton.onClick.AddListener (openPurchaseShipAction);
 
 		//add listener for canceling the purchase ship panel
 		cancelPurchaseShipButton.onClick.AddListener (CancelPurchaseShipPanel);
@@ -949,9 +1023,6 @@ public class PurchaseManager : MonoBehaviour {
 		//set the available sections
 		SetAvailableSections();
 
-		//hit the clear button
-		clearItemCartButton.onClick.Invoke();
-
 		//check the flag
 		if (outfittingShip == true) {
 
@@ -960,6 +1031,24 @@ public class PurchaseManager : MonoBehaviour {
 			shipCostTextItemPurchase.gameObject.SetActive (true);
 			shipCost.GetComponentInChildren<TextMeshProUGUI> ().text = (shipCostToggle.GetComponentInChildren<TextMeshProUGUI> ().text);
 
+			//the back button should only be displayed when outfitting
+			backPurchaseItemsButton.gameObject.SetActive(true);
+
+			//check if we are coming back to the purchase items panel as part of an outfit
+			if (returningBackToOutfitShip == true) {
+
+				//do nothing
+
+
+			} else {
+
+				//if we are not returning, clear the item cart
+
+				//hit the clear button
+				clearItemCartButton.onClick.Invoke();
+
+			}
+
 		} else {
 
 			//the else is that we are not outfitting a ship, and the ship cost should not even be shown
@@ -967,10 +1056,16 @@ public class PurchaseManager : MonoBehaviour {
 			shipCost.gameObject.SetActive (false);
 			shipCostTextItemPurchase.gameObject.SetActive (false);
 
+			//the back button should only be displayed when outfitting
+			backPurchaseItemsButton.gameObject.SetActive(false);
+
+			//hit the clear button
+			clearItemCartButton.onClick.Invoke();
+
 		}
 
 		//hit the clear button
-		clearItemCartButton.onClick.Invoke();
+		//clearItemCartButton.onClick.Invoke();
 
 		//set the button status
 		SetPurchaseButtonStatus ();
@@ -2615,11 +2710,16 @@ public class PurchaseManager : MonoBehaviour {
 		//set the ship icons
 		SetPurchaseShipIcons();
 
-		//set the initial toggle value for ship cost
-		SetShipCostToggleValue(0);
+		//check if we are returning to the screen
+		if (returningBackToPurchaseShip == false) {
+			
+			//set the initial toggle value for ship cost
+			SetShipCostToggleValue(0);
 
-		//set the purchase ship button initially to not interactable
-		purchaseShipButton.interactable = false;
+			//set the purchase ship button initially to not interactable
+			purchaseShipButton.interactable = false;
+
+		}
 
 		//zero the item cost
 		SetPurchaseShipCosts();
@@ -2632,7 +2732,7 @@ public class PurchaseManager : MonoBehaviour {
 	//this function cancels the purchase ships panel
 	private void CancelPurchaseShipPanel(){
 
-		//enable the status panel
+		//disable the status panel
 		purchaseShipPanel.SetActive (false);
 
 	}
@@ -3717,12 +3817,16 @@ public class PurchaseManager : MonoBehaviour {
 	//this function sets the availability of the shipSelect buttons based on funds available
 	private void SetShipSelectButtons(){
 
-		//first, make sure all the buttons are unhighlighted
-		UnhighlightButton(scoutSelectButton);
-		UnhighlightButton(birdOfPreySelectButton);
-		UnhighlightButton(destroyerSelectButton);
-		UnhighlightButton(starshipSelectButton);
+		//if we are not returning, clear the highlights, otherwise, we want to keep the previous highlight
+		if (returningBackToPurchaseShip == false) {
 
+			//first, make sure all the buttons are unhighlighted
+			UnhighlightButton (scoutSelectButton);
+			UnhighlightButton (birdOfPreySelectButton);
+			UnhighlightButton (destroyerSelectButton);
+			UnhighlightButton (starshipSelectButton);
+
+		}
 
 		//check if the player has enough money for a scout
 		if (gameManager.currentTurnPlayer.playerMoney < costScout) {
@@ -4435,6 +4539,13 @@ public class PurchaseManager : MonoBehaviour {
 
 		}
 
+		if (backPurchaseItemsButton != null) {
+			
+			//remove listener for the back button
+			backPurchaseItemsButton.onClick.RemoveListener (returnToPurchaseShipAction);
+
+		}
+
 		///////////////////////////
 		/// This is the PurchaseShips section
 		/////////////////////////// 
@@ -4442,7 +4553,7 @@ public class PurchaseManager : MonoBehaviour {
 		if (openPurchaseShipButton != null) {
 			
 			//remove listener for opening the purchase ship panel
-			openPurchaseShipButton.onClick.RemoveListener (OpenPurchaseShipPanel);
+			openPurchaseShipButton.onClick.RemoveListener (openPurchaseShipAction);
 
 		}
 
@@ -4465,6 +4576,13 @@ public class PurchaseManager : MonoBehaviour {
 
 			//remove listener for action mode change
 			gameManager.OnActionModeChange.RemoveListener (actionModeSetPurchaseShipButtonAction);
+
+		}
+
+		if (uiManager != null) {
+			
+			//remove a listener to the return to outfit ship event
+			uiManager.GetComponent<InstructionPanel> ().OnReturnToOutfitShip.RemoveListener (returnToOutfitShipAction);
 
 		}
 

@@ -55,6 +55,8 @@ public class UINavigationMain : MonoBehaviour {
 	private int delayLoadFilesWindowCount = 0;
 	private int delaySetInitialSelectablesCount = 0;
 	private int delayReturnToSelectableCount = 0;
+	private int delayReturnToFirstSelectableCount = 0;
+
 
 	private Selectable returnSelectable;
 	//private UIState returnUIState;
@@ -106,6 +108,7 @@ public class UINavigationMain : MonoBehaviour {
 	private Selectable[][] BuyItemGroup;
 	private Selectable[][] BuyShipGroup;
 	private Selectable[][] OutfitShipGroup;
+	private Selectable[][] PlaceNewShipGroup;
 	private Selectable[][] NameNewShipGroup;
 	private Selectable[][] RenameShipGroup;
 	private Selectable[][] EndTurnGroup;
@@ -171,6 +174,8 @@ public class UINavigationMain : MonoBehaviour {
 
 	public Selectable[]	BuyShipsButtons;
 	public Selectable[] BuyShipButtonRow;
+
+	public Selectable[] PlaceNewShipButtons;
 
 	public Selectable[] NameNewShipInputField;
 	public Selectable[] NameNewShipButtons;
@@ -263,6 +268,9 @@ public class UINavigationMain : MonoBehaviour {
 	//this int stores the index of the selected file when leaving the file load list
 	private int previousFileIndex;
 
+	//this flag is for a new turn
+	private bool isNewTurn = false;
+
 	//this stores the kind of combat we enter
 	private UIState combatType;
 
@@ -304,6 +312,9 @@ public class UINavigationMain : MonoBehaviour {
 	private UnityAction AcceptPurchaseItemAction;
 	private UnityAction CancelPurchaseShipAction;
 	private UnityAction AcceptPurchaseShipAction;
+
+	private UnityAction CancelPlaceNewShipAction;
+
 	private UnityAction CancelNameNewShipAction;
 	private UnityAction<NameNewShip.NewUnitEventData> AcceptNameNewShipAction;
 	private UnityAction<FlareManager.FlareEventData> UseFlaresYesAction;
@@ -419,6 +430,23 @@ public class UINavigationMain : MonoBehaviour {
 
 		}
 
+		//check if we need to wait a frame for the first return selectables
+		if (delayReturnToFirstSelectableCount > 0) {
+
+			delayReturnToFirstSelectableCount--;
+
+			if (delayReturnToFirstSelectableCount == 0) {
+
+				//zero out the competing counter
+				delayReturnToSelectableCount = 0;
+
+				ReturnToFirstSelectableInCurrentSelectables ();
+				return;
+
+			}
+
+		} else
+
 		//check if we need to wait a frame for the return selectables
 		if (delayReturnToSelectableCount > 0) {
 
@@ -432,6 +460,9 @@ public class UINavigationMain : MonoBehaviour {
 			}
 
 		}
+
+
+
 		//check if the down arrow is being pressed
 		if (Input.GetKeyDown (KeyCode.DownArrow)) {
 
@@ -1442,16 +1473,6 @@ public class UINavigationMain : MonoBehaviour {
 		//check if the escape key is being pressed
 		if (Input.GetKeyDown (KeyCode.Escape)) {
 
-			/*
-			Selection,
-			PhasorMenu,
-			TorpedoMenu,
-			TractorBeamMenu,
-			UseItem,
-			Crew,
-			Cloaking,
-			*/
-
 			if (CurrentUIState == UIState.LoadLocalGame) {
 
 				//cancel out of the menu
@@ -1514,6 +1535,13 @@ public class UINavigationMain : MonoBehaviour {
 				uiManager.GetComponent<RenameShip> ().cancelButton.onClick.Invoke ();
 
 			} 	
+
+			else if (CurrentUIState == UIState.PlaceNewShip) {
+
+				//cancel out of the menu
+				uiManager.GetComponent<InstructionPanel> ().cancelButton.onClick.Invoke ();
+
+			} 
 
 			else if (CurrentUIState == UIState.NameNewShip && ignoreEscape == false) {
 
@@ -1871,7 +1899,13 @@ public class UINavigationMain : MonoBehaviour {
 
 		NewTurnSetInitialSelectablesAction = (player) => {
 
-			SetInitialCurrentSelectables ();
+			//set the new turn flag to true
+			isNewTurn = true;
+
+			returnSelectable = ActionMenuButtons[10];
+
+			//SetInitialCurrentSelectables ();
+			delayReturnToFirstSelectableCount = 2;
 		
 		};
 
@@ -2021,15 +2055,20 @@ public class UINavigationMain : MonoBehaviour {
 				CurrentUIState = UIState.EndTurn;
 
 			} else {
-				
-				CurrentUIState = UIState.Selection;
 
-				returnSelectable = ActionMenuButtons[10];
+				//check if the turn phase is purchase
+				//if(gameManager.currentTurnPhase == GameManager.TurnPhase.PurchasePhase){
 
-				//set currentSelectables to null so that when we go back to selection case we don't try to restore the chat input
-				//CurrentSelectables = null;
+					CurrentUIState = UIState.Selection;
 
-				delayReturnToSelectableCount = 2;
+					returnSelectable = ActionMenuButtons[10];
+
+					//set currentSelectables to null so that when we go back to selection case we don't try to restore the chat input
+					//CurrentSelectables = null;
+
+					delayReturnToSelectableCount = 2;
+
+				//}
 			}
 			;
 
@@ -2089,7 +2128,7 @@ public class UINavigationMain : MonoBehaviour {
 			//returnSelectable = null;
 
 			//returnSelectable = null;
-			delayReturnToSelectableCount = 2;
+			//delayReturnToSelectableCount = 2;
 
 			//set the initial UIState
 			//CurrentUIState = UIState.Selection;
@@ -2175,6 +2214,21 @@ public class UINavigationMain : MonoBehaviour {
 
 
 		};
+
+		CancelPlaceNewShipAction = () => {
+
+			//CurrentUIState = UIState.Selection;
+			DetermineUIState();
+
+			//returnUIState = UIState.Selection;
+			returnSelectable = ActionMenuButtons[8];
+
+			//returnSelectable = null;
+			delayReturnToSelectableCount = 2;
+
+		};
+
+
 
 		CancelNameNewShipAction = () => {
 
@@ -2399,14 +2453,20 @@ public class UINavigationMain : MonoBehaviour {
 		uiManager.GetComponent<PurchaseManager>().purchaseItemsButton.onClick.AddListener(AcceptPurchaseItemAction);
 
 		//add listeners for purchase ship menu
-		uiManager.GetComponent<PurchaseManager>().openPurchaseShipButton.onClick.AddListener(BuyShipSetUIStateAction);
+		uiManager.GetComponent<PurchaseManager>().OnOpenPurchaseShip.AddListener(BuyShipSetUIStateAction);
+		uiManager.GetComponent<PurchaseManager>().OnReturnToPurchaseShip.AddListener(BuyShipSetUIStateAction);
 		uiManager.GetComponent<PurchaseManager>().cancelPurchaseShipButton.onClick.AddListener(CancelPurchaseShipAction);
 		uiManager.GetComponent<PurchaseManager>().purchaseShipButton.onClick.AddListener(AcceptPurchaseShipAction);
 
 		//add listeners for placing new unit
+		uiManager.GetComponent<InstructionPanel>().OnCancelPlaceUnit.AddListener(CancelPlaceNewShipAction);
+		uiManager.GetComponent<InstructionPanel>().OnReturnToOutfitShip.AddListener(AcceptPurchaseShipAction);
+
+		//add listeners for naming new unit
 		mouseManager.OnPlacedNewUnit.AddListener(NameNewShipSetUIStateAction);
 		uiManager.GetComponent<NameNewShip> ().OnPurchasedNewShip.AddListener (AcceptNameNewShipAction);
 		uiManager.GetComponent<NameNewShip> ().OnCanceledPurchase.AddListener (CancelNameNewShipAction);
+		uiManager.GetComponent<NameNewShip> ().OnReturnToPlaceUnit.AddListener (AcceptPurchaseItemAction);
 
 
 		//add listener for end turn toggle
@@ -2649,6 +2709,9 @@ public class UINavigationMain : MonoBehaviour {
 		OutfitShipGroup [19] = BuyWarpDriveButton;
 		OutfitShipGroup [20] = BuyTranswarpDriveButton;
 		OutfitShipGroup [21] = BuyItemButtonRow;
+
+		PlaceNewShipGroup = new Selectable[1][];
+		PlaceNewShipGroup [0] = PlaceNewShipButtons;
 
 		NameNewShipGroup = new Selectable[2][];
 		NameNewShipGroup [0] = NameNewShipInputField;
@@ -2971,6 +3034,12 @@ public class UINavigationMain : MonoBehaviour {
 			verticalCycling = false;
 			selectablesWrap = true;
 
+		} else if (CurrentSelectables == PlaceNewShipButtons) {
+
+			horizontalCycling = true;
+			verticalCycling = false;
+			selectablesWrap = true;
+
 		} else if (CurrentSelectables == NameNewShipInputField) {
 
 			horizontalCycling = false;
@@ -3156,6 +3225,34 @@ public class UINavigationMain : MonoBehaviour {
 			//set the current selectables group to match the UI state
 			currentSelectablesGroup = SelectionGroup;
 
+			//check if this is a new turn
+			if (isNewTurn == true) {
+
+				//turn off the flag
+				isNewTurn = false;
+
+				//clear the selectable
+				eventSystem.SetSelectedGameObject(null);
+
+				//find the first array in the group that has an interactable selectable
+				potentialCurrentSelectionGroupIndex = FindFirstInteractableArrayIndex (currentSelectablesGroup);
+
+				//Debug.Log ("potential is "+ potentialCurrentSelectionGroupIndex);
+
+				//set the selectable array that contains an interactable
+				if (potentialCurrentSelectionGroupIndex != -1) {
+
+					//set the currentSelectionGroupIndex
+					currentSelectionGroupIndex = potentialCurrentSelectionGroupIndex;
+
+					//set the currentSelectables based on the index returned
+					CurrentSelectables = currentSelectablesGroup [currentSelectionGroupIndex];
+
+				}
+
+				break;
+
+			}
 
 			//check if the current selectable is within the new selectables group
 			//if the current selectable is within the new group, we don't want set the selectables to the first interactable option,
@@ -3163,7 +3260,7 @@ public class UINavigationMain : MonoBehaviour {
 			//but we will need to know what the group index is within the context of the new group
 
 			//only do this if there is a current selectable
-			if (EventSystem.current.currentSelectedGameObject != null) {
+			else if (EventSystem.current.currentSelectedGameObject != null) {
 
 				//Debug.Log ("current not null");
 
@@ -4380,6 +4477,60 @@ public class UINavigationMain : MonoBehaviour {
 
 			}
 
+
+			//check if we are returning or if we are coming to this menu fresh
+			if (uiManager.GetComponent<PurchaseManager> ().returningBackToPurchaseShip == true && 
+				potentialCurrentSelectionGroupIndex == 0) {
+
+				//if we are returning, we want to set the initial selection to match the previously selected ship
+				//do a switch case on the selected ship type string
+				switch (uiManager.GetComponent<PurchaseManager> ().selectedShipType) {
+
+				case "Scout":
+
+					//set the current selectable to the scout button
+					currentSelectionIndex = 0;
+
+					eventSystem.SetSelectedGameObject(CurrentSelectables[currentSelectionIndex].gameObject);
+
+					return;
+
+				case "Bird Of Prey":
+
+					//set the current selectable to the bird of prey button
+					currentSelectionIndex = 1;
+
+					eventSystem.SetSelectedGameObject(CurrentSelectables[currentSelectionIndex].gameObject);
+
+					return;
+
+
+				case "Destroyer":
+
+				//set the current selectable to the destroyer button
+				currentSelectionIndex = 2;
+
+					eventSystem.SetSelectedGameObject(CurrentSelectables[currentSelectionIndex].gameObject);
+
+				return;
+
+				case "Starship":
+
+				//set the current selectable to the starship button
+				currentSelectionIndex = 3;
+
+					eventSystem.SetSelectedGameObject(CurrentSelectables[currentSelectionIndex].gameObject);
+
+				return;
+
+				default:
+
+					break;
+
+				}
+
+			}
+
 			break;
 
 		case UIState.OutfitShip:
@@ -4407,11 +4558,26 @@ public class UINavigationMain : MonoBehaviour {
 
 		case UIState.PlaceNewShip:
 
-			//there is no UI while placing ship
-			currentSelectablesGroup = null;
-			currentSelectables = null;
+			//set the current selectables group to match the UI state
+			currentSelectablesGroup = PlaceNewShipGroup;
 
-			return;
+			//find the first array in the group that has an interactable selectable
+			potentialCurrentSelectionGroupIndex = FindFirstInteractableArrayIndex (currentSelectablesGroup);
+
+			//Debug.Log ("potentialCurrentSelectionGroupIndex" + potentialCurrentSelectionGroupIndex);
+
+			//check if the potential group index is not -1, which would be the error return
+			if (potentialCurrentSelectionGroupIndex != -1) {
+
+				//set the currentSelectionGroupIndex
+				currentSelectionGroupIndex = potentialCurrentSelectionGroupIndex;
+
+				//set the currentSelectables based on the index returned
+				CurrentSelectables = currentSelectablesGroup [currentSelectionGroupIndex];
+
+			}
+
+			break;
 
 		case UIState.NameNewShip:
 
@@ -5464,6 +5630,44 @@ public class UINavigationMain : MonoBehaviour {
 
 	}
 
+	//this function returns to the first selectable in the group
+	private void ReturnToFirstSelectableInCurrentSelectables(){
+
+		if (returnSelectable != null) {
+
+			//find the returnSelectable in the group
+			for (int i = 0; i < currentSelectablesGroup.Length; i++) {
+
+				if (currentSelectablesGroup [i].Contains (returnSelectable)) {
+
+					//Debug.Log ("found return selectable group");
+
+					//set the current index to the first available
+					currentSelectionIndex = FindFirstInteractableIndex (currentSelectablesGroup [i]);
+
+					//set the selectable to the first available in the group
+					eventSystem.SetSelectedGameObject (currentSelectablesGroup [i] [currentSelectionIndex].gameObject);
+
+					//break out of the for loop
+					break;
+
+				}
+
+			}
+
+		} else {
+
+			eventSystem.SetSelectedGameObject (null);
+		}
+
+		//CurrentUIState = returnUIState;
+
+		OnUIStateChange.Invoke ();
+
+
+	}
+
+
 	//this function determines the UI state after returning from a window based on what toggle is active in the action menu
 	private void DetermineUIState(){
 
@@ -5565,13 +5769,19 @@ public class UINavigationMain : MonoBehaviour {
 			uiManager.GetComponent<PurchaseManager>().purchaseItemsButton.onClick.RemoveListener(AcceptPurchaseItemAction);
 
 			//remove listeners for purchase ship menu
-			uiManager.GetComponent<PurchaseManager>().openPurchaseShipButton.onClick.RemoveListener(BuyShipSetUIStateAction);
+			uiManager.GetComponent<PurchaseManager>().OnOpenPurchaseShip.RemoveListener(BuyShipSetUIStateAction);
+			uiManager.GetComponent<PurchaseManager>().OnReturnToPurchaseShip.RemoveListener(BuyShipSetUIStateAction);
 			uiManager.GetComponent<PurchaseManager>().cancelPurchaseShipButton.onClick.RemoveListener(CancelPurchaseShipAction);
 			uiManager.GetComponent<PurchaseManager>().purchaseShipButton.onClick.RemoveListener(AcceptPurchaseShipAction);
+
+			//remove listeners for placing new unit
+			uiManager.GetComponent<InstructionPanel>().OnCancelPlaceUnit.RemoveListener(CancelPlaceNewShipAction);
+			uiManager.GetComponent<InstructionPanel>().OnReturnToOutfitShip.RemoveListener(AcceptPurchaseShipAction);
 
 			//remove listeners for name new ship menu
 			uiManager.GetComponent<NameNewShip> ().OnPurchasedNewShip.RemoveListener (AcceptNameNewShipAction);
 			uiManager.GetComponent<NameNewShip> ().OnCanceledPurchase.RemoveListener (CancelNameNewShipAction);
+			uiManager.GetComponent<NameNewShip> ().OnReturnToPlaceUnit.RemoveListener (AcceptPurchaseItemAction);
 
 			//remove listener for rename unit
 			uiManager.GetComponent<RenameShip>().OnEnterRenameMode.RemoveListener(RenameShipSetUIStateAction);

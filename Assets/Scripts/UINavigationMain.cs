@@ -1794,9 +1794,11 @@ public class UINavigationMain : MonoBehaviour {
 		//check if we are pressing the comma key (less than) 
 		if (Input.GetKeyDown (KeyCode.Comma) == true) {
 
-			//check if the previous unit button is interactable and enabled
+			//check if the previous unit button is interactable and enabled and in the current group and it's not cutscene
 			if (uiManager.GetComponent<NextUnit>().previousUnitButton.IsInteractable() == true && 
-				uiManager.GetComponent<NextUnit>().previousUnitButton.IsActive() == true) {
+				uiManager.GetComponent<NextUnit>().previousUnitButton.IsActive() == true && 
+				SelectableInGroup(uiManager.GetComponent<NextUnit>().previousUnitButton.GetComponent<Selectable>()) == true && 
+				uiManager.GetComponent<CutsceneManager>().cutscenePanel.activeInHierarchy == false) {
 
 				//call the previous button on-click
 				uiManager.GetComponent<NextUnit>().previousUnitButton.onClick.Invoke();
@@ -1808,9 +1810,11 @@ public class UINavigationMain : MonoBehaviour {
 		//check if we are pressing the period key (greater than) 
 		if (Input.GetKeyDown (KeyCode.Period) == true) {
 
-			//check if the previous unit button is interactable and enabled
+			//check if the previous unit button is interactable and enabled and in the current group
 			if (uiManager.GetComponent<NextUnit>().nextUnitButton.IsInteractable() == true && 
-				uiManager.GetComponent<NextUnit>().nextUnitButton.IsActive() == true) {
+				uiManager.GetComponent<NextUnit>().nextUnitButton.IsActive() == true && 
+				SelectableInGroup(uiManager.GetComponent<NextUnit>().nextUnitButton.GetComponent<Selectable>()) == true &&
+				uiManager.GetComponent<CutsceneManager>().cutscenePanel.activeInHierarchy == false) {
 
 				//call the next button on-click
 				uiManager.GetComponent<NextUnit>().nextUnitButton.onClick.Invoke();
@@ -5709,6 +5713,25 @@ public class UINavigationMain : MonoBehaviour {
 			CurrentUIState = UIState.Selection;
 
 		}
+
+	}
+
+	//this function checks if a selectable is in the current group
+	private bool SelectableInGroup(Selectable testSelectable){
+
+		//find the returnSelectable in the group
+		for (int i = 0; i < currentSelectablesGroup.Length; i++) {
+
+			if (currentSelectablesGroup [i].Contains (testSelectable)) {
+
+				return true;
+
+			}
+
+		}
+
+		//if we didn't return from the for loop, we can return false
+		return false;
 
 	}
 

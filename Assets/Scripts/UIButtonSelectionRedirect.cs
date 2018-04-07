@@ -7,7 +7,7 @@ using UnityEngine.EventSystems;
 using TMPro;
 
 [RequireComponent(typeof(Button))]
-public class UIButtonSelectionRedirect : MonoBehaviour, IPointerClickHandler {
+public class UIButtonSelectionRedirect : MonoBehaviour, IPointerClickHandler,ISubmitHandler {
 
 	//this is the selectable that we want to redirect selection to when we click this button
 	public Selectable redirectSelectable;
@@ -20,8 +20,25 @@ public class UIButtonSelectionRedirect : MonoBehaviour, IPointerClickHandler {
 	//this function is called when the pointer clicks on the object
 	public void OnPointerClick(PointerEventData pointerEventData){
 
-		//invoke the redirect event
-		OnClickedButtonForRedirect.Invoke (redirectSelectable);
+		//check if the object is interactable and active
+		if (this.GetComponent<Selectable> ().IsInteractable () == true && this.GetComponent<Selectable> ().IsActive () == true) {
+
+			//invoke the redirect event
+			OnClickedButtonForRedirect.Invoke (redirectSelectable);
+
+		}
+
+	}
+
+	public void OnSubmit(BaseEventData eventData){
+
+		//check if the object is interactable and active
+		if (this.GetComponent<Selectable> ().IsInteractable () == true && this.GetComponent<Selectable> ().IsActive () == true) {
+			
+			//invoke the redirect event
+			OnClickedButtonForRedirect.Invoke (redirectSelectable);
+
+		}
 
 	}
 

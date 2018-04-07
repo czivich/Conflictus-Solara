@@ -138,6 +138,7 @@ public class MainMenuManager : MonoBehaviour {
 		uiManagerMainMenu.GetComponent<SceneTransitionFadePanel> ().Init ();
 		uiManagerMainMenu.GetComponent<Settings> ().Init ();
 		uiManagerMainMenu.GetComponent<UINavigationMainMenu> ().Init ();
+		uiManagerMainMenu.GetComponent<About> ().Init ();
 
 	}
 

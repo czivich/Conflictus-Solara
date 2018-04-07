@@ -67,6 +67,11 @@ public class PauseFadePanelMainMenu : MonoBehaviour {
 		uiManager.GetComponent<Settings>().exitButton.onClick.AddListener(DisablePauseFadePanel);
 		uiManager.GetComponent<Settings>().acceptButton.onClick.AddListener(DisablePauseFadePanel);
 
+		//add listeners for the about panel
+		uiManager.GetComponent<About>().OnOpenAboutPanel.AddListener(EnablePauseFadePanel);
+		uiManager.GetComponent<About>().OnCloseAboutPanel.AddListener(DisablePauseFadePanel);
+
+
 		//start with the panel disabled
 		DisablePauseFadePanel ();
 
@@ -177,6 +182,10 @@ public class PauseFadePanelMainMenu : MonoBehaviour {
 			uiManager.GetComponent<Settings> ().acceptButton.onClick.AddListener (DisablePauseFadePanel);
 
 		}
+
+		//remove listeners for the about panel
+		uiManager.GetComponent<About>().OnOpenAboutPanel.RemoveListener(EnablePauseFadePanel);
+		uiManager.GetComponent<About>().OnCloseAboutPanel.RemoveListener(DisablePauseFadePanel);
 
 	}
 

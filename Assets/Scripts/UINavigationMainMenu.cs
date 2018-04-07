@@ -25,6 +25,7 @@ public class UINavigationMainMenu : MonoBehaviour {
 		LoadLocalGame,
 		FileDeletePrompt,
 		Settings,
+		About,
 		ExitGamePrompt,
 
 	}
@@ -71,6 +72,7 @@ public class UINavigationMainMenu : MonoBehaviour {
 	private Selectable[][] LoadLocalGameGroup;
 	private Selectable[][] FileDeletePromptGroup;
 	private Selectable[][] SettingsGroup;
+	private Selectable[][] AboutGroup;
 	private Selectable[][] ExitGamePromptGroup;
 
 	//these public arrays will hold the different selectables arrays
@@ -98,6 +100,8 @@ public class UINavigationMainMenu : MonoBehaviour {
 	public Selectable[] SettingsMusicVolume;
 	public Selectable[] SettingsSfxVolume;
 	public Selectable[] SettingsButtonsRow;
+
+	public Selectable[] AboutGameButtons;
 
 	public Selectable[] ExitGameButtons;
 
@@ -178,6 +182,9 @@ public class UINavigationMainMenu : MonoBehaviour {
 
 	private UnityAction OpenSettingsWindowAction;
 	private UnityAction CloseSettingsWindowAction;
+
+	private UnityAction OpenAboutPanelAction;
+	private UnityAction CloseAboutPanelAction;
 
 	private UnityAction OpenExitGamePromptAction;
 	private UnityAction CloseExitGamePromptAction;
@@ -776,6 +783,11 @@ public class UINavigationMainMenu : MonoBehaviour {
 				//cancel out of the menu
 				uiManager.GetComponent<Settings> ().exitButton.onClick.Invoke ();
 
+			} else if (CurrentUIState == UIState.About) {
+
+				//cancel out of the menu
+				uiManager.GetComponent<About> ().cancelButton.onClick.Invoke ();
+
 			} else if (CurrentUIState == UIState.ExitGamePrompt) {
 
 				//cancel out of the menu
@@ -932,6 +944,20 @@ public class UINavigationMainMenu : MonoBehaviour {
 
 		};
 
+		OpenAboutPanelAction = () => {CurrentUIState = UIState.About;};
+
+		CloseAboutPanelAction = () => {
+
+			CurrentUIState = UIState.MainMenu;
+
+			//returnUIState = UIState.Selection;
+			returnSelectable = MainMenuButtons[6];
+
+			//returnSelectable = null;
+			delayReturnToSelectableCount = 2;
+
+		};
+
 
 		OpenExitGamePromptAction = () => {CurrentUIState = UIState.ExitGamePrompt;};
 
@@ -940,7 +966,7 @@ public class UINavigationMainMenu : MonoBehaviour {
 			CurrentUIState = UIState.MainMenu;
 
 			//returnUIState = UIState.Selection;
-			returnSelectable = MainMenuButtons[6];
+			returnSelectable = MainMenuButtons[7];
 
 			//returnSelectable = null;
 			delayReturnToSelectableCount = 2;
@@ -1010,6 +1036,10 @@ public class UINavigationMainMenu : MonoBehaviour {
 		uiManager.GetComponent<Settings>().acceptButton.onClick.AddListener(CloseSettingsWindowAction);
 		uiManager.GetComponent<Settings>().exitButton.onClick.AddListener(CloseSettingsWindowAction);
 
+		//add listeners for the about panel
+		uiManager.GetComponent<About>().OnOpenAboutPanel.AddListener(OpenAboutPanelAction);
+		uiManager.GetComponent<About>().OnCloseAboutPanel.AddListener(CloseAboutPanelAction);
+
 		//add listener for entering the exit game prompt
 		uiManager.GetComponent<ExitGamePrompt>().OnExitGamePromptOpened.AddListener(OpenExitGamePromptAction);
 
@@ -1069,6 +1099,9 @@ public class UINavigationMainMenu : MonoBehaviour {
 		SettingsGroup[6] = SettingsMusicVolume;
 		SettingsGroup[7] = SettingsSfxVolume;
 		SettingsGroup[8] = SettingsButtonsRow;
+
+		AboutGroup = new Selectable[1][];
+		AboutGroup [0] = AboutGameButtons;
 
 		ExitGamePromptGroup = new Selectable[1][];
 		ExitGamePromptGroup [0] = ExitGameButtons;
@@ -1200,6 +1233,12 @@ public class UINavigationMainMenu : MonoBehaviour {
 			horizontalCycling = true;
 			verticalCycling = false;
 			selectablesWrap = true;
+
+		} else if (CurrentSelectables == AboutGameButtons){
+
+			horizontalCycling = false;
+			verticalCycling = false;
+			selectablesWrap = false;
 
 		} else if (CurrentSelectables == ExitGameButtons){
 
@@ -1488,6 +1527,27 @@ public class UINavigationMainMenu : MonoBehaviour {
 
 			break;
 
+		case UIState.About:
+
+			//set the current selectables group to match the UI state
+			currentSelectablesGroup = AboutGroup;
+
+			//find the first array in the group that has an interactable selectable
+			potentialCurrentSelectionGroupIndex = FindFirstInteractableArrayIndex (currentSelectablesGroup);
+
+			//set the selectable array that contains an interactable
+			if (potentialCurrentSelectionGroupIndex != -1) {
+
+				//set the currentSelectionGroupIndex
+				currentSelectionGroupIndex = potentialCurrentSelectionGroupIndex;
+
+				//set the currentSelectables based on the index returned
+				CurrentSelectables = currentSelectablesGroup[currentSelectionGroupIndex];
+
+			}
+
+			break;
+		
 		case UIState.ExitGamePrompt:
 
 			//set the current selectables group to match the UI state
@@ -2179,6 +2239,10 @@ public class UINavigationMainMenu : MonoBehaviour {
 			//remove listeners for exiting the settings menu
 			uiManager.GetComponent<Settings>().acceptButton.onClick.RemoveListener(CloseSettingsWindowAction);
 			uiManager.GetComponent<Settings>().exitButton.onClick.RemoveListener(CloseSettingsWindowAction);
+
+			//remove listeners for the about panel
+			uiManager.GetComponent<About>().OnOpenAboutPanel.RemoveListener(OpenAboutPanelAction);
+			uiManager.GetComponent<About>().OnCloseAboutPanel.RemoveListener(CloseAboutPanelAction);
 
 			//remove listener for entering the exit game prompt
 			uiManager.GetComponent<ExitGamePrompt>().OnExitGamePromptOpened.RemoveListener(OpenExitGamePromptAction);

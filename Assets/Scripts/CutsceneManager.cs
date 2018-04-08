@@ -365,6 +365,11 @@ public class CutsceneManager : MonoBehaviour {
 	public UnityEvent OnOpenCutsceneDisplayPanel = new UnityEvent();
 	public UnityEvent OnCloseCutsceneDisplayPanel = new UnityEvent();
 
+	public UnityEvent OnFirePhasors = new UnityEvent();
+	public UnityEvent OnFireXRay = new UnityEvent();
+	public UnityEvent OnPhasorHit = new UnityEvent();
+
+
 	//these events are for getting in between combat manager events and downstream events
 	public static CombatCutsceneEvent OnPhasorHitShipPhasorSection = new CombatCutsceneEvent();
 	public static CombatCutsceneEvent OnPhasorHitShipTorpedoSection = new CombatCutsceneEvent();
@@ -1130,12 +1135,17 @@ public class CutsceneManager : MonoBehaviour {
 							UIAnimation.CreateUIAmination (prefabXRayMuzzle, phasorLinePulseLength, new Vector3 (3f, 3f, 3f),
 								phasorLineStartPoints [i], explosionsParent.transform, true);
 
+							//invoke the fire xray event
+							OnFireXRay.Invoke ();
 
 						} else {
 
 							//create a phasor muzzle animation at the start point
 							UIAnimation.CreateUIAmination (prefabPhasorMuzzle, phasorLinePulseLength, new Vector3 (2f, 2f, 2f),
 								phasorLineStartPoints [i], explosionsParent.transform, true);
+
+							//invoke the fire phasors event
+							OnFirePhasors.Invoke ();
 
 						}
 
@@ -1178,11 +1188,17 @@ public class CutsceneManager : MonoBehaviour {
 									UIAnimation.CreateUIAmination (prefabXRayHit, 0.5f, new Vector3 (1f, 1f, 1f),
 										phasorLineEndPoints [i], explosionsParent.transform, true);
 
+									//invoke the hit event
+									OnPhasorHit.Invoke();
+
 								} else {
 									
 									//create a phasor hit animation at the end point
 									UIAnimation.CreateUIAmination (prefabPhasorHit, 0.5f, new Vector3 (1f, 1f, 1f),
 										phasorLineEndPoints [i], explosionsParent.transform, true);
+
+									//invoke the hit event
+									OnPhasorHit.Invoke();
 
 								}
 

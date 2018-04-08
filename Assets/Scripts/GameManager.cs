@@ -58,6 +58,7 @@ public class GameManager : MonoBehaviour {
 	private GraphicsManager graphicsManager;
 	private ColonyManager colonyManager;
 	private MouseManager mouseManager;
+	private SoundManager soundManager;
 
 	//variable to hold the tileMap
 	private TileMap tileMap;
@@ -477,6 +478,7 @@ public class GameManager : MonoBehaviour {
 				uiManager = GameObject.FindGameObjectWithTag ("UIManager").GetComponent<UIManager> ();
 				messageManager = GameObject.FindGameObjectWithTag ("MessageManager").GetComponent<MessageManager> ();
 				mouseManager = GameObject.FindGameObjectWithTag ("MouseManager").GetComponent<MouseManager> ();
+				soundManager = GameObject.FindGameObjectWithTag ("SoundManager").GetComponent<SoundManager> ();
 
 				//get the main camera
 				mainCamera = Camera.main;
@@ -520,6 +522,7 @@ public class GameManager : MonoBehaviour {
 		uiManager = GameObject.FindGameObjectWithTag ("UIManager").GetComponent<UIManager> ();
 		messageManager = GameObject.FindGameObjectWithTag ("MessageManager").GetComponent<MessageManager> ();
 		mouseManager = GameObject.FindGameObjectWithTag ("MouseManager").GetComponent<MouseManager> ();
+		soundManager = GameObject.FindGameObjectWithTag ("SoundManager").GetComponent<SoundManager> ();
 
 
 
@@ -1806,6 +1809,7 @@ public class GameManager : MonoBehaviour {
 
 		uiManager.Init ();
 
+		soundManager.Init ();
 
 	}
 

@@ -31,6 +31,7 @@ TagManager:
   - EmblemParent
   - InactiveUI
   - SelectedUI
+  - SoundManager
   layers:
   - Default
   - TransparentFX

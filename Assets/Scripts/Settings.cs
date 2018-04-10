@@ -293,6 +293,9 @@ public class Settings : MonoBehaviour {
 		//update all scroll rects to the settings values
 		UpdateScrollRectSensitivity();
 
+		//set the UI elements
+		SetSettingsUIState();
+
 		//invoke the mouse zoom sensitivity event
 		OnChangeMouseZoomSensitivity.Invoke((int)this.mouseZoomSensitivity);
 
@@ -663,6 +666,9 @@ public class Settings : MonoBehaviour {
 			//update the slider value
 			ResolveSliderValueChange ((int)sliderValue, musicVolumeValue, ref musicVolume);
 
+			//invoke the mouse music volume change event
+			OnChangeMusicVolume.Invoke((int)this.mouseZoomSensitivity);
+
 		});
 
 		//set sfx volume actions
@@ -672,6 +678,9 @@ public class Settings : MonoBehaviour {
 
 			//update the slider value
 			ResolveSliderValueChange ((int)sliderValue, sfxVolumeValue, ref sfxVolume);
+
+			//invoke the sfx volume change event
+			OnChangeSfxVolume.Invoke((int)this.mouseZoomSensitivity);
 
 		});
 

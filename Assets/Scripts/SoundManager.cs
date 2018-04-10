@@ -7,20 +7,42 @@ public class SoundManager : MonoBehaviour {
 
 	//managers
 	private UIManager uiManager;
+	private GameManager gameManager;
 
 	//audioclips
+	public AudioClip clipMainBackgroundMusic;
+
+
+
 	public AudioClip clipPhasorFire;
 	public AudioClip clipXRayFire;
 	public AudioClip clipPhasorHit;
 
 
 	//audioSource
+	private AudioSource audioMainBackgroundMusic;
+
 	private AudioSource audioPhasorFire;
 	private AudioSource audioXRayFire;
 	private AudioSource audioPhasorHit;
 
+	//this variable controls how long the fade in time is for background music
+	private float fadeInTime = 5.0f;
+
+	//this variable keeps track of the timer for fading in
+	private float fadeInTimer = 0.0f;
+
+	//this tracks the music volume level
+	private float musicVolumeLevel;
+
+	//this tracks the sound effects volume level
+	private float sfxVolumeLevel;
 
 	//unityActions
+	private UnityAction startMainBackgroundAction;
+	private UnityAction<Player> playerStartMainBackgroundAction;
+	private UnityAction<int> intChangeMusicVolumeAction;
+	private UnityAction<int> intChangeSfxVolumeAction;
 	private UnityAction phasorFireAction;
 	private UnityAction xRayFireAction;
 	private UnityAction phasorHitAction;
@@ -31,9 +53,13 @@ public class SoundManager : MonoBehaviour {
 
 		//get the managers
 		uiManager = GameObject.FindGameObjectWithTag("UIManager").GetComponent<UIManager>();
+		gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
 
 		//create the audiosources
 		AddAudioSources();
+
+		//get the music volume level
+		GetMusicVolumeLevel();
 
 		//set unity actions
 		SetUnityActions ();
@@ -43,9 +69,32 @@ public class SoundManager : MonoBehaviour {
 
 	}
 
+	private void Update(){
+
+		//check if the fade in timer is less than the value
+		if (fadeInTimer <= fadeInTime) {
+
+			//scale the volume proportional to the time elapsed
+			audioMainBackgroundMusic.volume = fadeInTimer / fadeInTime * musicVolumeLevel;
+
+			fadeInTimer += Time.deltaTime;
+
+		} else {
+
+			//here, the timer has elapsed more than the time, so we should be at max volume
+			audioMainBackgroundMusic.volume = musicVolumeLevel;
+
+		}
+
+	}
+
 	//this function sets the actions
 	private void SetUnityActions(){
 
+		startMainBackgroundAction = () => {StartMainBackgroundMusic();};
+		playerStartMainBackgroundAction = (player) => {StartMainBackgroundMusic();};
+		intChangeMusicVolumeAction = (volumeLevel) => {GetMusicVolumeLevel();};
+		intChangeSfxVolumeAction = (volumeLevel) => {GetSfxVolumeLevel();};
 		phasorFireAction = () => {audioPhasorFire.Play ();};
 		xRayFireAction = () => {audioXRayFire.Play ();};
 		phasorHitAction = () => {audioPhasorHit.Play ();};
@@ -54,6 +103,18 @@ public class SoundManager : MonoBehaviour {
 
 	//this function adds event listeners
 	private void AddEventListeners(){
+
+		//add listener for new scene startup
+		gameManager.OnSceneStartup.AddListener(startMainBackgroundAction);
+
+		//add listener for loaded game
+		gameManager.OnLoadedTurn.AddListener(playerStartMainBackgroundAction);
+
+		//add listener for music volume change
+		uiManager.GetComponent<Settings>().OnChangeMusicVolume.AddListener(intChangeMusicVolumeAction);
+
+		//add listener for sfx volume change
+		uiManager.GetComponent<Settings>().OnChangeSfxVolume.AddListener(intChangeSfxVolumeAction);
 
 		//add listener for phasor fire
 		uiManager.GetComponent<CutsceneManager>().OnFirePhasors.AddListener(phasorFireAction);
@@ -81,9 +142,53 @@ public class SoundManager : MonoBehaviour {
 	//this function adds the audiosources
 	private void AddAudioSources(){
 
-		audioPhasorFire = AddAudio (clipPhasorFire, false, false, 0.1f);
-		audioXRayFire = AddAudio (clipXRayFire, false, false, 0.1f);
-		audioPhasorHit = AddAudio (clipPhasorHit, false, false, 0.5f);
+		audioMainBackgroundMusic = AddAudio (clipMainBackgroundMusic, true, false, 1.0f);
+
+		audioPhasorFire = AddAudio (clipPhasorFire, false, false, 1.0f);
+		audioXRayFire = AddAudio (clipXRayFire, false, false, 1.0f);
+		audioPhasorHit = AddAudio (clipPhasorHit, false, false, 1.0f);
+	}
+
+	//this function starts the main background music
+	private void StartMainBackgroundMusic(){
+
+		//Debug.Log ("PlayMain");
+
+		//start playin the clip
+		audioMainBackgroundMusic.Play();
+
+		//set the volume to zero
+		audioMainBackgroundMusic.volume = 0.0f;
+
+		//reset the timer
+		fadeInTimer = 0.0f;
+
+
+	}
+
+	//this function gets the music volume level
+	private void GetMusicVolumeLevel(){
+
+		//get the volume from settings
+		musicVolumeLevel = uiManager.GetComponent<Settings>().musicVolumeSlider.value / uiManager.GetComponent<Settings>().musicVolumeSlider.maxValue;
+
+		//clamp the value to 0 to 1
+		Mathf.Clamp(musicVolumeLevel,0.0f,1.0f);
+
+	}
+
+	//this function gets the sfx volume level
+	private void GetSfxVolumeLevel(){
+
+		//get the volume from settings
+		sfxVolumeLevel = uiManager.GetComponent<Settings>().sfxVolumeSlider.value / uiManager.GetComponent<Settings>().sfxVolumeSlider.maxValue;
+
+		//clamp the value to 0 to 1
+		Mathf.Clamp(sfxVolumeLevel,0.0f,1.0f);
+
+		//set the volume level
+
+
 	}
 
 	//this function handles on destroy
@@ -97,7 +202,13 @@ public class SoundManager : MonoBehaviour {
 	private void RemoveEventListeners(){
 
 		if (uiManager != null) {
-			
+
+			//remove listener for music volume change
+			uiManager.GetComponent<Settings>().OnChangeMusicVolume.RemoveListener(intChangeMusicVolumeAction);
+
+			//remove listener for sfx volume change
+			uiManager.GetComponent<Settings>().OnChangeSfxVolume.RemoveListener(intChangeSfxVolumeAction);
+
 			//remove listener for phasor fire
 			uiManager.GetComponent<CutsceneManager> ().OnFirePhasors.RemoveListener (phasorFireAction);
 
@@ -106,6 +217,16 @@ public class SoundManager : MonoBehaviour {
 
 			//remove listener for phasor hit
 			uiManager.GetComponent<CutsceneManager>().OnPhasorHit.RemoveListener(phasorHitAction);
+
+		}
+
+		if (gameManager != null) {
+
+			//remove listener for new scene startup
+			gameManager.OnSceneStartup.RemoveListener (startMainBackgroundAction);
+
+			//remove listener for loaded game
+			gameManager.OnLoadedTurn.RemoveListener(playerStartMainBackgroundAction);
 
 		}
 

@@ -26,6 +26,12 @@ public class SoundManager : MonoBehaviour {
 	private AudioSource audioXRayFire;
 	private AudioSource audioPhasorHit;
 
+	//this array will hold all the sfxAudioSources
+	private AudioSource[] sfxAudioSources;
+
+	//this bool flag determines whether we should be fading in background music
+	private bool isFadingInMusic;
+
 	//this variable controls how long the fade in time is for background music
 	private float fadeInTime = 5.0f;
 
@@ -71,18 +77,26 @@ public class SoundManager : MonoBehaviour {
 
 	private void Update(){
 
-		//check if the fade in timer is less than the value
-		if (fadeInTimer <= fadeInTime) {
+		//check if we are supposed to be fading in
+		if (isFadingInMusic == true) {
 
-			//scale the volume proportional to the time elapsed
-			audioMainBackgroundMusic.volume = fadeInTimer / fadeInTime * musicVolumeLevel;
+			//check if the fade in timer is less than the value
+			if (fadeInTimer <= fadeInTime) {
 
-			fadeInTimer += Time.deltaTime;
+				//scale the volume proportional to the time elapsed
+				audioMainBackgroundMusic.volume = fadeInTimer / fadeInTime * musicVolumeLevel;
 
-		} else {
+				fadeInTimer += Time.deltaTime;
 
-			//here, the timer has elapsed more than the time, so we should be at max volume
-			audioMainBackgroundMusic.volume = musicVolumeLevel;
+			} else {
+
+				//here, the timer has elapsed more than the time, so we should be at max volume
+				audioMainBackgroundMusic.volume = musicVolumeLevel;
+
+				//turn off the flag
+				isFadingInMusic = false;
+
+			}
 
 		}
 
@@ -147,12 +161,20 @@ public class SoundManager : MonoBehaviour {
 		audioPhasorFire = AddAudio (clipPhasorFire, false, false, 1.0f);
 		audioXRayFire = AddAudio (clipXRayFire, false, false, 1.0f);
 		audioPhasorHit = AddAudio (clipPhasorHit, false, false, 1.0f);
+
+		//fill up the sfx array
+		sfxAudioSources = new AudioSource[3];
+		sfxAudioSources [0] = audioPhasorFire;
+		sfxAudioSources [1] = audioXRayFire;
+		sfxAudioSources [2] = audioPhasorHit;
+
 	}
 
 	//this function starts the main background music
 	private void StartMainBackgroundMusic(){
 
-		//Debug.Log ("PlayMain");
+		//turn on the fading in flag
+		isFadingInMusic = true;
 
 		//start playin the clip
 		audioMainBackgroundMusic.Play();
@@ -175,6 +197,9 @@ public class SoundManager : MonoBehaviour {
 		//clamp the value to 0 to 1
 		Mathf.Clamp(musicVolumeLevel,0.0f,1.0f);
 
+		//set the volume level
+		audioMainBackgroundMusic.volume = musicVolumeLevel;
+
 	}
 
 	//this function gets the sfx volume level
@@ -187,8 +212,12 @@ public class SoundManager : MonoBehaviour {
 		Mathf.Clamp(sfxVolumeLevel,0.0f,1.0f);
 
 		//set the volume level
+		for (int i = 0; i < sfxAudioSources.Length; i++) {
 
+			sfxAudioSources [i].volume = sfxVolumeLevel;
 
+		}
+			
 	}
 
 	//this function handles on destroy

@@ -106,7 +106,7 @@ public class Settings : MonoBehaviour {
 	private const int mouseZoomSensitivityDefault = 32;
 	private const int mouseScrollSensitivityDefault = 32;
 	private const int musicVolumeDefault = 32;
-	private const int sfxVolumeDefault = 32;
+	private const int sfxVolumeDefault = 50;
 
 	private bool mouseZoomInverted;
 	private int mouseZoomSensitivity;
@@ -667,7 +667,7 @@ public class Settings : MonoBehaviour {
 			ResolveSliderValueChange ((int)sliderValue, musicVolumeValue, ref musicVolume);
 
 			//invoke the mouse music volume change event
-			OnChangeMusicVolume.Invoke((int)this.mouseZoomSensitivity);
+			OnChangeMusicVolume.Invoke((int)this.musicVolume);
 
 		});
 
@@ -680,7 +680,7 @@ public class Settings : MonoBehaviour {
 			ResolveSliderValueChange ((int)sliderValue, sfxVolumeValue, ref sfxVolume);
 
 			//invoke the sfx volume change event
-			OnChangeSfxVolume.Invoke((int)this.mouseZoomSensitivity);
+			OnChangeSfxVolume.Invoke((int)this.sfxVolume);
 
 		});
 

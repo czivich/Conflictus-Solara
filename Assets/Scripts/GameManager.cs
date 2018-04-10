@@ -1804,12 +1804,14 @@ public class GameManager : MonoBehaviour {
 
 		mouseManager.Init ();
 
+		soundManager.Init ();
+
 		//this needs to be after mouse manager since mouse manager is listening to it
+		//this needs to be after sound manager since sound manager is listening to it
 		uiManager.GetComponent<Settings> ().Init ();
 
 		uiManager.Init ();
 
-		soundManager.Init ();
 
 	}
 

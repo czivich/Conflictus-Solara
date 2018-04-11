@@ -17,6 +17,7 @@ public class SoundManager : MonoBehaviour {
 	public AudioClip clipPhasorFire;
 	public AudioClip clipXRayFire;
 	public AudioClip clipPhasorHit;
+	public AudioClip clipSelectableHover;
 
 
 	//audioSource
@@ -25,6 +26,7 @@ public class SoundManager : MonoBehaviour {
 	private AudioSource audioPhasorFire;
 	private AudioSource audioXRayFire;
 	private AudioSource audioPhasorHit;
+	private AudioSource audioSelectableHover;
 
 	//this array will hold all the sfxAudioSources
 	private AudioSource[] sfxAudioSources;
@@ -52,6 +54,7 @@ public class SoundManager : MonoBehaviour {
 	private UnityAction phasorFireAction;
 	private UnityAction xRayFireAction;
 	private UnityAction phasorHitAction;
+	private UnityAction selectableHoverAction;
 
 
 	// Use this for initialization
@@ -111,8 +114,8 @@ public class SoundManager : MonoBehaviour {
 		intChangeSfxVolumeAction = (volumeLevel) => {GetSfxVolumeLevel();};
 		phasorFireAction = () => {audioPhasorFire.Play ();};
 		xRayFireAction = () => {audioXRayFire.Play ();};
-		phasorHitAction = () => {audioPhasorHit.Play ();};
-
+		phasorHitAction = () => {audioPhasorHit.PlayDelayed(.05f);};   //delay .125 seconds
+		selectableHoverAction = () => {audioSelectableHover.Play ();};
 	}
 
 	//this function adds event listeners
@@ -139,6 +142,9 @@ public class SoundManager : MonoBehaviour {
 		//add listener for phasor hit
 		uiManager.GetComponent<CutsceneManager>().OnPhasorHit.AddListener(phasorHitAction);
 
+		//add listener for selectable hover
+		uiManager.GetComponent<UINavigationMain>().OnPointerEnterValidSelectable.AddListener(selectableHoverAction);
+
 	}
 
 	//this function creates a new audioSource component for the passed clip
@@ -161,12 +167,15 @@ public class SoundManager : MonoBehaviour {
 		audioPhasorFire = AddAudio (clipPhasorFire, false, false, 1.0f);
 		audioXRayFire = AddAudio (clipXRayFire, false, false, 1.0f);
 		audioPhasorHit = AddAudio (clipPhasorHit, false, false, 1.0f);
+		audioSelectableHover = AddAudio (clipSelectableHover, false, false, 1.0f);
+
 
 		//fill up the sfx array
-		sfxAudioSources = new AudioSource[3];
+		sfxAudioSources = new AudioSource[4];
 		sfxAudioSources [0] = audioPhasorFire;
 		sfxAudioSources [1] = audioXRayFire;
 		sfxAudioSources [2] = audioPhasorHit;
+		sfxAudioSources [3] = audioSelectableHover;
 
 	}
 
@@ -246,6 +255,9 @@ public class SoundManager : MonoBehaviour {
 
 			//remove listener for phasor hit
 			uiManager.GetComponent<CutsceneManager>().OnPhasorHit.RemoveListener(phasorHitAction);
+
+			//remove listener for selectable hover
+			uiManager.GetComponent<UINavigationMain>().OnPointerEnterValidSelectable.RemoveListener(selectableHoverAction);
 
 		}
 

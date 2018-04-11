@@ -285,6 +285,11 @@ public class UINavigationMain : MonoBehaviour {
 	public SaveFileSelectedEvent OnSelectSaveFile = new SaveFileSelectedEvent();
 	public class SaveFileSelectedEvent : UnityEvent<GameObject>{}
 
+
+	//this event announces a successful pointer enter valid selectable
+	public UnityEvent OnPointerEnterValidSelectable = new UnityEvent();
+
+
 	//unityActions
 	private UnityAction<Player> NewTurnSetInitialSelectablesAction;
 	private UnityAction<bool> MoveToggleSetUIStateAction;
@@ -359,6 +364,10 @@ public class UINavigationMain : MonoBehaviour {
 
 	//this action catches a redirect from a clicked up/down button to the selectable count
 	private UnityAction<Selectable> ButtonRedirectSetSelectedObjectAction;
+
+	//this action listens for onpointerenter events
+	private UnityAction<Selectable> OnPointerEnterTestAction;
+
 
 	// Use this for initialization
 	public void Init () {
@@ -2416,6 +2425,9 @@ public class UINavigationMain : MonoBehaviour {
 
 		};
 
+		//this action checks if the selectable is valid
+		OnPointerEnterTestAction = (testSelectable) => {CheckOnPointerEnter(testSelectable);};
+
 	}
 
 	//this function adds event listeners
@@ -2586,6 +2598,8 @@ public class UINavigationMain : MonoBehaviour {
 		//add listener for the redirect click
 		UIButtonSelectionRedirect.OnClickedButtonForRedirect.AddListener(ButtonRedirectSetSelectedObjectAction);
 
+		//add listener to the UI selection pointer enter
+		UISelection.OnPointerEnterSelectable.AddListener(OnPointerEnterTestAction);
 
 	}
 
@@ -5735,6 +5749,34 @@ public class UINavigationMain : MonoBehaviour {
 
 	}
 
+	//this function checks if the passed selectable is in the current group, and if it is valid
+	private bool CheckValidSelectable(Selectable testSelectable){
+
+		//check if the selectable is in the group, is active, and is interactable
+		if (SelectableInGroup (testSelectable) == true && testSelectable.IsInteractable () == true && testSelectable.IsActive() == true) {
+
+			return true;
+
+		} else {
+
+			return false;
+
+		}
+
+	}
+
+	//this function checks if a OnPointerEnter is valid, and if so, fires an event
+	private void CheckOnPointerEnter(Selectable testSelectable){
+
+		//check validity
+		if (CheckValidSelectable (testSelectable) == true) {
+
+			OnPointerEnterValidSelectable.Invoke ();
+
+		}
+
+	}
+
 
 	//this function handles on destroy
 	private void OnDestroy(){
@@ -5915,6 +5957,9 @@ public class UINavigationMain : MonoBehaviour {
 
 		//remove listener for the redirect click
 		UIButtonSelectionRedirect.OnClickedButtonForRedirect.RemoveListener(ButtonRedirectSetSelectedObjectAction);
+
+		//remove listener to the UI selection pointer enter
+		UISelection.OnPointerEnterSelectable.RemoveListener(OnPointerEnterTestAction);
 
 	}
 

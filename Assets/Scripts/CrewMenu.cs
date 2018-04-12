@@ -82,6 +82,8 @@ public class CrewMenu : MonoBehaviour {
 	//this function sets the interactability of the crew menu toggles
 	private void SetCrewMenuToggles(){
 
+		//Debug.Log ("SetCrewMenuToggle at " + Time.frameCount);
+
 		//this is if the crew menu Toggle has been turned on
 		if (crewToggle.isOn == true) {
 

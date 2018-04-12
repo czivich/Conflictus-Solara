@@ -18,6 +18,10 @@ public class UISelection : MonoBehaviour, IPointerEnterHandler, IDeselectHandler
 
 	public static SelectionEvent OnPointerEnterSelectable = new SelectionEvent();
 
+	public static SelectionEvent OnSelectedSelectable = new SelectionEvent();
+
+	public static SelectionEvent OnSubmitSelectable = new SelectionEvent();
+
 
 	//simple class so I can have my event pass a gameObject
 	public class SelectionEvent : UnityEvent<Selectable>{};
@@ -55,7 +59,10 @@ public class UISelection : MonoBehaviour, IPointerEnterHandler, IDeselectHandler
 		//enable the selectUI image
 		this.GetComponent<Selectable>().gameObject.FindComponentInChildWithTag<Image> ("SelectedUI").enabled = true;
 
-		//Debug.Log ("Selected " + this.gameObject.name);
+		Debug.Log ("Selected " + this.gameObject.name);
+
+		//invoke the event
+		OnSelectedSelectable.Invoke(this.GetComponent<Selectable>());
 
 	}
 
@@ -75,12 +82,17 @@ public class UISelection : MonoBehaviour, IPointerEnterHandler, IDeselectHandler
 		//disable the selectUI image
 		//this.gameObject.FindComponentInChildWithTag<Image> ("SelectedUI").enabled = false;
 
-		//Debug.Log ("Deselect " + this.gameObject.name);
+		Debug.Log ("OnSubmit " + this.gameObject.name);
+
+		//invoke the event
+		OnSubmitSelectable.Invoke(this.GetComponent<Selectable>());
 
 	}
 
 
 	public void OnPointerClick(PointerEventData pointerEventData){
+
+		Debug.Log ("OnPointerClick");
 
 		//check if the clicked object is interactable
 		if (this.GetComponent<Selectable> ().IsInteractable () == true) {

@@ -1136,7 +1136,7 @@ public class UseItemMenu : MonoBehaviour {
 		}
 		//the else case is we are turning it off
 		else {
-
+			
 			//check to make sure we have a unit selected
 			if (mouseMananger.selectedUnit != null) {
 				

@@ -368,6 +368,8 @@ public class UINavigationMain : MonoBehaviour {
 	//this action listens for onpointerenter events
 	private UnityAction<Selectable> OnPointerEnterTestAction;
 
+	//this action listens for onpointerenter events
+	private UnityAction<Selectable> OnPointerEnterNonGroupTestAction;
 
 	// Use this for initialization
 	public void Init () {
@@ -2428,6 +2430,9 @@ public class UINavigationMain : MonoBehaviour {
 		//this action checks if the selectable is valid
 		OnPointerEnterTestAction = (testSelectable) => {CheckOnPointerEnter(testSelectable);};
 
+		//this action checks if the selectable is valid
+		OnPointerEnterNonGroupTestAction = (testSelectable) => {CheckOnPointerEnterNonGroup(testSelectable);};
+
 	}
 
 	//this function adds event listeners
@@ -2600,6 +2605,9 @@ public class UINavigationMain : MonoBehaviour {
 
 		//add listener to the UI selection pointer enter
 		UISelection.OnPointerEnterSelectable.AddListener(OnPointerEnterTestAction);
+
+		//add listener to the UI selection pointer enter
+		UISelectionNonGroup.OnPointerEnterSelectable.AddListener(OnPointerEnterNonGroupTestAction);
 
 	}
 
@@ -5777,6 +5785,18 @@ public class UINavigationMain : MonoBehaviour {
 
 	}
 
+	//this function checks if a OnPointerEnter is valid, and if so, fires an event
+	private void CheckOnPointerEnterNonGroup(Selectable testSelectable){
+
+		//check validity
+		if (testSelectable.IsInteractable () == true && testSelectable.IsActive() == true) {
+
+			OnPointerEnterValidSelectable.Invoke ();
+
+		}
+
+	}
+
 
 	//this function handles on destroy
 	private void OnDestroy(){
@@ -5960,6 +5980,9 @@ public class UINavigationMain : MonoBehaviour {
 
 		//remove listener to the UI selection pointer enter
 		UISelection.OnPointerEnterSelectable.RemoveListener(OnPointerEnterTestAction);
+
+		//remove listener to the UI selection pointer enter
+		UISelectionNonGroup.OnPointerEnterSelectable.RemoveListener(OnPointerEnterNonGroupTestAction);
 
 	}
 

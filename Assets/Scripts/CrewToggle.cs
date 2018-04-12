@@ -83,7 +83,9 @@ public class CrewToggle : MonoBehaviour {
 
 	//this function will set the state of the crew toggle
 	private void SetCrewToggle(){
-		
+
+		//Debug.Log ("SetCrewToggle at " + Time.frameCount);
+
 		//check if we are in crew mode
 		if (gameManager.CurrentActionMode != GameManager.ActionMode.Crew) {
 

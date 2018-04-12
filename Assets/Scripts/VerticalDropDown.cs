@@ -96,7 +96,7 @@ public class VerticalDropDown : MonoBehaviour {
 	private void SetPanelSize(){
 
 		//to start, update the canvas so things size appropriately
-		Canvas.ForceUpdateCanvases ();
+		//Canvas.ForceUpdateCanvases ();
 
 		//set the drop down panel to start 20 pixels to the right of the action menu panel
 		dropDownPanel.anchoredPosition3D = new Vector3 (actionMenuPanel.rect.width + panelSpacing, 0.0f, 0.0f);
@@ -113,7 +113,7 @@ public class VerticalDropDown : MonoBehaviour {
 		//height is bottom padding + top padding + spacing + 2X button height
 		dropDownPanel.sizeDelta = new Vector2 (actionMenuPanel.rect.width - panelSpacing, (actionMenuPanelContent.gameObject.GetComponent<VerticalLayoutGroup>().padding.bottom) + (numberToggles * triggerToggleRect.rect.height) + ((numberToggles -1 ) * actionMenuPanelContent.gameObject.GetComponent<VerticalLayoutGroup>().spacing) + (actionMenuPanelContent.gameObject.GetComponent<VerticalLayoutGroup>().padding.top));
 
-		Canvas.ForceUpdateCanvases ();
+		//Canvas.ForceUpdateCanvases ();
 
 	}
 

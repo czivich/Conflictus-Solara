@@ -660,6 +660,7 @@ GameObject:
   - component: {fileID: 28825560}
   - component: {fileID: 28825559}
   - component: {fileID: 28825558}
+  - component: {fileID: 28825562}
   m_Layer: 5
   m_Name: IncreaseButton
   m_TagString: Untagged
@@ -778,6 +779,17 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 28825556}
+--- !u!114 &28825562
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 28825556}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49c29a4039baf3841a04b50250ca1c1e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &45459703
 GameObject:
   m_ObjectHideFlags: 0
@@ -1376,6 +1388,7 @@ GameObject:
   - component: {fileID: 68094881}
   - component: {fileID: 68094880}
   - component: {fileID: 68094879}
+  - component: {fileID: 68094883}
   m_Layer: 5
   m_Name: CloseButton
   m_TagString: Untagged
@@ -1494,6 +1507,17 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 68094877}
+--- !u!114 &68094883
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 68094877}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49c29a4039baf3841a04b50250ca1c1e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &76218510
 GameObject:
   m_ObjectHideFlags: 0
@@ -7612,7 +7636,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 240, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 1, y: 0}
 --- !u!114 &404475426
@@ -8384,6 +8408,7 @@ GameObject:
   - component: {fileID: 468032082}
   - component: {fileID: 468032081}
   - component: {fileID: 468032080}
+  - component: {fileID: 468032084}
   m_Layer: 5
   m_Name: DecreaseButton
   m_TagString: Untagged
@@ -8502,6 +8527,17 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 468032078}
+--- !u!114 &468032084
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 468032078}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49c29a4039baf3841a04b50250ca1c1e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &473113327
 GameObject:
   m_ObjectHideFlags: 0
@@ -10164,6 +10200,7 @@ GameObject:
   - component: {fileID: 585707836}
   - component: {fileID: 585707835}
   - component: {fileID: 585707834}
+  - component: {fileID: 585707838}
   m_Layer: 5
   m_Name: CloseButton
   m_TagString: Untagged
@@ -10282,6 +10319,17 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 585707832}
+--- !u!114 &585707838
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 585707832}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49c29a4039baf3841a04b50250ca1c1e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &595963317
 GameObject:
   m_ObjectHideFlags: 0
@@ -13060,6 +13108,7 @@ GameObject:
   - component: {fileID: 773671270}
   - component: {fileID: 773671269}
   - component: {fileID: 773671268}
+  - component: {fileID: 773671272}
   m_Layer: 5
   m_Name: DecreaseButton
   m_TagString: Untagged
@@ -13178,6 +13227,17 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 773671266}
+--- !u!114 &773671272
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 773671266}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49c29a4039baf3841a04b50250ca1c1e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &790010712
 GameObject:
   m_ObjectHideFlags: 0
@@ -14084,6 +14144,7 @@ GameObject:
   - component: {fileID: 835518127}
   - component: {fileID: 835518126}
   - component: {fileID: 835518125}
+  - component: {fileID: 835518129}
   m_Layer: 5
   m_Name: IncreaseButton
   m_TagString: Untagged
@@ -14202,6 +14263,17 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 835518123}
+--- !u!114 &835518129
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 835518123}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49c29a4039baf3841a04b50250ca1c1e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &836688048
 GameObject:
   m_ObjectHideFlags: 0
@@ -15120,6 +15192,7 @@ GameObject:
   - component: {fileID: 870406232}
   - component: {fileID: 870406231}
   - component: {fileID: 870406230}
+  - component: {fileID: 870406234}
   m_Layer: 5
   m_Name: DecreaseButton
   m_TagString: Untagged
@@ -15238,6 +15311,17 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 870406228}
+--- !u!114 &870406234
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 870406228}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49c29a4039baf3841a04b50250ca1c1e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &878739022
 GameObject:
   m_ObjectHideFlags: 0
@@ -18697,6 +18781,7 @@ GameObject:
   - component: {fileID: 1083104363}
   - component: {fileID: 1083104362}
   - component: {fileID: 1083104361}
+  - component: {fileID: 1083104365}
   m_Layer: 5
   m_Name: IncreaseButton
   m_TagString: Untagged
@@ -18815,6 +18900,17 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1083104359}
+--- !u!114 &1083104365
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1083104359}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49c29a4039baf3841a04b50250ca1c1e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1092520281
 GameObject:
   m_ObjectHideFlags: 0
@@ -19412,6 +19508,7 @@ GameObject:
   - component: {fileID: 1151553444}
   - component: {fileID: 1151553443}
   - component: {fileID: 1151553447}
+  - component: {fileID: 1151553448}
   m_Layer: 5
   m_Name: DecreaseButton
   m_TagString: Untagged
@@ -19542,6 +19639,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   redirectSelectable: {fileID: 1432365671}
+--- !u!114 &1151553448
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1151553441}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49c29a4039baf3841a04b50250ca1c1e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1154043257
 GameObject:
   m_ObjectHideFlags: 0
@@ -21374,6 +21482,7 @@ GameObject:
   - component: {fileID: 1271350111}
   - component: {fileID: 1271350110}
   - component: {fileID: 1271350109}
+  - component: {fileID: 1271350113}
   m_Layer: 5
   m_Name: CloseButton
   m_TagString: Untagged
@@ -21492,6 +21601,17 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1271350107}
+--- !u!114 &1271350113
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1271350107}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49c29a4039baf3841a04b50250ca1c1e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1274945028
 GameObject:
   m_ObjectHideFlags: 0
@@ -29547,6 +29667,7 @@ GameObject:
   - component: {fileID: 1624693660}
   - component: {fileID: 1624693659}
   - component: {fileID: 1624693658}
+  - component: {fileID: 1624693662}
   m_Layer: 5
   m_Name: IncreaseButton
   m_TagString: Untagged
@@ -29665,6 +29786,17 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1624693656}
+--- !u!114 &1624693662
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1624693656}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49c29a4039baf3841a04b50250ca1c1e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1637995019
 GameObject:
   m_ObjectHideFlags: 0
@@ -29831,6 +29963,7 @@ GameObject:
   - component: {fileID: 1643608635}
   - component: {fileID: 1643608634}
   - component: {fileID: 1643608633}
+  - component: {fileID: 1643608637}
   m_Layer: 5
   m_Name: CloseButton
   m_TagString: Untagged
@@ -29949,6 +30082,17 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1643608631}
+--- !u!114 &1643608637
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1643608631}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49c29a4039baf3841a04b50250ca1c1e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1668889752
 GameObject:
   m_ObjectHideFlags: 0
@@ -31941,6 +32085,7 @@ GameObject:
   - component: {fileID: 1805983961}
   - component: {fileID: 1805983960}
   - component: {fileID: 1805983964}
+  - component: {fileID: 1805983965}
   m_Layer: 5
   m_Name: IncreaseButton
   m_TagString: Untagged
@@ -32071,6 +32216,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   redirectSelectable: {fileID: 1432365671}
+--- !u!114 &1805983965
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1805983958}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49c29a4039baf3841a04b50250ca1c1e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1807219126
 GameObject:
   m_ObjectHideFlags: 0
@@ -32641,6 +32797,7 @@ GameObject:
   - component: {fileID: 1861538986}
   - component: {fileID: 1861538985}
   - component: {fileID: 1861538984}
+  - component: {fileID: 1861538988}
   m_Layer: 5
   m_Name: DecreaseButton
   m_TagString: Untagged
@@ -32759,6 +32916,17 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1861538982}
+--- !u!114 &1861538988
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1861538982}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49c29a4039baf3841a04b50250ca1c1e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1862723957
 GameObject:
   m_ObjectHideFlags: 0

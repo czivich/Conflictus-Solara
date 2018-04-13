@@ -289,6 +289,11 @@ public class UINavigationMain : MonoBehaviour {
 	//this event announces a successful pointer enter valid selectable
 	public UnityEvent OnPointerEnterValidSelectable = new UnityEvent();
 
+	//this event announces a successful pointer click valid selectable
+	public UnityEvent OnPointerClickValidSelectable = new UnityEvent();
+
+	//this event announces a cancellation of a window using the escape key
+	public UnityEvent OnCloseWindowWithCancel = new UnityEvent();
 
 	//unityActions
 	private UnityAction<Player> NewTurnSetInitialSelectablesAction;
@@ -370,6 +375,9 @@ public class UINavigationMain : MonoBehaviour {
 
 	//this action listens for onpointerenter events
 	private UnityAction<Selectable> OnPointerEnterNonGroupTestAction;
+
+	//this action listens for onpointerclick events
+	private UnityAction<Selectable> OnPointerClickNonGroupTestAction;
 
 	// Use this for initialization
 	public void Init () {
@@ -1489,12 +1497,18 @@ public class UINavigationMain : MonoBehaviour {
 				//cancel out of the menu
 				uiManager.GetComponent<FileLoadWindow> ().closeFileLoadWindowButton.onClick.Invoke ();
 
+				//invoke the event
+				OnCloseWindowWithCancel.Invoke();
+
 			} 
 
 			else if (CurrentUIState == UIState.SaveLocalGame && ignoreEscape == false) {
 
 				//cancel out of the menu
 				uiManager.GetComponent<FileSaveWindow> ().closeFileSaveWindowButton.onClick.Invoke ();
+
+				//invoke the event
+				OnCloseWindowWithCancel.Invoke();
 
 			} 
 
@@ -1503,12 +1517,18 @@ public class UINavigationMain : MonoBehaviour {
 				//cancel out of the menu
 				uiManager.GetComponent<FileDeletePrompt> ().fileDeleteCancelButton.onClick.Invoke ();
 
+				//invoke the event
+				OnCloseWindowWithCancel.Invoke();
+
 			} 
 
 			else if (CurrentUIState == UIState.FileOverwritePrompt) {
 
 				//cancel out of the menu
 				uiManager.GetComponent<FileOverwritePrompt> ().fileOverwriteCancelButton.onClick.Invoke ();
+
+				//invoke the event
+				OnCloseWindowWithCancel.Invoke();
 
 			}
 
@@ -1517,12 +1537,18 @@ public class UINavigationMain : MonoBehaviour {
 				//cancel out of the menu
 				uiManager.GetComponent<Settings> ().exitButton.onClick.Invoke ();
 
+				//invoke the event
+				OnCloseWindowWithCancel.Invoke();
+
 			} 
 
 			else if (CurrentUIState == UIState.ExitGamePrompt) {
 
 				//cancel out of the menu
 				uiManager.GetComponent<ExitGamePrompt> ().exitGameCancelButton.onClick.Invoke ();
+
+				//invoke the event
+				OnCloseWindowWithCancel.Invoke();
 
 			} 
 
@@ -1531,12 +1557,18 @@ public class UINavigationMain : MonoBehaviour {
 				//cancel out of the menu
 				uiManager.GetComponent<StatusPanel> ().closeButton.onClick.Invoke ();
 
+				//invoke the event
+				OnCloseWindowWithCancel.Invoke();
+
 			} 
 
 			else if (CurrentUIState == UIState.UseFlares) {
 
 				//cancel out of the menu
 				uiManager.GetComponent<FlareManager> ().cancelFlaresButton.onClick.Invoke ();
+
+				//invoke the event
+				OnCloseWindowWithCancel.Invoke();
 
 			} 
 
@@ -1545,12 +1577,18 @@ public class UINavigationMain : MonoBehaviour {
 				//cancel out of the menu
 				uiManager.GetComponent<RenameShip> ().cancelButton.onClick.Invoke ();
 
+				//invoke the event
+				OnCloseWindowWithCancel.Invoke();
+
 			} 	
 
 			else if (CurrentUIState == UIState.PlaceNewShip) {
 
 				//cancel out of the menu
 				uiManager.GetComponent<InstructionPanel> ().cancelButton.onClick.Invoke ();
+
+				//invoke the event
+				OnCloseWindowWithCancel.Invoke();
 
 			} 
 
@@ -1559,12 +1597,18 @@ public class UINavigationMain : MonoBehaviour {
 				//cancel out of the menu
 				uiManager.GetComponent<NameNewShip> ().cancelButton.onClick.Invoke ();
 
+				//invoke the event
+				OnCloseWindowWithCancel.Invoke();
+
 			} 
 
 			else if (CurrentUIState == UIState.BuyItem) {
 
 				//cancel out of the menu
 				uiManager.GetComponent<PurchaseManager> ().cancelPurchaseItemsButton.onClick.Invoke ();
+
+				//invoke the event
+				OnCloseWindowWithCancel.Invoke();
 
 			} 
 
@@ -1573,6 +1617,9 @@ public class UINavigationMain : MonoBehaviour {
 				//cancel out of the menu
 				uiManager.GetComponent<PurchaseManager> ().cancelPurchaseItemsButton.onClick.Invoke ();
 
+				//invoke the event
+				OnCloseWindowWithCancel.Invoke();
+
 			} 
 
 			else if (CurrentUIState == UIState.BuyShip) {
@@ -1580,12 +1627,18 @@ public class UINavigationMain : MonoBehaviour {
 				//cancel out of the menu
 				uiManager.GetComponent<PurchaseManager> ().cancelPurchaseShipButton.onClick.Invoke ();
 
+				//invoke the event
+				OnCloseWindowWithCancel.Invoke();
+
 			} 
 
 			else if (CurrentUIState == UIState.EndTurn) {
 
 				//cancel out of the menu
 				uiManager.GetComponent<EndTurnDropDown> ().endTurnDropDownPanelCancelButton.onClick.Invoke ();
+
+				//invoke the event
+				OnCloseWindowWithCancel.Invoke();
 
 			} 
 
@@ -2433,6 +2486,8 @@ public class UINavigationMain : MonoBehaviour {
 		//this action checks if the selectable is valid
 		OnPointerEnterNonGroupTestAction = (testSelectable) => {CheckOnPointerEnterNonGroup(testSelectable);};
 
+		//this action checks if the selectable is valid
+		OnPointerClickNonGroupTestAction = (testSelectable) => {CheckOnPointerClickNonGroup(testSelectable);};
 	}
 
 	//this function adds event listeners
@@ -2608,6 +2663,9 @@ public class UINavigationMain : MonoBehaviour {
 
 		//add listener to the UI selection pointer enter
 		UISelectionNonGroup.OnPointerEnterSelectable.AddListener(OnPointerEnterNonGroupTestAction);
+
+		//add listener to the UI selection pointer click
+		UISelectionNonGroup.OnPointerClickSelectable.AddListener(OnPointerClickNonGroupTestAction);
 
 	}
 
@@ -5797,6 +5855,14 @@ public class UINavigationMain : MonoBehaviour {
 
 	}
 
+	//this function checks if a OnPointerEnter is valid, and if so, fires an event
+	private void CheckOnPointerClickNonGroup(Selectable testSelectable){
+
+		//fire event
+		OnPointerClickValidSelectable.Invoke ();
+
+	}
+
 
 	//this function handles on destroy
 	private void OnDestroy(){
@@ -5983,6 +6049,9 @@ public class UINavigationMain : MonoBehaviour {
 
 		//remove listener to the UI selection pointer enter
 		UISelectionNonGroup.OnPointerEnterSelectable.RemoveListener(OnPointerEnterNonGroupTestAction);
+
+		//remove listener to the UI selection pointer click
+		UISelectionNonGroup.OnPointerClickSelectable.RemoveListener(OnPointerClickNonGroupTestAction);
 
 	}
 

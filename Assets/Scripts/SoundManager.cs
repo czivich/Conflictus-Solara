@@ -9,6 +9,7 @@ public class SoundManager : MonoBehaviour {
 	//managers
 	private UIManager uiManager;
 	private GameManager gameManager;
+	private MouseManager mouseManager;
 
 	//audioclips
 	public AudioClip clipMainBackgroundMusic;
@@ -20,6 +21,7 @@ public class SoundManager : MonoBehaviour {
 	public AudioClip clipPhasorHit;
 	public AudioClip clipSelectableHover;
 	public AudioClip clipSelectableSubmit;
+	public AudioClip clipSelectUnit;
 
 
 	//audioSource
@@ -30,6 +32,7 @@ public class SoundManager : MonoBehaviour {
 	private AudioSource audioPhasorHit;
 	private AudioSource audioSelectableHover;
 	private AudioSource audioSelectableSubmit;
+	private AudioSource audioSelectUnit;
 
 	//this array will hold all the sfxAudioSources
 	private AudioSource[] sfxAudioSources;
@@ -53,11 +56,13 @@ public class SoundManager : MonoBehaviour {
 	private float cooldownTimer;
 
 	//this is the cooldown limit
-	private float cooldownLimit = 0.125f;
+	private float cooldownLimit = 0.05f;
 
 	//this bool controls whether we need to play a UI selection sound
 	bool playUISelectionSound;
 	bool playUISubmitSound;
+	bool playSelectUnitSound;
+
 
 	//unityActions
 	private UnityAction startMainBackgroundAction;
@@ -70,7 +75,8 @@ public class SoundManager : MonoBehaviour {
 	private UnityAction selectableHoverAction;
 	private UnityAction<Selectable> selectableSetSelectableHoverAction;
 	private UnityAction<Selectable> selectableSetSelectableSubmitAction;
-	private UnityAction uiStateChangeAction;
+	private UnityAction playSubmitAction;
+	private UnityAction playSelectUnitAction;
 
 
 	// Use this for initialization
@@ -79,6 +85,7 @@ public class SoundManager : MonoBehaviour {
 		//get the managers
 		uiManager = GameObject.FindGameObjectWithTag("UIManager").GetComponent<UIManager>();
 		gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
+		mouseManager = GameObject.FindGameObjectWithTag("MouseManager").GetComponent<MouseManager>();
 
 		//create the audiosources
 		AddAudioSources();
@@ -120,7 +127,7 @@ public class SoundManager : MonoBehaviour {
 		}
 
 		//check if we need to play a UI sound
-		if (playUISelectionSound == true || playUISubmitSound == true) {
+		if (playUISelectionSound == true || playUISubmitSound == true || playSelectUnitSound == true) {
 
 			//call the function to determine which to play
 			PlayUISound ();
@@ -142,12 +149,14 @@ public class SoundManager : MonoBehaviour {
 		phasorFireAction = () => {audioPhasorFire.Play ();};
 		xRayFireAction = () => {audioXRayFire.Play ();};
 		phasorHitAction = () => {audioPhasorHit.PlayDelayed(.05f);};   //delay .125 seconds
-		selectableHoverAction = () => {PlayAudioSelectableHover();};
+		selectableHoverAction = () => {playUISelectionSound = true;};
 		//selectableSetSelectableHoverAction = (selectable) => {PlayAudioSelectableHover();};
 		selectableSetSelectableHoverAction = (selectable) => {playUISelectionSound = true;};
 		//selectableSetSelectableSubmitAction = (selectable) => {PlayAudioSelectableSubmit();};
 		selectableSetSelectableSubmitAction = (selectable) => {playUISubmitSound = true;};
-		uiStateChangeAction = () => {PlayAudioSelectableSubmit();};
+		playSubmitAction = () => {playUISubmitSound = true;};
+		playSelectUnitAction = () => {playSelectUnitSound = true;};
+
 	}
 
 	//this function adds event listeners
@@ -186,8 +195,17 @@ public class SoundManager : MonoBehaviour {
 		//add listener for selecting selectable
 		UISelection.OnSelectedSelectable.AddListener(selectableSetSelectableHoverAction);
 
-		//add listener for ui state change
-		//uiManager.GetComponent<UINavigationMain>().OnUIStateChange.AddListener(uiStateChangeAction);
+		//add listener for cancelling out of a menu
+		uiManager.GetComponent<UINavigationMain>().OnCloseWindowWithCancel.AddListener(playSubmitAction);
+
+		//add listener for clicking a nongroup selectable
+		uiManager.GetComponent<UINavigationMain>().OnPointerClickValidSelectable.AddListener(playSubmitAction);
+
+		//add listener for setting selected unit
+		mouseManager.OnSetSelectedUnit.AddListener(playSelectUnitAction);
+
+		//add listener for clearin selected unit
+		mouseManager.OnClearSelectedUnit.AddListener(playSelectUnitAction);
 
 	}
 
@@ -213,15 +231,17 @@ public class SoundManager : MonoBehaviour {
 		audioPhasorHit = AddAudio (clipPhasorHit, false, false, 1.0f);
 		audioSelectableHover = AddAudio (clipSelectableHover, false, false, 1.0f);
 		audioSelectableSubmit = AddAudio (clipSelectableSubmit, false, false, 1.0f);
+		audioSelectUnit = AddAudio (clipSelectUnit, false, false, 1.0f);
 
 
 		//fill up the sfx array
-		sfxAudioSources = new AudioSource[5];
+		sfxAudioSources = new AudioSource[6];
 		sfxAudioSources [0] = audioPhasorFire;
 		sfxAudioSources [1] = audioXRayFire;
 		sfxAudioSources [2] = audioPhasorHit;
 		sfxAudioSources [3] = audioSelectableHover;
 		sfxAudioSources [4] = audioSelectableSubmit;
+		sfxAudioSources [5] = audioSelectUnit;
 
 
 	}
@@ -308,16 +328,47 @@ public class SoundManager : MonoBehaviour {
 
 	}
 
+	//this function plays the select unit sound
+	private void PlayAudioSelectUnit(){
+
+		//check if the timer is greater than the limit
+		if (cooldownTimer >= cooldownLimit) {
+
+			//play the clip
+			audioSelectUnit.Play();
+
+			//reset the timer
+			cooldownTimer = 0.0f;
+
+		}
+
+	}
+
 	//this function plays the appropriate UI selection Sound
 	private void PlayUISound(){
 
+		//check if the unit select flag is true
+		if (playSelectUnitSound == true) {
+
+			//play the sound
+			PlayAudioSelectUnit ();
+
+			//clear the flags
+			playSelectUnitSound = false;
+			playUISubmitSound = false;
+			playUISelectionSound = false;
+
+
+		}
+
 		//check if the UI Submit flag is true - we want that to take priority
-		if (playUISubmitSound == true) {
+		else if (playUISubmitSound == true) {
 
 			//play the sound
 			PlayAudioSelectableSubmit ();
 
 			//clear the flags
+			playSelectUnitSound = false;
 			playUISubmitSound = false;
 			playUISelectionSound = false;
 
@@ -326,6 +377,7 @@ public class SoundManager : MonoBehaviour {
 			PlayAudioSelectableHover ();
 
 			//clear the flag
+			playSelectUnitSound = false;
 			playUISelectionSound = false;
 			playUISubmitSound = false;
 
@@ -364,7 +416,13 @@ public class SoundManager : MonoBehaviour {
 			uiManager.GetComponent<UINavigationMain>().OnPointerEnterValidSelectable.RemoveListener(selectableHoverAction);
 
 			//remove listener for ui state change
-			uiManager.GetComponent<UINavigationMain>().OnUIStateChange.RemoveListener(uiStateChangeAction);
+			uiManager.GetComponent<UINavigationMain>().OnUIStateChange.RemoveListener(playSubmitAction);
+
+			//remove listener for cancelling out of a menu
+			uiManager.GetComponent<UINavigationMain>().OnCloseWindowWithCancel.RemoveListener(playSubmitAction);
+
+			//remove listener for clicking a nongroup selectable
+			uiManager.GetComponent<UINavigationMain>().OnPointerClickValidSelectable.RemoveListener(playSubmitAction);
 
 		}
 
@@ -375,6 +433,17 @@ public class SoundManager : MonoBehaviour {
 
 			//remove listener for loaded game
 			gameManager.OnLoadedTurn.RemoveListener(playerStartMainBackgroundAction);
+
+		}
+
+		if (mouseManager != null) {
+
+
+			//remove listener for setting selected unit
+			mouseManager.OnSetSelectedUnit.RemoveListener (playSelectUnitAction);
+
+			//remove listener for clearin selected unit
+			mouseManager.OnClearSelectedUnit.RemoveListener (playSelectUnitAction);
 
 		}
 

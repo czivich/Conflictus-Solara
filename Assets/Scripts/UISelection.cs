@@ -59,7 +59,7 @@ public class UISelection : MonoBehaviour, IPointerEnterHandler, IDeselectHandler
 		//enable the selectUI image
 		this.GetComponent<Selectable>().gameObject.FindComponentInChildWithTag<Image> ("SelectedUI").enabled = true;
 
-		Debug.Log ("Selected " + this.gameObject.name);
+		//Debug.Log ("Selected " + this.gameObject.name);
 
 		//invoke the event
 		OnSelectedSelectable.Invoke(this.GetComponent<Selectable>());
@@ -82,7 +82,7 @@ public class UISelection : MonoBehaviour, IPointerEnterHandler, IDeselectHandler
 		//disable the selectUI image
 		//this.gameObject.FindComponentInChildWithTag<Image> ("SelectedUI").enabled = false;
 
-		Debug.Log ("OnSubmit " + this.gameObject.name);
+		//Debug.Log ("OnSubmit " + this.gameObject.name);
 
 		//invoke the event
 		OnSubmitSelectable.Invoke(this.GetComponent<Selectable>());
@@ -92,7 +92,7 @@ public class UISelection : MonoBehaviour, IPointerEnterHandler, IDeselectHandler
 
 	public void OnPointerClick(PointerEventData pointerEventData){
 
-		Debug.Log ("OnPointerClick");
+		//Debug.Log ("OnPointerClick");
 
 		//check if the clicked object is interactable
 		if (this.GetComponent<Selectable> ().IsInteractable () == true) {

@@ -329,8 +329,8 @@ public class UINavigationMain : MonoBehaviour {
 	private UnityAction<NameNewShip.NewUnitEventData> AcceptNameNewShipAction;
 	private UnityAction<FlareManager.FlareEventData> UseFlaresYesAction;
 	private UnityAction<FlareManager.FlareEventData> UseFlaresCancelAction;
-	private UnityAction<GameManager.ActionMode> CancelRenameUnitAction;
-	private UnityAction<CombatUnit, string, GameManager.ActionMode> AcceptRenameUnitAction;
+	private UnityAction CancelRenameUnitAction;
+	private UnityAction AcceptRenameUnitAction;
 
 	private UnityAction<Selectable> SelectableSetSelectionGroupsAction;
 
@@ -526,7 +526,8 @@ public class UINavigationMain : MonoBehaviour {
 						//check if we are in a dropdown - if so, we don't want to set the selected object
 						if (CurrentSelectables [currentSelectionIndex].gameObject.GetComponent<TMP_Dropdown> () == true) {
 
-							//do nothing
+							//invoke the pointer enter event to trigger a sound
+							OnPointerEnterValidSelectable.Invoke();
 
 						} else {
 							//set the selected object to the one in memory because the memory object is valid
@@ -866,6 +867,9 @@ public class UINavigationMain : MonoBehaviour {
 						if (CurrentSelectables [currentSelectionIndex].gameObject.GetComponent<TMP_Dropdown> () == true) {
 
 							//do nothing
+
+							//invoke the pointer enter event to trigger a sound
+							OnPointerEnterValidSelectable.Invoke();
 
 						} else {
 							//set the selected object to the one in memory because the memory object is valid
@@ -1494,11 +1498,12 @@ public class UINavigationMain : MonoBehaviour {
 
 			if (CurrentUIState == UIState.LoadLocalGame) {
 
+				//invoke the event
+				//OnCloseWindowWithCancel.Invoke();
+
 				//cancel out of the menu
 				uiManager.GetComponent<FileLoadWindow> ().closeFileLoadWindowButton.onClick.Invoke ();
 
-				//invoke the event
-				OnCloseWindowWithCancel.Invoke();
 
 			} 
 
@@ -1508,7 +1513,7 @@ public class UINavigationMain : MonoBehaviour {
 				uiManager.GetComponent<FileSaveWindow> ().closeFileSaveWindowButton.onClick.Invoke ();
 
 				//invoke the event
-				OnCloseWindowWithCancel.Invoke();
+				//OnCloseWindowWithCancel.Invoke();
 
 			} 
 
@@ -1518,7 +1523,7 @@ public class UINavigationMain : MonoBehaviour {
 				uiManager.GetComponent<FileDeletePrompt> ().fileDeleteCancelButton.onClick.Invoke ();
 
 				//invoke the event
-				OnCloseWindowWithCancel.Invoke();
+				//OnCloseWindowWithCancel.Invoke();
 
 			} 
 
@@ -1528,7 +1533,7 @@ public class UINavigationMain : MonoBehaviour {
 				uiManager.GetComponent<FileOverwritePrompt> ().fileOverwriteCancelButton.onClick.Invoke ();
 
 				//invoke the event
-				OnCloseWindowWithCancel.Invoke();
+				//OnCloseWindowWithCancel.Invoke();
 
 			}
 
@@ -1538,7 +1543,7 @@ public class UINavigationMain : MonoBehaviour {
 				uiManager.GetComponent<Settings> ().exitButton.onClick.Invoke ();
 
 				//invoke the event
-				OnCloseWindowWithCancel.Invoke();
+				//OnCloseWindowWithCancel.Invoke();
 
 			} 
 
@@ -1548,7 +1553,7 @@ public class UINavigationMain : MonoBehaviour {
 				uiManager.GetComponent<ExitGamePrompt> ().exitGameCancelButton.onClick.Invoke ();
 
 				//invoke the event
-				OnCloseWindowWithCancel.Invoke();
+				//OnCloseWindowWithCancel.Invoke();
 
 			} 
 
@@ -1558,7 +1563,7 @@ public class UINavigationMain : MonoBehaviour {
 				uiManager.GetComponent<StatusPanel> ().closeButton.onClick.Invoke ();
 
 				//invoke the event
-				OnCloseWindowWithCancel.Invoke();
+				//OnCloseWindowWithCancel.Invoke();
 
 			} 
 
@@ -1568,7 +1573,7 @@ public class UINavigationMain : MonoBehaviour {
 				uiManager.GetComponent<FlareManager> ().cancelFlaresButton.onClick.Invoke ();
 
 				//invoke the event
-				OnCloseWindowWithCancel.Invoke();
+				//OnCloseWindowWithCancel.Invoke();
 
 			} 
 
@@ -1578,7 +1583,7 @@ public class UINavigationMain : MonoBehaviour {
 				uiManager.GetComponent<RenameShip> ().cancelButton.onClick.Invoke ();
 
 				//invoke the event
-				OnCloseWindowWithCancel.Invoke();
+				//OnCloseWindowWithCancel.Invoke();
 
 			} 	
 
@@ -1588,7 +1593,7 @@ public class UINavigationMain : MonoBehaviour {
 				uiManager.GetComponent<InstructionPanel> ().cancelButton.onClick.Invoke ();
 
 				//invoke the event
-				OnCloseWindowWithCancel.Invoke();
+				//OnCloseWindowWithCancel.Invoke();
 
 			} 
 
@@ -1598,7 +1603,7 @@ public class UINavigationMain : MonoBehaviour {
 				uiManager.GetComponent<NameNewShip> ().cancelButton.onClick.Invoke ();
 
 				//invoke the event
-				OnCloseWindowWithCancel.Invoke();
+				//OnCloseWindowWithCancel.Invoke();
 
 			} 
 
@@ -1608,7 +1613,7 @@ public class UINavigationMain : MonoBehaviour {
 				uiManager.GetComponent<PurchaseManager> ().cancelPurchaseItemsButton.onClick.Invoke ();
 
 				//invoke the event
-				OnCloseWindowWithCancel.Invoke();
+				//OnCloseWindowWithCancel.Invoke();
 
 			} 
 
@@ -1618,7 +1623,7 @@ public class UINavigationMain : MonoBehaviour {
 				uiManager.GetComponent<PurchaseManager> ().cancelPurchaseItemsButton.onClick.Invoke ();
 
 				//invoke the event
-				OnCloseWindowWithCancel.Invoke();
+				//OnCloseWindowWithCancel.Invoke();
 
 			} 
 
@@ -1628,7 +1633,7 @@ public class UINavigationMain : MonoBehaviour {
 				uiManager.GetComponent<PurchaseManager> ().cancelPurchaseShipButton.onClick.Invoke ();
 
 				//invoke the event
-				OnCloseWindowWithCancel.Invoke();
+				//OnCloseWindowWithCancel.Invoke();
 
 			} 
 
@@ -1638,7 +1643,7 @@ public class UINavigationMain : MonoBehaviour {
 				uiManager.GetComponent<EndTurnDropDown> ().endTurnDropDownPanelCancelButton.onClick.Invoke ();
 
 				//invoke the event
-				OnCloseWindowWithCancel.Invoke();
+				//OnCloseWindowWithCancel.Invoke();
 
 			} 
 
@@ -1660,6 +1665,9 @@ public class UINavigationMain : MonoBehaviour {
 
 					//else we want to cancel out of the menu by clicking the toggle
 					uiManager.GetComponent<MoveToggle> ().moveToggle.isOn = false;
+
+					//invoke the event to trigger sound
+					OnCloseWindowWithCancel.Invoke();
 
 				}
 
@@ -1684,6 +1692,8 @@ public class UINavigationMain : MonoBehaviour {
 					//else we want to cancel out of the menu by clicking the toggle
 					uiManager.GetComponent<PhasorToggle> ().phasorToggle.isOn = false;
 
+					//invoke the event to trigger sound
+					OnCloseWindowWithCancel.Invoke();
 				}
 
 			} 
@@ -1706,6 +1716,9 @@ public class UINavigationMain : MonoBehaviour {
 
 					//else we want to cancel out of the menu by clicking the toggle
 					uiManager.GetComponent<TorpedoToggle> ().torpedoToggle.isOn = false;
+
+					//invoke the event to trigger sound
+					OnCloseWindowWithCancel.Invoke();
 
 				}
 
@@ -1730,6 +1743,9 @@ public class UINavigationMain : MonoBehaviour {
 					//else we want to cancel out of the menu by clicking the toggle
 					uiManager.GetComponent<TractorBeamToggle> ().tractorBeamToggle.isOn = false;
 
+					//invoke the event to trigger sound
+					OnCloseWindowWithCancel.Invoke();
+
 				}
 
 			} 
@@ -1752,6 +1768,9 @@ public class UINavigationMain : MonoBehaviour {
 
 					//else we want to cancel out of the menu by clicking the toggle
 					uiManager.GetComponent<UseItemToggle> ().useItemToggle.isOn = false;
+
+					//invoke the event to trigger sound
+					OnCloseWindowWithCancel.Invoke();
 
 				}
 
@@ -1776,6 +1795,9 @@ public class UINavigationMain : MonoBehaviour {
 					//else we want to cancel out of the menu by clicking the toggle
 					uiManager.GetComponent<CrewToggle> ().crewToggle.isOn = false;
 
+					//invoke the event to trigger sound
+					OnCloseWindowWithCancel.Invoke();
+
 				}
 
 			} 
@@ -1798,6 +1820,9 @@ public class UINavigationMain : MonoBehaviour {
 
 					//else we want to cancel out of the menu by clicking the toggle
 					uiManager.GetComponent<CloakingDeviceToggle> ().cloakingDeviceToggle.isOn = false;
+
+					//invoke the event to trigger sound
+					OnCloseWindowWithCancel.Invoke();
 
 				}
 
@@ -1830,16 +1855,24 @@ public class UINavigationMain : MonoBehaviour {
 			if (CurrentUIState == UIState.LoadLocalGame && CurrentSelectables == LoadLocalGameFiles) {
 
 				//call the load game button on-click
-				uiManager.GetComponent<FileLoadWindow>().fileLoadYesButton.onClick.Invoke();
+				uiManager.GetComponent<FileLoadWindow> ().fileLoadYesButton.onClick.Invoke ();
 
 			} else if (CurrentUIState == UIState.SaveLocalGame && CurrentSelectables == SaveLocalGameFiles) {
 
 				//check if we are currently on a file for save
 				//call the save button click
-				uiManager.GetComponent<FileSaveWindow>().fileSaveYesButton.onClick.Invoke();
+				uiManager.GetComponent<FileSaveWindow> ().fileSaveYesButton.onClick.Invoke ();
+
+			}						
+
+			//check if we are in a dropdown - if so, we don't want to set the selected object
+			 else if (CurrentSelectables [currentSelectionIndex].gameObject.GetComponent<TMP_Dropdown> () == true) {
+
+				//invoke the pointer click event to trigger a sound
+				OnPointerClickValidSelectable.Invoke ();
+
 
 			}
-
 		}
 
 		//check if we are pressing the delete key
@@ -2324,7 +2357,7 @@ public class UINavigationMain : MonoBehaviour {
 
 		};
 
-		CancelRenameUnitAction = (actionMode) => {
+		CancelRenameUnitAction = () => {
 
 			//CurrentUIState = UIState.Selection;
 			DetermineUIState();
@@ -2337,7 +2370,7 @@ public class UINavigationMain : MonoBehaviour {
 
 		};
 
-		AcceptRenameUnitAction = (combatUnit, untName, actionMode) => {
+		AcceptRenameUnitAction = () => {
 
 			//CurrentUIState = UIState.Selection;
 			DetermineUIState();
@@ -2556,9 +2589,9 @@ public class UINavigationMain : MonoBehaviour {
 		uiManager.GetComponent<CloakingDeviceMenu>().OnTurnOnCloakingDevice.AddListener(CombatUnitSetUIStateAction);
 
 		//add listener for rename unit
-		uiManager.GetComponent<RenameShip>().OnEnterRenameMode.AddListener(RenameShipSetUIStateAction);
-		uiManager.GetComponent<RenameShip>().OnRenameUnit.AddListener(AcceptRenameUnitAction);
-		uiManager.GetComponent<RenameShip>().OnRenameCancel.AddListener(CancelRenameUnitAction);
+		uiManager.GetComponent<RenameShip>().renameActionButton.onClick.AddListener(RenameShipSetUIStateAction);
+		uiManager.GetComponent<RenameShip>().yesButton.onClick.AddListener(AcceptRenameUnitAction);
+		uiManager.GetComponent<RenameShip>().cancelButton.onClick.AddListener(CancelRenameUnitAction);
 
 
 		//add listeners for end turn drop down
@@ -5935,9 +5968,9 @@ public class UINavigationMain : MonoBehaviour {
 			uiManager.GetComponent<NameNewShip> ().OnReturnToPlaceUnit.RemoveListener (AcceptPurchaseItemAction);
 
 			//remove listener for rename unit
-			uiManager.GetComponent<RenameShip>().OnEnterRenameMode.RemoveListener(RenameShipSetUIStateAction);
-			uiManager.GetComponent<RenameShip>().OnRenameUnit.RemoveListener(AcceptRenameUnitAction);
-			uiManager.GetComponent<RenameShip>().OnRenameCancel.RemoveListener(CancelRenameUnitAction);
+			uiManager.GetComponent<RenameShip>().renameActionButton.onClick.RemoveListener(RenameShipSetUIStateAction);
+			uiManager.GetComponent<RenameShip>().yesButton.onClick.RemoveListener(AcceptRenameUnitAction);
+			uiManager.GetComponent<RenameShip>().cancelButton.onClick.RemoveListener(CancelRenameUnitAction);
 
 			//remove listeners for end turn drop down
 			uiManager.GetComponent<EndTurnDropDown>().OnCancelEndTurnPrompt.RemoveListener(CancelEndTurnPromptAction);

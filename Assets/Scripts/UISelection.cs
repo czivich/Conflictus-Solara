@@ -22,9 +22,14 @@ public class UISelection : MonoBehaviour, IPointerEnterHandler, IDeselectHandler
 
 	public static SelectionEvent OnSubmitSelectable = new SelectionEvent();
 
+	public static UnityEvent OnEndEditSelectable = new UnityEvent();
+
 
 	//simple class so I can have my event pass a gameObject
 	public class SelectionEvent : UnityEvent<Selectable>{};
+
+	//unityActions
+	private UnityAction<string> stringEndEditAction;
 
 	private Color32 mouseOverHighlightColor = new Color32 (160, 255, 255, 255);
 	//private Color32 defaultColor = new Color32 (255, 255, 255, 255);
@@ -38,6 +43,24 @@ public class UISelection : MonoBehaviour, IPointerEnterHandler, IDeselectHandler
 
 		//set the selectedState image color to match the highlighted color
 		this.GetComponent<Selectable>().gameObject.FindComponentInChildWithTag<Image> ("SelectedUI").color = mouseOverHighlightColor;
+
+		stringEndEditAction = (stringText) => {ResolveEndEdit (stringText);};
+
+		//check if this object is a button
+		if (this.GetComponent<Button> () == true) {
+
+			//add listener for button onClick
+			this.GetComponent<Button>().onClick.AddListener(ResolveButtonPress);
+
+		}
+
+		//check if the object is an input field
+		if (this.GetComponent<TMP_InputField> () == true) {
+
+			//add listener for end edit
+			this.GetComponent<TMP_InputField>().onEndEdit.AddListener(stringEndEditAction);
+
+		}
 
 	}
 
@@ -97,6 +120,9 @@ public class UISelection : MonoBehaviour, IPointerEnterHandler, IDeselectHandler
 		//check if the clicked object is interactable
 		if (this.GetComponent<Selectable> ().IsInteractable () == true) {
 
+			//Debug.Log ("OnClickedSelectable");
+
+
 			//announce we clicked on a selectable
 			OnClickedSelectable.Invoke (this.GetComponent<Selectable> ());
 
@@ -152,6 +178,52 @@ public class UISelection : MonoBehaviour, IPointerEnterHandler, IDeselectHandler
 		//them from accidentally still being on after exiting a menu and then coming back to the menu
 		//disable the selectUI image
 		this.gameObject.FindComponentInChildWithTag<Image> ("SelectedUI").enabled = false;
+
+	}
+
+
+	private void ResolveButtonPress(){
+
+		//invoke the event
+		OnClickedSelectable.Invoke (this.GetComponent<Selectable> ());
+
+	}
+
+	private void ResolveEndEdit(string editString){
+
+		if (editString.Length > 0) {
+			
+			//invoke the event
+			OnEndEditSelectable.Invoke ();
+
+		}
+
+	}
+
+	//this function handles onDestroy
+	private void OnDestroy(){
+
+		RemoveEventListeners ();
+
+	}
+
+	//this function removes listeners
+	private void RemoveEventListeners(){
+
+		if (this.GetComponent<Button> () == true) {
+			
+			//remove listener for button onClick
+			this.GetComponent<Button> ().onClick.RemoveListener (ResolveButtonPress);
+
+		}
+
+		//check if the object is an input field
+		if (this.GetComponent<TMP_InputField> () == true) {
+
+			//remove listener for end edit
+			this.GetComponent<TMP_InputField>().onEndEdit.RemoveListener(stringEndEditAction);
+
+		}
 
 	}
 

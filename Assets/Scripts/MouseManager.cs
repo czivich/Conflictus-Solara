@@ -183,6 +183,8 @@ public class MouseManager : MonoBehaviour {
 		uiManager.GetComponent<UINavigationMain>().OnCancelClearTargetedUnit.AddListener(ClearTargetedUnit);
 		uiManager.GetComponent<UINavigationMain>().OnCancelClearSelectedUnit.AddListener(ClearSelectedUnit);
 
+		//add listener for closing cutscene
+		uiManager.GetComponent<CutsceneManager>().OnCloseCutsceneDisplayPanel.AddListener(ClearSelectedUnit);
 			
 	}
 
@@ -836,8 +838,19 @@ public class MouseManager : MonoBehaviour {
 											//check if the unit we're hovering over is inside the targetable hexes
 											if (selectedUnit.GetComponent<PhasorSection> ().TargetableTractorBeamHexes.Contains (localHex) == true) {
 
-												//set the targeted unit as the hovered unit
-												SetTargetedUnit (hoveredObject);
+												//check if the hovered object is already the targeted unit
+												if (targetedUnit == hoveredObject) {
+
+													//if so, clear it
+													ClearTargetedUnit ();
+
+												} else {
+
+
+													//target the ship
+													SetTargetedUnit (hoveredObject);
+
+												}
 
 											}
 											//if the unit we're hovering over is outside the targetable hexes, then we want to select it
@@ -909,8 +922,20 @@ public class MouseManager : MonoBehaviour {
 												//check if the unit we're hovering over is inside the targetable hexes
 												if (selectedUnit.GetComponent<PhasorSection> ().TargetablePhasorHexes.Contains (localHex) == true) {
 
-													//target the ship with a tractor beam
-													SetTargetedUnit (hoveredObject);
+
+													//check if the hovered object is already the targeted unit
+													if (targetedUnit == hoveredObject) {
+
+														//if so, clear it
+														ClearTargetedUnit ();
+
+													} else {
+
+
+														//target the ship with phasors
+														SetTargetedUnit (hoveredObject);
+
+													}
 
 												}
 
@@ -929,8 +954,19 @@ public class MouseManager : MonoBehaviour {
 												//we can use either starbase phasor section to check
 												if (selectedUnit.GetComponent<StarbasePhasorSection1> ().TargetablePhasorHexes.Contains (localHex) == true) {
 
-													//target the ship with a tractor beam
-													SetTargetedUnit (hoveredObject);
+													//check if the hovered object is already the targeted unit
+													if (targetedUnit == hoveredObject) {
+
+														//if so, clear it
+														ClearTargetedUnit ();
+
+													} else {
+
+
+														//target the ship with phasors
+														SetTargetedUnit (hoveredObject);
+
+													}
 
 												}
 
@@ -968,8 +1004,19 @@ public class MouseManager : MonoBehaviour {
 											//check if the unit we're hovering over is inside the targetable hexes
 											if (selectedUnit.GetComponent<PhasorSection> ().TargetablePhasorHexes.Contains (localHex) == true) {
 
-												//target the ship with a tractor beam
-												SetTargetedUnit (hoveredObject);
+												//check if the hovered object is already the targeted unit
+												if (targetedUnit == hoveredObject) {
+
+													//if so, clear it
+													ClearTargetedUnit ();
+
+												} else {
+
+
+													//target the ship
+													SetTargetedUnit (hoveredObject);
+
+												}
 
 											}
 
@@ -988,8 +1035,19 @@ public class MouseManager : MonoBehaviour {
 											//we can use either starbase phasor section to check
 											if (selectedUnit.GetComponent<StarbasePhasorSection1> ().TargetablePhasorHexes.Contains (localHex) == true) {
 
-												//target the ship with a tractor beam
-												SetTargetedUnit (hoveredObject);
+												//check if the hovered object is already the targeted unit
+												if (targetedUnit == hoveredObject) {
+
+													//if so, clear it
+													ClearTargetedUnit ();
+
+												} else {
+
+
+													//target the ship
+													SetTargetedUnit (hoveredObject);
+
+												}
 
 											}
 
@@ -1052,8 +1110,19 @@ public class MouseManager : MonoBehaviour {
 												//check if the unit we're hovering over is inside the targetable hexes
 												if (selectedUnit.GetComponent<TorpedoSection> ().TargetableTorpedoHexes.Contains (localHex) == true) {
 
-													//target the ship with torpedos
-													SetTargetedUnit (hoveredObject);
+													//check if the hovered object is already the targeted unit
+													if (targetedUnit == hoveredObject) {
+
+														//if so, clear it
+														ClearTargetedUnit ();
+
+													} else {
+
+
+														//target the ship
+														SetTargetedUnit (hoveredObject);
+
+													}
 
 												}
 
@@ -1071,8 +1140,19 @@ public class MouseManager : MonoBehaviour {
 												//check if the unit we're hovering over is inside the targetable hexes
 												if (selectedUnit.GetComponent<StarbaseTorpedoSection> ().TargetableTorpedoHexes.Contains (localHex) == true) {
 
-													//target the ship with torpedos
-													SetTargetedUnit (hoveredObject);
+													//check if the hovered object is already the targeted unit
+													if (targetedUnit == hoveredObject) {
+
+														//if so, clear it
+														ClearTargetedUnit ();
+
+													} else {
+
+
+														//target the ship
+														SetTargetedUnit (hoveredObject);
+
+													}
 
 												}
 
@@ -1110,8 +1190,19 @@ public class MouseManager : MonoBehaviour {
 											//check if the unit we're hovering over is inside the targetable hexes
 											if (selectedUnit.GetComponent<TorpedoSection> ().TargetableTorpedoHexes.Contains (localHex) == true) {
 
-												//target the ship with torpedos
-												SetTargetedUnit (hoveredObject);
+												//check if the hovered object is already the targeted unit
+												if (targetedUnit == hoveredObject) {
+
+													//if so, clear it
+													ClearTargetedUnit ();
+
+												} else {
+
+
+													//target the ship
+													SetTargetedUnit (hoveredObject);
+
+												}
 
 											}
 
@@ -1129,8 +1220,19 @@ public class MouseManager : MonoBehaviour {
 											//check if the unit we're hovering over is inside the targetable hexes
 											if (selectedUnit.GetComponent<StarbaseTorpedoSection> ().TargetableTorpedoHexes.Contains (localHex) == true) {
 
-												//target the ship with torpedos
-												SetTargetedUnit (hoveredObject);
+												//check if the hovered object is already the targeted unit
+												if (targetedUnit == hoveredObject) {
+
+													//if so, clear it
+													ClearTargetedUnit ();
+
+												} else {
+
+
+													//target the ship
+													SetTargetedUnit (hoveredObject);
+
+												}
 
 											}
 
@@ -1200,8 +1302,19 @@ public class MouseManager : MonoBehaviour {
 												//check if the unit we're hovering over is inside the targetable hexes
 												if (selectedUnit.GetComponent<StorageSection> ().TargetableItemHexes.Contains (localHex) == true) {
 
-													//target the ship with torpedos
-													SetTargetedUnit (hoveredObject);
+													//check if the hovered object is already the targeted unit
+													if (targetedUnit == hoveredObject) {
+
+														//if so, clear it
+														ClearTargetedUnit ();
+
+													} else {
+
+
+														//target the ship
+														SetTargetedUnit (hoveredObject);
+
+													}
 
 												}
 
@@ -1220,8 +1333,19 @@ public class MouseManager : MonoBehaviour {
 												//we can use either starbase storage section to check the range
 												if (selectedUnit.GetComponent<StarbaseStorageSection1> ().TargetableItemHexes.Contains (localHex) == true) {
 
-													//target the ship with torpedos
-													SetTargetedUnit (hoveredObject);
+													//check if the hovered object is already the targeted unit
+													if (targetedUnit == hoveredObject) {
+
+														//if so, clear it
+														ClearTargetedUnit ();
+
+													} else {
+
+
+														//target the ship
+														SetTargetedUnit (hoveredObject);
+
+													}
 
 												}
 
@@ -1258,8 +1382,19 @@ public class MouseManager : MonoBehaviour {
 											//check if the unit we're hovering over is inside the targetable hexes
 											if (selectedUnit.GetComponent<StorageSection> ().TargetableItemHexes.Contains (localHex) == true) {
 
-												//target the ship with torpedos
-												SetTargetedUnit (hoveredObject);
+												//check if the hovered object is already the targeted unit
+												if (targetedUnit == hoveredObject) {
+
+													//if so, clear it
+													ClearTargetedUnit ();
+
+												} else {
+
+
+													//target the ship
+													SetTargetedUnit (hoveredObject);
+
+												}
 
 											}
 
@@ -1278,8 +1413,19 @@ public class MouseManager : MonoBehaviour {
 											//we can use either starbase storage section to check the range
 											if (selectedUnit.GetComponent<StarbaseStorageSection1> ().TargetableItemHexes.Contains (localHex) == true) {
 
-												//target the ship with torpedos
-												SetTargetedUnit (hoveredObject);
+												//check if the hovered object is already the targeted unit
+												if (targetedUnit == hoveredObject) {
+
+													//if so, clear it
+													ClearTargetedUnit ();
+
+												} else {
+
+
+													//target the ship
+													SetTargetedUnit (hoveredObject);
+
+												}
 
 											}
 
@@ -1349,8 +1495,19 @@ public class MouseManager : MonoBehaviour {
 												//check if the unit we're hovering over is inside the targetable hexes
 												if (selectedUnit.GetComponent<CrewSection> ().TargetableCrewHexes.Contains (localHex) == true) {
 
-													//target the ship with torpedos
-													SetTargetedUnit (hoveredObject);
+													//check if the hovered object is already the targeted unit
+													if (targetedUnit == hoveredObject) {
+
+														//if so, clear it
+														ClearTargetedUnit ();
+
+													} else {
+
+
+														//target the ship
+														SetTargetedUnit (hoveredObject);
+
+													}
 
 												}
 
@@ -1368,8 +1525,19 @@ public class MouseManager : MonoBehaviour {
 												//check if the unit we're hovering over is inside the targetable hexes
 												if (selectedUnit.GetComponent<StarbaseCrewSection> ().TargetableCrewHexes.Contains (localHex) == true) {
 
-													//target the ship with torpedos
-													SetTargetedUnit (hoveredObject);
+													//check if the hovered object is already the targeted unit
+													if (targetedUnit == hoveredObject) {
+
+														//if so, clear it
+														ClearTargetedUnit ();
+
+													} else {
+
+
+														//target the ship
+														SetTargetedUnit (hoveredObject);
+
+													}
 
 												}
 
@@ -1407,8 +1575,19 @@ public class MouseManager : MonoBehaviour {
 											//check if the unit we're hovering over is inside the targetable hexes
 											if (selectedUnit.GetComponent<CrewSection> ().TargetableCrewHexes.Contains (localHex) == true) {
 
-												//target the ship with torpedos
-												SetTargetedUnit (hoveredObject);
+												//check if the hovered object is already the targeted unit
+												if (targetedUnit == hoveredObject) {
+
+													//if so, clear it
+													ClearTargetedUnit ();
+
+												} else {
+
+
+													//target the ship
+													SetTargetedUnit (hoveredObject);
+
+												}
 
 											}
 
@@ -1426,8 +1605,19 @@ public class MouseManager : MonoBehaviour {
 											//check if the unit we're hovering over is inside the targetable hexes
 											if (selectedUnit.GetComponent<StarbaseCrewSection> ().TargetableCrewHexes.Contains (localHex) == true) {
 
-												//target the ship with torpedos
-												SetTargetedUnit (hoveredObject);
+												//check if the hovered object is already the targeted unit
+												if (targetedUnit == hoveredObject) {
+
+													//if so, clear it
+													ClearTargetedUnit ();
+
+												} else {
+
+
+													//target the ship
+													SetTargetedUnit (hoveredObject);
+
+												}
 
 											}
 
@@ -1962,8 +2152,12 @@ public class MouseManager : MonoBehaviour {
 
 
 
-		//i am pretty sure that whenever we set a new selected unit, I want to clear the targeted unit
-		ClearTargetedUnit();
+		//i am pretty sure that whenever we set a new selected unit, I want to clear the targeted unit if there is one
+		if (targetedUnit != null) {
+			
+			ClearTargetedUnit ();
+
+		}
 		//Debug.Log ("Set Selected Unit to" + selectedUnit.GetComponent<Starbase>().baseName);
 		//invoke the OnSetSelectedUnit event
 		OnSetSelectedUnitEarly.Invoke();
@@ -1974,8 +2168,12 @@ public class MouseManager : MonoBehaviour {
 	//this method clears the selected unit. 
 	private void ClearSelectedUnit(){
 
-		//if we are clearing the selected unit, we will also want to clear the targeted unit
-		ClearTargetedUnit();
+		//if we are clearing the selected unit, we will also want to clear the targeted unit if there is one
+		if (targetedUnit != null) {
+			
+			ClearTargetedUnit ();
+
+		}
 
 		//It checks to see if the selected unit is already null
 		//if it is, it returns without doing anything.
@@ -2036,7 +2234,7 @@ public class MouseManager : MonoBehaviour {
 		if (targetedUnit == null) {
 
 			//invoke the OnClearTargetedUnit Event
-			OnClearTargetedUnit.Invoke();
+			//OnClearTargetedUnit.Invoke();
 
 			return;
 
@@ -2229,6 +2427,8 @@ public class MouseManager : MonoBehaviour {
 			uiManager.GetComponent<UINavigationMain>().OnCancelClearTargetedUnit.RemoveListener(ClearTargetedUnit);
 			uiManager.GetComponent<UINavigationMain>().OnCancelClearSelectedUnit.RemoveListener(ClearSelectedUnit);
 
+			//remove listener for closing cutscene
+			uiManager.GetComponent<CutsceneManager>().OnCloseCutsceneDisplayPanel.RemoveListener(ClearSelectedUnit);
 		}
 
 		if (gameManager != null) {

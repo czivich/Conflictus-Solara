@@ -7,7 +7,7 @@ using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 using TMPro;
 
-public class UISelectionNonGroup : MonoBehaviour,IPointerEnterHandler {
+public class UISelectionNonGroup : MonoBehaviour,IPointerEnterHandler,IPointerClickHandler {
 	
 	public static SelectionEvent OnPointerEnterSelectable = new SelectionEvent();
 
@@ -36,6 +36,18 @@ public class UISelectionNonGroup : MonoBehaviour,IPointerEnterHandler {
 
 	}
 
+	public void OnPointerClick(PointerEventData eventData){
+
+		//check if this is a dropdown item
+		if (this.transform.parent.parent.parent.name == "Dropdown List") {
+			
+			//invoke the event
+			OnPointerClickSelectable.Invoke (this.GetComponent<Selectable> ());
+
+		}
+
+	}
+
 	private void ResolveButtonPress(){
 
 		//invoke the event
@@ -53,8 +65,12 @@ public class UISelectionNonGroup : MonoBehaviour,IPointerEnterHandler {
 	//this function removes listeners
 	private void RemoveEventListeners(){
 
-		//remove listener for button onClick
-		this.GetComponent<Button>().onClick.RemoveListener(ResolveButtonPress);
+		if (this.GetComponent<Button> () == true) {
+
+			//remove listener for button onClick
+			this.GetComponent<Button> ().onClick.RemoveListener (ResolveButtonPress);
+		
+		}
 
 	}
 

@@ -169,6 +169,13 @@ public class UINavigationMainMenu : MonoBehaviour {
 	public UnityEvent OnUIStateChange = new UnityEvent();
 	public UnityEvent OnSelectablesChange = new UnityEvent();
 
+	//this event announces a successful pointer enter valid selectable
+	public UnityEvent OnPointerEnterValidSelectable = new UnityEvent();
+
+	//this event announces a successful pointer click valid selectable
+	public UnityEvent OnPointerClickValidSelectable = new UnityEvent();
+
+
 
 	//unityActions
 	private UnityAction OpenNewLocalGameWindowAction;
@@ -292,6 +299,9 @@ public class UINavigationMainMenu : MonoBehaviour {
 
 							//do nothing
 
+							//invoke the pointer enter event to trigger a sound
+							OnPointerEnterValidSelectable.Invoke();
+
 						} else {
 							//set the selected object to the one in memory because the memory object is valid
 							eventSystem.SetSelectedGameObject (CurrentSelectables [currentSelectionIndex].gameObject);
@@ -392,6 +402,9 @@ public class UINavigationMainMenu : MonoBehaviour {
 						if (CurrentSelectables [currentSelectionIndex].gameObject.GetComponent<TMP_Dropdown> () == true) {
 
 							//do nothing
+
+							//invoke the pointer enter event to trigger a sound
+							OnPointerEnterValidSelectable.Invoke();
 
 						} else {
 							//set the selected object to the one in memory because the memory object is valid
@@ -810,6 +823,15 @@ public class UINavigationMainMenu : MonoBehaviour {
 
 				//call the load game button on-click
 				uiManager.GetComponent<FileLoadWindow>().fileLoadYesButton.onClick.Invoke();
+
+			}
+
+			//check if we are in a dropdown - if so, we don't want to set the selected object
+			else if (CurrentSelectables [currentSelectionIndex].gameObject.GetComponent<TMP_Dropdown> () == true) {
+
+				//invoke the pointer click event to trigger a sound
+				OnPointerClickValidSelectable.Invoke ();
+
 
 			}
 

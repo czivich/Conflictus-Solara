@@ -425,6 +425,12 @@ public class Settings : MonoBehaviour {
 		musicVolumeSlider.value = musicVolume;
 		sfxVolumeSlider.value = sfxVolume;
 
+		//set the value toggles
+		mouseZoomSensitivityValue.GetComponentInChildren<TextMeshProUGUI> ().text = mouseZoomSensitivity.ToString();
+		mouseScrollSensitivityValue.GetComponentInChildren<TextMeshProUGUI> ().text = mouseScrollSensitivity.ToString();
+		musicVolumeValue.GetComponentInChildren<TextMeshProUGUI> ().text = musicVolume.ToString();
+		sfxVolumeValue.GetComponentInChildren<TextMeshProUGUI> ().text = sfxVolume.ToString();
+
 	}
 
 	//this function resolves clicking the apply button

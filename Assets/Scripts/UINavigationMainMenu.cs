@@ -205,6 +205,15 @@ public class UINavigationMainMenu : MonoBehaviour {
 	//this action catches a redirect from a clicked up/down button to the selectable count
 	private UnityAction<Selectable> ButtonRedirectSetSelectedObjectAction;
 
+	//this action listens for onpointerenter events
+	private UnityAction<Selectable> OnPointerEnterTestAction;
+
+	//this action listens for onpointerenter events
+	private UnityAction<Selectable> OnPointerEnterNonGroupTestAction;
+
+	//this action listens for onpointerclick events
+	private UnityAction<Selectable> OnPointerClickNonGroupTestAction;
+
 	// Use this for initialization
 	public void Init () {
 
@@ -1022,6 +1031,15 @@ public class UINavigationMainMenu : MonoBehaviour {
 
 		};
 
+		//this action checks if the selectable is valid
+		OnPointerEnterTestAction = (testSelectable) => {CheckOnPointerEnter(testSelectable);};
+
+		//this action checks if the selectable is valid
+		OnPointerEnterNonGroupTestAction = (testSelectable) => {CheckOnPointerEnterNonGroup(testSelectable);};
+
+		//this action checks if the selectable is valid
+		OnPointerClickNonGroupTestAction = (testSelectable) => {CheckOnPointerClickNonGroup(testSelectable);};
+
 	}
 
 	//this function adds event listeners
@@ -1086,6 +1104,15 @@ public class UINavigationMainMenu : MonoBehaviour {
 
 		//add listener for the redirect click
 		UIButtonSelectionRedirect.OnClickedButtonForRedirect.AddListener(ButtonRedirectSetSelectedObjectAction);
+
+		//add listener to the UI selection pointer enter
+		UISelection.OnPointerEnterSelectable.AddListener(OnPointerEnterTestAction);
+
+		//add listener to the UI selection pointer enter
+		UISelectionNonGroup.OnPointerEnterSelectable.AddListener(OnPointerEnterNonGroupTestAction);
+
+		//add listener to the UI selection pointer click
+		UISelectionNonGroup.OnPointerClickSelectable.AddListener(OnPointerClickNonGroupTestAction);
 
 	}
 
@@ -2212,6 +2239,73 @@ public class UINavigationMainMenu : MonoBehaviour {
 		//CurrentUIState = returnUIState;
 
 		OnUIStateChange.Invoke ();
+
+	}
+
+	//this function checks if a selectable is in the current group
+	private bool SelectableInGroup(Selectable testSelectable){
+
+		//find the returnSelectable in the group
+		for (int i = 0; i < currentSelectablesGroup.Length; i++) {
+
+			if (currentSelectablesGroup [i].Contains (testSelectable)) {
+
+				return true;
+
+			}
+
+		}
+
+		//if we didn't return from the for loop, we can return false
+		return false;
+
+	}
+
+	//this function checks if the passed selectable is in the current group, and if it is valid
+	private bool CheckValidSelectable(Selectable testSelectable){
+
+		//check if the selectable is in the group, is active, and is interactable
+		if (SelectableInGroup (testSelectable) == true && testSelectable.IsInteractable () == true && testSelectable.IsActive() == true) {
+
+			return true;
+
+		} else {
+
+			return false;
+
+		}
+
+	}
+
+	//this function checks if a OnPointerEnter is valid, and if so, fires an event
+	private void CheckOnPointerEnter(Selectable testSelectable){
+
+		//check validity
+		if (CheckValidSelectable (testSelectable) == true) {
+
+			OnPointerEnterValidSelectable.Invoke ();
+
+		}
+
+	}
+
+	//this function checks if a OnPointerEnter is valid, and if so, fires an event
+	private void CheckOnPointerEnterNonGroup(Selectable testSelectable){
+
+		//check validity
+		if (testSelectable.IsInteractable () == true && testSelectable.IsActive() == true) {
+
+			OnPointerEnterValidSelectable.Invoke ();
+
+		}
+
+	}
+
+	//this function checks if a OnPointerEnter is valid, and if so, fires an event
+	private void CheckOnPointerClickNonGroup(Selectable testSelectable){
+
+		//fire event
+		OnPointerClickValidSelectable.Invoke ();
 
 	}
 

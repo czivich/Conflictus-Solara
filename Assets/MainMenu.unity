@@ -481,11 +481,11 @@ MonoBehaviour:
     lineCount: 1
     pageCount: 1
     materialCount: 1
-  m_havePropertiesChanged: 0
+  m_havePropertiesChanged: 1
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_spriteAnimator: {fileID: 0}
-  m_isInputParsingRequired: 0
+  m_isInputParsingRequired: 1
   m_inputSource: 0
   m_hasFontAssetChanged: 0
   m_subTextObjects:
@@ -834,6 +834,7 @@ GameObject:
   - component: {fileID: 28825559}
   - component: {fileID: 28825558}
   - component: {fileID: 28825562}
+  - component: {fileID: 28825563}
   m_Layer: 5
   m_Name: IncreaseButton
   m_TagString: Untagged
@@ -963,6 +964,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49c29a4039baf3841a04b50250ca1c1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &28825563
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 28825556}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d02d44061bdd7e4582aeea063d97a58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  redirectSelectable: {fileID: 232620855}
 --- !u!1 &45459703
 GameObject:
   m_ObjectHideFlags: 0
@@ -3433,11 +3446,11 @@ MonoBehaviour:
     lineCount: 1
     pageCount: 1
     materialCount: 1
-  m_havePropertiesChanged: 0
+  m_havePropertiesChanged: 1
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_spriteAnimator: {fileID: 0}
-  m_isInputParsingRequired: 0
+  m_isInputParsingRequired: 1
   m_inputSource: 0
   m_hasFontAssetChanged: 0
   m_subTextObjects:
@@ -4583,11 +4596,11 @@ MonoBehaviour:
     lineCount: 1
     pageCount: 1
     materialCount: 1
-  m_havePropertiesChanged: 0
+  m_havePropertiesChanged: 1
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_spriteAnimator: {fileID: 0}
-  m_isInputParsingRequired: 0
+  m_isInputParsingRequired: 1
   m_inputSource: 0
   m_hasFontAssetChanged: 0
   m_subTextObjects:
@@ -8594,6 +8607,7 @@ GameObject:
   - component: {fileID: 468032081}
   - component: {fileID: 468032080}
   - component: {fileID: 468032084}
+  - component: {fileID: 468032085}
   m_Layer: 5
   m_Name: DecreaseButton
   m_TagString: Untagged
@@ -8723,6 +8737,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49c29a4039baf3841a04b50250ca1c1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &468032085
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 468032078}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d02d44061bdd7e4582aeea063d97a58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  redirectSelectable: {fileID: 2031211443}
 --- !u!1 &473113327
 GameObject:
   m_ObjectHideFlags: 0
@@ -12457,11 +12483,11 @@ MonoBehaviour:
     lineCount: 1
     pageCount: 1
     materialCount: 1
-  m_havePropertiesChanged: 0
+  m_havePropertiesChanged: 1
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_spriteAnimator: {fileID: 0}
-  m_isInputParsingRequired: 0
+  m_isInputParsingRequired: 1
   m_inputSource: 0
   m_hasFontAssetChanged: 0
   m_subTextObjects:
@@ -13294,6 +13320,7 @@ GameObject:
   - component: {fileID: 773671269}
   - component: {fileID: 773671268}
   - component: {fileID: 773671272}
+  - component: {fileID: 773671273}
   m_Layer: 5
   m_Name: DecreaseButton
   m_TagString: Untagged
@@ -13423,6 +13450,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49c29a4039baf3841a04b50250ca1c1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &773671273
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 773671266}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d02d44061bdd7e4582aeea063d97a58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  redirectSelectable: {fileID: 1827301755}
 --- !u!1 &790010712
 GameObject:
   m_ObjectHideFlags: 0
@@ -14330,6 +14369,7 @@ GameObject:
   - component: {fileID: 835518126}
   - component: {fileID: 835518125}
   - component: {fileID: 835518129}
+  - component: {fileID: 835518130}
   m_Layer: 5
   m_Name: IncreaseButton
   m_TagString: Untagged
@@ -14459,6 +14499,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49c29a4039baf3841a04b50250ca1c1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &835518130
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 835518123}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d02d44061bdd7e4582aeea063d97a58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  redirectSelectable: {fileID: 1827301755}
 --- !u!1 &836688048
 GameObject:
   m_ObjectHideFlags: 0
@@ -14796,11 +14848,11 @@ MonoBehaviour:
     lineCount: 1
     pageCount: 1
     materialCount: 1
-  m_havePropertiesChanged: 0
+  m_havePropertiesChanged: 1
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_spriteAnimator: {fileID: 0}
-  m_isInputParsingRequired: 0
+  m_isInputParsingRequired: 1
   m_inputSource: 0
   m_hasFontAssetChanged: 0
   m_subTextObjects:
@@ -15465,6 +15517,7 @@ GameObject:
   - component: {fileID: 870406231}
   - component: {fileID: 870406230}
   - component: {fileID: 870406234}
+  - component: {fileID: 870406235}
   m_Layer: 5
   m_Name: DecreaseButton
   m_TagString: Untagged
@@ -15594,6 +15647,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49c29a4039baf3841a04b50250ca1c1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &870406235
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 870406228}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d02d44061bdd7e4582aeea063d97a58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  redirectSelectable: {fileID: 790010714}
 --- !u!1 &878739022
 GameObject:
   m_ObjectHideFlags: 0
@@ -16177,11 +16242,11 @@ MonoBehaviour:
     lineCount: 1
     pageCount: 1
     materialCount: 1
-  m_havePropertiesChanged: 0
+  m_havePropertiesChanged: 1
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_spriteAnimator: {fileID: 0}
-  m_isInputParsingRequired: 0
+  m_isInputParsingRequired: 1
   m_inputSource: 0
   m_hasFontAssetChanged: 0
   m_subTextObjects:
@@ -17217,11 +17282,11 @@ MonoBehaviour:
     lineCount: 1
     pageCount: 1
     materialCount: 1
-  m_havePropertiesChanged: 0
+  m_havePropertiesChanged: 1
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_spriteAnimator: {fileID: 0}
-  m_isInputParsingRequired: 0
+  m_isInputParsingRequired: 1
   m_inputSource: 0
   m_hasFontAssetChanged: 0
   m_subTextObjects:
@@ -17973,11 +18038,11 @@ MonoBehaviour:
     lineCount: 1
     pageCount: 1
     materialCount: 1
-  m_havePropertiesChanged: 0
+  m_havePropertiesChanged: 1
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_spriteAnimator: {fileID: 0}
-  m_isInputParsingRequired: 0
+  m_isInputParsingRequired: 1
   m_inputSource: 0
   m_hasFontAssetChanged: 0
   m_subTextObjects:
@@ -19231,11 +19296,11 @@ MonoBehaviour:
     lineCount: 1
     pageCount: 1
     materialCount: 1
-  m_havePropertiesChanged: 0
+  m_havePropertiesChanged: 1
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_spriteAnimator: {fileID: 0}
-  m_isInputParsingRequired: 0
+  m_isInputParsingRequired: 1
   m_inputSource: 0
   m_hasFontAssetChanged: 0
   m_subTextObjects:
@@ -19400,6 +19465,7 @@ GameObject:
   - component: {fileID: 1083104362}
   - component: {fileID: 1083104361}
   - component: {fileID: 1083104365}
+  - component: {fileID: 1083104366}
   m_Layer: 5
   m_Name: IncreaseButton
   m_TagString: Untagged
@@ -19529,6 +19595,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49c29a4039baf3841a04b50250ca1c1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1083104366
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1083104359}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d02d44061bdd7e4582aeea063d97a58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  redirectSelectable: {fileID: 790010714}
 --- !u!1 &1092520281
 GameObject:
   m_ObjectHideFlags: 0
@@ -25114,11 +25192,11 @@ MonoBehaviour:
     lineCount: 1
     pageCount: 1
     materialCount: 1
-  m_havePropertiesChanged: 0
+  m_havePropertiesChanged: 1
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_spriteAnimator: {fileID: 0}
-  m_isInputParsingRequired: 0
+  m_isInputParsingRequired: 1
   m_inputSource: 0
   m_hasFontAssetChanged: 0
   m_subTextObjects:
@@ -27012,11 +27090,11 @@ MonoBehaviour:
     lineCount: 1
     pageCount: 1
     materialCount: 1
-  m_havePropertiesChanged: 0
+  m_havePropertiesChanged: 1
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_spriteAnimator: {fileID: 0}
-  m_isInputParsingRequired: 0
+  m_isInputParsingRequired: 1
   m_inputSource: 0
   m_hasFontAssetChanged: 0
   m_subTextObjects:
@@ -28732,11 +28810,11 @@ MonoBehaviour:
     lineCount: 1
     pageCount: 1
     materialCount: 1
-  m_havePropertiesChanged: 0
+  m_havePropertiesChanged: 1
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_spriteAnimator: {fileID: 0}
-  m_isInputParsingRequired: 0
+  m_isInputParsingRequired: 1
   m_inputSource: 0
   m_hasFontAssetChanged: 0
   m_subTextObjects:
@@ -28968,6 +29046,7 @@ GameObject:
   - component: {fileID: 1584850923}
   - component: {fileID: 1584850924}
   - component: {fileID: 1584850925}
+  - component: {fileID: 1584850926}
   m_Layer: 0
   m_Name: UIManagerMainMenu
   m_TagString: UIManager
@@ -29364,6 +29443,22 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
+--- !u!114 &1584850926
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1584850912}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4526087374de804890b7cc24cdc6187, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clipMainBackgroundMusic: {fileID: 8300000, guid: 1643cfb3143e26c4c9304640d1d5f548,
+    type: 3}
+  clipSelectableHover: {fileID: 8300000, guid: 28d179d8a15e5894c994c58f5e4cbd87, type: 3}
+  clipSelectableSubmit: {fileID: 8300000, guid: 6eb331a775316794c80ddbd103364f7a,
+    type: 3}
 --- !u!1 &1587058474
 GameObject:
   m_ObjectHideFlags: 0
@@ -30301,6 +30396,7 @@ GameObject:
   - component: {fileID: 1624693659}
   - component: {fileID: 1624693658}
   - component: {fileID: 1624693662}
+  - component: {fileID: 1624693663}
   m_Layer: 5
   m_Name: IncreaseButton
   m_TagString: Untagged
@@ -30430,6 +30526,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49c29a4039baf3841a04b50250ca1c1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1624693663
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1624693656}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d02d44061bdd7e4582aeea063d97a58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  redirectSelectable: {fileID: 2031211443}
 --- !u!1 &1637995019
 GameObject:
   m_ObjectHideFlags: 0
@@ -32015,11 +32123,11 @@ MonoBehaviour:
     lineCount: 1
     pageCount: 1
     materialCount: 1
-  m_havePropertiesChanged: 0
+  m_havePropertiesChanged: 1
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_spriteAnimator: {fileID: 0}
-  m_isInputParsingRequired: 0
+  m_isInputParsingRequired: 1
   m_inputSource: 0
   m_hasFontAssetChanged: 0
   m_subTextObjects:
@@ -32681,11 +32789,11 @@ MonoBehaviour:
     lineCount: 1
     pageCount: 1
     materialCount: 1
-  m_havePropertiesChanged: 0
+  m_havePropertiesChanged: 1
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_spriteAnimator: {fileID: 0}
-  m_isInputParsingRequired: 0
+  m_isInputParsingRequired: 1
   m_inputSource: 0
   m_hasFontAssetChanged: 0
   m_subTextObjects:
@@ -33431,6 +33539,7 @@ GameObject:
   - component: {fileID: 1861538985}
   - component: {fileID: 1861538984}
   - component: {fileID: 1861538988}
+  - component: {fileID: 1861538989}
   m_Layer: 5
   m_Name: DecreaseButton
   m_TagString: Untagged
@@ -33560,6 +33669,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49c29a4039baf3841a04b50250ca1c1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1861538989
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1861538982}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d02d44061bdd7e4582aeea063d97a58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  redirectSelectable: {fileID: 232620855}
 --- !u!1 &1862723957
 GameObject:
   m_ObjectHideFlags: 0
@@ -36690,11 +36811,11 @@ MonoBehaviour:
     lineCount: 1
     pageCount: 1
     materialCount: 1
-  m_havePropertiesChanged: 0
+  m_havePropertiesChanged: 1
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_spriteAnimator: {fileID: 0}
-  m_isInputParsingRequired: 0
+  m_isInputParsingRequired: 1
   m_inputSource: 0
   m_hasFontAssetChanged: 0
   m_subTextObjects:
@@ -36976,11 +37097,11 @@ MonoBehaviour:
     lineCount: 1
     pageCount: 1
     materialCount: 1
-  m_havePropertiesChanged: 0
+  m_havePropertiesChanged: 1
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_spriteAnimator: {fileID: 0}
-  m_isInputParsingRequired: 0
+  m_isInputParsingRequired: 1
   m_inputSource: 0
   m_hasFontAssetChanged: 0
   m_subTextObjects:

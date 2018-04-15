@@ -41,12 +41,18 @@ public class SoundManager : MonoBehaviour {
 
 	//this bool flag determines whether we should be fading in background music
 	private bool isFadingInMusic;
+	private bool isFadingOutMusic;
 
 	//this variable controls how long the fade in time is for background music
 	private float fadeInTime = 5.0f;
 
 	//this variable keeps track of the timer for fading in
 	private float fadeInTimer = 0.0f;
+
+	//these variables are for fading out
+	//fade out time should match the scene transition fade panel time
+	private float fadeOutTime = 1.5f;
+	private float fadeOutTimer = 0.0f;
 
 	//this tracks the music volume level
 	private float musicVolumeLevel;
@@ -55,17 +61,23 @@ public class SoundManager : MonoBehaviour {
 	private float sfxVolumeLevel;
 
 	//this tracks the cooldown timer
-	private float cooldownTimer = 0.13f;
+	private float cooldownTimer;
 
 	//this is the cooldown limit
 	private float cooldownLimit = 0.125f;
 
-	//this bool controls whether we need to play a UI selection sound
-	bool playUISelectionSound;
-	bool playUISubmitSound;
-	bool playSelectUnitSound;
-	bool playTargetUnitSound;
+	//this is an initial timer to block UI effects at the scene startup
+	private float startupTimer;
+	private float startupLimit = 1.0f;
 
+	//this bool controls whether we need to play a UI selection sound
+	private bool playUISelectionSound;
+	private bool playUISubmitSound;
+	private bool playSelectUnitSound;
+	private bool playTargetUnitSound;
+
+	//this bool controls blocking sound effects - i can set this to delay the block by a frame
+	private bool blockSfx;
 
 	//unityActions
 	private UnityAction startMainBackgroundAction;
@@ -82,7 +94,8 @@ public class SoundManager : MonoBehaviour {
 	private UnityAction playSelectUnitAction;
 	private UnityAction<Toggle> togglePlaySubmitAction;
 	private UnityAction playTargetUnitAction;
-
+	private UnityAction playHoverUnitAction;
+	private UnityAction fadeOutMainBackgroundAction;
 
 	// Use this for initialization
 	public void Init () {
@@ -108,6 +121,32 @@ public class SoundManager : MonoBehaviour {
 
 	private void Update(){
 
+		//check the statup timer
+		if (startupTimer < startupLimit) {
+
+			startupTimer += Time.deltaTime;
+
+			//clear the flags
+			playTargetUnitSound = false;
+			playSelectUnitSound = false;
+			playUISelectionSound = false;
+			playUISubmitSound = false;
+
+			return;
+
+		}
+
+		//check if the block flag is set
+		if (blockSfx == true) {
+
+			//keep the sfx flags set to false so no menu sounds while we fade out
+			playTargetUnitSound = false;
+			playSelectUnitSound = false;
+			playUISelectionSound = false;
+			playUISubmitSound = false;
+
+		}
+
 		//check if we are supposed to be fading in
 		if (isFadingInMusic == true) {
 
@@ -128,6 +167,29 @@ public class SoundManager : MonoBehaviour {
 				isFadingInMusic = false;
 
 			}
+
+		}
+
+		//check if we are supposed to be fading out
+		if (isFadingOutMusic == true) {
+
+			//check if the fade out timer is less than the value
+			if (fadeOutTimer <= fadeOutTime) {
+
+				//scale the volume proportional to the time elapsed
+				audioMainBackgroundMusic.volume = (1.0f - fadeOutTimer / fadeOutTime) * musicVolumeLevel;
+
+				fadeOutTimer += Time.deltaTime;
+
+			} else {
+
+				//here, the timer has elapsed more than the time, so we should be at 0 volume
+				audioMainBackgroundMusic.volume = 0.0f;
+
+			}
+
+			//set the block flag
+			blockSfx = true;
 
 		}
 
@@ -163,6 +225,18 @@ public class SoundManager : MonoBehaviour {
 		playSelectUnitAction = () => {playSelectUnitSound = true;};
 		togglePlaySubmitAction = (toggle) => {playUISubmitSound = true;};
 		playTargetUnitAction = () => {playTargetUnitSound = true;};
+		playHoverUnitAction = () => {
+
+			//check if the hovered object is a combat unit
+			if(mouseManager.hoveredObject.GetComponent<CombatUnit>() == true){
+
+				playUISelectionSound = true;
+
+			}
+				
+		};
+
+		fadeOutMainBackgroundAction = () => {StartFadingOutMainBackgroundMusic();};
 
 	}
 
@@ -226,6 +300,12 @@ public class SoundManager : MonoBehaviour {
 		//add listener for clearing target unit
 		mouseManager.OnClearTargetedUnit.AddListener(playTargetUnitAction);
 
+		//add listener for hovering over a combat unit
+		mouseManager.OnSetHoveredObject.AddListener(playHoverUnitAction);
+
+		//add listener for exiting the main menu scene
+		gameManager.OnBeginSceneExit.AddListener(fadeOutMainBackgroundAction);
+
 	}
 
 	//this function creates a new audioSource component for the passed clip
@@ -281,6 +361,24 @@ public class SoundManager : MonoBehaviour {
 
 		//reset the timer
 		fadeInTimer = 0.0f;
+
+
+	}
+
+	//this function starts fading out the main background music
+	private void StartFadingOutMainBackgroundMusic(){
+
+		//turn on the fading out flag
+		isFadingOutMusic = true;
+
+		//turn off the fading in flag (should be off already, unless we go really quickly)
+		isFadingInMusic = false;
+
+		//set the music value to the current volume (in case we call this while we are still fading in)
+		musicVolumeLevel = audioMainBackgroundMusic.volume;
+
+		//reset the timer
+		fadeOutTimer = 0.0f;
 
 
 	}
@@ -470,9 +568,6 @@ public class SoundManager : MonoBehaviour {
 			//remove listener for selectable hover
 			uiManager.GetComponent<UINavigationMain>().OnPointerEnterValidSelectable.RemoveListener(selectableHoverAction);
 
-			//remove listener for ui state change
-			uiManager.GetComponent<UINavigationMain>().OnUIStateChange.RemoveListener(playSubmitAction);
-
 			//remove listener for cancelling out of a menu
 			uiManager.GetComponent<UINavigationMain>().OnCloseWindowWithCancel.RemoveListener(playSubmitAction);
 
@@ -492,6 +587,9 @@ public class SoundManager : MonoBehaviour {
 			//remove listener for loaded game
 			gameManager.OnLoadedTurn.RemoveListener(playerStartMainBackgroundAction);
 
+			//remove listener for exiting the main menu scene
+			gameManager.OnBeginSceneExit.RemoveListener(fadeOutMainBackgroundAction);
+
 		}
 
 		if (mouseManager != null) {
@@ -508,6 +606,9 @@ public class SoundManager : MonoBehaviour {
 
 			//remove listener for clearing target unit
 			mouseManager.OnClearTargetedUnit.RemoveListener(playTargetUnitAction);
+
+			//remove listener for hovering over a combat unit
+			mouseManager.OnSetHoveredObject.RemoveListener(playHoverUnitAction);
 
 		}
 

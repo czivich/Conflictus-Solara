@@ -136,9 +136,15 @@ public class MainMenuManager : MonoBehaviour {
 		uiManagerMainMenu.GetComponent<PauseFadePanelMainMenu> ().Init ();
 		uiManagerMainMenu.GetComponent<ConfigureLocalGameWindow> ().Init ();
 		uiManagerMainMenu.GetComponent<SceneTransitionFadePanel> ().Init ();
+
+		//this needs to be before settings since it is listening to settings
+		uiManagerMainMenu.GetComponent<SoundManagerMainMenu> ().Init ();
+
+
 		uiManagerMainMenu.GetComponent<Settings> ().Init ();
 		uiManagerMainMenu.GetComponent<UINavigationMainMenu> ().Init ();
 		uiManagerMainMenu.GetComponent<About> ().Init ();
+
 
 	}
 

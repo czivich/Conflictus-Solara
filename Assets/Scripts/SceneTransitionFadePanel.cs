@@ -156,6 +156,9 @@ public class SceneTransitionFadePanel : MonoBehaviour {
 		//set the color alpha to the current fade
 		fadePanelColor.a = currentFade;
 
+		//for fading in, make the panel not a raycast target so we can click menu items as it fades in
+		fadePanel.GetComponent<Image>().raycastTarget = false;
+
 	}
 
 	//this function starts a fade out
@@ -178,6 +181,9 @@ public class SceneTransitionFadePanel : MonoBehaviour {
 
 		//set the color alpha to the current fade
 		fadePanelColor.a = currentFade;
+
+		//for fading out, make the panel a raycast target so we can't click things after we've decided to exit the scene
+		fadePanel.GetComponent<Image>().raycastTarget = true;
 
 	}
 

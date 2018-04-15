@@ -2011,7 +2011,9 @@ public class MouseManager : MonoBehaviour {
 
 	//this method sets the object we have selected
 	private void SetSelectedUnit(GameObject localHoveredObject){
-		
+
+		//Debug.Log ("SetSelectedUnit");
+
 		//check that the current selected unit is not null
 		//if it is null, it sets the selected unit to what we are hovering over
 		//if it isn't null, it checks if the current selected unit is the same as what we are hovering over
@@ -2167,6 +2169,9 @@ public class MouseManager : MonoBehaviour {
 
 	//this method clears the selected unit. 
 	private void ClearSelectedUnit(){
+
+		//Debug.Log ("ClearSelectedUnit");
+
 
 		//if we are clearing the selected unit, we will also want to clear the targeted unit if there is one
 		if (targetedUnit != null) {

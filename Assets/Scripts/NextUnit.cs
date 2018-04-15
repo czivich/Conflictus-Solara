@@ -61,7 +61,14 @@ public class NextUnit : MonoBehaviour {
 		tileMap = GameObject.FindGameObjectWithTag("TileMap").GetComponent<TileMap>();
 
 		//set the actions
-		playerCenterCameraOnUnitAction = (player) => {CenterCameraOnUnit(GetCurrentPlayerFirstUnit());};
+		playerCenterCameraOnUnitAction = (player) => {
+
+			CenterCameraOnUnit(GetCurrentPlayerFirstUnit());
+
+			//invoke the set event
+			//GetNextUnit();
+		
+		};
 		actionModeSetNextUnitButtonStatusAction = (actionMode) => {SetNextUnitButtonStatus(actionMode);};
 
 		//set up a listener for when the nextUnitButton is pushed

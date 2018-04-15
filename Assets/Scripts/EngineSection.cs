@@ -251,6 +251,12 @@ public class EngineSection : MonoBehaviour {
 	//event to announce damage was taken
 	public static UnityEvent OnEngineDamageTaken = new UnityEvent();
 
+	//event to announce start of warp fade out
+	public static UnityEvent OnStartWarpFadeOut = new UnityEvent();
+
+	//event to announce restart of normal movement after fading in
+	public static MoveEvent OnResumeMovementAfterFadeIn = new MoveEvent();
+
 	//event to announce inventory updated
 	public static InventoryUpdatedEvent OnInventoryUpdated = new InventoryUpdatedEvent();
 	public class InventoryUpdatedEvent : UnityEvent<CombatUnit>{};
@@ -572,6 +578,9 @@ public class EngineSection : MonoBehaviour {
 						//set warpStatus to fadingOut
 						warpStatus = WarpStatus.fadingOut;
 
+						//invoke the event
+						OnStartWarpFadeOut.Invoke();
+
 					} 
 				}
 
@@ -749,6 +758,14 @@ public class EngineSection : MonoBehaviour {
 			//this will prevent memory leaks and reduce draw calls
 			shipRenderer.sharedMaterial = originalMaterial;
 			Destroy (fadeMaterial);
+
+			//check if there is still movement left to go to another hex after we've faded in
+			if (currentMovementPath != null && currentMovementPath.Count > 1) {
+
+				//continue moving after fade in complete
+				OnResumeMovementAfterFadeIn.Invoke(this.GetComponent<Ship>());
+
+			}
 
 		}
 

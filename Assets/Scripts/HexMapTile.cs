@@ -130,7 +130,6 @@ public class HexMapTile{
 				isPassable = false;
 				break;
 			default:
-				isPassable = true;
 				break;
 			}
 		}
@@ -174,89 +173,112 @@ public class HexMapTile{
 		case TileType.EmptySpace:
 			this.movementCost = 1.0f;
 			this.isPlanet = false;
+			this.isPassable = true;
 			break;
 		case TileType.GreenStart:
 			this.movementCost = 1.0f;
 			this.isPlanet = false;
+			this.isPassable = true;
 			break;
 		case TileType.PurpleStart:
 			this.movementCost = 1.0f;
+			this.isPlanet = false;
+			this.isPassable = true;
 			break;
 		case TileType.RedStart:
 			this.movementCost = 1.0f;
 			this.isPlanet = false;
+			this.isPassable = true;
 			break;
 		case TileType.BlueStart:
 			this.movementCost = 1.0f;
 			this.isPlanet = false;
+			this.isPassable = true;
 			break;
 		case TileType.Sun:
 			this.movementCost = Mathf.Infinity;
 			this.isPlanet = false;
+			this.isPassable = false;
 			break;
 		case TileType.SunRayUpRight:
 			this.movementCost = 1.0f;
 			this.isPlanet = false;
+			this.isPassable = true;
 			break;
 		case TileType.SunRayRight:
 			this.movementCost = 1.0f;
 			this.isPlanet = false;
+			this.isPassable = true;
 			break;
 		case TileType.SunRayDownRight:
 			this.movementCost = 1.0f;
 			this.isPlanet = false;
+			this.isPassable = true;
 			break;
 		case TileType.SunRayDownLeft:
 			this.movementCost = 1.0f;
 			this.isPlanet = false;
+			this.isPassable = true;
 			break;
 		case TileType.SunRayLeft:
 			this.movementCost = 1.0f;
 			this.isPlanet = false;
+			this.isPassable = true;
 			break;
 		case TileType.SunRayUpLeft:
 			this.movementCost = 1.0f;
 			this.isPlanet = false;
+			this.isPassable = true;
 			break;
 		case TileType.Asteroid:
 			this.movementCost = Mathf.Infinity;
 			this.isPlanet = false;
+			this.isPassable = true;
 			break;
 		case TileType.Mercury:
 			this.movementCost = 1.0f;
 			this.isPlanet = true;
+			this.isPassable = true;
 			break;
 		case TileType.Venus:
 			this.movementCost = 1.0f;
 			this.isPlanet = true;
+			this.isPassable = true;
 			break;
 		case TileType.Earth:
 			this.movementCost = 1.0f;
 			this.isPlanet = true;
+			this.isPassable = true;
 			break;
 		case TileType.Mars:
 			this.movementCost = 1.0f;
 			this.isPlanet = true;
+			this.isPassable = true;
 			break;
 		case TileType.Jupiter:
 			this.movementCost = 1.0f;
 			this.isPlanet = true;
+			this.isPassable = true;
 			break;
 		case TileType.Saturn:
 			this.movementCost = 1.0f;
 			this.isPlanet = true;
+			this.isPassable = true;
 			break;
 		case TileType.Uranus:
 			this.movementCost = 1.0f;
 			this.isPlanet = true;
+			this.isPassable = true;
 			break;
 		case TileType.Neptune:
 			this.movementCost = 1.0f;
 			this.isPlanet = true;
+			this.isPassable = true;
 			break;
 		case TileType.Pluto:
 			this.movementCost = 1.0f;
 			this.isPlanet = true;
+			this.isPassable = true;
 			break;
 		case TileType.PlanetX:
 			this.movementCost = 1.0f;
@@ -265,14 +287,17 @@ public class HexMapTile{
 		case TileType.MercuryLow:
 			this.movementCost = 1.0f;
 			this.isPlanet = true;
+			this.isPassable = true;
 			break;
 		case TileType.VenusLow:
 			this.movementCost = 1.0f;
 			this.isPlanet = true;
+			this.isPassable = true;
 			break;
 		case TileType.EarthLow:
 			this.movementCost = 1.0f;
 			this.isPlanet = true;
+			this.isPassable = true;
 			break;
 		case TileType.MarsLow:
 			this.movementCost = 1.0f;
@@ -281,38 +306,47 @@ public class HexMapTile{
 		case TileType.JupiterLow:
 			this.movementCost = 1.0f;
 			this.isPlanet = true;
+			this.isPassable = true;
 			break;
 		case TileType.SaturnLow:
 			this.movementCost = 1.0f;
 			this.isPlanet = true;
+			this.isPassable = true;
 			break;
 		case TileType.UranusLow:
 			this.movementCost = 1.0f;
 			this.isPlanet = true;
+			this.isPassable = true;
 			break;
 		case TileType.NeptuneLow:
 			this.movementCost = 1.0f;
 			this.isPlanet = true;
+			this.isPassable = true;
 			break;
 		case TileType.PlutoLow:
 			this.movementCost = 1.0f;
 			this.isPlanet = true;
+			this.isPassable = true;
 			break;
 		case TileType.PlanetXLow:
 			this.movementCost = 1.0f;
 			this.isPlanet = true;
+			this.isPassable = true;
 			break;
 		case TileType.BlueWormhole:
 			this.movementCost = 1.0f;
 			this.isPlanet = false;
+			this.isPassable = true;
 			break;
 		case TileType.RedWormhole:
 			this.movementCost = 1.0f;
 			this.isPlanet = false;
+			this.isPassable = true;
 			break;
 		case TileType.NeutralStarbase:
 			this.movementCost = Mathf.Infinity;
 			this.isPlanet = false;
+			this.isPassable = false;
 			break;
 		default:
 			this.movementCost = 1.0f;

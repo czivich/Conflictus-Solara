@@ -14,8 +14,6 @@ public class SoundManager : MonoBehaviour {
 	//audioclips
 	public AudioClip clipMainBackgroundMusic;
 
-
-
 	public AudioClip clipPhasorFire;
 	public AudioClip clipXRayFire;
 	public AudioClip clipPhasorHit;
@@ -23,7 +21,8 @@ public class SoundManager : MonoBehaviour {
 	public AudioClip clipSelectableSubmit;
 	public AudioClip clipSelectUnit;
 	public AudioClip clipTargetUnit;
-
+	public AudioClip clipEngineDrone;
+	public AudioClip clipWarpFadeOut;
 
 	//audioSource
 	private AudioSource audioMainBackgroundMusic;
@@ -35,6 +34,8 @@ public class SoundManager : MonoBehaviour {
 	private AudioSource audioSelectableSubmit;
 	private AudioSource audioSelectUnit;
 	private AudioSource audioTargetUnit;
+	private AudioSource audioEngineDrone;
+	private AudioSource audioWarpFadeOut;
 
 	//this array will hold all the sfxAudioSources
 	private AudioSource[] sfxAudioSources;
@@ -79,6 +80,14 @@ public class SoundManager : MonoBehaviour {
 	//this bool controls blocking sound effects - i can set this to delay the block by a frame
 	private bool blockSfx;
 
+	//I'm going to use mathf.smoothdamp to ramp into and out of the engine sound effect
+	//these variables will control the engine sound
+	private float engineFadeDuration;
+	private float engineSmoothDampVelocity;
+	private float currentEngineVolume;
+	private float targetEngineVolume;
+	private bool shouldUpdateEngineVolume;
+
 	//unityActions
 	private UnityAction startMainBackgroundAction;
 	private UnityAction<Player> playerStartMainBackgroundAction;
@@ -96,6 +105,9 @@ public class SoundManager : MonoBehaviour {
 	private UnityAction playTargetUnitAction;
 	private UnityAction playHoverUnitAction;
 	private UnityAction fadeOutMainBackgroundAction;
+	private UnityAction<Ship> startEngineSoundAction;
+	private UnityAction<Ship> stopEngineSoundAction;
+	private UnityAction warpFadeOutSoundAction;
 
 	// Use this for initialization
 	public void Init () {
@@ -201,6 +213,31 @@ public class SoundManager : MonoBehaviour {
 
 		}
 
+		//check if we should be changing an engine sound
+		if (shouldUpdateEngineVolume == true) {
+
+			//smoothDamp the volume to the target
+			float newVolume = Mathf.SmoothDamp (currentEngineVolume, targetEngineVolume, ref engineSmoothDampVelocity, engineFadeDuration);
+
+			//set the engine volume to the new value
+			currentEngineVolume = newVolume;
+			audioEngineDrone.volume = currentEngineVolume;
+
+			//check if we are near the target
+			if (Mathf.Abs (currentEngineVolume - targetEngineVolume) < .01f) {
+
+				//we are close enough to the target that we want to snap it to the final value
+
+				//set the engine volume to the final value
+				currentEngineVolume = targetEngineVolume;
+				audioEngineDrone.volume = currentEngineVolume;
+
+				//clear the shouldUpdate flag
+				shouldUpdateEngineVolume = false;
+
+			}
+
+		}
 
 		cooldownTimer += Time.deltaTime;
 
@@ -237,6 +274,10 @@ public class SoundManager : MonoBehaviour {
 		};
 
 		fadeOutMainBackgroundAction = () => {StartFadingOutMainBackgroundMusic();};
+
+		startEngineSoundAction = (movingShip) => {StartEngineSound ();};
+		stopEngineSoundAction = (movingShip) => {StopEngineSound ();};
+		warpFadeOutSoundAction = () => {PlayWarpFadeOutSound();};
 
 	}
 
@@ -306,6 +347,16 @@ public class SoundManager : MonoBehaviour {
 		//add listener for exiting the main menu scene
 		gameManager.OnBeginSceneExit.AddListener(fadeOutMainBackgroundAction);
 
+		//add listeners for movement starting and stopping
+		EngineSection.OnMoveStart.AddListener(startEngineSoundAction);
+		EngineSection.OnMoveFinish.AddListener(stopEngineSoundAction);
+
+		//add listener for warp start
+		EngineSection.OnStartWarpFadeOut.AddListener(warpFadeOutSoundAction);
+
+		//add listener for movement resuming
+		EngineSection.OnResumeMovementAfterFadeIn.AddListener(startEngineSoundAction);
+
 	}
 
 	//this function creates a new audioSource component for the passed clip
@@ -332,10 +383,11 @@ public class SoundManager : MonoBehaviour {
 		audioSelectableSubmit = AddAudio (clipSelectableSubmit, false, false, 1.0f);
 		audioSelectUnit = AddAudio (clipSelectUnit, false, false, 1.0f);
 		audioTargetUnit = AddAudio (clipTargetUnit, false, false, 1.0f);
-
+		audioEngineDrone = AddAudio (clipEngineDrone, true, false, 1.0f);
+		audioWarpFadeOut = AddAudio(clipWarpFadeOut, false, false, 1.0f);
 
 		//fill up the sfx array
-		sfxAudioSources = new AudioSource[7];
+		sfxAudioSources = new AudioSource[9];
 		sfxAudioSources [0] = audioPhasorFire;
 		sfxAudioSources [1] = audioXRayFire;
 		sfxAudioSources [2] = audioPhasorHit;
@@ -343,6 +395,8 @@ public class SoundManager : MonoBehaviour {
 		sfxAudioSources [4] = audioSelectableSubmit;
 		sfxAudioSources [5] = audioSelectUnit;
 		sfxAudioSources [6] = audioTargetUnit;
+		sfxAudioSources [7] = audioEngineDrone;
+		sfxAudioSources [8] = audioWarpFadeOut;
 
 
 	}
@@ -538,6 +592,48 @@ public class SoundManager : MonoBehaviour {
 
 	}
 
+	//this function starts the engine sound
+	private void StartEngineSound(){
+
+		//set the shouldUpdate flag to true
+		shouldUpdateEngineVolume = true;
+
+		//set the target volume
+		targetEngineVolume = sfxVolumeLevel;
+
+		//play the sound
+		audioEngineDrone.Play();
+
+		//set the fade duration - I like it being a litle longer on stop than start
+		engineFadeDuration = 0.2f;
+
+	}
+
+	//this function stops the engine sound
+	private void StopEngineSound(){
+
+		//set the shouldUpdate flag to true
+		shouldUpdateEngineVolume = true;
+
+		//set the target volume
+		targetEngineVolume = 0.0f;
+
+		//set the fade duration - I like it being a litle longer on stop than start
+		engineFadeDuration = 0.4f;
+
+	}
+
+	//this function plays the warp fade out sound
+	private void PlayWarpFadeOutSound(){
+
+		//stop the engine
+		StopEngineSound();
+
+		//play the sound
+		audioWarpFadeOut.PlayDelayed(.10f);
+
+	}
+
 	//this function handles on destroy
 	private void OnDestroy(){
 
@@ -623,6 +719,16 @@ public class SoundManager : MonoBehaviour {
 
 		//remove listener for input field submit
 		UISelection.OnEndEditSelectable.RemoveListener(playSubmitAction);
+
+		//remove listeners for movement starting and stopping
+		EngineSection.OnMoveStart.RemoveListener(startEngineSoundAction);
+		EngineSection.OnMoveFinish.RemoveListener(stopEngineSoundAction);
+
+		//remove listener for warp start
+		EngineSection.OnStartWarpFadeOut.RemoveListener(warpFadeOutSoundAction);
+
+		//remove listener for movement resuming
+		EngineSection.OnResumeMovementAfterFadeIn.RemoveListener(startEngineSoundAction);
 
 	}
 

@@ -36,6 +36,7 @@ public class SoundManager : MonoBehaviour {
 	private AudioSource audioTargetUnit;
 	private AudioSource audioEngineDrone;
 	private AudioSource audioWarpFadeOut;
+	private AudioSource audioWarpFadeOutTowed;
 
 	//this array will hold all the sfxAudioSources
 	private AudioSource[] sfxAudioSources;
@@ -107,7 +108,7 @@ public class SoundManager : MonoBehaviour {
 	private UnityAction fadeOutMainBackgroundAction;
 	private UnityAction<Ship> startEngineSoundAction;
 	private UnityAction<Ship> stopEngineSoundAction;
-	private UnityAction warpFadeOutSoundAction;
+	private UnityAction<Ship> warpFadeOutSoundAction;
 
 	// Use this for initialization
 	public void Init () {
@@ -277,7 +278,7 @@ public class SoundManager : MonoBehaviour {
 
 		startEngineSoundAction = (movingShip) => {StartEngineSound ();};
 		stopEngineSoundAction = (movingShip) => {StopEngineSound ();};
-		warpFadeOutSoundAction = () => {PlayWarpFadeOutSound();};
+		warpFadeOutSoundAction = (movingShip) => {PlayWarpFadeOutSound(movingShip);};
 
 	}
 
@@ -357,6 +358,9 @@ public class SoundManager : MonoBehaviour {
 		//add listener for movement resuming
 		EngineSection.OnResumeMovementAfterFadeIn.AddListener(startEngineSoundAction);
 
+		//add listener for movement waiting for a towed unit warping
+		EngineSection.OnWaitForTowedUnitAfterWarping.AddListener(stopEngineSoundAction);
+
 	}
 
 	//this function creates a new audioSource component for the passed clip
@@ -385,9 +389,10 @@ public class SoundManager : MonoBehaviour {
 		audioTargetUnit = AddAudio (clipTargetUnit, false, false, 1.0f);
 		audioEngineDrone = AddAudio (clipEngineDrone, true, false, 1.0f);
 		audioWarpFadeOut = AddAudio(clipWarpFadeOut, false, false, 1.0f);
+		audioWarpFadeOutTowed = AddAudio(clipWarpFadeOut, false, false, 1.0f);
 
 		//fill up the sfx array
-		sfxAudioSources = new AudioSource[9];
+		sfxAudioSources = new AudioSource[10];
 		sfxAudioSources [0] = audioPhasorFire;
 		sfxAudioSources [1] = audioXRayFire;
 		sfxAudioSources [2] = audioPhasorHit;
@@ -397,6 +402,7 @@ public class SoundManager : MonoBehaviour {
 		sfxAudioSources [6] = audioTargetUnit;
 		sfxAudioSources [7] = audioEngineDrone;
 		sfxAudioSources [8] = audioWarpFadeOut;
+		sfxAudioSources [9] = audioWarpFadeOutTowed;
 
 
 	}
@@ -624,13 +630,27 @@ public class SoundManager : MonoBehaviour {
 	}
 
 	//this function plays the warp fade out sound
-	private void PlayWarpFadeOutSound(){
+	private void PlayWarpFadeOutSound(Ship ship){
 
 		//stop the engine
 		StopEngineSound();
 
-		//play the sound
-		audioWarpFadeOut.PlayDelayed(.10f);
+		//check if the ship is being towed or not
+		if (ship.GetComponent<EngineSection> ().isBeingTowed == true) {
+
+			//if it is being towed, we want to play the towed instance of the audio source
+			//I have two of these so that they can both play overlapped when towing
+			//if it was the same sound, it would cut off the first play and restart when the second ship warped
+			audioWarpFadeOutTowed.PlayDelayed (.10f);
+
+		} else {
+
+			//the else is this ship is not being towed, so just play the regular sound
+
+			//play the sound
+			audioWarpFadeOut.PlayDelayed (.10f);
+
+		}
 
 	}
 
@@ -729,6 +749,9 @@ public class SoundManager : MonoBehaviour {
 
 		//remove listener for movement resuming
 		EngineSection.OnResumeMovementAfterFadeIn.RemoveListener(startEngineSoundAction);
+
+		//remove listener for movement waiting for a towed unit warping
+		EngineSection.OnWaitForTowedUnitAfterWarping.RemoveListener(stopEngineSoundAction);
 
 	}
 

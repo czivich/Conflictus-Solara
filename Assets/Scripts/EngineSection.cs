@@ -252,10 +252,13 @@ public class EngineSection : MonoBehaviour {
 	public static UnityEvent OnEngineDamageTaken = new UnityEvent();
 
 	//event to announce start of warp fade out
-	public static UnityEvent OnStartWarpFadeOut = new UnityEvent();
+	public static MoveEvent OnStartWarpFadeOut = new MoveEvent();
 
 	//event to announce restart of normal movement after fading in
 	public static MoveEvent OnResumeMovementAfterFadeIn = new MoveEvent();
+
+	//event to announce waiting after a warp for the unit being towed to come through
+	public static MoveEvent OnWaitForTowedUnitAfterWarping = new MoveEvent();
 
 	//event to announce inventory updated
 	public static InventoryUpdatedEvent OnInventoryUpdated = new InventoryUpdatedEvent();
@@ -536,6 +539,9 @@ public class EngineSection : MonoBehaviour {
 						//we don't want to leave the adjacent hex before it is able to continue following us
 						if (this.isTowingShip.GetComponent<EngineSection>().isWarping == true && this.isWarping == false) {
 
+							//we want to wait here
+							OnWaitForTowedUnitAfterWarping.Invoke(this.GetComponent<Ship>());
+
 							return;
 
 						}
@@ -579,7 +585,7 @@ public class EngineSection : MonoBehaviour {
 						warpStatus = WarpStatus.fadingOut;
 
 						//invoke the event
-						OnStartWarpFadeOut.Invoke();
+						OnStartWarpFadeOut.Invoke(this.GetComponent<Ship>());
 
 					} 
 				}

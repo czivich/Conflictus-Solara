@@ -233,7 +233,7 @@ public class HexMapTile{
 		case TileType.Asteroid:
 			this.movementCost = Mathf.Infinity;
 			this.isPlanet = false;
-			this.isPassable = true;
+			this.isPassable = false;
 			break;
 		case TileType.Mercury:
 			this.movementCost = 1.0f;
@@ -373,7 +373,7 @@ public class HexMapTile{
 		EngineSection.OnMoveStart.AddListener(shipUpdatePassableOnMoveStartAction);
 
 		//add event listeners for ship movement finish
-		EngineSection.OnMoveFinish.AddListener(shipUpdatePassableOnMoveFinishAction);
+		EngineSection.OnMoveFinishTileStatus.AddListener(shipUpdatePassableOnMoveFinishAction);
 
 		//add listener for unit creation to update passable data
 		CombatUnit.OnCreateUnit.AddListener(combatUnitUpdatePassableOnNewUnitAction);
@@ -730,7 +730,7 @@ public class HexMapTile{
 		EngineSection.OnMoveStart.RemoveListener (shipUpdatePassableOnMoveStartAction);
 
 		//remove event listeners for ship movement finish
-		EngineSection.OnMoveFinish.RemoveListener (shipUpdatePassableOnMoveFinishAction);
+		EngineSection.OnMoveFinishTileStatus.RemoveListener (shipUpdatePassableOnMoveFinishAction);
 
 		//remove listener for unit creation to update passable data
 		CombatUnit.OnCreateUnit.RemoveListener (combatUnitUpdatePassableOnNewUnitAction);

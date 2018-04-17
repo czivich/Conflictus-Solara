@@ -168,7 +168,7 @@ public class RangeTile : MonoBehaviour {
 		else {
 
 			//newRangeTile.currentTileImage = null;
-			Debug.LogError ("Range Tile creation was passed an unrecognized TileType");
+			//Debug.LogError ("Range Tile creation was passed an unrecognized TileType");
 
 		}
 
@@ -222,7 +222,9 @@ public class RangeTile : MonoBehaviour {
 		} else if (currentActionMode == GameManager.ActionMode.Movement) {
 
 			//check if there is a selected unit
-			if (mouseManager.selectedUnit != null) {
+			if (mouseManager.selectedUnit != null && mouseManager.selectedUnit.GetComponent<EngineSection>().isMoving == false) {
+
+				//Debug.Log ("SetRangeTiles at frame " + Time.frameCount+ " " + mouseManager.selectedUnit.GetComponent<Ship>().shipName);
 
 				//first, we want to clear all existing range tiles
 				RangeTile.ClearAllRangeTiles ();
@@ -555,6 +557,8 @@ public class RangeTile : MonoBehaviour {
 			//check to make sure the ship that arrived is the selected unit
 			//we don't want to do anything if the ship was towed to get there
 			if (ship == mouseManager.selectedUnit.GetComponent<Ship> ()) {
+
+				Debug.Log("shipHasArrived at frame " + Time.frameCount + " " + ship.shipName);
 
 				//first, we want to clear all existing range tiles
 				RangeTile.ClearAllRangeTiles ();

@@ -187,6 +187,8 @@ public class TractorBeamMenu : MonoBehaviour {
 									if (mouseMananger.targetedUnit == null) {
 
 										//if there is no targeted unit, we can't use the tractor beam
+										//we also need to turn it off
+										useTractorBeamToggle.isOn = false;
 										useTractorBeamToggle.interactable = false;
 
 									}

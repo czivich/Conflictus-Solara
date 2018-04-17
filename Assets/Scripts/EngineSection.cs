@@ -203,6 +203,9 @@ public class EngineSection : MonoBehaviour {
 	private Hex movementStartingHex;
 	private Hex movementEndingHex;
 
+	//this bool tracks whether the unit is ready to send the end of move notice
+	private bool needsToSendEndOfMove = false;
+
 	//declare public events for movement
 	//make it static so we don't need to listen to every unit instance
 	public static MoveEvent OnMoveStart = new MoveEvent();
@@ -211,6 +214,9 @@ public class EngineSection : MonoBehaviour {
 	public static MoveEvent OnMoveSelectedShip = new MoveEvent();
 	public static MoveEvent OnRefreshRange = new MoveEvent ();
 	public static MoveEvent OnMoveWhileTowing = new MoveEvent();
+
+	//this event needs broken out separately so that tile status can be updated earlier than other stuff
+	public static MoveEvent OnMoveFinishTileStatus = new MoveEvent();
 
 	//simple class derived from unityEvent to pass Ship Object
 	public class MoveEvent : UnityEvent<Ship>{};
@@ -647,6 +653,53 @@ public class EngineSection : MonoBehaviour {
 
 		}
 
+		//check if this unit needs to signal end of move
+		if (this.needsToSendEndOfMove == true) {
+
+			//check to see if this unit is being towed
+			if (this.isBeingTowed == true) {
+
+				//this ship is being towed
+				//check if the ship towing us is done moving and if this ship is done moving
+				if (this.isMoving == false && this.isBeingTowedByShip.GetComponent<EngineSection> ().isMoving == false) {
+
+					//both ships have stopped.  We can safely signal end of move
+
+					HandleEndOfMoveStatus ();
+
+					//clear the flag
+					needsToSendEndOfMove = false;
+
+				}
+
+			} 
+
+			//else check if this unit is towing
+			else if (this.isTowing == true) {
+
+				//this ship is towing
+				//check if the ship we are towin is done moving and if this ship is done moving
+				if (this.isMoving == false && this.isTowingShip.GetComponent<EngineSection> ().isMoving == false) {
+
+					//both ships have stopped.  We can safely signal end of move
+					HandleEndOfMoveStatus ();
+
+					//clear the flag
+					needsToSendEndOfMove = false;
+
+				}
+
+			} else {
+
+				//the else is that we are neither towing nor being towed.  We can signal end of move
+				HandleEndOfMoveStatus ();
+
+				//clear the flag
+				needsToSendEndOfMove = false;
+
+			}
+
+		}
 
 		//set flag to note that the ship has updated this frame
 		hasUpdatedThisFrame = true;
@@ -916,6 +969,15 @@ public class EngineSection : MonoBehaviour {
 			//set the isMoving flag to false
 			isMoving = false;
 
+			//set the handle end of move flag
+			needsToSendEndOfMove = true;
+
+			//invoke the tile status event
+			OnMoveFinishTileStatus.Invoke(this.GetComponent<Ship>());
+
+			/*
+			 *this was moved to a function triggered by a flag due to timing issues when towing
+			 *
 			//invoke the OnMoveFinish event
 			OnMoveFinish.Invoke(this.GetComponent<Ship>());
 			OnMoveFromToFinish.Invoke (this.GetComponent<Ship>(), movementStartingHex, movementEndingHex);
@@ -926,8 +988,27 @@ public class EngineSection : MonoBehaviour {
 			this.isBeingTowed = false;
 			this.isTowingShip = null;
 			this.isBeingTowedByShip = null;
+			*/
 
 		}
+
+	}
+
+	//this function launches end of move status updates
+	private void HandleEndOfMoveStatus(){
+
+		this.CalculateMovementRange (this.gameObject);
+
+		//invoke the OnMoveFinish event
+		OnMoveFinish.Invoke(this.GetComponent<Ship>());
+		OnMoveFromToFinish.Invoke (this.GetComponent<Ship>(), movementStartingHex, movementEndingHex);
+
+		//clear the towing flags now that we've arrived
+		//do this after the events so the events capture the correct tow status
+		this.isTowing = false;
+		this.isBeingTowed = false;
+		this.isTowingShip = null;
+		this.isBeingTowedByShip = null;
 
 	}
 		

@@ -97,7 +97,7 @@ public class UIManager : MonoBehaviour {
 		textElement.enableAutoSizing = true;
 
 		//force the mesh to update
-		//textElement.ForceMeshUpdate(false);
+		textElement.ForceMeshUpdate(false);
 
 		//cache the font size
 		float textSize = textElement.fontSize;

@@ -23,6 +23,8 @@ public class SoundManager : MonoBehaviour {
 	public AudioClip clipTargetUnit;
 	public AudioClip clipEngineDrone;
 	public AudioClip clipWarpFadeOut;
+	public AudioClip clipFireWeapon;
+	public AudioClip clipTractorBeam;
 
 	//audioSource
 	private AudioSource audioMainBackgroundMusic;
@@ -37,6 +39,8 @@ public class SoundManager : MonoBehaviour {
 	private AudioSource audioEngineDrone;
 	private AudioSource audioWarpFadeOut;
 	private AudioSource audioWarpFadeOutTowed;
+	private AudioSource audioFireWeapon;
+	private AudioSource audioTractorBeam;
 
 	//this array will hold all the sfxAudioSources
 	private AudioSource[] sfxAudioSources;
@@ -89,6 +93,13 @@ public class SoundManager : MonoBehaviour {
 	private float targetEngineVolume;
 	private bool shouldUpdateEngineVolume;
 
+	//these variables will control the tractor beam sound
+	private float tractorBeamFadeDuration;
+	private float tractorBeamSmoothDampVelocity;
+	private float currentTractorBeamVolume;
+	private float targetTractorBeamVolume;
+	private bool shouldUpdateTractorBeamVolume;
+
 	//unityActions
 	private UnityAction startMainBackgroundAction;
 	private UnityAction<Player> playerStartMainBackgroundAction;
@@ -109,6 +120,9 @@ public class SoundManager : MonoBehaviour {
 	private UnityAction<Ship> startEngineSoundAction;
 	private UnityAction<Ship> stopEngineSoundAction;
 	private UnityAction<Ship> warpFadeOutSoundAction;
+	private UnityAction<CombatUnit, CombatUnit, string> fireWeaponAction;
+	private UnityAction<Ship> startTractorBeamSoundAction;
+	private UnityAction<Ship> stopTractorBeamSoundAction;
 
 	// Use this for initialization
 	public void Init () {
@@ -240,6 +254,32 @@ public class SoundManager : MonoBehaviour {
 
 		}
 
+		//check if we should be changing a tractor beam sound
+		if (shouldUpdateTractorBeamVolume == true) {
+
+			//smoothDamp the volume to the target
+			float newVolume = Mathf.SmoothDamp (currentTractorBeamVolume, targetTractorBeamVolume, ref tractorBeamSmoothDampVelocity, tractorBeamFadeDuration);
+
+			//set the engine volume to the new value
+			currentTractorBeamVolume = newVolume;
+			audioTractorBeam.volume = currentTractorBeamVolume;
+
+			//check if we are near the target
+			if (Mathf.Abs (currentTractorBeamVolume - targetTractorBeamVolume) < .01f) {
+
+				//we are close enough to the target that we want to snap it to the final value
+
+				//set the engine volume to the final value
+				currentTractorBeamVolume = targetTractorBeamVolume;
+				audioTractorBeam.volume = currentTractorBeamVolume;
+
+				//clear the shouldUpdate flag
+				shouldUpdateTractorBeamVolume = false;
+
+			}
+
+		}
+
 		cooldownTimer += Time.deltaTime;
 
 	}
@@ -279,6 +319,11 @@ public class SoundManager : MonoBehaviour {
 		startEngineSoundAction = (movingShip) => {StartEngineSound ();};
 		stopEngineSoundAction = (movingShip) => {StopEngineSound ();};
 		warpFadeOutSoundAction = (movingShip) => {PlayWarpFadeOutSound(movingShip);};
+
+		fireWeaponAction = (attackingUnit, targetedUnit, sectionTargeted) => {PlayFireWeaponSound ();};
+
+		startTractorBeamSoundAction = (movingShip) => {StartTractorBeamSound ();};
+		stopTractorBeamSoundAction = (movingShip) => {StopTractorBeamSound ();};
 
 	}
 
@@ -361,6 +406,14 @@ public class SoundManager : MonoBehaviour {
 		//add listener for movement waiting for a towed unit warping
 		EngineSection.OnWaitForTowedUnitAfterWarping.AddListener(stopEngineSoundAction);
 
+		//add listeners for firing weapons
+		uiManager.GetComponent<PhasorMenu>().OnFirePhasors.AddListener(fireWeaponAction);
+		uiManager.GetComponent<TorpedoMenu>().OnFireLightTorpedo.AddListener(fireWeaponAction);
+		uiManager.GetComponent<TorpedoMenu>().OnFireHeavyTorpedo.AddListener(fireWeaponAction);
+
+		//add listeners for tractor beam starting and stopping
+		uiManager.GetComponent<TractorBeamMenu>().OnTurnOnTractorBeamToggle.AddListener(startTractorBeamSoundAction);
+		uiManager.GetComponent<TractorBeamMenu>().OnTurnOffTractorBeamToggle.AddListener(stopTractorBeamSoundAction);
 	}
 
 	//this function creates a new audioSource component for the passed clip
@@ -390,9 +443,11 @@ public class SoundManager : MonoBehaviour {
 		audioEngineDrone = AddAudio (clipEngineDrone, true, false, 1.0f);
 		audioWarpFadeOut = AddAudio(clipWarpFadeOut, false, false, 1.0f);
 		audioWarpFadeOutTowed = AddAudio(clipWarpFadeOut, false, false, 1.0f);
+		audioFireWeapon = AddAudio(clipFireWeapon, false, false, 1.0f);
+		audioTractorBeam = AddAudio (clipTractorBeam, true, false, 1.0f);
 
 		//fill up the sfx array
-		sfxAudioSources = new AudioSource[10];
+		sfxAudioSources = new AudioSource[12];
 		sfxAudioSources [0] = audioPhasorFire;
 		sfxAudioSources [1] = audioXRayFire;
 		sfxAudioSources [2] = audioPhasorHit;
@@ -403,6 +458,8 @@ public class SoundManager : MonoBehaviour {
 		sfxAudioSources [7] = audioEngineDrone;
 		sfxAudioSources [8] = audioWarpFadeOut;
 		sfxAudioSources [9] = audioWarpFadeOutTowed;
+		sfxAudioSources [10] = audioFireWeapon;
+		sfxAudioSources [11] = audioTractorBeam;
 
 
 	}
@@ -654,6 +711,45 @@ public class SoundManager : MonoBehaviour {
 
 	}
 
+	//this function starts the tractor beam sound
+	private void StartTractorBeamSound(){
+
+		//set the shouldUpdate flag to true
+		shouldUpdateTractorBeamVolume = true;
+
+		//set the target volume
+		targetTractorBeamVolume = sfxVolumeLevel;
+
+		//play the sound
+		audioTractorBeam.Play();
+
+		//set the fade duration - I like it being a litle longer on stop than start
+		tractorBeamFadeDuration = 0.2f;
+
+	}
+
+	//this function stops the tractor beam sound
+	private void StopTractorBeamSound(){
+
+		//set the shouldUpdate flag to true
+		shouldUpdateTractorBeamVolume = true;
+
+		//set the target volume
+		targetTractorBeamVolume = 0.0f;
+
+		//set the fade duration - I like it being a litle longer on stop than start
+		tractorBeamFadeDuration = 0.4f;
+
+	}
+
+	//this function plays the fire weapon sound
+	private void PlayFireWeaponSound(){
+
+		//play the sound
+		audioFireWeapon.Play();
+
+	}
+
 	//this function handles on destroy
 	private void OnDestroy(){
 
@@ -692,6 +788,15 @@ public class SoundManager : MonoBehaviour {
 
 			//remove listener for entering end turn prompt
 			uiManager.GetComponent<EndTurnDropDown>().OnEnterEndTurnPrompt.RemoveListener(togglePlaySubmitAction);
+
+			//remove listeners for firing weapons
+			uiManager.GetComponent<PhasorMenu>().OnFirePhasors.RemoveListener(fireWeaponAction);
+			uiManager.GetComponent<TorpedoMenu>().OnFireLightTorpedo.RemoveListener(fireWeaponAction);
+			uiManager.GetComponent<TorpedoMenu>().OnFireHeavyTorpedo.RemoveListener(fireWeaponAction);
+
+			//remove listeners for tractor beam starting and stopping
+			uiManager.GetComponent<TractorBeamMenu>().OnTurnOnTractorBeamToggle.RemoveListener(startTractorBeamSoundAction);
+			uiManager.GetComponent<TractorBeamMenu>().OnTurnOffTractorBeamToggle.RemoveListener(stopTractorBeamSoundAction);
 
 		}
 

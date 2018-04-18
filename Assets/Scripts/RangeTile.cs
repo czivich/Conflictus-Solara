@@ -558,7 +558,7 @@ public class RangeTile : MonoBehaviour {
 			//we don't want to do anything if the ship was towed to get there
 			if (ship == mouseManager.selectedUnit.GetComponent<Ship> ()) {
 
-				Debug.Log("shipHasArrived at frame " + Time.frameCount + " " + ship.shipName);
+				//Debug.Log("shipHasArrived at frame " + Time.frameCount + " " + ship.shipName);
 
 				//first, we want to clear all existing range tiles
 				RangeTile.ClearAllRangeTiles ();

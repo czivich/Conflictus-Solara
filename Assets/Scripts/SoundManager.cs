@@ -25,6 +25,12 @@ public class SoundManager : MonoBehaviour {
 	public AudioClip clipWarpFadeOut;
 	public AudioClip clipFireWeapon;
 	public AudioClip clipTractorBeam;
+	public AudioClip clipDilithiumCrystal;
+	public AudioClip clipTrilithiumCrystal;
+	public AudioClip clipCloak;
+	public AudioClip clipUncloak;
+	public AudioClip clipRepair;
+
 
 	//audioSource
 	private AudioSource audioMainBackgroundMusic;
@@ -41,6 +47,12 @@ public class SoundManager : MonoBehaviour {
 	private AudioSource audioWarpFadeOutTowed;
 	private AudioSource audioFireWeapon;
 	private AudioSource audioTractorBeam;
+	private AudioSource audioDilithiumCrystal;
+	private AudioSource audioTrilithiumCrystal;
+	private AudioSource audioCloak;
+	private AudioSource audioUncloak;
+	private AudioSource audioRepair;
+
 
 	//this array will hold all the sfxAudioSources
 	private AudioSource[] sfxAudioSources;
@@ -123,6 +135,12 @@ public class SoundManager : MonoBehaviour {
 	private UnityAction<CombatUnit, CombatUnit, string> fireWeaponAction;
 	private UnityAction<Ship> startTractorBeamSoundAction;
 	private UnityAction<Ship> stopTractorBeamSoundAction;
+	private UnityAction<CombatUnit, CombatUnit, string> useDilithiumCrystalAction;
+	private UnityAction<CombatUnit, CombatUnit, string> useTrilithiumCrystalAction;
+	private UnityAction<CombatUnit> cloakAction;
+	private UnityAction<CombatUnit> uncloakAction;
+	private UnityAction<CombatUnit, CombatUnit, string> useRepairAction;
+
 
 	// Use this for initialization
 	public void Init () {
@@ -325,6 +343,14 @@ public class SoundManager : MonoBehaviour {
 		startTractorBeamSoundAction = (movingShip) => {StartTractorBeamSound ();};
 		stopTractorBeamSoundAction = (movingShip) => {StopTractorBeamSound ();};
 
+		useDilithiumCrystalAction = (attackingUnit, targetedUnit, sectionTargeted) => {PlayDilithiumCrystalSound ();};
+		useTrilithiumCrystalAction = (attackingUnit, targetedUnit, sectionTargeted) => {PlayTrilithiumCrystalSound ();};
+
+		cloakAction = (cloakingUnit) => {PlayCloakSound ();};
+		uncloakAction = (cloakingUnit) => {PlayUncloakSound ();};
+
+		useRepairAction = (attackingUnit, targetedUnit, sectionTargeted) => {PlayRepairSound ();};
+
 	}
 
 	//this function adds event listeners
@@ -414,6 +440,18 @@ public class SoundManager : MonoBehaviour {
 		//add listeners for tractor beam starting and stopping
 		uiManager.GetComponent<TractorBeamMenu>().OnTurnOnTractorBeamToggle.AddListener(startTractorBeamSoundAction);
 		uiManager.GetComponent<TractorBeamMenu>().OnTurnOffTractorBeamToggle.AddListener(stopTractorBeamSoundAction);
+
+		//add listeners for crystal use
+		uiManager.GetComponent<UseItemMenu>().OnUseDilithiumCrystal.AddListener(useDilithiumCrystalAction);
+		uiManager.GetComponent<UseItemMenu>().OnUseTrilithiumCrystal.AddListener(useTrilithiumCrystalAction);
+
+		//add listeners for cloaking device
+		uiManager.GetComponent<CloakingDeviceMenu>().OnTurnOnCloakingDevice.AddListener(cloakAction);
+		uiManager.GetComponent<CloakingDeviceMenu>().OnTurnOffCloakingDevice.AddListener(uncloakAction);
+
+		//add listener for repair crew
+		uiManager.GetComponent<CrewMenu>().OnUseRepairCrew.AddListener(useRepairAction);
+
 	}
 
 	//this function creates a new audioSource component for the passed clip
@@ -445,9 +483,15 @@ public class SoundManager : MonoBehaviour {
 		audioWarpFadeOutTowed = AddAudio(clipWarpFadeOut, false, false, 1.0f);
 		audioFireWeapon = AddAudio(clipFireWeapon, false, false, 1.0f);
 		audioTractorBeam = AddAudio (clipTractorBeam, true, false, 1.0f);
+		audioDilithiumCrystal = AddAudio(clipDilithiumCrystal, false, false, 1.0f);
+		audioTrilithiumCrystal = AddAudio(clipTrilithiumCrystal, false, false, 1.0f);
+		audioCloak = AddAudio(clipCloak, false, false, 1.0f);
+		audioUncloak = AddAudio(clipUncloak, false, false, 1.0f);
+		audioRepair = AddAudio(clipRepair, false, false, 1.0f);
+
 
 		//fill up the sfx array
-		sfxAudioSources = new AudioSource[12];
+		sfxAudioSources = new AudioSource[17];
 		sfxAudioSources [0] = audioPhasorFire;
 		sfxAudioSources [1] = audioXRayFire;
 		sfxAudioSources [2] = audioPhasorHit;
@@ -460,6 +504,11 @@ public class SoundManager : MonoBehaviour {
 		sfxAudioSources [9] = audioWarpFadeOutTowed;
 		sfxAudioSources [10] = audioFireWeapon;
 		sfxAudioSources [11] = audioTractorBeam;
+		sfxAudioSources [12] = audioDilithiumCrystal;
+		sfxAudioSources [13] = audioTrilithiumCrystal;
+		sfxAudioSources [14] = audioCloak;
+		sfxAudioSources [15] = audioUncloak;
+		sfxAudioSources [16] = audioRepair;
 
 
 	}
@@ -750,6 +799,46 @@ public class SoundManager : MonoBehaviour {
 
 	}
 
+	//this function plays the dilithium crystal sound
+	private void PlayDilithiumCrystalSound(){
+
+		//play the sound
+		audioDilithiumCrystal.Play();
+
+	}
+
+	//this function plays the trilithium crystal sound
+	private void PlayTrilithiumCrystalSound(){
+
+		//play the sound
+		audioTrilithiumCrystal.Play();
+
+	}
+
+	//this function plays the cloaking sound
+	private void PlayCloakSound(){
+
+		//play the sound
+		audioCloak.Play();
+
+	}
+
+	//this function plays the uncloaking sound
+	private void PlayUncloakSound(){
+
+		//play the sound
+		audioUncloak.Play();
+
+	}
+
+	//this function plays the repair sound
+	private void PlayRepairSound(){
+
+		//play the sound
+		audioRepair.Play();
+
+	}
+
 	//this function handles on destroy
 	private void OnDestroy(){
 
@@ -797,6 +886,17 @@ public class SoundManager : MonoBehaviour {
 			//remove listeners for tractor beam starting and stopping
 			uiManager.GetComponent<TractorBeamMenu>().OnTurnOnTractorBeamToggle.RemoveListener(startTractorBeamSoundAction);
 			uiManager.GetComponent<TractorBeamMenu>().OnTurnOffTractorBeamToggle.RemoveListener(stopTractorBeamSoundAction);
+
+			//remove listeners for crystal use
+			uiManager.GetComponent<UseItemMenu>().OnUseDilithiumCrystal.RemoveListener(useDilithiumCrystalAction);
+			uiManager.GetComponent<UseItemMenu>().OnUseTrilithiumCrystal.RemoveListener(useTrilithiumCrystalAction);
+
+			//remove listeners for cloaking device
+			uiManager.GetComponent<CloakingDeviceMenu>().OnTurnOnCloakingDevice.RemoveListener(cloakAction);
+			uiManager.GetComponent<CloakingDeviceMenu>().OnTurnOffCloakingDevice.RemoveListener(uncloakAction);
+
+			//remove listener for repair crew
+			uiManager.GetComponent<CrewMenu>().OnUseRepairCrew.RemoveListener(useRepairAction);
 
 		}
 

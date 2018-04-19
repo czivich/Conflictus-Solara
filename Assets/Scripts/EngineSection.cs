@@ -661,7 +661,8 @@ public class EngineSection : MonoBehaviour {
 
 				//this ship is being towed
 				//check if the ship towing us is done moving and if this ship is done moving
-				if (this.isMoving == false && this.isBeingTowedByShip.GetComponent<EngineSection> ().isMoving == false) {
+				if (this.isMoving == false && this.isBeingTowedByShip.GetComponent<EngineSection> ().isMoving == false
+					&& this.isWarping == false) {
 
 					//both ships have stopped.  We can safely signal end of move
 
@@ -679,7 +680,8 @@ public class EngineSection : MonoBehaviour {
 
 				//this ship is towing
 				//check if the ship we are towin is done moving and if this ship is done moving
-				if (this.isMoving == false && this.isTowingShip.GetComponent<EngineSection> ().isMoving == false) {
+				if (this.isMoving == false && this.isTowingShip.GetComponent<EngineSection> ().isMoving == false
+					&& this.isTowingShip.GetComponent<EngineSection> ().isWarping == false) {
 
 					//both ships have stopped.  We can safely signal end of move
 					HandleEndOfMoveStatus ();
@@ -961,7 +963,6 @@ public class EngineSection : MonoBehaviour {
 			//update movement range
 			distanceMovedThisTurn += distanceMovedThisMove;
 			CurrentMovementRange -= distanceMovedThisMove;
-
 
 			this.CalculateMovementRange (this.gameObject);
 

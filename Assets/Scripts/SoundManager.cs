@@ -32,6 +32,7 @@ public class SoundManager : MonoBehaviour {
 	public AudioClip clipRepair;
 	public AudioClip clipNewShip;
 	public AudioClip clipNewColony;
+	public AudioClip clipSunburstDamage;
 
 	//audioSource
 	private AudioSource audioMainBackgroundMusic;
@@ -55,6 +56,7 @@ public class SoundManager : MonoBehaviour {
 	private AudioSource audioRepair;
 	private AudioSource audioNewShip;
 	private AudioSource audioNewColony;
+	private AudioSource audioSunburstDamage;
 
 	//this array will hold all the sfxAudioSources
 	private AudioSource[] sfxAudioSources;
@@ -144,6 +146,7 @@ public class SoundManager : MonoBehaviour {
 	private UnityAction<CombatUnit, CombatUnit, string> useRepairAction;
 	private UnityAction<Player> createNewUnitAction;
 	private UnityAction<string, Player> createNewColonyAction;
+	private UnityAction<CombatUnit, int> sunburstDamageAction;
 
 	// Use this for initialization
 	public void Init () {
@@ -366,6 +369,8 @@ public class SoundManager : MonoBehaviour {
 
 		};
 
+		sunburstDamageAction = (damagedUnit, damage) => {PlaySunburstDamageSound();};
+
 	}
 
 	//this function adds event listeners
@@ -473,6 +478,9 @@ public class SoundManager : MonoBehaviour {
 		//add listener for new colony
 		ColonyManager.OnPlanetOwnerChanged.AddListener(createNewColonyAction);
 
+		//add listener for taking sunburst damage
+		Sunburst.OnSunburstDamageDealt.AddListener(sunburstDamageAction);
+
 	}
 
 	//this function creates a new audioSource component for the passed clip
@@ -511,10 +519,10 @@ public class SoundManager : MonoBehaviour {
 		audioRepair = AddAudio(clipRepair, false, false, 1.0f);
 		audioNewShip = AddAudio(clipNewShip, false, false, 1.0f);
 		audioNewColony = AddAudio(clipNewColony, false, false, 1.0f);
-
+		audioSunburstDamage = AddAudio(clipSunburstDamage, false, false, 1.0f);
 
 		//fill up the sfx array
-		sfxAudioSources = new AudioSource[19];
+		sfxAudioSources = new AudioSource[20];
 		sfxAudioSources [0] = audioPhasorFire;
 		sfxAudioSources [1] = audioXRayFire;
 		sfxAudioSources [2] = audioPhasorHit;
@@ -534,6 +542,7 @@ public class SoundManager : MonoBehaviour {
 		sfxAudioSources [16] = audioRepair;
 		sfxAudioSources [17] = audioNewShip;
 		sfxAudioSources [18] = audioNewColony;
+		sfxAudioSources [19] = audioSunburstDamage;
 
 
 	}
@@ -880,6 +889,14 @@ public class SoundManager : MonoBehaviour {
 
 	}
 
+	//this function plays the new sunburst damage sound
+	private void PlaySunburstDamageSound(){
+
+		//play the sound
+		audioSunburstDamage.Play();
+
+	}
+
 	//this function handles on destroy
 	private void OnDestroy(){
 
@@ -1004,6 +1021,9 @@ public class SoundManager : MonoBehaviour {
 
 		//remove listener for new colony
 		ColonyManager.OnPlanetOwnerChanged.RemoveListener(createNewColonyAction);
+
+		//remove listener for taking sunburst damage
+		Sunburst.OnSunburstDamageDealt.RemoveListener(sunburstDamageAction);
 
 	}
 

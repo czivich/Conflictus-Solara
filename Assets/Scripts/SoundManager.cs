@@ -30,7 +30,8 @@ public class SoundManager : MonoBehaviour {
 	public AudioClip clipCloak;
 	public AudioClip clipUncloak;
 	public AudioClip clipRepair;
-
+	public AudioClip clipNewShip;
+	public AudioClip clipNewColony;
 
 	//audioSource
 	private AudioSource audioMainBackgroundMusic;
@@ -52,7 +53,8 @@ public class SoundManager : MonoBehaviour {
 	private AudioSource audioCloak;
 	private AudioSource audioUncloak;
 	private AudioSource audioRepair;
-
+	private AudioSource audioNewShip;
+	private AudioSource audioNewColony;
 
 	//this array will hold all the sfxAudioSources
 	private AudioSource[] sfxAudioSources;
@@ -140,7 +142,8 @@ public class SoundManager : MonoBehaviour {
 	private UnityAction<CombatUnit> cloakAction;
 	private UnityAction<CombatUnit> uncloakAction;
 	private UnityAction<CombatUnit, CombatUnit, string> useRepairAction;
-
+	private UnityAction<Player> createNewUnitAction;
+	private UnityAction<string, Player> createNewColonyAction;
 
 	// Use this for initialization
 	public void Init () {
@@ -351,6 +354,18 @@ public class SoundManager : MonoBehaviour {
 
 		useRepairAction = (attackingUnit, targetedUnit, sectionTargeted) => {PlayRepairSound ();};
 
+		createNewUnitAction = (currentPlayer) => {PlayNewShipSound ();};
+
+		createNewColonyAction = (planetName, currentPlayer) => {
+
+			//only play the sound if this isn't the first turn - like if we just loaded
+			if (gameManager.firstTurnHasHappened == true) {
+
+				PlayNewColonySound ();
+			}
+
+		};
+
 	}
 
 	//this function adds event listeners
@@ -452,6 +467,12 @@ public class SoundManager : MonoBehaviour {
 		//add listener for repair crew
 		uiManager.GetComponent<CrewMenu>().OnUseRepairCrew.AddListener(useRepairAction);
 
+		//add listener for new unit created
+		gameManager.OnNewUnitCreated.AddListener(createNewUnitAction);
+
+		//add listener for new colony
+		ColonyManager.OnPlanetOwnerChanged.AddListener(createNewColonyAction);
+
 	}
 
 	//this function creates a new audioSource component for the passed clip
@@ -488,10 +509,12 @@ public class SoundManager : MonoBehaviour {
 		audioCloak = AddAudio(clipCloak, false, false, 1.0f);
 		audioUncloak = AddAudio(clipUncloak, false, false, 1.0f);
 		audioRepair = AddAudio(clipRepair, false, false, 1.0f);
+		audioNewShip = AddAudio(clipNewShip, false, false, 1.0f);
+		audioNewColony = AddAudio(clipNewColony, false, false, 1.0f);
 
 
 		//fill up the sfx array
-		sfxAudioSources = new AudioSource[17];
+		sfxAudioSources = new AudioSource[19];
 		sfxAudioSources [0] = audioPhasorFire;
 		sfxAudioSources [1] = audioXRayFire;
 		sfxAudioSources [2] = audioPhasorHit;
@@ -509,6 +532,8 @@ public class SoundManager : MonoBehaviour {
 		sfxAudioSources [14] = audioCloak;
 		sfxAudioSources [15] = audioUncloak;
 		sfxAudioSources [16] = audioRepair;
+		sfxAudioSources [17] = audioNewShip;
+		sfxAudioSources [18] = audioNewColony;
 
 
 	}
@@ -839,6 +864,22 @@ public class SoundManager : MonoBehaviour {
 
 	}
 
+	//this function plays the new ship sound
+	private void PlayNewShipSound(){
+
+		//play the sound
+		audioNewShip.Play();
+
+	}
+
+	//this function plays the new colony sound
+	private void PlayNewColonySound(){
+
+		//play the sound
+		audioNewColony.Play();
+
+	}
+
 	//this function handles on destroy
 	private void OnDestroy(){
 
@@ -911,6 +952,9 @@ public class SoundManager : MonoBehaviour {
 			//remove listener for exiting the main menu scene
 			gameManager.OnBeginSceneExit.RemoveListener(fadeOutMainBackgroundAction);
 
+			//remove listener for new unit created
+			gameManager.OnNewUnitCreated.RemoveListener(createNewUnitAction);
+
 		}
 
 		if (mouseManager != null) {
@@ -957,6 +1001,9 @@ public class SoundManager : MonoBehaviour {
 
 		//remove listener for movement waiting for a towed unit warping
 		EngineSection.OnWaitForTowedUnitAfterWarping.RemoveListener(stopEngineSoundAction);
+
+		//remove listener for new colony
+		ColonyManager.OnPlanetOwnerChanged.RemoveListener(createNewColonyAction);
 
 	}
 

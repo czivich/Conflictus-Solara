@@ -19,6 +19,9 @@ public class About : MonoBehaviour {
 	//variable to hold the close button
 	public Button closeButton;
 
+	//variable to hold the scrollRect
+	public ScrollRect scrollRect;
+
 	//events to announce opening and closing of about panel
 	public UnityEvent OnOpenAboutPanel = new UnityEvent();
 	public UnityEvent OnCloseAboutPanel = new UnityEvent();
@@ -64,8 +67,11 @@ public class About : MonoBehaviour {
 	private void OpenPanel(){
 
 		if (aboutPanel.activeInHierarchy == false) {
-
+			
 			aboutPanel.SetActive (true);
+
+			//set the scroll to the top
+			scrollRect.verticalNormalizedPosition = 1.0f;
 
 			//invoke the event
 			OnOpenAboutPanel.Invoke ();

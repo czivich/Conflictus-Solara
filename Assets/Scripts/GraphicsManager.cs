@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
+using TMPro;
 
 public class GraphicsManager : MonoBehaviour {
 
@@ -209,6 +210,16 @@ public class GraphicsManager : MonoBehaviour {
 		for (int i = 0; i < newUnitMeshes.Length; i++) {
 
 			newUnitMeshes [i].uv = newUnitUVs [i];
+
+		}
+
+		//after changing the graphics, update the textmesh pro elements on the unit so weird things don't happen
+		TextMeshPro[] unitTexts = combatUnit.GetComponentsInChildren<TextMeshPro>();
+
+		//regenerate the meshes in the texts
+		for (int i = 0; i < unitTexts.Length; i++) {
+
+			unitTexts [i].ForceMeshUpdate (false);
 
 		}
 

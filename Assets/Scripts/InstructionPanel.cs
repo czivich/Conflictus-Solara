@@ -11,6 +11,7 @@ public class InstructionPanel : MonoBehaviour {
 	private GameManager gameManager;
 	private UIManager uiManager;
 	private MouseManager mouseManager;
+	private TileMap tileMap;
 
 	//object to hold the panel
 	public GameObject instructionPanel;
@@ -36,6 +37,7 @@ public class InstructionPanel : MonoBehaviour {
 		gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
 		uiManager = GameObject.FindGameObjectWithTag("UIManager").GetComponent<UIManager>();
 		mouseManager = GameObject.FindGameObjectWithTag("MouseManager").GetComponent<MouseManager>();
+		tileMap = GameObject.FindGameObjectWithTag("TileMap").GetComponent<TileMap>();
 
 		//set the actions
 		purchaseSetInstructionsForPlaceNewUnitAction = (purchasedItems,purchaseCost,unitType) => {SetInstructionsForPlaceNewUnit ();};
@@ -90,6 +92,44 @@ public class InstructionPanel : MonoBehaviour {
 
 		//update the font size if necessary
 		UIManager.AutoSizeTextMeshFont(instructionPanel.GetComponentInChildren<TextMeshProUGUI>());
+
+		//center the camera on highlighted tiles
+		//start by getting the current player starting tile
+		Hex currentPlayerStartingHex;
+
+		//switch case based on player to get the starting hex
+		switch (gameManager.currentTurnPlayer.color) {
+
+		case Player.Color.Green:
+
+			currentPlayerStartingHex = tileMap.GreenStartTiles [0];
+			break;
+
+		case Player.Color.Red:
+
+			currentPlayerStartingHex = tileMap.RedStartTiles [0];
+			break;
+
+		case Player.Color.Purple:
+
+			currentPlayerStartingHex = tileMap.PurpleStartTiles [0];
+			break;
+
+		case Player.Color.Blue:
+
+			currentPlayerStartingHex = tileMap.BlueStartTiles [0];
+			break;
+
+		default:
+
+			currentPlayerStartingHex = new Hex (0, 0, 0);
+			Debug.LogError ("Couldn't find a current player color in CenterOnHex!");
+			break;
+
+		}
+
+		//center the camera on the current turn player start tile
+		CenterCameraOnHex(currentPlayerStartingHex);
 
 	}
 
@@ -147,6 +187,24 @@ public class InstructionPanel : MonoBehaviour {
 		//invokve the event
 		OnReturnToOutfitShip.Invoke();
 
+	}
+
+	//create function to center camera on unit
+	private void CenterCameraOnHex(Hex startingHex){
+
+		//set the camera limits
+		//these are calculated based on the size of the map so that the camera can only show 1 hex beyond the board in any direction
+		float cameraMaxZ = tileMap.maxHeight + tileMap.origin.y - Camera.main.orthographicSize;
+		float cameraMinZ = tileMap.origin.y + Camera.main.orthographicSize - tileMap.hexHeight;
+		float cameraMaxX = tileMap.maxWidth + tileMap.origin.x - Camera.main.orthographicSize * Camera.main.aspect;
+		float cameraMinX = tileMap.origin.x + (Camera.main.orthographicSize * Camera.main.aspect) - tileMap.hexWidth;
+
+
+		//set the main camera to snap to the selected unit current hex location
+		Camera.main.transform.position = new Vector3 (Mathf.Clamp (tileMap.HexToWorldCoordinates (startingHex).x, cameraMinX, cameraMaxX),
+			Mathf.Clamp (Camera.main.transform.position.y, 10.0f, 10.0f),
+			Mathf.Clamp (tileMap.HexToWorldCoordinates (startingHex).z, cameraMinZ, cameraMaxZ));
+		
 	}
 
 	//function for handling onDestroy

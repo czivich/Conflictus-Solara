@@ -33,6 +33,8 @@ public class SoundManager : MonoBehaviour {
 	public AudioClip clipNewShip;
 	public AudioClip clipNewColony;
 	public AudioClip clipSunburstDamage;
+	public AudioClip clipChargePhasor;
+	public AudioClip clipChargeXRay;
 
 	//audioSource
 	private AudioSource audioMainBackgroundMusic;
@@ -57,6 +59,8 @@ public class SoundManager : MonoBehaviour {
 	private AudioSource audioNewShip;
 	private AudioSource audioNewColony;
 	private AudioSource audioSunburstDamage;
+	private AudioSource audioChargePhasor;
+	private AudioSource audioChargeXRay;
 
 	//this array will hold all the sfxAudioSources
 	private AudioSource[] sfxAudioSources;
@@ -147,6 +151,8 @@ public class SoundManager : MonoBehaviour {
 	private UnityAction<Player> createNewUnitAction;
 	private UnityAction<string, Player> createNewColonyAction;
 	private UnityAction<CombatUnit, int> sunburstDamageAction;
+	private UnityAction chargePhasorAction;
+	private UnityAction chargeXRayAction;
 
 	// Use this for initialization
 	public void Init () {
@@ -371,6 +377,9 @@ public class SoundManager : MonoBehaviour {
 
 		sunburstDamageAction = (damagedUnit, damage) => {PlaySunburstDamageSound();};
 
+		chargePhasorAction = () => {PlayChargePhasorSound();};
+		chargeXRayAction = () => {PlayChargeXRaySound();};
+
 	}
 
 	//this function adds event listeners
@@ -481,6 +490,10 @@ public class SoundManager : MonoBehaviour {
 		//add listener for taking sunburst damage
 		Sunburst.OnSunburstDamageDealt.AddListener(sunburstDamageAction);
 
+		//add listeners for charging phasors
+		uiManager.GetComponent<CutsceneManager>().OnChargePhasors.AddListener(chargePhasorAction);
+		uiManager.GetComponent<CutsceneManager>().OnChargeXRay.AddListener(chargeXRayAction);
+
 	}
 
 	//this function creates a new audioSource component for the passed clip
@@ -520,9 +533,12 @@ public class SoundManager : MonoBehaviour {
 		audioNewShip = AddAudio(clipNewShip, false, false, 1.0f);
 		audioNewColony = AddAudio(clipNewColony, false, false, 1.0f);
 		audioSunburstDamage = AddAudio(clipSunburstDamage, false, false, 1.0f);
+		audioChargePhasor = AddAudio(clipChargePhasor, false, false, 1.0f);
+		audioChargeXRay = AddAudio(clipChargeXRay, false, false, 1.0f);
+
 
 		//fill up the sfx array
-		sfxAudioSources = new AudioSource[20];
+		sfxAudioSources = new AudioSource[22];
 		sfxAudioSources [0] = audioPhasorFire;
 		sfxAudioSources [1] = audioXRayFire;
 		sfxAudioSources [2] = audioPhasorHit;
@@ -543,6 +559,8 @@ public class SoundManager : MonoBehaviour {
 		sfxAudioSources [17] = audioNewShip;
 		sfxAudioSources [18] = audioNewColony;
 		sfxAudioSources [19] = audioSunburstDamage;
+		sfxAudioSources [20] = audioChargePhasor;
+		sfxAudioSources [21] = audioChargeXRay;
 
 
 	}
@@ -897,6 +915,22 @@ public class SoundManager : MonoBehaviour {
 
 	}
 
+	//this function plays the new charge phasor sound
+	private void PlayChargePhasorSound(){
+
+		//play the sound
+		audioChargePhasor.Play();
+
+	}
+
+	//this function plays the new charge xray sound
+	private void PlayChargeXRaySound(){
+
+		//play the sound
+		audioChargeXRay.Play();
+
+	}
+
 	//this function handles on destroy
 	private void OnDestroy(){
 
@@ -955,6 +989,10 @@ public class SoundManager : MonoBehaviour {
 
 			//remove listener for repair crew
 			uiManager.GetComponent<CrewMenu>().OnUseRepairCrew.RemoveListener(useRepairAction);
+
+			//remove listeners for charging phasors
+			uiManager.GetComponent<CutsceneManager>().OnChargePhasors.RemoveListener(chargePhasorAction);
+			uiManager.GetComponent<CutsceneManager>().OnChargeXRay.RemoveListener(chargeXRayAction);
 
 		}
 

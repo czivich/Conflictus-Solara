@@ -273,7 +273,7 @@ public class CutsceneManager : MonoBehaviour {
 	private float targetedUnitStartTime = 1.5f;
 	private bool attackingUnitHasArrived = false;
 	private bool targetedUnitHasArrived = false;
-	private float bothArrivedWaitTime = 1.0f;
+	private float bothArrivedWaitTime = 2f;
 
 	//variable to control how fast the phasor line fires
 	private float timeForPhasorToReachTarget = .25f;
@@ -358,7 +358,7 @@ public class CutsceneManager : MonoBehaviour {
 	private float unitSmallExplosionStartTime = 1.0f;
 	private float unitExplosionAnimationDuration = 6.0f;
 	private bool detonatedUnitExplosion = false;
-	private bool detonatedUnitSmallExplosion = false;
+	//private bool detonatedUnitSmallExplosion = false;
 	private List<Vector2> unitDestroyedExplosions;
 
 	//unityEvent to signal opening and closing of display panel
@@ -369,6 +369,9 @@ public class CutsceneManager : MonoBehaviour {
 	public UnityEvent OnFireXRay = new UnityEvent();
 	public UnityEvent OnPhasorHit = new UnityEvent();
 
+	//these events are for charging sounds
+	public  UnityEvent OnChargePhasors = new UnityEvent();
+	public  UnityEvent OnChargeXRay = new UnityEvent();
 
 	//these events are for getting in between combat manager events and downstream events
 	public static CombatCutsceneEvent OnPhasorHitShipPhasorSection = new CombatCutsceneEvent();
@@ -421,6 +424,9 @@ public class CutsceneManager : MonoBehaviour {
 
 	public static CombatCutsceneEvent OnLightTorpedoFlareFailure = new CombatCutsceneEvent();
 	public static CombatCutsceneEvent OnHeavyTorpedoFlareFailure = new CombatCutsceneEvent();
+
+
+
 
 	//these events are for getting in between combat manager events and downstream events
 	public class CombatCutsceneEvent : UnityEvent<CombatUnit,CombatUnit,int>{}; 
@@ -997,6 +1003,60 @@ public class CutsceneManager : MonoBehaviour {
 
 				//clear the first time flag
 				isNewAnimationState = false;
+
+				//check if this is a phasor attack
+				switch (combatAttackType) { 
+			
+				case CombatManager.AttackType.Phasor:
+
+					//check if the attacking unit has the x-ray upgrade
+					if (combatAttackingUnit.GetComponent<Ship> () == true) {
+
+						//check for upgrade
+						if (combatAttackingUnit.GetComponent<PhasorSection> ().xRayKernalUpgrade == true) {
+
+							//invoke the x-ray charge event
+							OnChargeXRay.Invoke ();
+
+						} else {
+
+							//invoke the normal phasor charge event
+							OnChargePhasors.Invoke();
+
+						}
+
+					} else if (combatAttackingUnit.GetComponent<Starbase> () == true) {
+
+						//check for upgrade
+						if (combatAttackingUnit.GetComponent<StarbasePhasorSection2> ().xRayKernalUpgrade == true) {
+
+							//invoke the x-ray charge event
+							OnChargeXRay.Invoke ();
+
+						} else {
+
+							//invoke the normal phasor charge event
+							OnChargePhasors.Invoke();
+
+						}
+
+					}
+
+					break;
+
+				case CombatManager.AttackType.LightTorpedo:
+					
+					break;
+
+				case CombatManager.AttackType.HeavyTorpedo:
+
+					break;
+
+				default:
+
+					break;
+
+				}
 
 			}
 
@@ -1678,6 +1738,13 @@ public class CutsceneManager : MonoBehaviour {
 				//set the cooldown array size
 				explosionCooldown = new float[sectionDestroyedExplosions.Length];
 
+				//randomly seed the cooldown array
+				for (int i = 0; i < explosionCooldown.Length; i++) {
+
+					explosionCooldown [i] = Random.Range (0, explosionCooldownThreshold);
+
+				}
+
 				//set the updated graphic flag
 				updatedDestroyedGraphic = false;
 
@@ -1785,10 +1852,20 @@ public class CutsceneManager : MonoBehaviour {
 				detonatedUnitExplosion = false;
 
 				//set the detonated flag to false
-				detonatedUnitSmallExplosion = false;
+				//detonatedUnitSmallExplosion = false;
 
 				//set the small explosion positions
 				SetUnitDestroyedExplosionPoints(combatTargetedUnit);
+
+				//set the cooldown array size
+				explosionCooldown = new float[unitDestroyedExplosions.Count];
+
+				//randomly seed the cooldown array
+				for (int i = 0; i < explosionCooldown.Length; i++) {
+
+					explosionCooldown [i] = Random.Range (0, explosionCooldownThreshold);
+
+				}
 
 				//clear the flag
 				isNewAnimationState = false;
@@ -1796,8 +1873,9 @@ public class CutsceneManager : MonoBehaviour {
 			}
 
 			//check if elapsed time is greater than small explosion animation start time
-			if (currentAnimationStateTimer >= unitSmallExplosionStartTime) {
+			if (currentAnimationStateTimer >= unitSmallExplosionStartTime && currentAnimationStateTimer < unitExplosionStartTime) {
 
+				/*
 				//check if we have already detonated the small unit explosion
 				if (detonatedUnitSmallExplosion == false) {
 
@@ -1810,6 +1888,31 @@ public class CutsceneManager : MonoBehaviour {
 
 					//set the detonated to true
 					detonatedUnitSmallExplosion = true;
+
+				}
+				*/
+
+				//start setting off explosions
+				for (int i = 0; i < unitDestroyedExplosions.Count; i++) {
+
+					//randomly determine if we should set off an explosion
+					if (Random.Range (0, 2) == 0) {
+
+						//check if the cooldown is less than the threshold
+						if (explosionCooldown [i] < explosionCooldownThreshold) {
+
+							//create an explosion
+							UIAnimation.CreateUIAmination (prefabSectionExplostion, explosionAnimationDuration, new Vector3 (1f, 1f, 1f), unitDestroyedExplosions [i], explosionsParent.transform, true);
+
+							//add a threshold to the cooldown
+							explosionCooldown [i] += explosionCooldownThreshold;
+
+						}
+
+					}
+
+					//subtract delta time from the cooldown
+					explosionCooldown [i] -= Time.deltaTime;
 
 				}
 

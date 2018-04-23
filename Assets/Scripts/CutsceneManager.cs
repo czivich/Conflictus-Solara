@@ -380,8 +380,13 @@ public class CutsceneManager : MonoBehaviour {
 	public UnityEvent OnFireLightTorpedo = new UnityEvent();
 	public UnityEvent OnFireHeavyTorpedo = new UnityEvent();
 
+	//these events are for torpedo hits
+	public UnityEvent OnLightTorpedoHit = new UnityEvent();
+	public UnityEvent OnHeavyTorpedoHit = new UnityEvent();
+	public UnityEvent OnLightTorpedoArrived = new UnityEvent();
+	public UnityEvent OnHeavyTorpedoArrived = new UnityEvent();
 
-	//this event is for the explosion sound
+	//this event is for the section explosion sound
 	public UnityEvent OnCreateExplosion = new UnityEvent();
 
 	//these events are for getting in between combat manager events and downstream events
@@ -1427,6 +1432,22 @@ public class CutsceneManager : MonoBehaviour {
 					//set the hasArrived flag
 					torpedoHasArrived = true;
 
+
+					if (combatAttackType == CombatManager.AttackType.LightTorpedo) {
+						
+						//invoke the torpedoArrived event
+						OnLightTorpedoArrived.Invoke();
+
+					}
+
+					else if (combatAttackType == CombatManager.AttackType.HeavyTorpedo) {
+
+						//invoke the torpedoArrived event
+						OnHeavyTorpedoArrived.Invoke();
+
+					}
+
+
 					//despawn the torpedo animation
 					GameObject activeChild = null;
 
@@ -1456,12 +1477,18 @@ public class CutsceneManager : MonoBehaviour {
 							UIAnimation.CreateUIAmination (prefabLightTorpedoHit, 0.5f, new Vector3 (1.5f, 1.5f, 1.5f),
 								torpedoDestinationPosition, explosionsParent.transform, true);
 
+							//invoke the event
+							OnLightTorpedoHit.Invoke();
+
 
 						} else if (combatAttackType == CombatManager.AttackType.HeavyTorpedo) {
 
 							//play the heavy torpedo explosion
 							UIAnimation.CreateUIAmination (prefabHeavyTorpedoHit, 0.5f, new Vector3 (1.5f, 1.5f, 1.5f),
 								torpedoDestinationPosition, explosionsParent.transform, true);
+
+							//invoke the event
+							OnHeavyTorpedoHit.Invoke();
 
 						}
 

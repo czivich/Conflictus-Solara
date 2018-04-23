@@ -365,6 +365,7 @@ public class CutsceneManager : MonoBehaviour {
 	public UnityEvent OnOpenCutsceneDisplayPanel = new UnityEvent();
 	public UnityEvent OnCloseCutsceneDisplayPanel = new UnityEvent();
 
+	//these events are for firing phasors
 	public UnityEvent OnFirePhasors = new UnityEvent();
 	public UnityEvent OnFireXRay = new UnityEvent();
 	public UnityEvent OnPhasorHit = new UnityEvent();
@@ -374,6 +375,11 @@ public class CutsceneManager : MonoBehaviour {
 	public UnityEvent OnChargeXRay = new UnityEvent();
 	public UnityEvent OnChargeLightTorpedo = new UnityEvent();
 	public UnityEvent OnChargeHeavyTorpedo = new UnityEvent();
+
+	//these events are for firing torpedos
+	public UnityEvent OnFireLightTorpedo = new UnityEvent();
+	public UnityEvent OnFireHeavyTorpedo = new UnityEvent();
+
 
 	//this event is for the explosion sound
 	public UnityEvent OnCreateExplosion = new UnityEvent();
@@ -1365,6 +1371,9 @@ public class CutsceneManager : MonoBehaviour {
 					//spawn a torpedo muzzle blast animation
 					UIAnimation.CreateUIAmination (prefabTorpedoMuzzle, .5f, new Vector3 (4f, 4f, 4f), torpedoStartingPosition, explosionsParent.transform, true);
 
+					//invoke the fire torpedo event
+					OnFireLightTorpedo.Invoke();
+
 				} else if (combatAttackType == CombatManager.AttackType.HeavyTorpedo) {
 
 					//spawn a heavy torpedo animation attached to the parent
@@ -1372,6 +1381,9 @@ public class CutsceneManager : MonoBehaviour {
 
 					//spawn a torpedo muzzle blast animation
 					UIAnimation.CreateUIAmination (prefabTorpedoMuzzle, .5f, new Vector3 (4f, 4f, 4f), torpedoStartingPosition, explosionsParent.transform, true);
+
+					//invoke the fire torpedo event
+					OnFireHeavyTorpedo.Invoke();
 
 				}
 

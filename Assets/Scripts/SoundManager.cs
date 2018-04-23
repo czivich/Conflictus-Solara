@@ -38,6 +38,8 @@ public class SoundManager : MonoBehaviour {
 	public AudioClip[] clipSectionExplosion;
 	public AudioClip clipChargeLightTorpedo;
 	public AudioClip clipChargeHeavyTorpedo;
+	public AudioClip clipFireLightTorpedo;
+	public AudioClip clipFireHeavyTorpedo;
 
 	//audioSource
 	private AudioSource audioMainBackgroundMusic;
@@ -66,6 +68,8 @@ public class SoundManager : MonoBehaviour {
 	private AudioSource audioChargeXRay;
 	private AudioSource audioChargeLightTorpedo;
 	private AudioSource audioChargeHeavyTorpedo;
+	private AudioSource audioFireLightTorpedo;
+	private AudioSource audioFireHeavyTorpedo;
 
 	//this array will hold all the sfxAudioSources
 	private AudioSource[] sfxAudioSources;
@@ -164,6 +168,8 @@ public class SoundManager : MonoBehaviour {
 	private UnityAction playSectionExplosionSoundAction;
 	private UnityAction chargeLightTorpedoAction;
 	private UnityAction chargeHeavyTorpedoAction;
+	private UnityAction fireLightTorpedoAction;
+	private UnityAction fireHeavyTorpedoAction;
 
 	// Use this for initialization
 	public void Init () {
@@ -396,6 +402,8 @@ public class SoundManager : MonoBehaviour {
 		chargeLightTorpedoAction = () => {PlayChargeLightTorpedoSound();};
 		chargeHeavyTorpedoAction = () => {PlayChargeHeavyTorpedoSound();};
 
+		fireLightTorpedoAction = () => {PlayFireLightTorpedoSound();};
+		fireHeavyTorpedoAction = () => {PlayFireHeavyTorpedoSound();};
 
 	}
 
@@ -518,6 +526,9 @@ public class SoundManager : MonoBehaviour {
 		uiManager.GetComponent<CutsceneManager>().OnChargeLightTorpedo.AddListener(chargeLightTorpedoAction);
 		uiManager.GetComponent<CutsceneManager>().OnChargeHeavyTorpedo.AddListener(chargeHeavyTorpedoAction);
 
+		//add listeners for firing torpedoes
+		uiManager.GetComponent<CutsceneManager>().OnFireLightTorpedo.AddListener(fireLightTorpedoAction);
+		uiManager.GetComponent<CutsceneManager>().OnFireHeavyTorpedo.AddListener(fireHeavyTorpedoAction);
 
 	}
 
@@ -562,10 +573,11 @@ public class SoundManager : MonoBehaviour {
 		audioChargeXRay = AddAudio(clipChargeXRay, false, false, 1.0f);
 		audioChargeLightTorpedo = AddAudio(clipChargeLightTorpedo, false, false, 1.0f);
 		audioChargeHeavyTorpedo = AddAudio(clipChargeHeavyTorpedo, false, false, 1.0f);
-
+		audioFireLightTorpedo = AddAudio(clipFireLightTorpedo, false, false, 1.0f); 
+		audioFireHeavyTorpedo = AddAudio(clipFireHeavyTorpedo, false, false, 1.0f); 
 
 		//fill up the sfx array
-		sfxAudioSources = new AudioSource[24];
+		sfxAudioSources = new AudioSource[26];
 		sfxAudioSources [0] = audioPhasorFire;
 		sfxAudioSources [1] = audioXRayFire;
 		sfxAudioSources [2] = audioPhasorHit;
@@ -590,6 +602,9 @@ public class SoundManager : MonoBehaviour {
 		sfxAudioSources [21] = audioChargeXRay;
 		sfxAudioSources [22] = audioChargeLightTorpedo;
 		sfxAudioSources [23] = audioChargeHeavyTorpedo;
+		sfxAudioSources [24] = audioFireLightTorpedo;
+		sfxAudioSources [25] = audioFireHeavyTorpedo;
+
 
 		//set up the section explosion array
 		int numberOfSectionExplosions = 30;
@@ -1016,6 +1031,22 @@ public class SoundManager : MonoBehaviour {
 
 	}
 
+	//this function plays the fire light torpedo sound
+	private void PlayFireLightTorpedoSound(){
+
+		//play the sound
+		audioFireLightTorpedo.Play();
+
+	}
+
+	//this function plays the fire heavy torpedo sound
+	private void PlayFireHeavyTorpedoSound(){
+
+		//play the sound
+		audioFireHeavyTorpedo.Play();
+
+	}
+
 	//this function handles on destroy
 	private void OnDestroy(){
 
@@ -1085,6 +1116,10 @@ public class SoundManager : MonoBehaviour {
 			//remove listeners for charging torpedoes
 			uiManager.GetComponent<CutsceneManager>().OnChargeLightTorpedo.RemoveListener(chargeLightTorpedoAction);
 			uiManager.GetComponent<CutsceneManager>().OnChargeHeavyTorpedo.RemoveListener(chargeHeavyTorpedoAction);
+
+			//remove listeners for firing torpedoes
+			uiManager.GetComponent<CutsceneManager>().OnFireLightTorpedo.RemoveListener(fireLightTorpedoAction);
+			uiManager.GetComponent<CutsceneManager>().OnFireHeavyTorpedo.RemoveListener(fireHeavyTorpedoAction);
 
 		}
 

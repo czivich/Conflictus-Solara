@@ -372,6 +372,8 @@ public class CutsceneManager : MonoBehaviour {
 	//these events are for charging sounds
 	public UnityEvent OnChargePhasors = new UnityEvent();
 	public UnityEvent OnChargeXRay = new UnityEvent();
+	public UnityEvent OnChargeLightTorpedo = new UnityEvent();
+	public UnityEvent OnChargeHeavyTorpedo = new UnityEvent();
 
 	//this event is for the explosion sound
 	public UnityEvent OnCreateExplosion = new UnityEvent();
@@ -1048,11 +1050,16 @@ public class CutsceneManager : MonoBehaviour {
 					break;
 
 				case CombatManager.AttackType.LightTorpedo:
-					
+
+					//invoke the torpedo charge event
+					OnChargeLightTorpedo.Invoke ();
+
 					break;
 
 				case CombatManager.AttackType.HeavyTorpedo:
 
+					//invoke the torpedo charge event
+					OnChargeHeavyTorpedo.Invoke ();
 					break;
 
 				default:

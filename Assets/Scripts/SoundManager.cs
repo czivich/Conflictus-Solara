@@ -36,6 +36,8 @@ public class SoundManager : MonoBehaviour {
 	public AudioClip clipChargePhasor;
 	public AudioClip clipChargeXRay;
 	public AudioClip[] clipSectionExplosion;
+	public AudioClip clipChargeLightTorpedo;
+	public AudioClip clipChargeHeavyTorpedo;
 
 	//audioSource
 	private AudioSource audioMainBackgroundMusic;
@@ -62,6 +64,8 @@ public class SoundManager : MonoBehaviour {
 	private AudioSource audioSunburstDamage;
 	private AudioSource audioChargePhasor;
 	private AudioSource audioChargeXRay;
+	private AudioSource audioChargeLightTorpedo;
+	private AudioSource audioChargeHeavyTorpedo;
 
 	//this array will hold all the sfxAudioSources
 	private AudioSource[] sfxAudioSources;
@@ -158,6 +162,8 @@ public class SoundManager : MonoBehaviour {
 	private UnityAction chargePhasorAction;
 	private UnityAction chargeXRayAction;
 	private UnityAction playSectionExplosionSoundAction;
+	private UnityAction chargeLightTorpedoAction;
+	private UnityAction chargeHeavyTorpedoAction;
 
 	// Use this for initialization
 	public void Init () {
@@ -387,6 +393,9 @@ public class SoundManager : MonoBehaviour {
 
 		playSectionExplosionSoundAction = () => {PlaySectionExplosionSound();};
 
+		chargeLightTorpedoAction = () => {PlayChargeLightTorpedoSound();};
+		chargeHeavyTorpedoAction = () => {PlayChargeHeavyTorpedoSound();};
+
 
 	}
 
@@ -505,6 +514,11 @@ public class SoundManager : MonoBehaviour {
 		//add listeners for section explosion sound
 		uiManager.GetComponent<CutsceneManager>().OnCreateExplosion.AddListener(playSectionExplosionSoundAction);
 
+		//add listeners for charging torpedoes
+		uiManager.GetComponent<CutsceneManager>().OnChargeLightTorpedo.AddListener(chargeLightTorpedoAction);
+		uiManager.GetComponent<CutsceneManager>().OnChargeHeavyTorpedo.AddListener(chargeHeavyTorpedoAction);
+
+
 	}
 
 	//this function creates a new audioSource component for the passed clip
@@ -546,10 +560,12 @@ public class SoundManager : MonoBehaviour {
 		audioSunburstDamage = AddAudio(clipSunburstDamage, false, false, 1.0f);
 		audioChargePhasor = AddAudio(clipChargePhasor, false, false, 1.0f);
 		audioChargeXRay = AddAudio(clipChargeXRay, false, false, 1.0f);
+		audioChargeLightTorpedo = AddAudio(clipChargeLightTorpedo, false, false, 1.0f);
+		audioChargeHeavyTorpedo = AddAudio(clipChargeHeavyTorpedo, false, false, 1.0f);
 
 
 		//fill up the sfx array
-		sfxAudioSources = new AudioSource[22];
+		sfxAudioSources = new AudioSource[24];
 		sfxAudioSources [0] = audioPhasorFire;
 		sfxAudioSources [1] = audioXRayFire;
 		sfxAudioSources [2] = audioPhasorHit;
@@ -572,9 +588,11 @@ public class SoundManager : MonoBehaviour {
 		sfxAudioSources [19] = audioSunburstDamage;
 		sfxAudioSources [20] = audioChargePhasor;
 		sfxAudioSources [21] = audioChargeXRay;
+		sfxAudioSources [22] = audioChargeLightTorpedo;
+		sfxAudioSources [23] = audioChargeHeavyTorpedo;
 
 		//set up the section explosion array
-		int numberOfSectionExplosions = 27;
+		int numberOfSectionExplosions = 30;
 		sectionExplosions = new AudioSource[numberOfSectionExplosions];
 
 		//create the section explosion array
@@ -583,8 +601,7 @@ public class SoundManager : MonoBehaviour {
 			sectionExplosions[i] = AddAudio(clipSectionExplosion[Random.Range(0,clipSectionExplosion.Length)], false, false, 1.0f);
 
 		}
-
-
+			
 	}
 
 	//this function starts the main background music
@@ -965,7 +982,7 @@ public class SoundManager : MonoBehaviour {
 				//we found one that isn't playing.  Use this one to play
 
 				//set the pitch to a random value
-				sectionExplosions[i].pitch = Random.Range(.50f,3.0f);
+				//sectionExplosions[i].pitch = Random.Range(.50f,3.0f);
 
 				//play the sound
 				sectionExplosions[i].PlayDelayed(.05f);
@@ -980,6 +997,22 @@ public class SoundManager : MonoBehaviour {
 		//if we haven't returned out of the function, we didn't find an audio that wasn't playing
 		//log this
 		Debug.Log("All sectionExplosion audioSources were already playing - need to increase the array size");
+
+	}
+
+	//this function plays the new charge light torpedo sound
+	private void PlayChargeLightTorpedoSound(){
+
+		//play the sound
+		audioChargeLightTorpedo.Play();
+
+	}
+
+	//this function plays the new charge heavy torpedo sound
+	private void PlayChargeHeavyTorpedoSound(){
+
+		//play the sound
+		audioChargeHeavyTorpedo.Play();
 
 	}
 
@@ -1048,6 +1081,10 @@ public class SoundManager : MonoBehaviour {
 
 			//remove listeners for section explosion sound
 			uiManager.GetComponent<CutsceneManager>().OnCreateExplosion.RemoveListener(playSectionExplosionSoundAction);
+
+			//remove listeners for charging torpedoes
+			uiManager.GetComponent<CutsceneManager>().OnChargeLightTorpedo.RemoveListener(chargeLightTorpedoAction);
+			uiManager.GetComponent<CutsceneManager>().OnChargeHeavyTorpedo.RemoveListener(chargeHeavyTorpedoAction);
 
 		}
 

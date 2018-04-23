@@ -35,6 +35,7 @@ public class SoundManager : MonoBehaviour {
 	public AudioClip clipSunburstDamage;
 	public AudioClip clipChargePhasor;
 	public AudioClip clipChargeXRay;
+	public AudioClip[] clipSectionExplosion;
 
 	//audioSource
 	private AudioSource audioMainBackgroundMusic;
@@ -64,6 +65,9 @@ public class SoundManager : MonoBehaviour {
 
 	//this array will hold all the sfxAudioSources
 	private AudioSource[] sfxAudioSources;
+
+	//this array will hold all the section explosions
+	private AudioSource[] sectionExplosions;
 
 	//this bool flag determines whether we should be fading in background music
 	private bool isFadingInMusic;
@@ -153,6 +157,7 @@ public class SoundManager : MonoBehaviour {
 	private UnityAction<CombatUnit, int> sunburstDamageAction;
 	private UnityAction chargePhasorAction;
 	private UnityAction chargeXRayAction;
+	private UnityAction playSectionExplosionSoundAction;
 
 	// Use this for initialization
 	public void Init () {
@@ -380,6 +385,9 @@ public class SoundManager : MonoBehaviour {
 		chargePhasorAction = () => {PlayChargePhasorSound();};
 		chargeXRayAction = () => {PlayChargeXRaySound();};
 
+		playSectionExplosionSoundAction = () => {PlaySectionExplosionSound();};
+
+
 	}
 
 	//this function adds event listeners
@@ -494,6 +502,9 @@ public class SoundManager : MonoBehaviour {
 		uiManager.GetComponent<CutsceneManager>().OnChargePhasors.AddListener(chargePhasorAction);
 		uiManager.GetComponent<CutsceneManager>().OnChargeXRay.AddListener(chargeXRayAction);
 
+		//add listeners for section explosion sound
+		uiManager.GetComponent<CutsceneManager>().OnCreateExplosion.AddListener(playSectionExplosionSoundAction);
+
 	}
 
 	//this function creates a new audioSource component for the passed clip
@@ -561,6 +572,17 @@ public class SoundManager : MonoBehaviour {
 		sfxAudioSources [19] = audioSunburstDamage;
 		sfxAudioSources [20] = audioChargePhasor;
 		sfxAudioSources [21] = audioChargeXRay;
+
+		//set up the section explosion array
+		int numberOfSectionExplosions = 27;
+		sectionExplosions = new AudioSource[numberOfSectionExplosions];
+
+		//create the section explosion array
+		for (int i = 0; i < numberOfSectionExplosions; i++) {
+
+			sectionExplosions[i] = AddAudio(clipSectionExplosion[Random.Range(0,clipSectionExplosion.Length)], false, false, 1.0f);
+
+		}
 
 
 	}
@@ -931,6 +953,36 @@ public class SoundManager : MonoBehaviour {
 
 	}
 
+	//this function plays the section explosion sound
+	private void PlaySectionExplosionSound(){
+
+		//loop through the array
+		for (int i = 0; i < sectionExplosions.Length; i++) {
+
+			//check if the ith audiosource is playing
+			if (sectionExplosions [i].isPlaying == false) {
+
+				//we found one that isn't playing.  Use this one to play
+
+				//set the pitch to a random value
+				sectionExplosions[i].pitch = Random.Range(.50f,3.0f);
+
+				//play the sound
+				sectionExplosions[i].PlayDelayed(.05f);
+
+				//break out of the for loop and return from the function
+				return;
+
+			}
+
+		}
+
+		//if we haven't returned out of the function, we didn't find an audio that wasn't playing
+		//log this
+		Debug.Log("All sectionExplosion audioSources were already playing - need to increase the array size");
+
+	}
+
 	//this function handles on destroy
 	private void OnDestroy(){
 
@@ -993,6 +1045,9 @@ public class SoundManager : MonoBehaviour {
 			//remove listeners for charging phasors
 			uiManager.GetComponent<CutsceneManager>().OnChargePhasors.RemoveListener(chargePhasorAction);
 			uiManager.GetComponent<CutsceneManager>().OnChargeXRay.RemoveListener(chargeXRayAction);
+
+			//remove listeners for section explosion sound
+			uiManager.GetComponent<CutsceneManager>().OnCreateExplosion.RemoveListener(playSectionExplosionSoundAction);
 
 		}
 

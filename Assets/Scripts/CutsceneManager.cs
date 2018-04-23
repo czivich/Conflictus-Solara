@@ -370,8 +370,11 @@ public class CutsceneManager : MonoBehaviour {
 	public UnityEvent OnPhasorHit = new UnityEvent();
 
 	//these events are for charging sounds
-	public  UnityEvent OnChargePhasors = new UnityEvent();
-	public  UnityEvent OnChargeXRay = new UnityEvent();
+	public UnityEvent OnChargePhasors = new UnityEvent();
+	public UnityEvent OnChargeXRay = new UnityEvent();
+
+	//this event is for the explosion sound
+	public UnityEvent OnCreateExplosion = new UnityEvent();
 
 	//these events are for getting in between combat manager events and downstream events
 	public static CombatCutsceneEvent OnPhasorHitShipPhasorSection = new CombatCutsceneEvent();
@@ -1767,6 +1770,9 @@ public class CutsceneManager : MonoBehaviour {
 
 							//create an explosion
 							UIAnimation.CreateUIAmination (prefabSectionExplostion, explosionAnimationDuration, new Vector3 (1f, 1f, 1f), sectionDestroyedExplosions [i], explosionsParent.transform, true);
+
+							//invoke the event
+							OnCreateExplosion.Invoke ();
 
 							//add a threshold to the cooldown
 							explosionCooldown[i] += explosionCooldownThreshold;

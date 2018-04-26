@@ -42,7 +42,7 @@ public class CutsceneManager : MonoBehaviour {
 	public UIAnimation prefabLightTorpedoHit;
 	public UIAnimation prefabHeavyTorpedoHit;
 	public UIAnimation prefabFlare;
-	public UIAnimation prefabSectionExplostion;
+	public UIAnimation prefabSectionExplosion;
 	public UIAnimation prefabShipExplosion;
 
 	public TileMapUnitExplosion prefabTileMapUnitExplosion;
@@ -392,6 +392,9 @@ public class CutsceneManager : MonoBehaviour {
 
 	//this event is for the section explosion sound
 	public UnityEvent OnCreateExplosion = new UnityEvent();
+
+	//this event is for the unit explosion sound
+	public UnityEvent OnUnitExplosion = new UnityEvent();
 
 	//these events are for getting in between combat manager events and downstream events
 	public static CombatCutsceneEvent OnPhasorHitShipPhasorSection = new CombatCutsceneEvent();
@@ -1830,7 +1833,7 @@ public class CutsceneManager : MonoBehaviour {
 						if (explosionCooldown [i] < explosionCooldownThreshold) {
 
 							//create an explosion
-							UIAnimation.CreateUIAmination (prefabSectionExplostion, explosionAnimationDuration, new Vector3 (1f, 1f, 1f), sectionDestroyedExplosions [i], explosionsParent.transform, true);
+							UIAnimation.CreateUIAmination (prefabSectionExplosion, explosionAnimationDuration, new Vector3 (1f, 1f, 1f), sectionDestroyedExplosions [i], explosionsParent.transform, true);
 
 							//invoke the event
 							OnCreateExplosion.Invoke ();
@@ -1969,7 +1972,10 @@ public class CutsceneManager : MonoBehaviour {
 						if (explosionCooldown [i] < explosionCooldownThreshold) {
 
 							//create an explosion
-							UIAnimation.CreateUIAmination (prefabSectionExplostion, explosionAnimationDuration, new Vector3 (1f, 1f, 1f), unitDestroyedExplosions [i], explosionsParent.transform, true);
+							UIAnimation.CreateUIAmination (prefabSectionExplosion, explosionAnimationDuration, new Vector3 (1f, 1f, 1f), unitDestroyedExplosions [i], explosionsParent.transform, true);
+
+							//invoke the event
+							OnCreateExplosion.Invoke ();
 
 							//add a threshold to the cooldown
 							explosionCooldown [i] += explosionCooldownThreshold;
@@ -1996,6 +2002,9 @@ public class CutsceneManager : MonoBehaviour {
 
 					//set off an big explosion
 					UIAnimation.CreateUIAmination (prefabShipExplosion, unitExplosionAnimationDuration, new Vector3 (4f, 4f, 4f), targetedUnitParent.transform.localPosition, explosionsParent.transform, true);
+
+					//invoke the event
+					OnUnitExplosion.Invoke();
 
 					//set the detonated to true
 					detonatedUnitExplosion = true;

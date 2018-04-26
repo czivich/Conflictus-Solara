@@ -46,6 +46,7 @@ public class SoundManager : MonoBehaviour {
 	public AudioClip clipHeavyTorpedoHit;
 	public AudioClip clipFlareLaunch;
 	public AudioClip clipFlarePulse;
+	public AudioClip clipUnitExplosion;
 
 	//audioSource
 	private AudioSource audioMainBackgroundMusic;
@@ -82,6 +83,7 @@ public class SoundManager : MonoBehaviour {
 	private AudioSource audioHeavyTorpedoHit;
 	private AudioSource audioFlareLaunch;
 	private AudioSource audioFlarePulse;
+	private AudioSource audioUnitExplosion;
 
 	//this array will hold all the sfxAudioSources
 	private AudioSource[] sfxAudioSources;
@@ -209,6 +211,7 @@ public class SoundManager : MonoBehaviour {
 	private UnityAction heavyTorpedoArrivedAction;
 	private UnityAction flareLaunchAction;
 	private UnityAction flareDespawnAction;
+	private UnityAction unitExplosionAction;
 
 	// Use this for initialization
 	public void Init () {
@@ -573,6 +576,12 @@ public class SoundManager : MonoBehaviour {
 
 		};
 
+		unitExplosionAction = () => {
+
+			PlayUnitExplosionSound();
+
+		};
+
 	}
 
 	//this function adds event listeners
@@ -710,6 +719,9 @@ public class SoundManager : MonoBehaviour {
 		uiManager.GetComponent<CutsceneManager>().OnLaunchFlares.AddListener(flareLaunchAction);
 		uiManager.GetComponent<CutsceneManager>().OnFlareDespawn.AddListener(flareDespawnAction);
 
+		//add listener for unit explosion
+		uiManager.GetComponent<CutsceneManager>().OnUnitExplosion.AddListener(unitExplosionAction);
+
 
 	}
 
@@ -762,9 +774,10 @@ public class SoundManager : MonoBehaviour {
 		audioHeavyTorpedoHit = AddAudio(clipHeavyTorpedoHit, false, false, 1.0f); 
 		audioFlareLaunch = AddAudio(clipFlareLaunch, false, false, 1.0f);
 		audioFlarePulse = AddAudio(clipFlarePulse, true, false, 1.0f); 
+		audioUnitExplosion = AddAudio(clipUnitExplosion, false, false, 1.0f);
 
 		//fill up the sfx array
-		sfxAudioSources = new AudioSource[32];
+		sfxAudioSources = new AudioSource[33];
 		sfxAudioSources [0] = audioPhasorFire;
 		sfxAudioSources [1] = audioXRayFire;
 		sfxAudioSources [2] = audioPhasorHit;
@@ -797,6 +810,7 @@ public class SoundManager : MonoBehaviour {
 		sfxAudioSources [29] = audioHeavyTorpedoHit;
 		sfxAudioSources [30] = audioFlareLaunch;
 		sfxAudioSources [31] = audioFlarePulse;
+		sfxAudioSources [32] = audioUnitExplosion;
 
 		//set up the section explosion array
 		int numberOfSectionExplosions = 30;
@@ -1364,6 +1378,13 @@ public class SoundManager : MonoBehaviour {
 
 	}
 
+	//this function plays the unit explosion sound
+	private void PlayUnitExplosionSound(){
+
+		//play the sound
+		audioUnitExplosion.Play();
+
+	}
 
 	//this function handles on destroy
 	private void OnDestroy(){
@@ -1451,6 +1472,9 @@ public class SoundManager : MonoBehaviour {
 			uiManager.GetComponent<CutsceneManager>().OnLaunchFlares.RemoveListener(flareLaunchAction);
 			uiManager.GetComponent<CutsceneManager>().OnFlareDespawn.RemoveListener(flareDespawnAction);
 
+			//remove listener for unit explosion
+			uiManager.GetComponent<CutsceneManager>().OnUnitExplosion.RemoveListener(unitExplosionAction);
+
 		}
 
 		if (gameManager != null) {
@@ -1519,6 +1543,7 @@ public class SoundManager : MonoBehaviour {
 
 		//remove listener for taking sunburst damage
 		Sunburst.OnSunburstDamageDealt.RemoveListener(sunburstDamageAction);
+
 
 	}
 

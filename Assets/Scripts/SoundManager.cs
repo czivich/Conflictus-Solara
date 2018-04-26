@@ -42,7 +42,10 @@ public class SoundManager : MonoBehaviour {
 	public AudioClip clipFireHeavyTorpedo;
 	public AudioClip clipLightTorpedoPulse;
 	public AudioClip clipHeavyTorpedoPulse;
-
+	public AudioClip clipLightTorpedoHit;
+	public AudioClip clipHeavyTorpedoHit;
+	public AudioClip clipFlareLaunch;
+	public AudioClip clipFlarePulse;
 
 	//audioSource
 	private AudioSource audioMainBackgroundMusic;
@@ -75,6 +78,10 @@ public class SoundManager : MonoBehaviour {
 	private AudioSource audioFireHeavyTorpedo;
 	private AudioSource audioLightTorpedoPulse;
 	private AudioSource audioHeavyTorpedoPulse;
+	private AudioSource audioLightTorpedoHit;
+	private AudioSource audioHeavyTorpedoHit;
+	private AudioSource audioFlareLaunch;
+	private AudioSource audioFlarePulse;
 
 	//this array will hold all the sfxAudioSources
 	private AudioSource[] sfxAudioSources;
@@ -151,6 +158,13 @@ public class SoundManager : MonoBehaviour {
 	private float targetHeavyTorpedoVolume;
 	private bool shouldUpdateHeavyTorpedoVolume;
 
+	//these variables will control the flare pulse sound
+	private float flareFadeDuration;
+	private float flareSmoothDampVelocity;
+	private float currentFlareVolume;
+	private float targetFlareVolume;
+	private bool shouldUpdateFlareVolume;
+
 	//unityActions
 	private UnityAction startMainBackgroundAction;
 	private UnityAction<Player> playerStartMainBackgroundAction;
@@ -193,7 +207,8 @@ public class SoundManager : MonoBehaviour {
 	private UnityAction heavyTorpedoHitAction;
 	private UnityAction lightTorpedoArrivedAction;
 	private UnityAction heavyTorpedoArrivedAction;
-
+	private UnityAction flareLaunchAction;
+	private UnityAction flareDespawnAction;
 
 	// Use this for initialization
 	public void Init () {
@@ -208,6 +223,9 @@ public class SoundManager : MonoBehaviour {
 
 		//get the music volume level
 		GetMusicVolumeLevel();
+
+		//get the sfx volume level
+		GetSfxVolumeLevel();
 
 		//set unity actions
 		SetUnityActions ();
@@ -403,6 +421,32 @@ public class SoundManager : MonoBehaviour {
 
 		}
 
+		//check if we should be changing a flare sound
+		if (shouldUpdateFlareVolume == true) {
+
+			//smoothDamp the volume to the target
+			float newVolume = Mathf.SmoothDamp (currentFlareVolume, targetFlareVolume, ref flareSmoothDampVelocity, flareFadeDuration);
+
+			//set the volume to the new value
+			currentFlareVolume = newVolume;
+			audioFlarePulse.volume = currentFlareVolume;
+
+			//check if we are near the target
+			if (Mathf.Abs (currentFlareVolume - targetFlareVolume) < .01f) {
+
+				//we are close enough to the target that we want to snap it to the final value
+
+				//set the engine volume to the final value
+				currentFlareVolume = targetFlareVolume;
+				audioFlarePulse.volume = currentFlareVolume;
+
+				//clear the shouldUpdate flag
+				shouldUpdateFlareVolume = false;
+
+			}
+
+		}
+
 		cooldownTimer += Time.deltaTime;
 
 	}
@@ -494,13 +538,13 @@ public class SoundManager : MonoBehaviour {
 
 		lightTorpedoHitAction = () => {
 
-			//StopLightTorpedoPulseSound();
+			PlayLightTorpedoHitSound();
 
 		};
 
 		heavyTorpedoHitAction = () => {
 
-			//StopHeavyTorpedoPulseSound();
+			PlayHeavyTorpedoHitSound();
 
 		};
 
@@ -513,6 +557,19 @@ public class SoundManager : MonoBehaviour {
 		heavyTorpedoArrivedAction = () => {
 
 			StopHeavyTorpedoPulseSound();
+
+		};
+
+		flareLaunchAction = () => {
+
+			PlayFlareLaunchSound();
+			StartFlarePulseSound();
+
+		};
+
+		flareDespawnAction = () => {
+
+			StopFlarePulseSound();
 
 		};
 
@@ -649,6 +706,11 @@ public class SoundManager : MonoBehaviour {
 		uiManager.GetComponent<CutsceneManager>().OnLightTorpedoArrived.AddListener(lightTorpedoArrivedAction);
 		uiManager.GetComponent<CutsceneManager>().OnHeavyTorpedoArrived.AddListener(heavyTorpedoArrivedAction);
 
+		//add listeners for flares
+		uiManager.GetComponent<CutsceneManager>().OnLaunchFlares.AddListener(flareLaunchAction);
+		uiManager.GetComponent<CutsceneManager>().OnFlareDespawn.AddListener(flareDespawnAction);
+
+
 	}
 
 	//this function creates a new audioSource component for the passed clip
@@ -696,9 +758,13 @@ public class SoundManager : MonoBehaviour {
 		audioFireHeavyTorpedo = AddAudio(clipFireHeavyTorpedo, false, false, 1.0f); 
 		audioLightTorpedoPulse = AddAudio(clipLightTorpedoPulse, true, false, 1.0f); 
 		audioHeavyTorpedoPulse = AddAudio(clipHeavyTorpedoPulse, true, false, 1.0f); 
+		audioLightTorpedoHit = AddAudio(clipLightTorpedoHit, false, false, 1.0f); 
+		audioHeavyTorpedoHit = AddAudio(clipHeavyTorpedoHit, false, false, 1.0f); 
+		audioFlareLaunch = AddAudio(clipFlareLaunch, false, false, 1.0f);
+		audioFlarePulse = AddAudio(clipFlarePulse, true, false, 1.0f); 
 
 		//fill up the sfx array
-		sfxAudioSources = new AudioSource[28];
+		sfxAudioSources = new AudioSource[32];
 		sfxAudioSources [0] = audioPhasorFire;
 		sfxAudioSources [1] = audioXRayFire;
 		sfxAudioSources [2] = audioPhasorHit;
@@ -727,6 +793,10 @@ public class SoundManager : MonoBehaviour {
 		sfxAudioSources [25] = audioFireHeavyTorpedo;
 		sfxAudioSources [26] = audioLightTorpedoPulse;
 		sfxAudioSources [27] = audioHeavyTorpedoPulse;
+		sfxAudioSources [28] = audioLightTorpedoHit;
+		sfxAudioSources [29] = audioHeavyTorpedoHit;
+		sfxAudioSources [30] = audioFlareLaunch;
+		sfxAudioSources [31] = audioFlarePulse;
 
 		//set up the section explosion array
 		int numberOfSectionExplosions = 30;
@@ -804,6 +874,13 @@ public class SoundManager : MonoBehaviour {
 		for (int i = 0; i < sfxAudioSources.Length; i++) {
 
 			sfxAudioSources [i].volume = sfxVolumeLevel;
+
+		}
+
+		//set the volume level
+		for (int i = 0; i < sectionExplosions.Length; i++) {
+
+			sectionExplosions [i].volume = sfxVolumeLevel;
 
 		}
 			
@@ -1231,6 +1308,63 @@ public class SoundManager : MonoBehaviour {
 
 	}
 
+
+	//this function plays the light torpedo hit sound
+	private void PlayLightTorpedoHitSound(){
+
+		//play the sound
+		audioLightTorpedoHit.PlayDelayed(.25f);
+
+	}
+
+	//this function plays the heavy torpedo hit sound
+	private void PlayHeavyTorpedoHitSound(){
+
+		//play the sound
+		audioHeavyTorpedoHit.PlayDelayed(.25f);
+
+	}
+
+	//this function plays the flare launch sound
+	private void PlayFlareLaunchSound(){
+
+		//play the sound
+		audioFlareLaunch.Play();
+
+	}
+
+	//this function starts the flare pulse sound
+	private void StartFlarePulseSound(){
+
+		//set the shouldUpdate flag to true
+		shouldUpdateFlareVolume = true;
+
+		//set the target volume
+		targetFlareVolume = sfxVolumeLevel;
+
+		//play the sound
+		audioFlarePulse.Play();
+
+		//set the fade duration - I like it being a litle longer on stop than start
+		flareFadeDuration = 0.2f;
+
+	}
+
+	//this function stops the flare pulse sound
+	private void StopFlarePulseSound(){
+
+		//set the shouldUpdate flag to true
+		shouldUpdateFlareVolume = true;
+
+		//set the target volume
+		targetFlareVolume = 0.0f;
+
+		//set the fade duration - I like it being a litle longer on stop than start
+		flareFadeDuration = 0.2f;
+
+	}
+
+
 	//this function handles on destroy
 	private void OnDestroy(){
 
@@ -1312,6 +1446,10 @@ public class SoundManager : MonoBehaviour {
 			//remove listeners for torpedo arrivals
 			uiManager.GetComponent<CutsceneManager>().OnLightTorpedoArrived.RemoveListener(lightTorpedoArrivedAction);
 			uiManager.GetComponent<CutsceneManager>().OnHeavyTorpedoArrived.RemoveListener(heavyTorpedoArrivedAction);
+
+			//remove listeners for flares
+			uiManager.GetComponent<CutsceneManager>().OnLaunchFlares.RemoveListener(flareLaunchAction);
+			uiManager.GetComponent<CutsceneManager>().OnFlareDespawn.RemoveListener(flareDespawnAction);
 
 		}
 

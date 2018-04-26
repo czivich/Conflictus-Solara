@@ -386,6 +386,10 @@ public class CutsceneManager : MonoBehaviour {
 	public UnityEvent OnLightTorpedoArrived = new UnityEvent();
 	public UnityEvent OnHeavyTorpedoArrived = new UnityEvent();
 
+	//these events are for flares
+	public UnityEvent OnLaunchFlares = new UnityEvent();
+	public UnityEvent OnFlareDespawn = new UnityEvent();
+
 	//this event is for the section explosion sound
 	public UnityEvent OnCreateExplosion = new UnityEvent();
 
@@ -1538,12 +1542,17 @@ public class CutsceneManager : MonoBehaviour {
 									UIAnimation.CreateUIAmination (prefabLightTorpedoHit, 0.5f, new Vector3 (1.5f, 1.5f, 1.5f),
 										torpedoDestinationPosition, explosionsParent.transform, true);
 
+									//invoke the event
+									OnLightTorpedoHit.Invoke();
 
 								} else if (combatAttackType == CombatManager.AttackType.HeavyTorpedo) {
 
 									//play the heavy torpedo explosion
 									UIAnimation.CreateUIAmination (prefabHeavyTorpedoHit, 0.5f, new Vector3 (1.5f, 1.5f, 1.5f),
 										torpedoDestinationPosition, explosionsParent.transform, true);
+
+									//invoke the event
+									OnHeavyTorpedoHit.Invoke();
 
 								}
 
@@ -1558,6 +1567,9 @@ public class CutsceneManager : MonoBehaviour {
 									}
 
 								}
+
+								//invoke the event
+								OnFlareDespawn.Invoke();
 
 								//set the status label
 								statusLabel.text = ("Flare Intercepts Torpedo!");
@@ -1614,6 +1626,9 @@ public class CutsceneManager : MonoBehaviour {
 
 							//spawn the flare muzzle blast - we can use the torpedo muzzle prefab, but smaller
 							UIAnimation.CreateUIAmination (prefabTorpedoMuzzle, .5f, new Vector3 (2f, 2f, 2f), flareSpawnPoint, explosionsParent.transform, true);
+
+							//invoke the flare launch event
+							OnLaunchFlares.Invoke();
 
 							//set the status text to show flares launched
 							if (numberFlaresUsed == 1) {
@@ -2418,6 +2433,9 @@ public class CutsceneManager : MonoBehaviour {
 						}
 
 					}
+
+					//invoke the event
+					OnFlareDespawn.Invoke();
 
 					torpedoReroutedToFlare = false;
 					torpedoPastAllFlares = false;

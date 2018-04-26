@@ -1,0 +1,39 @@
+Initialize engine version: 5.6.5f1 (2cac56bf7bb6)
+GfxDevice: creating device client; threaded=1
+Direct3D:
+    Version:  Direct3D 11.0 [level 10.0]
+    Renderer: Intel(R) HD Graphics (ID=0x46)
+    Vendor:   Intel
+    VRAM:     880 MB
+    Driver:   8.15.10.2622
+Begin MonoManager ReloadAssembly
+Platform assembly: C:\Users\Chad Zivich\Documents\Unity Projects\Conflictus-Solara\Conflictus Solara_Data\Managed\UnityEngine.dll (this message is harmless)
+Loading C:\Users\Chad Zivich\Documents\Unity Projects\Conflictus-Solara\Conflictus Solara_Data\Managed\UnityEngine.dll into Unity Child Domain
+Platform assembly: C:\Users\Chad Zivich\Documents\Unity Projects\Conflictus-Solara\Conflictus Solara_Data\Managed\Assembly-CSharp.dll (this message is harmless)
+Loading C:\Users\Chad Zivich\Documents\Unity Projects\Conflictus-Solara\Conflictus Solara_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
+Platform assembly: C:\Users\Chad Zivich\Documents\Unity Projects\Conflictus-Solara\Conflictus Solara_Data\Managed\UnityEngine.UI.dll (this message is harmless)
+Loading C:\Users\Chad Zivich\Documents\Unity Projects\Conflictus-Solara\Conflictus Solara_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
+Platform assembly: C:\Users\Chad Zivich\Documents\Unity Projects\Conflictus-Solara\Conflictus Solara_Data\Managed\UnityEngine.Networking.dll (this message is harmless)
+Loading C:\Users\Chad Zivich\Documents\Unity Projects\Conflictus-Solara\Conflictus Solara_Data\Managed\UnityEngine.Networking.dll into Unity Child Domain
+Platform assembly: C:\Users\Chad Zivich\Documents\Unity Projects\Conflictus-Solara\Conflictus Solara_Data\Managed\UnityEngine.Analytics.dll (this message is harmless)
+Loading C:\Users\Chad Zivich\Documents\Unity Projects\Conflictus-Solara\Conflictus Solara_Data\Managed\UnityEngine.Analytics.dll into Unity Child Domain
+Platform assembly: C:\Users\Chad Zivich\Documents\Unity Projects\Conflictus-Solara\Conflictus Solara_Data\Managed\TextMeshPro.dll (this message is harmless)
+Loading C:\Users\Chad Zivich\Documents\Unity Projects\Conflictus-Solara\Conflictus Solara_Data\Managed\TextMeshPro.dll into Unity Child Domain
+- Completed reload, in  0.063 seconds
+Platform assembly: C:\Users\Chad Zivich\Documents\Unity Projects\Conflictus-Solara\Conflictus Solara_Data\Managed\System.Core.dll (this message is harmless)
+Platform assembly: C:\Users\Chad Zivich\Documents\Unity Projects\Conflictus-Solara\Conflictus Solara_Data\Managed\System.dll (this message is harmless)
+Platform assembly: C:\Users\Chad Zivich\Documents\Unity Projects\Conflictus-Solara\Conflictus Solara_Data\Managed\System.Xml.dll (this message is harmless)
+desktop: 1920x1080 59Hz; virtual: 1920x1080 at 0,0
+<RI> Initializing input.
+<RI> Input initialized.
+<RI> Initialized touch support.
+UnloadTime: 2.071482 ms
+Setting up 2 worker threads for Enlighten.
+  Thread -> id: f4bc -> priority: 1 
+  Thread -> id: f4c4 -> priority: 1 
+Unloading 6 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 50.023117 ms
+
+Unloading 35 unused Assets to reduce memory usage. Loaded Objects now: 12383.
+Total: 79.903709 ms (FindLiveObjects: 1.279331 ms CreateObjectMapping: 0.375116 ms MarkObjects: 77.991341 ms  DeleteObjects: 0.256208 ms)
+

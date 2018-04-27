@@ -730,8 +730,19 @@ public class PhasorMenu : MonoBehaviour {
 
 										}
 
-										//if the targeted unit is cloaked, we can allow the fire phasors button to be pressed
-										phasorFireButton.interactable = true;
+										//if the targeted unit is cloaked, we can allow the fire phasors button to be pressed 
+										//as long as we are not cloaked
+										if (mouseMananger.selectedUnit.GetComponent<CloakingDevice> () == true &&
+										    mouseMananger.selectedUnit.GetComponent<CloakingDevice> ().isCloaked == true) {
+
+											//we are cloaked and cannot fire
+											phasorFireButton.interactable = false;
+
+										} else {
+											
+											phasorFireButton.interactable = true;
+
+										}
 
 									}
 									//the else condition is that the targeted unit is not cloaked
@@ -766,7 +777,18 @@ public class PhasorMenu : MonoBehaviour {
 													}
 
 													//if the targeted ship has jamming, we can allow the fire phasors button to be pressed
-													phasorFireButton.interactable = true;
+													//as long as we are not cloaked
+													if (mouseMananger.selectedUnit.GetComponent<CloakingDevice> () == true &&
+														mouseMananger.selectedUnit.GetComponent<CloakingDevice> ().isCloaked == true) {
+
+														//we are cloaked and cannot fire
+														phasorFireButton.interactable = false;
+
+													} else {
+
+														phasorFireButton.interactable = true;
+
+													}
 
 												}
 												//the else condition is that there is no jamming on the targeted unit
@@ -814,9 +836,20 @@ public class PhasorMenu : MonoBehaviour {
 
 														}
 														//the else condition is that a section has been chosen, so we can use the fire button
+														//as long as we are not cloaked
 														else {
 
-															phasorFireButton.interactable = true;
+															if (mouseMananger.selectedUnit.GetComponent<CloakingDevice> () == true &&
+																mouseMananger.selectedUnit.GetComponent<CloakingDevice> ().isCloaked == true) {
+
+																//we are cloaked and cannot fire
+																phasorFireButton.interactable = false;
+
+															} else {
+
+																phasorFireButton.interactable = true;
+
+															}
 
 														}
 
@@ -827,7 +860,19 @@ public class PhasorMenu : MonoBehaviour {
 
 														phasorTargetingDropdown.interactable = false;
 
-														phasorFireButton.interactable = true;
+														//check if we are cloaked
+
+														if (mouseMananger.selectedUnit.GetComponent<CloakingDevice> () == true &&
+															mouseMananger.selectedUnit.GetComponent<CloakingDevice> ().isCloaked == true) {
+
+															//we are cloaked and cannot fire
+															phasorFireButton.interactable = false;
+
+														} else {
+
+															phasorFireButton.interactable = true;
+
+														}
 
 													}
 
@@ -879,9 +924,20 @@ public class PhasorMenu : MonoBehaviour {
 
 													}
 													//the else condition is that a section has been chosen, so we can use the fire button
+													//as long as we are not cloaked
 													else {
 
-														phasorFireButton.interactable = true;
+														if (mouseMananger.selectedUnit.GetComponent<CloakingDevice> () == true &&
+															mouseMananger.selectedUnit.GetComponent<CloakingDevice> ().isCloaked == true) {
+
+															//we are cloaked and cannot fire
+															phasorFireButton.interactable = false;
+
+														} else {
+
+															phasorFireButton.interactable = true;
+
+														}
 
 													}
 											
@@ -891,7 +947,19 @@ public class PhasorMenu : MonoBehaviour {
 
 													phasorTargetingDropdown.interactable = false;
 
-													phasorFireButton.interactable = true;
+													//check if we are cloaked
+
+													if (mouseMananger.selectedUnit.GetComponent<CloakingDevice> () == true &&
+														mouseMananger.selectedUnit.GetComponent<CloakingDevice> ().isCloaked == true) {
+
+														//we are cloaked and cannot fire
+														phasorFireButton.interactable = false;
+
+													} else {
+
+														phasorFireButton.interactable = true;
+
+													}
 
 												}
 
@@ -924,7 +992,18 @@ public class PhasorMenu : MonoBehaviour {
 												}
 
 												//if the targeted ship has jamming, we can allow the fire phasors button to be pressed
-												phasorFireButton.interactable = true;
+												//as long as we are not cloaked
+												if (mouseMananger.selectedUnit.GetComponent<CloakingDevice> () == true &&
+													mouseMananger.selectedUnit.GetComponent<CloakingDevice> ().isCloaked == true) {
+
+													//we are cloaked and cannot fire
+													phasorFireButton.interactable = false;
+
+												} else {
+
+													phasorFireButton.interactable = true;
+
+												}
 
 											}
 											//the else condition is that there is no jamming on the targeted unit
@@ -972,9 +1051,20 @@ public class PhasorMenu : MonoBehaviour {
 
 													}
 													//the else condition is that a section has been chosen, so we can use the fire button
+													//as long as we are not cloaked
 													else {
 
-														phasorFireButton.interactable = true;
+														if (mouseMananger.selectedUnit.GetComponent<CloakingDevice> () == true &&
+															mouseMananger.selectedUnit.GetComponent<CloakingDevice> ().isCloaked == true) {
+
+															//we are cloaked and cannot fire
+															phasorFireButton.interactable = false;
+
+														} else {
+
+															phasorFireButton.interactable = true;
+
+														}
 
 													}
 
@@ -985,7 +1075,18 @@ public class PhasorMenu : MonoBehaviour {
 
 													phasorTargetingDropdown.interactable = false;
 
-													phasorFireButton.interactable = true;
+													//check if we are cloaked
+													if (mouseMananger.selectedUnit.GetComponent<CloakingDevice> () == true &&
+														mouseMananger.selectedUnit.GetComponent<CloakingDevice> ().isCloaked == true) {
+
+														//we are cloaked and cannot fire
+														phasorFireButton.interactable = false;
+
+													} else {
+
+														phasorFireButton.interactable = true;
+
+													}
 
 												}
 
@@ -1394,11 +1495,36 @@ public class PhasorMenu : MonoBehaviour {
 			//check if the selected unit has a valid phasor attack remaining
 			if (mouseMananger.selectedUnit.GetComponent<CombatUnit> ().hasRemainingPhasorAttack == true) {
 
-				//if the attack is still remaining, set the text to Fire Phasors
-				phasorFireButton.GetComponentInChildren<TextMeshProUGUI> ().text = ("Fire Phasors");
+				//check if the selected unit is a bird of prey and is cloaked
+				if (mouseMananger.selectedUnit.GetComponent<CloakingDevice> () == true) {
 
-				//update the font size if necessary
-				UIManager.AutoSizeTextMeshFont(phasorFireButton.GetComponentInChildren<TextMeshProUGUI> ());
+					if (mouseMananger.selectedUnit.GetComponent<CloakingDevice> ().isCloaked == true) {
+
+						//if the attack is still remaining, set the text to Cloaked
+						phasorFireButton.GetComponentInChildren<TextMeshProUGUI> ().text = ("Cloaked");
+
+						//update the font size if necessary
+						UIManager.AutoSizeTextMeshFont (phasorFireButton.GetComponentInChildren<TextMeshProUGUI> ());
+
+					} else {
+
+						//if the attack is still remaining, set the text to Fire Phasors
+						phasorFireButton.GetComponentInChildren<TextMeshProUGUI> ().text = ("Fire Phasors");
+
+						//update the font size if necessary
+						UIManager.AutoSizeTextMeshFont (phasorFireButton.GetComponentInChildren<TextMeshProUGUI> ());
+
+					}
+
+				} else {
+
+					//if the attack is still remaining, set the text to Fire Phasors
+					phasorFireButton.GetComponentInChildren<TextMeshProUGUI> ().text = ("Fire Phasors");
+
+					//update the font size if necessary
+					UIManager.AutoSizeTextMeshFont (phasorFireButton.GetComponentInChildren<TextMeshProUGUI> ());
+
+				}
 
 			}
 			//else, we want to check if the attack is not remaining because we already fired phasors

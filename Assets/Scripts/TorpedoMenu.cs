@@ -322,9 +322,22 @@ public class TorpedoMenu : MonoBehaviour {
 									//check if we have light torpedos
 									if (mouseMananger.selectedUnit.GetComponent<StarbaseTorpedoSection> ().lightTorpedos > 0) {
 
-										lightTorpedoFireButton.interactable = true;
-										lightTorpedoCountToggle.isOn = true;
-										lightTorpedoCountToggle.interactable = true;
+										//check if we are cloaked
+										if (mouseMananger.selectedUnit.GetComponent<CloakingDevice> () == true &&
+										    mouseMananger.selectedUnit.GetComponent<CloakingDevice> ().isCloaked == true) {
+
+											//we are cloaked and cannot fire
+											lightTorpedoFireButton.interactable = false;
+											lightTorpedoCountToggle.isOn = false;
+											lightTorpedoCountToggle.interactable = false;
+
+										} else {
+
+											lightTorpedoFireButton.interactable = true;
+											lightTorpedoCountToggle.isOn = true;
+											lightTorpedoCountToggle.interactable = true;
+
+										}
 
 									}
 									//the else condition is that we do not have any light torpedos, and so the button can't be used
@@ -339,9 +352,22 @@ public class TorpedoMenu : MonoBehaviour {
 									//check if we have heavy torpedos
 									if (mouseMananger.selectedUnit.GetComponent<StarbaseTorpedoSection> ().heavyTorpedos > 0) {
 
-										heavyTorpedoFireButton.interactable = true;
-										heavyTorpedoCountToggle.isOn = true;
-										heavyTorpedoCountToggle.interactable = true;
+										//check if we are cloaked
+										if (mouseMananger.selectedUnit.GetComponent<CloakingDevice> () == true &&
+										    mouseMananger.selectedUnit.GetComponent<CloakingDevice> ().isCloaked == true) {
+
+											//we are cloaked and cannot fire
+											heavyTorpedoFireButton.interactable = false;
+											heavyTorpedoCountToggle.isOn = false;
+											heavyTorpedoCountToggle.interactable = false;
+
+										} else {
+
+											heavyTorpedoFireButton.interactable = true;
+											heavyTorpedoCountToggle.isOn = true;
+											heavyTorpedoCountToggle.interactable = true;
+
+										}
 
 									}
 									//the else condition is that we do not have any heavy torpedos, and so the button can't be used
@@ -391,9 +417,22 @@ public class TorpedoMenu : MonoBehaviour {
 												//check if we have light torpedos
 												if (mouseMananger.selectedUnit.GetComponent<StarbaseTorpedoSection> ().lightTorpedos > 0) {
 
-													lightTorpedoFireButton.interactable = true;
-													lightTorpedoCountToggle.isOn = true;
-													lightTorpedoCountToggle.interactable = true;
+													//check if we are cloaked
+													if (mouseMananger.selectedUnit.GetComponent<CloakingDevice> () == true &&
+														mouseMananger.selectedUnit.GetComponent<CloakingDevice> ().isCloaked == true) {
+
+														//we are cloaked and cannot fire
+														lightTorpedoFireButton.interactable = false;
+														lightTorpedoCountToggle.isOn = false;
+														lightTorpedoCountToggle.interactable = false;
+
+													} else {
+
+														lightTorpedoFireButton.interactable = true;
+														lightTorpedoCountToggle.isOn = true;
+														lightTorpedoCountToggle.interactable = true;
+
+													}
 
 												}
 												//the else condition is that we do not have any light torpedos, and so the button can't be used
@@ -408,9 +447,22 @@ public class TorpedoMenu : MonoBehaviour {
 												//check if we have heavy torpedos
 												if (mouseMananger.selectedUnit.GetComponent<StarbaseTorpedoSection> ().heavyTorpedos > 0) {
 
-													heavyTorpedoFireButton.interactable = true;
-													heavyTorpedoCountToggle.isOn = true;
-													heavyTorpedoCountToggle.interactable = true;
+													//check if we are cloaked
+													if (mouseMananger.selectedUnit.GetComponent<CloakingDevice> () == true &&
+														mouseMananger.selectedUnit.GetComponent<CloakingDevice> ().isCloaked == true) {
+
+														//we are cloaked and cannot fire
+														heavyTorpedoFireButton.interactable = false;
+														heavyTorpedoCountToggle.isOn = false;
+														heavyTorpedoCountToggle.interactable = false;
+
+													} else {
+
+														heavyTorpedoFireButton.interactable = true;
+														heavyTorpedoCountToggle.isOn = true;
+														heavyTorpedoCountToggle.interactable = true;
+
+													}
 
 												}
 												//the else condition is that we do not have any heavy torpedos, and so the button can't be used
@@ -480,9 +532,22 @@ public class TorpedoMenu : MonoBehaviour {
 														//check if we have light torpedos
 														if (mouseMananger.selectedUnit.GetComponent<StarbaseTorpedoSection> ().lightTorpedos > 0) {
 
-															lightTorpedoFireButton.interactable = true;
-															lightTorpedoCountToggle.isOn = true;
-															lightTorpedoCountToggle.interactable = true;
+															//check if we are cloaked
+															if (mouseMananger.selectedUnit.GetComponent<CloakingDevice> () == true &&
+																mouseMananger.selectedUnit.GetComponent<CloakingDevice> ().isCloaked == true) {
+
+																//we are cloaked and cannot fire
+																lightTorpedoFireButton.interactable = false;
+																lightTorpedoCountToggle.isOn = false;
+																lightTorpedoCountToggle.interactable = false;
+
+															} else {
+
+																lightTorpedoFireButton.interactable = true;
+																lightTorpedoCountToggle.isOn = true;
+																lightTorpedoCountToggle.interactable = true;
+
+															}
 
 														}
 														//the else condition is that we do not have any light torpedos, and so the button can't be used
@@ -497,9 +562,22 @@ public class TorpedoMenu : MonoBehaviour {
 														//check if we have heavy torpedos
 														if (mouseMananger.selectedUnit.GetComponent<StarbaseTorpedoSection> ().heavyTorpedos > 0) {
 
-															heavyTorpedoFireButton.interactable = true;
-															heavyTorpedoCountToggle.isOn = true;
-															heavyTorpedoCountToggle.interactable = true;
+															//check if we are cloaked
+															if (mouseMananger.selectedUnit.GetComponent<CloakingDevice> () == true &&
+																mouseMananger.selectedUnit.GetComponent<CloakingDevice> ().isCloaked == true) {
+
+																//we are cloaked and cannot fire
+																heavyTorpedoFireButton.interactable = false;
+																heavyTorpedoCountToggle.isOn = false;
+																heavyTorpedoCountToggle.interactable = false;
+
+															} else {
+
+																heavyTorpedoFireButton.interactable = true;
+																heavyTorpedoCountToggle.isOn = true;
+																heavyTorpedoCountToggle.interactable = true;
+
+															}
 
 														}
 														//the else condition is that we do not have any heavy torpedos, and so the button can't be used
@@ -524,9 +602,22 @@ public class TorpedoMenu : MonoBehaviour {
 													//check if we have light torpedos
 													if (mouseMananger.selectedUnit.GetComponent<StarbaseTorpedoSection> ().lightTorpedos > 0) {
 
-														lightTorpedoFireButton.interactable = true;
-														lightTorpedoCountToggle.isOn = true;
-														lightTorpedoCountToggle.interactable = true;
+														//check if we are cloaked
+														if (mouseMananger.selectedUnit.GetComponent<CloakingDevice> () == true &&
+															mouseMananger.selectedUnit.GetComponent<CloakingDevice> ().isCloaked == true) {
+
+															//we are cloaked and cannot fire
+															lightTorpedoFireButton.interactable = false;
+															lightTorpedoCountToggle.isOn = false;
+															lightTorpedoCountToggle.interactable = false;
+
+														} else {
+
+															lightTorpedoFireButton.interactable = true;
+															lightTorpedoCountToggle.isOn = true;
+															lightTorpedoCountToggle.interactable = true;
+
+														}
 
 													}
 													//the else condition is that we do not have any light torpedos, and so the button can't be used
@@ -541,9 +632,22 @@ public class TorpedoMenu : MonoBehaviour {
 													//check if we have heavy torpedos
 													if (mouseMananger.selectedUnit.GetComponent<StarbaseTorpedoSection> ().heavyTorpedos > 0) {
 
-														heavyTorpedoFireButton.interactable = true;
-														heavyTorpedoCountToggle.isOn = true;
-														heavyTorpedoCountToggle.interactable = true;
+														//check if we are cloaked
+														if (mouseMananger.selectedUnit.GetComponent<CloakingDevice> () == true &&
+															mouseMananger.selectedUnit.GetComponent<CloakingDevice> ().isCloaked == true) {
+
+															//we are cloaked and cannot fire
+															heavyTorpedoFireButton.interactable = false;
+															heavyTorpedoCountToggle.isOn = false;
+															heavyTorpedoCountToggle.interactable = false;
+
+														} else {
+
+															heavyTorpedoFireButton.interactable = true;
+															heavyTorpedoCountToggle.isOn = true;
+															heavyTorpedoCountToggle.interactable = true;
+
+														}
 
 													}
 													//the else condition is that we do not have any heavy torpedos, and so the button can't be used
@@ -618,9 +722,22 @@ public class TorpedoMenu : MonoBehaviour {
 													//check if we have light torpedos
 													if (mouseMananger.selectedUnit.GetComponent<StarbaseTorpedoSection> ().lightTorpedos > 0) {
 
-														lightTorpedoFireButton.interactable = true;
-														lightTorpedoCountToggle.isOn = true;
-														lightTorpedoCountToggle.interactable = true;
+														//check if we are cloaked
+														if (mouseMananger.selectedUnit.GetComponent<CloakingDevice> () == true &&
+															mouseMananger.selectedUnit.GetComponent<CloakingDevice> ().isCloaked == true) {
+
+															//we are cloaked and cannot fire
+															lightTorpedoFireButton.interactable = false;
+															lightTorpedoCountToggle.isOn = false;
+															lightTorpedoCountToggle.interactable = false;
+
+														} else {
+
+															lightTorpedoFireButton.interactable = true;
+															lightTorpedoCountToggle.isOn = true;
+															lightTorpedoCountToggle.interactable = true;
+
+														}
 
 													}
 													//the else condition is that we do not have any light torpedos, and so the button can't be used
@@ -635,9 +752,22 @@ public class TorpedoMenu : MonoBehaviour {
 													//check if we have heavy torpedos
 													if (mouseMananger.selectedUnit.GetComponent<StarbaseTorpedoSection> ().heavyTorpedos > 0) {
 
-														heavyTorpedoFireButton.interactable = true;
-														heavyTorpedoCountToggle.isOn = true;
-														heavyTorpedoCountToggle.interactable = true;
+														//check if we are cloaked
+														if (mouseMananger.selectedUnit.GetComponent<CloakingDevice> () == true &&
+															mouseMananger.selectedUnit.GetComponent<CloakingDevice> ().isCloaked == true) {
+
+															//we are cloaked and cannot fire
+															heavyTorpedoFireButton.interactable = false;
+															heavyTorpedoCountToggle.isOn = false;
+															heavyTorpedoCountToggle.interactable = false;
+
+														} else {
+
+															heavyTorpedoFireButton.interactable = true;
+															heavyTorpedoCountToggle.isOn = true;
+															heavyTorpedoCountToggle.interactable = true;
+
+														}
 
 													}
 													//the else condition is that we do not have any heavy torpedos, and so the button can't be used
@@ -661,9 +791,22 @@ public class TorpedoMenu : MonoBehaviour {
 												//check if we have light torpedos
 												if (mouseMananger.selectedUnit.GetComponent<StarbaseTorpedoSection> ().lightTorpedos > 0) {
 
-													lightTorpedoFireButton.interactable = true;
-													lightTorpedoCountToggle.isOn = true;
-													lightTorpedoCountToggle.interactable = true;
+													//check if we are cloaked
+													if (mouseMananger.selectedUnit.GetComponent<CloakingDevice> () == true &&
+														mouseMananger.selectedUnit.GetComponent<CloakingDevice> ().isCloaked == true) {
+
+														//we are cloaked and cannot fire
+														lightTorpedoFireButton.interactable = false;
+														lightTorpedoCountToggle.isOn = false;
+														lightTorpedoCountToggle.interactable = false;
+
+													} else {
+
+														lightTorpedoFireButton.interactable = true;
+														lightTorpedoCountToggle.isOn = true;
+														lightTorpedoCountToggle.interactable = true;
+
+													}
 
 												}
 												//the else condition is that we do not have any light torpedos, and so the button can't be used
@@ -678,9 +821,22 @@ public class TorpedoMenu : MonoBehaviour {
 												//check if we have heavy torpedos
 												if (mouseMananger.selectedUnit.GetComponent<StarbaseTorpedoSection> ().heavyTorpedos > 0) {
 
-													heavyTorpedoFireButton.interactable = true;
-													heavyTorpedoCountToggle.isOn = true;
-													heavyTorpedoCountToggle.interactable = true;
+													//check if we are cloaked
+													if (mouseMananger.selectedUnit.GetComponent<CloakingDevice> () == true &&
+														mouseMananger.selectedUnit.GetComponent<CloakingDevice> ().isCloaked == true) {
+
+														//we are cloaked and cannot fire
+														heavyTorpedoFireButton.interactable = false;
+														heavyTorpedoCountToggle.isOn = false;
+														heavyTorpedoCountToggle.interactable = false;
+
+													} else {
+
+														heavyTorpedoFireButton.interactable = true;
+														heavyTorpedoCountToggle.isOn = true;
+														heavyTorpedoCountToggle.interactable = true;
+
+													}
 
 												}
 												//the else condition is that we do not have any heavy torpedos, and so the button can't be used
@@ -727,9 +883,22 @@ public class TorpedoMenu : MonoBehaviour {
 											//check if we have light torpedos
 											if (mouseMananger.selectedUnit.GetComponent<StarbaseTorpedoSection> ().lightTorpedos > 0) {
 
-												lightTorpedoFireButton.interactable = true;
-												lightTorpedoCountToggle.isOn = true;
-												lightTorpedoCountToggle.interactable = true;
+												//check if we are cloaked
+												if (mouseMananger.selectedUnit.GetComponent<CloakingDevice> () == true &&
+													mouseMananger.selectedUnit.GetComponent<CloakingDevice> ().isCloaked == true) {
+
+													//we are cloaked and cannot fire
+													lightTorpedoFireButton.interactable = false;
+													lightTorpedoCountToggle.isOn = false;
+													lightTorpedoCountToggle.interactable = false;
+
+												} else {
+
+													lightTorpedoFireButton.interactable = true;
+													lightTorpedoCountToggle.isOn = true;
+													lightTorpedoCountToggle.interactable = true;
+
+												}
 
 											}
 											//the else condition is that we do not have any light torpedos, and so the button can't be used
@@ -744,9 +913,22 @@ public class TorpedoMenu : MonoBehaviour {
 											//check if we have heavy torpedos
 											if (mouseMananger.selectedUnit.GetComponent<StarbaseTorpedoSection> ().heavyTorpedos > 0) {
 
-												heavyTorpedoFireButton.interactable = true;
-												heavyTorpedoCountToggle.isOn = true;
-												heavyTorpedoCountToggle.interactable = true;
+												//check if we are cloaked
+												if (mouseMananger.selectedUnit.GetComponent<CloakingDevice> () == true &&
+													mouseMananger.selectedUnit.GetComponent<CloakingDevice> ().isCloaked == true) {
+
+													//we are cloaked and cannot fire
+													heavyTorpedoFireButton.interactable = false;
+													heavyTorpedoCountToggle.isOn = false;
+													heavyTorpedoCountToggle.interactable = false;
+
+												} else {
+
+													heavyTorpedoFireButton.interactable = true;
+													heavyTorpedoCountToggle.isOn = true;
+													heavyTorpedoCountToggle.interactable = true;
+
+												}
 
 											}
 											//the else condition is that we do not have any heavy torpedos, and so the button can't be used
@@ -815,9 +997,22 @@ public class TorpedoMenu : MonoBehaviour {
 													//check if we have light torpedos
 													if (mouseMananger.selectedUnit.GetComponent<StarbaseTorpedoSection> ().lightTorpedos > 0) {
 
-														lightTorpedoFireButton.interactable = true;
-														lightTorpedoCountToggle.isOn = true;
-														lightTorpedoCountToggle.interactable = true;
+														//check if we are cloaked
+														if (mouseMananger.selectedUnit.GetComponent<CloakingDevice> () == true &&
+															mouseMananger.selectedUnit.GetComponent<CloakingDevice> ().isCloaked == true) {
+
+															//we are cloaked and cannot fire
+															lightTorpedoFireButton.interactable = false;
+															lightTorpedoCountToggle.isOn = false;
+															lightTorpedoCountToggle.interactable = false;
+
+														} else {
+
+															lightTorpedoFireButton.interactable = true;
+															lightTorpedoCountToggle.isOn = true;
+															lightTorpedoCountToggle.interactable = true;
+
+														}
 
 													}
 													//the else condition is that we do not have any light torpedos, and so the button can't be used
@@ -832,9 +1027,22 @@ public class TorpedoMenu : MonoBehaviour {
 													//check if we have heavy torpedos
 													if (mouseMananger.selectedUnit.GetComponent<StarbaseTorpedoSection> ().heavyTorpedos > 0) {
 
-														heavyTorpedoFireButton.interactable = true;
-														heavyTorpedoCountToggle.isOn = true;
-														heavyTorpedoCountToggle.interactable = true;
+														//check if we are cloaked
+														if (mouseMananger.selectedUnit.GetComponent<CloakingDevice> () == true &&
+															mouseMananger.selectedUnit.GetComponent<CloakingDevice> ().isCloaked == true) {
+
+															//we are cloaked and cannot fire
+															heavyTorpedoFireButton.interactable = false;
+															heavyTorpedoCountToggle.isOn = false;
+															heavyTorpedoCountToggle.interactable = false;
+
+														} else {
+
+															heavyTorpedoFireButton.interactable = true;
+															heavyTorpedoCountToggle.isOn = true;
+															heavyTorpedoCountToggle.interactable = true;
+
+														}
 
 													}
 													//the else condition is that we do not have any heavy torpedos, and so the button can't be used
@@ -859,9 +1067,22 @@ public class TorpedoMenu : MonoBehaviour {
 												//check if we have light torpedos
 												if (mouseMananger.selectedUnit.GetComponent<StarbaseTorpedoSection> ().lightTorpedos > 0) {
 
-													lightTorpedoFireButton.interactable = true;
-													lightTorpedoCountToggle.isOn = true;
-													lightTorpedoCountToggle.interactable = true;
+													//check if we are cloaked
+													if (mouseMananger.selectedUnit.GetComponent<CloakingDevice> () == true &&
+														mouseMananger.selectedUnit.GetComponent<CloakingDevice> ().isCloaked == true) {
+
+														//we are cloaked and cannot fire
+														lightTorpedoFireButton.interactable = false;
+														lightTorpedoCountToggle.isOn = false;
+														lightTorpedoCountToggle.interactable = false;
+
+													} else {
+
+														lightTorpedoFireButton.interactable = true;
+														lightTorpedoCountToggle.isOn = true;
+														lightTorpedoCountToggle.interactable = true;
+
+													}
 
 												}
 												//the else condition is that we do not have any light torpedos, and so the button can't be used
@@ -876,9 +1097,22 @@ public class TorpedoMenu : MonoBehaviour {
 												//check if we have heavy torpedos
 												if (mouseMananger.selectedUnit.GetComponent<StarbaseTorpedoSection> ().heavyTorpedos > 0) {
 
-													heavyTorpedoFireButton.interactable = true;
-													heavyTorpedoCountToggle.isOn = true;
-													heavyTorpedoCountToggle.interactable = true;
+													//check if we are cloaked
+													if (mouseMananger.selectedUnit.GetComponent<CloakingDevice> () == true &&
+														mouseMananger.selectedUnit.GetComponent<CloakingDevice> ().isCloaked == true) {
+
+														//we are cloaked and cannot fire
+														heavyTorpedoFireButton.interactable = false;
+														heavyTorpedoCountToggle.isOn = false;
+														heavyTorpedoCountToggle.interactable = false;
+
+													} else {
+
+														heavyTorpedoFireButton.interactable = true;
+														heavyTorpedoCountToggle.isOn = true;
+														heavyTorpedoCountToggle.interactable = true;
+
+													}
 
 												}
 												//the else condition is that we do not have any heavy torpedos, and so the button can't be used
@@ -1128,9 +1362,22 @@ public class TorpedoMenu : MonoBehaviour {
 										//check if we have light torpedos
 										if (mouseMananger.selectedUnit.GetComponent<TorpedoSection> ().lightTorpedos > 0) {
 
-											lightTorpedoFireButton.interactable = true;
-											lightTorpedoCountToggle.isOn = true;
-											lightTorpedoCountToggle.interactable = true;
+											//check if we are cloaked
+											if (mouseMananger.selectedUnit.GetComponent<CloakingDevice> () == true &&
+												mouseMananger.selectedUnit.GetComponent<CloakingDevice> ().isCloaked == true) {
+
+												//we are cloaked and cannot fire
+												lightTorpedoFireButton.interactable = false;
+												lightTorpedoCountToggle.isOn = false;
+												lightTorpedoCountToggle.interactable = false;
+
+											} else {
+
+												lightTorpedoFireButton.interactable = true;
+												lightTorpedoCountToggle.isOn = true;
+												lightTorpedoCountToggle.interactable = true;
+
+											}
 
 										}
 										//the else condition is that we do not have any light torpedos, and so the button can't be used
@@ -1145,9 +1392,22 @@ public class TorpedoMenu : MonoBehaviour {
 										//check if we have heavy torpedos
 										if (mouseMananger.selectedUnit.GetComponent<TorpedoSection> ().heavyTorpedos > 0) {
 
-											heavyTorpedoFireButton.interactable = true;
-											heavyTorpedoCountToggle.isOn = true;
-											heavyTorpedoCountToggle.interactable = true;
+											//check if we are cloaked
+											if (mouseMananger.selectedUnit.GetComponent<CloakingDevice> () == true &&
+												mouseMananger.selectedUnit.GetComponent<CloakingDevice> ().isCloaked == true) {
+
+												//we are cloaked and cannot fire
+												heavyTorpedoFireButton.interactable = false;
+												heavyTorpedoCountToggle.isOn = false;
+												heavyTorpedoCountToggle.interactable = false;
+
+											} else {
+
+												heavyTorpedoFireButton.interactable = true;
+												heavyTorpedoCountToggle.isOn = true;
+												heavyTorpedoCountToggle.interactable = true;
+
+											}
 
 										}
 										//the else condition is that we do not have any heavy torpedos, and so the button can't be used
@@ -1197,9 +1457,22 @@ public class TorpedoMenu : MonoBehaviour {
 													//check if we have light torpedos
 													if (mouseMananger.selectedUnit.GetComponent<TorpedoSection> ().lightTorpedos > 0) {
 
-														lightTorpedoFireButton.interactable = true;
-														lightTorpedoCountToggle.isOn = true;
-														lightTorpedoCountToggle.interactable = true;
+														//check if we are cloaked
+														if (mouseMananger.selectedUnit.GetComponent<CloakingDevice> () == true &&
+															mouseMananger.selectedUnit.GetComponent<CloakingDevice> ().isCloaked == true) {
+
+															//we are cloaked and cannot fire
+															lightTorpedoFireButton.interactable = false;
+															lightTorpedoCountToggle.isOn = false;
+															lightTorpedoCountToggle.interactable = false;
+
+														} else {
+
+															lightTorpedoFireButton.interactable = true;
+															lightTorpedoCountToggle.isOn = true;
+															lightTorpedoCountToggle.interactable = true;
+
+														}
 
 													}
 													//the else condition is that we do not have any light torpedos, and so the button can't be used
@@ -1214,9 +1487,22 @@ public class TorpedoMenu : MonoBehaviour {
 													//check if we have heavy torpedos
 													if (mouseMananger.selectedUnit.GetComponent<TorpedoSection> ().heavyTorpedos > 0) {
 
-														heavyTorpedoFireButton.interactable = true;
-														heavyTorpedoCountToggle.isOn = true;
-														heavyTorpedoCountToggle.interactable = true;
+														//check if we are cloaked
+														if (mouseMananger.selectedUnit.GetComponent<CloakingDevice> () == true &&
+															mouseMananger.selectedUnit.GetComponent<CloakingDevice> ().isCloaked == true) {
+
+															//we are cloaked and cannot fire
+															heavyTorpedoFireButton.interactable = false;
+															heavyTorpedoCountToggle.isOn = false;
+															heavyTorpedoCountToggle.interactable = false;
+
+														} else {
+
+															heavyTorpedoFireButton.interactable = true;
+															heavyTorpedoCountToggle.isOn = true;
+															heavyTorpedoCountToggle.interactable = true;
+
+														}
 
 													}
 													//the else condition is that we do not have any heavy torpedos, and so the button can't be used
@@ -1285,9 +1571,22 @@ public class TorpedoMenu : MonoBehaviour {
 															//check if we have light torpedos
 															if (mouseMananger.selectedUnit.GetComponent<TorpedoSection> ().lightTorpedos > 0) {
 
-																lightTorpedoFireButton.interactable = true;
-																lightTorpedoCountToggle.isOn = true;
-																lightTorpedoCountToggle.interactable = true;
+																//check if we are cloaked
+																if (mouseMananger.selectedUnit.GetComponent<CloakingDevice> () == true &&
+																	mouseMananger.selectedUnit.GetComponent<CloakingDevice> ().isCloaked == true) {
+
+																	//we are cloaked and cannot fire
+																	lightTorpedoFireButton.interactable = false;
+																	lightTorpedoCountToggle.isOn = false;
+																	lightTorpedoCountToggle.interactable = false;
+
+																} else {
+
+																	lightTorpedoFireButton.interactable = true;
+																	lightTorpedoCountToggle.isOn = true;
+																	lightTorpedoCountToggle.interactable = true;
+
+																}
 
 															}
 															//the else condition is that we do not have any light torpedos, and so the button can't be used
@@ -1302,9 +1601,22 @@ public class TorpedoMenu : MonoBehaviour {
 															//check if we have heavy torpedos
 															if (mouseMananger.selectedUnit.GetComponent<TorpedoSection> ().heavyTorpedos > 0) {
 
-																heavyTorpedoFireButton.interactable = true;
-																heavyTorpedoCountToggle.isOn = true;
-																heavyTorpedoCountToggle.interactable = true;
+																//check if we are cloaked
+																if (mouseMananger.selectedUnit.GetComponent<CloakingDevice> () == true &&
+																	mouseMananger.selectedUnit.GetComponent<CloakingDevice> ().isCloaked == true) {
+
+																	//we are cloaked and cannot fire
+																	heavyTorpedoFireButton.interactable = false;
+																	heavyTorpedoCountToggle.isOn = false;
+																	heavyTorpedoCountToggle.interactable = false;
+
+																} else {
+
+																	heavyTorpedoFireButton.interactable = true;
+																	heavyTorpedoCountToggle.isOn = true;
+																	heavyTorpedoCountToggle.interactable = true;
+
+																}
 
 															}
 															//the else condition is that we do not have any heavy torpedos, and so the button can't be used
@@ -1329,9 +1641,22 @@ public class TorpedoMenu : MonoBehaviour {
 														//check if we have light torpedos
 														if (mouseMananger.selectedUnit.GetComponent<TorpedoSection> ().lightTorpedos > 0) {
 
-															lightTorpedoFireButton.interactable = true;
-															lightTorpedoCountToggle.isOn = true;
-															lightTorpedoCountToggle.interactable = true;
+															//check if we are cloaked
+															if (mouseMananger.selectedUnit.GetComponent<CloakingDevice> () == true &&
+																mouseMananger.selectedUnit.GetComponent<CloakingDevice> ().isCloaked == true) {
+
+																//we are cloaked and cannot fire
+																lightTorpedoFireButton.interactable = false;
+																lightTorpedoCountToggle.isOn = false;
+																lightTorpedoCountToggle.interactable = false;
+
+															} else {
+
+																lightTorpedoFireButton.interactable = true;
+																lightTorpedoCountToggle.isOn = true;
+																lightTorpedoCountToggle.interactable = true;
+
+															}
 
 														}
 														//the else condition is that we do not have any light torpedos, and so the button can't be used
@@ -1346,9 +1671,22 @@ public class TorpedoMenu : MonoBehaviour {
 														//check if we have heavy torpedos
 														if (mouseMananger.selectedUnit.GetComponent<TorpedoSection> ().heavyTorpedos > 0) {
 
-															heavyTorpedoFireButton.interactable = true;
-															heavyTorpedoCountToggle.isOn = true;
-															heavyTorpedoCountToggle.interactable = true;
+															//check if we are cloaked
+															if (mouseMananger.selectedUnit.GetComponent<CloakingDevice> () == true &&
+																mouseMananger.selectedUnit.GetComponent<CloakingDevice> ().isCloaked == true) {
+
+																//we are cloaked and cannot fire
+																heavyTorpedoFireButton.interactable = false;
+																heavyTorpedoCountToggle.isOn = false;
+																heavyTorpedoCountToggle.interactable = false;
+
+															} else {
+
+																heavyTorpedoFireButton.interactable = true;
+																heavyTorpedoCountToggle.isOn = true;
+																heavyTorpedoCountToggle.interactable = true;
+
+															}
 
 														}
 														//the else condition is that we do not have any heavy torpedos, and so the button can't be used
@@ -1423,9 +1761,22 @@ public class TorpedoMenu : MonoBehaviour {
 														//check if we have light torpedos
 														if (mouseMananger.selectedUnit.GetComponent<TorpedoSection> ().lightTorpedos > 0) {
 
-															lightTorpedoFireButton.interactable = true;
-															lightTorpedoCountToggle.isOn = true;
-															lightTorpedoCountToggle.interactable = true;
+															//check if we are cloaked
+															if (mouseMananger.selectedUnit.GetComponent<CloakingDevice> () == true &&
+																mouseMananger.selectedUnit.GetComponent<CloakingDevice> ().isCloaked == true) {
+
+																//we are cloaked and cannot fire
+																lightTorpedoFireButton.interactable = false;
+																lightTorpedoCountToggle.isOn = false;
+																lightTorpedoCountToggle.interactable = false;
+
+															} else {
+
+																lightTorpedoFireButton.interactable = true;
+																lightTorpedoCountToggle.isOn = true;
+																lightTorpedoCountToggle.interactable = true;
+
+															}
 
 														}
 														//the else condition is that we do not have any light torpedos, and so the button can't be used
@@ -1440,9 +1791,22 @@ public class TorpedoMenu : MonoBehaviour {
 														//check if we have heavy torpedos
 														if (mouseMananger.selectedUnit.GetComponent<TorpedoSection> ().heavyTorpedos > 0) {
 
-															heavyTorpedoFireButton.interactable = true;
-															heavyTorpedoCountToggle.isOn = true;
-															heavyTorpedoCountToggle.interactable = true;
+															//check if we are cloaked
+															if (mouseMananger.selectedUnit.GetComponent<CloakingDevice> () == true &&
+																mouseMananger.selectedUnit.GetComponent<CloakingDevice> ().isCloaked == true) {
+
+																//we are cloaked and cannot fire
+																heavyTorpedoFireButton.interactable = false;
+																heavyTorpedoCountToggle.isOn = false;
+																heavyTorpedoCountToggle.interactable = false;
+
+															} else {
+
+																heavyTorpedoFireButton.interactable = true;
+																heavyTorpedoCountToggle.isOn = true;
+																heavyTorpedoCountToggle.interactable = true;
+
+															}
 
 														}
 														//the else condition is that we do not have any heavy torpedos, and so the button can't be used
@@ -1466,9 +1830,22 @@ public class TorpedoMenu : MonoBehaviour {
 													//check if we have light torpedos
 													if (mouseMananger.selectedUnit.GetComponent<TorpedoSection> ().lightTorpedos > 0) {
 
-														lightTorpedoFireButton.interactable = true;
-														lightTorpedoCountToggle.isOn = true;
-														lightTorpedoCountToggle.interactable = true;
+														//check if we are cloaked
+														if (mouseMananger.selectedUnit.GetComponent<CloakingDevice> () == true &&
+															mouseMananger.selectedUnit.GetComponent<CloakingDevice> ().isCloaked == true) {
+
+															//we are cloaked and cannot fire
+															lightTorpedoFireButton.interactable = false;
+															lightTorpedoCountToggle.isOn = false;
+															lightTorpedoCountToggle.interactable = false;
+
+														} else {
+
+															lightTorpedoFireButton.interactable = true;
+															lightTorpedoCountToggle.isOn = true;
+															lightTorpedoCountToggle.interactable = true;
+
+														}
 
 													}
 													//the else condition is that we do not have any light torpedos, and so the button can't be used
@@ -1483,9 +1860,22 @@ public class TorpedoMenu : MonoBehaviour {
 													//check if we have heavy torpedos
 													if (mouseMananger.selectedUnit.GetComponent<TorpedoSection> ().heavyTorpedos > 0) {
 
-														heavyTorpedoFireButton.interactable = true;
-														heavyTorpedoCountToggle.isOn = true;
-														heavyTorpedoCountToggle.interactable = true;
+														//check if we are cloaked
+														if (mouseMananger.selectedUnit.GetComponent<CloakingDevice> () == true &&
+															mouseMananger.selectedUnit.GetComponent<CloakingDevice> ().isCloaked == true) {
+
+															//we are cloaked and cannot fire
+															heavyTorpedoFireButton.interactable = false;
+															heavyTorpedoCountToggle.isOn = false;
+															heavyTorpedoCountToggle.interactable = false;
+
+														} else {
+
+															heavyTorpedoFireButton.interactable = true;
+															heavyTorpedoCountToggle.isOn = true;
+															heavyTorpedoCountToggle.interactable = true;
+
+														}
 
 													}
 													//the else condition is that we do not have any heavy torpedos, and so the button can't be used
@@ -1532,9 +1922,22 @@ public class TorpedoMenu : MonoBehaviour {
 												//check if we have light torpedos
 												if (mouseMananger.selectedUnit.GetComponent<TorpedoSection> ().lightTorpedos > 0) {
 
-													lightTorpedoFireButton.interactable = true;
-													lightTorpedoCountToggle.isOn = true;
-													lightTorpedoCountToggle.interactable = true;
+													//check if we are cloaked
+													if (mouseMananger.selectedUnit.GetComponent<CloakingDevice> () == true &&
+														mouseMananger.selectedUnit.GetComponent<CloakingDevice> ().isCloaked == true) {
+
+														//we are cloaked and cannot fire
+														lightTorpedoFireButton.interactable = false;
+														lightTorpedoCountToggle.isOn = false;
+														lightTorpedoCountToggle.interactable = false;
+
+													} else {
+
+														lightTorpedoFireButton.interactable = true;
+														lightTorpedoCountToggle.isOn = true;
+														lightTorpedoCountToggle.interactable = true;
+
+													}
 
 												}
 												//the else condition is that we do not have any light torpedos, and so the button can't be used
@@ -1549,9 +1952,22 @@ public class TorpedoMenu : MonoBehaviour {
 												//check if we have heavy torpedos
 												if (mouseMananger.selectedUnit.GetComponent<TorpedoSection> ().heavyTorpedos > 0) {
 
-													heavyTorpedoFireButton.interactable = true;
-													heavyTorpedoCountToggle.isOn = true;
-													heavyTorpedoCountToggle.interactable = true;
+													//check if we are cloaked
+													if (mouseMananger.selectedUnit.GetComponent<CloakingDevice> () == true &&
+														mouseMananger.selectedUnit.GetComponent<CloakingDevice> ().isCloaked == true) {
+
+														//we are cloaked and cannot fire
+														heavyTorpedoFireButton.interactable = false;
+														heavyTorpedoCountToggle.isOn = false;
+														heavyTorpedoCountToggle.interactable = false;
+
+													} else {
+
+														heavyTorpedoFireButton.interactable = true;
+														heavyTorpedoCountToggle.isOn = true;
+														heavyTorpedoCountToggle.interactable = true;
+
+													}
 
 												}
 												//the else condition is that we do not have any heavy torpedos, and so the button can't be used
@@ -1620,9 +2036,22 @@ public class TorpedoMenu : MonoBehaviour {
 														//check if we have light torpedos
 														if (mouseMananger.selectedUnit.GetComponent<TorpedoSection> ().lightTorpedos > 0) {
 
-															lightTorpedoFireButton.interactable = true;
-															lightTorpedoCountToggle.isOn = true;
-															lightTorpedoCountToggle.interactable = true;
+															//check if we are cloaked
+															if (mouseMananger.selectedUnit.GetComponent<CloakingDevice> () == true &&
+																mouseMananger.selectedUnit.GetComponent<CloakingDevice> ().isCloaked == true) {
+
+																//we are cloaked and cannot fire
+																lightTorpedoFireButton.interactable = false;
+																lightTorpedoCountToggle.isOn = false;
+																lightTorpedoCountToggle.interactable = false;
+
+															} else {
+
+																lightTorpedoFireButton.interactable = true;
+																lightTorpedoCountToggle.isOn = true;
+																lightTorpedoCountToggle.interactable = true;
+
+															}
 
 														}
 														//the else condition is that we do not have any light torpedos, and so the button can't be used
@@ -1637,9 +2066,22 @@ public class TorpedoMenu : MonoBehaviour {
 														//check if we have heavy torpedos
 														if (mouseMananger.selectedUnit.GetComponent<TorpedoSection> ().heavyTorpedos > 0) {
 
-															heavyTorpedoFireButton.interactable = true;
-															heavyTorpedoCountToggle.isOn = true;
-															heavyTorpedoCountToggle.interactable = true;
+															//check if we are cloaked
+															if (mouseMananger.selectedUnit.GetComponent<CloakingDevice> () == true &&
+																mouseMananger.selectedUnit.GetComponent<CloakingDevice> ().isCloaked == true) {
+
+																//we are cloaked and cannot fire
+																heavyTorpedoFireButton.interactable = false;
+																heavyTorpedoCountToggle.isOn = false;
+																heavyTorpedoCountToggle.interactable = false;
+
+															} else {
+
+																heavyTorpedoFireButton.interactable = true;
+																heavyTorpedoCountToggle.isOn = true;
+																heavyTorpedoCountToggle.interactable = true;
+
+															}
 
 														}
 														//the else condition is that we do not have any heavy torpedos, and so the button can't be used
@@ -1664,9 +2106,22 @@ public class TorpedoMenu : MonoBehaviour {
 													//check if we have light torpedos
 													if (mouseMananger.selectedUnit.GetComponent<TorpedoSection> ().lightTorpedos > 0) {
 
-														lightTorpedoFireButton.interactable = true;
-														lightTorpedoCountToggle.isOn = true;
-														lightTorpedoCountToggle.interactable = true;
+														//check if we are cloaked
+														if (mouseMananger.selectedUnit.GetComponent<CloakingDevice> () == true &&
+															mouseMananger.selectedUnit.GetComponent<CloakingDevice> ().isCloaked == true) {
+
+															//we are cloaked and cannot fire
+															lightTorpedoFireButton.interactable = false;
+															lightTorpedoCountToggle.isOn = false;
+															lightTorpedoCountToggle.interactable = false;
+
+														} else {
+
+															lightTorpedoFireButton.interactable = true;
+															lightTorpedoCountToggle.isOn = true;
+															lightTorpedoCountToggle.interactable = true;
+
+														}
 
 													}
 													//the else condition is that we do not have any light torpedos, and so the button can't be used
@@ -1681,9 +2136,22 @@ public class TorpedoMenu : MonoBehaviour {
 													//check if we have heavy torpedos
 													if (mouseMananger.selectedUnit.GetComponent<TorpedoSection> ().heavyTorpedos > 0) {
 
-														heavyTorpedoFireButton.interactable = true;
-														heavyTorpedoCountToggle.isOn = true;
-														heavyTorpedoCountToggle.interactable = true;
+														//check if we are cloaked
+														if (mouseMananger.selectedUnit.GetComponent<CloakingDevice> () == true &&
+															mouseMananger.selectedUnit.GetComponent<CloakingDevice> ().isCloaked == true) {
+
+															//we are cloaked and cannot fire
+															heavyTorpedoFireButton.interactable = false;
+															heavyTorpedoCountToggle.isOn = false;
+															heavyTorpedoCountToggle.interactable = false;
+
+														} else {
+
+															heavyTorpedoFireButton.interactable = true;
+															heavyTorpedoCountToggle.isOn = true;
+															heavyTorpedoCountToggle.interactable = true;
+
+														}
 
 													}
 													//the else condition is that we do not have any heavy torpedos, and so the button can't be used
@@ -2106,15 +2574,33 @@ public class TorpedoMenu : MonoBehaviour {
 			//check if the selected unit has a valid torpedo attack remaining
 			if (mouseMananger.selectedUnit.GetComponent<CombatUnit> ().hasRemainingTorpedoAttack == true) {
 
-				//if the attack is still remaining, set the text to Light Torpedo and Heavy Torpedo
-				lightTorpedoFireButton.GetComponentInChildren<TextMeshProUGUI> ().text = ("Light Torpedo");
-				heavyTorpedoFireButton.GetComponentInChildren<TextMeshProUGUI> ().text = ("Heavy Torpedo");
+				//check if the selected unit is cloaked
+				if (mouseMananger.selectedUnit.GetComponent<CloakingDevice> () == true &&
+				    mouseMananger.selectedUnit.GetComponent<CloakingDevice> ().isCloaked == true) {
 
-				//update the font size if necessary
-				UIManager.AutoSizeTextMeshFont(lightTorpedoFireButton.GetComponentInChildren<TextMeshProUGUI> ());
+					//if we are cloaked, set the text
+					lightTorpedoFireButton.GetComponentInChildren<TextMeshProUGUI> ().text = ("Cloaked");
+					heavyTorpedoFireButton.GetComponentInChildren<TextMeshProUGUI> ().text = ("Cloaked");
 
-				//update the font size if necessary
-				UIManager.AutoSizeTextMeshFont(heavyTorpedoFireButton.GetComponentInChildren<TextMeshProUGUI> ());
+					//update the font size if necessary
+					UIManager.AutoSizeTextMeshFont (lightTorpedoFireButton.GetComponentInChildren<TextMeshProUGUI> ());
+
+					//update the font size if necessary
+					UIManager.AutoSizeTextMeshFont (heavyTorpedoFireButton.GetComponentInChildren<TextMeshProUGUI> ());
+
+				} else {
+
+					//if the attack is still remaining, set the text to Light Torpedo and Heavy Torpedo
+					lightTorpedoFireButton.GetComponentInChildren<TextMeshProUGUI> ().text = ("Light Torpedo");
+					heavyTorpedoFireButton.GetComponentInChildren<TextMeshProUGUI> ().text = ("Heavy Torpedo");
+
+					//update the font size if necessary
+					UIManager.AutoSizeTextMeshFont (lightTorpedoFireButton.GetComponentInChildren<TextMeshProUGUI> ());
+
+					//update the font size if necessary
+					UIManager.AutoSizeTextMeshFont (heavyTorpedoFireButton.GetComponentInChildren<TextMeshProUGUI> ());
+
+				}
 
 			}
 			//else, we want to check if the attack is not remaining because we already fired a torpedo

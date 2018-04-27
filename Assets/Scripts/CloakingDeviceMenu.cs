@@ -129,6 +129,9 @@ public class CloakingDeviceMenu : MonoBehaviour {
 		//update the button text
 		UpdateButtonText();
 
+		//update the cloaking device status toggle text
+		UpdateCloakingDeviceStatusToggleText();
+
 	}
 
 	//this function updates the button text in the cloaking device menu
@@ -193,14 +196,14 @@ public class CloakingDeviceMenu : MonoBehaviour {
 			//invoke the OnTurnOnCloakingDevice event
 			OnTurnOnCloakingDevice.Invoke(mouseMananger.selectedUnit.GetComponent<CombatUnit>());
 
-			//update the toggle text to say Cloaked
-			cloakingDeviceStatusToggle.GetComponentInChildren<TextMeshProUGUI> ().text = ("Cloaked");
-
 			//update the font size if necessary
 			UIManager.AutoSizeTextMeshFont(useCloakingDeviceButton.GetComponentInChildren<TextMeshProUGUI> ());
 
 			//reset the menu toggles after pressing the button
 			SetCloakingDeviceToggles();
+
+			//update the cloaking device status toggle text
+			UpdateCloakingDeviceStatusToggleText();
 
 		}
 
@@ -210,14 +213,36 @@ public class CloakingDeviceMenu : MonoBehaviour {
 			//invoke the OnTurnOffCloakingDevice event
 			OnTurnOffCloakingDevice.Invoke(mouseMananger.selectedUnit.GetComponent<CombatUnit>());
 
-			//update the toggle text to say Uncloaked
-			cloakingDeviceStatusToggle.GetComponentInChildren<TextMeshProUGUI> ().text = ("Uncloaked");
-
 			//update the font size if necessary
 			UIManager.AutoSizeTextMeshFont(useCloakingDeviceButton.GetComponentInChildren<TextMeshProUGUI> ());
 
 			//reset the menu toggles after pressing the button
 			SetCloakingDeviceToggles();
+
+			//update the cloaking device status toggle text
+			UpdateCloakingDeviceStatusToggleText();
+
+		}
+
+	}
+
+	//this function updates the cloaking device status toggle display
+	private void UpdateCloakingDeviceStatusToggleText(){
+
+		//check if we have a selected unit and it is cloaked
+		if (mouseMananger.selectedUnit != null &&
+		    mouseMananger.selectedUnit.GetComponent<CloakingDevice> () == true
+		    && mouseMananger.selectedUnit.GetComponent<CloakingDevice> ().isCloaked == true) {
+
+			//update the toggle text to say Cloaked
+			cloakingDeviceStatusToggle.GetComponentInChildren<TextMeshProUGUI> ().text = ("Cloaked");
+
+		} else {
+
+			//the else condition is that we either don't have a selected unit, or we have no cloaking device, or we are not cloaked
+
+			//update the toggle text to say Uncloaked
+			cloakingDeviceStatusToggle.GetComponentInChildren<TextMeshProUGUI> ().text = ("Uncloaked");
 
 		}
 

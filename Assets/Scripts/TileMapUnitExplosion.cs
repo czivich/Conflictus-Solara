@@ -10,9 +10,6 @@ public class TileMapUnitExplosion : MonoBehaviour {
 	//variable to hold the frame time
 	private float frameTime;
 
-	//variable for number of frames to advance during update
-	private int framesToAdvance;
-
 	//variable to hold the current frame index
 	private int currentFrame;
 
@@ -30,6 +27,8 @@ public class TileMapUnitExplosion : MonoBehaviour {
 	private Vector2[] hexagonFlatUVs;
 
 	private Vector2 centerOffset;
+
+	private float timeSinceAnimationStarted;
 
 	//create a vector3 offset so that tiles appear above the tilemap
 	private static Vector3 mapOffset = new Vector3(0.0f, 0.035f, 0.0f);
@@ -91,23 +90,30 @@ public class TileMapUnitExplosion : MonoBehaviour {
 		//set the UVs to display the correct frame
 		AssignObjectGraphics(currentFrame);
 
+		//set the time to zero
+		timeSinceAnimationStarted = 0.0f;
+
 	}
 
 	// Update is called once per frame
 	private void Update () {
 
-		//calculate the number of frames to advance
-		framesToAdvance = Mathf.CeilToInt(Time.deltaTime / frameTime);
+		timeSinceAnimationStarted += Time.deltaTime;
+
+		//calculate the current frame
+		currentFrame = Mathf.CeilToInt(timeSinceAnimationStarted / frameTime);
 
 		//calculate the new frame to show
 		//check if the current frame plus the frames to advance is greater than the number of frames -1
 		//we use the -1 because for example an 11 x 11 grid will have 121 frames, which are frames 0 - 120, there is no frame 121
-		if (currentFrame + framesToAdvance >= materialFrames - 1) {
-
-			currentFrame = 0;
+		if (currentFrame >= materialFrames - 1) {
+			
+			currentFrame = currentFrame % materialFrames;
 
 			//check if we should be looping or not
 			if (this.isSingleLoop == true) {
+
+				currentFrame = 0;
 
 				//if we should only loop once, destroy this gameobject
 				//GameObject.Destroy(this.gameObject);
@@ -115,11 +121,7 @@ public class TileMapUnitExplosion : MonoBehaviour {
 
 			}
 
-		} else {
-
-			currentFrame += framesToAdvance;
-
-		}
+		} 
 
 		//set the UVs to display the correct frame
 		AssignObjectGraphics(currentFrame);

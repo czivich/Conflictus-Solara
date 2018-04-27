@@ -17,14 +17,14 @@ public class UIAnimation : MonoBehaviour {
 	//variable to hold the image to be displayed
 	private Image displayedImage;
 
-	//variable for number of frames to advance during update
-	private int framesToAdvance;
-
 	//variable to hold the current frame index
 	private int currentFrame;
 
 	//variable to control whether animation should loop or destroy after 1 loop
 	private bool isSingleLoop;
+
+	//variable to hold the time since animation started
+	private float timeSinceAnimationStarted;
 
 	//this function is used to instantiate an instance
 	public static void CreateUIAmination(UIAnimation prefab, float animationTime, Vector3 animationLocalScale, Vector3 animationLocalPosition, Transform animationParent, bool isSingleLoop){
@@ -67,32 +67,36 @@ public class UIAnimation : MonoBehaviour {
 
 		//set the displayed image to the new frame
 		displayedImage.sprite = spriteSheet[currentFrame];
+
+		//set the time to zero
+		timeSinceAnimationStarted = 0.0f;
 		
 	}
 	
 	// Update is called once per frame
 	private void Update () {
 
-		//calculate the number of frames to advance
-		framesToAdvance = Mathf.CeilToInt(Time.deltaTime / frameTime);
+		//update the time
+		timeSinceAnimationStarted += Time.deltaTime;
+
+		//calculate the current frame
+		currentFrame = Mathf.CeilToInt(timeSinceAnimationStarted / frameTime);
 
 		//calculate the new frame to show
-		if (currentFrame + framesToAdvance >= spriteSheet.Length) {
-
-			currentFrame = 0;
+		if (currentFrame >= spriteSheet.Length) {
+			
+			currentFrame = currentFrame % spriteSheet.Length;
 
 			//check if we should be looping or not
 			if (this.isSingleLoop == true) {
+
+				currentFrame = 0;
 
 				//if we should only loop once, destroy this gameobject
 				//GameObject.Destroy(this.gameObject);
 				SimplePool.Despawn(this.gameObject);
 
 			}
-
-		} else {
-
-			currentFrame += framesToAdvance;
 
 		}
 

@@ -212,6 +212,7 @@ public class SoundManager : MonoBehaviour {
 	private UnityAction flareLaunchAction;
 	private UnityAction flareDespawnAction;
 	private UnityAction unitExplosionAction;
+	private UnityAction showFlarePanelAction;
 
 	// Use this for initialization
 	public void Init () {
@@ -490,7 +491,15 @@ public class SoundManager : MonoBehaviour {
 		stopEngineSoundAction = (movingShip) => {StopEngineSound ();};
 		warpFadeOutSoundAction = (movingShip) => {PlayWarpFadeOutSound(movingShip);};
 
-		fireWeaponAction = (attackingUnit, targetedUnit, sectionTargeted) => {PlayFireWeaponSound ();};
+		fireWeaponAction = (attackingUnit, targetedUnit, sectionTargeted) => {
+
+			//check if the fireWeaponSound is already playing
+			if(audioFireWeapon.isPlaying == false){
+
+			PlayFireWeaponSound ();
+			
+			}
+		};
 
 		startTractorBeamSoundAction = (movingShip) => {StartTractorBeamSound ();};
 		stopTractorBeamSoundAction = (movingShip) => {StopTractorBeamSound ();};
@@ -580,6 +589,16 @@ public class SoundManager : MonoBehaviour {
 
 			PlayUnitExplosionSound();
 
+		};
+
+		showFlarePanelAction = () => {
+
+			//check if the fireWeaponSound is already playing
+			if(audioFireWeapon.isPlaying == false){
+
+				PlayFireWeaponSound ();
+
+			}
 		};
 
 	}
@@ -722,6 +741,11 @@ public class SoundManager : MonoBehaviour {
 		//add listener for unit explosion
 		uiManager.GetComponent<CutsceneManager>().OnUnitExplosion.AddListener(unitExplosionAction);
 
+		//add listener for unit explosion on main map
+		uiManager.GetComponent<TileMapAnimationManager>().OnUnitExplosion.AddListener(unitExplosionAction);
+
+		//add listener for flare panel opening
+		uiManager.GetComponent<FlareManager>().OnShowFlarePanel.AddListener(showFlarePanelAction);
 
 	}
 
@@ -1224,7 +1248,7 @@ public class SoundManager : MonoBehaviour {
 
 		//if we haven't returned out of the function, we didn't find an audio that wasn't playing
 		//log this
-		Debug.Log("All sectionExplosion audioSources were already playing - need to increase the array size");
+		//Debug.Log("All sectionExplosion audioSources were already playing - need to increase the array size");
 
 	}
 
@@ -1474,6 +1498,12 @@ public class SoundManager : MonoBehaviour {
 
 			//remove listener for unit explosion
 			uiManager.GetComponent<CutsceneManager>().OnUnitExplosion.RemoveListener(unitExplosionAction);
+
+			//remove listener for unit explosion on main map
+			uiManager.GetComponent<TileMapAnimationManager>().OnUnitExplosion.RemoveListener(unitExplosionAction);
+
+			//remove listener for flare panel opening
+			uiManager.GetComponent<FlareManager>().OnShowFlarePanel.RemoveListener(showFlarePanelAction);
 
 		}
 

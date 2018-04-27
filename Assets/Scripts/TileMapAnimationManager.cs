@@ -14,6 +14,9 @@ public class TileMapAnimationManager : MonoBehaviour {
 	//variable to hold the tileMap
 	private TileMap tileMap;
 
+	//event for explosion
+	public UnityEvent OnUnitExplosion = new UnityEvent();
+
 	//unityActions
 	private UnityAction<CombatUnit> combatUnitCreateExplosion;
 
@@ -38,8 +41,11 @@ public class TileMapAnimationManager : MonoBehaviour {
 	private void CreateExplosion(CombatUnit combatUnit){
 
 		TileMapUnitExplosion.CreateTileMapUnitExplosion (prefabTileMapUnitExplosion, 
-			tileMap.HexMap [combatUnit.currentLocation], 16, 16, 20.0f, new Vector3 (2.0f, 2.0f, 2.0f), tileMapAnimationParent.transform, true);
-		
+			tileMap.HexMap [combatUnit.currentLocation], 16, 16, 6.0f, new Vector3 (2.0f, 2.0f, 2.0f), tileMapAnimationParent.transform, true);
+
+		//invoke the event
+		OnUnitExplosion.Invoke();
+
 	}
 
 	//this function handles OnDestroy

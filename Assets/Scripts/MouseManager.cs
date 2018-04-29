@@ -110,6 +110,7 @@ public class MouseManager : MonoBehaviour {
 	private UnityAction<FlareManager.FlareEventData> flareDataSetTargetedUnitAction;
 	private UnityAction<bool> boolSetMouseZoomDirectionAction;
 	private UnityAction<int> intSetMouseZoomSensitivityAction;
+	private UnityAction<CombatUnit,CombatUnit,string> useRepairCrewClearSelectedUnitAction;
 		
 	public void Init(){
 		
@@ -134,6 +135,7 @@ public class MouseManager : MonoBehaviour {
 		flareDataSetTargetedUnitAction = (flareEventData) => {SetTargetedUnit (flareEventData.targetedUnit.gameObject);};
 		boolSetMouseZoomDirectionAction = ((isInverted) => {SetMouseZoomDirection (isInverted);});
 		intSetMouseZoomSensitivityAction = ((zoomSensitivity) => {SetMouseZoomSensitivity (zoomSensitivity);});
+		useRepairCrewClearSelectedUnitAction = (selectedUnit,targetedUnit,sectionTargeted) => {ClearSelectedUnit();};
 
 		//add a listener to the NextUnit button event
 		uiManager.GetComponent<NextUnit>().SetNextUnit.AddListener(nextUnitSetSelectedUnitAction);
@@ -185,6 +187,9 @@ public class MouseManager : MonoBehaviour {
 
 		//add listener for closing cutscene
 		uiManager.GetComponent<CutsceneManager>().OnCloseCutsceneDisplayPanel.AddListener(ClearSelectedUnit);
+
+		//add listener for using repair crew
+		uiManager.GetComponent<CrewMenu>().OnUseRepairCrew.AddListener(useRepairCrewClearSelectedUnitAction);
 			
 	}
 
@@ -2434,6 +2439,10 @@ public class MouseManager : MonoBehaviour {
 
 			//remove listener for closing cutscene
 			uiManager.GetComponent<CutsceneManager>().OnCloseCutsceneDisplayPanel.RemoveListener(ClearSelectedUnit);
+
+			//remove listener for using repair crew
+			uiManager.GetComponent<CrewMenu>().OnUseRepairCrew.RemoveListener(useRepairCrewClearSelectedUnitAction);
+
 		}
 
 		if (gameManager != null) {

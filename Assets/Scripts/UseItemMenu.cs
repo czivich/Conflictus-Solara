@@ -18,8 +18,8 @@ public class UseItemMenu : MonoBehaviour {
 	public Toggle torpedoLaserScatteringToggle;
 
 	//variables for the flareModes
-	public Toggle flareModeManualToggle;
-	public Toggle flareModeAutoToggle;
+	public Button flareModeManualButton;
+	public Button flareModeAutoButton;
 
 	//variable for the flare count
 	public Toggle flareCountToggle;
@@ -37,6 +37,9 @@ public class UseItemMenu : MonoBehaviour {
 	//variables for crystal counts
 	public Toggle dilithiumCrystalCountToggle;
 	public Toggle trilithiumCrystalCountToggle;
+
+	//color for selected button tab
+	private Color selectedButtonColor = new Color (240.0f / 255.0f, 240.0f / 255.0f, 20.0f / 255.0f, 255.0f / 255.0f); 
 
 	//these events are for when the crystals are used
 	public CrystalEvent OnUseDilithiumCrystal = new CrystalEvent();
@@ -56,8 +59,8 @@ public class UseItemMenu : MonoBehaviour {
 	private UnityAction<bool> boolSetUseItemMenuTogglesAction;
 	private UnityAction<int> intSetUseItemMenuTogglesAction;
 	private UnityAction setUseItemMenuTogglesDropdownZeroAction;
-	private UnityAction<bool> boolSetFlareModeToManualAction;
-	private UnityAction<bool> boolSetFlareModeToAutoAction;
+	private UnityAction clickSetFlareModeToManualAction;
+	private UnityAction clickSetFlareModeToAutoAction;
 	private UnityAction<CombatUnit> combatUnitSetUseItemMenuTogglesAction;
 
 
@@ -74,8 +77,8 @@ public class UseItemMenu : MonoBehaviour {
 			SetUseItemMenuToggles();
 			crystalTargetingDropdown.value = 0;
 		};
-		boolSetFlareModeToManualAction = (value) => {SetFlareModeToManual();};
-		boolSetFlareModeToAutoAction = (value) => {SetFlareModeToAuto();};
+		clickSetFlareModeToManualAction = () => {SetFlareModeToManual();};
+		clickSetFlareModeToAutoAction = () => {SetFlareModeToAuto();};
 		combatUnitSetUseItemMenuTogglesAction = (combatUnit) => {SetUseItemMenuToggles();};
 
 		//add an on-click event listener for the main menu useItem toggle
@@ -99,10 +102,10 @@ public class UseItemMenu : MonoBehaviour {
 		mouseMananger.OnClearTargetedUnit.AddListener(setUseItemMenuTogglesDropdownZeroAction);
 
 		//add an on-click event listener for the flareMode manual
-		flareModeManualToggle.onValueChanged.AddListener(boolSetFlareModeToManualAction);
+		flareModeManualButton.onClick.AddListener(clickSetFlareModeToManualAction);
 
 		//add an on-click event listener for the flareMode automatic
-		flareModeAutoToggle.onValueChanged.AddListener(boolSetFlareModeToAutoAction);
+		flareModeAutoButton.onClick.AddListener(clickSetFlareModeToAutoAction);
 
 		//add a listener for when a purchase is complete
 		StorageSection.OnInventoryUpdated.AddListener(combatUnitSetUseItemMenuTogglesAction);
@@ -128,11 +131,8 @@ public class UseItemMenu : MonoBehaviour {
 				torpedoLaserScatteringToggle.interactable = false;
 
 
-				flareModeManualToggle.isOn = false;
-				flareModeManualToggle.interactable = false;
-
-				flareModeAutoToggle.isOn = false;
-				flareModeAutoToggle.interactable = false;
+				flareModeManualButton.interactable = false;
+				flareModeAutoButton.interactable = false;
 
 				flareCountToggle.isOn = false;
 				flareCountToggle.interactable = false;
@@ -289,11 +289,8 @@ public class UseItemMenu : MonoBehaviour {
 						torpedoLaserScatteringToggle.interactable = false;
 
 
-						flareModeManualToggle.isOn = false;
-						flareModeManualToggle.interactable = false;
-
-						flareModeAutoToggle.isOn = false;
-						flareModeAutoToggle.interactable = false;
+						flareModeManualButton.interactable = false;
+						flareModeAutoButton.interactable = false;
 
 						flareCountToggle.isOn = false;
 						flareCountToggle.interactable = false;
@@ -326,11 +323,11 @@ public class UseItemMenu : MonoBehaviour {
 						if (mouseMananger.selectedUnit.GetComponentInChildren<StarbaseStorageSection2> ().flareMode == StarbaseStorageSection2.FlareMode.Manual) {
 
 							//set the manual toggle to on and the auto toggle to off
-							flareModeManualToggle.isOn = true;
-							flareModeManualToggle.interactable = true;
+							HighlightButton(flareModeManualButton);
+							flareModeManualButton.interactable = true;
 
-							flareModeAutoToggle.isOn = false;
-							flareModeAutoToggle.interactable = true;
+							UnhighlightButton(flareModeAutoButton);
+							flareModeAutoButton.interactable = true;
 
 
 						}
@@ -338,11 +335,11 @@ public class UseItemMenu : MonoBehaviour {
 						else if(mouseMananger.selectedUnit.GetComponentInChildren<StarbaseStorageSection2> ().flareMode == StarbaseStorageSection2.FlareMode.Auto){
 
 							//set the auto toggle to on and the manual toggle to off
-							flareModeManualToggle.isOn = false;
-							flareModeManualToggle.interactable = true;
+							HighlightButton(flareModeAutoButton);
+							flareModeManualButton.interactable = true;
 
-							flareModeAutoToggle.isOn = true;
-							flareModeAutoToggle.interactable = true;
+							UnhighlightButton(flareModeManualButton);
+							flareModeAutoButton.interactable = true;
 
 						}
 
@@ -457,11 +454,8 @@ public class UseItemMenu : MonoBehaviour {
 						torpedoLaserScatteringToggle.interactable = false;
 
 
-						flareModeManualToggle.isOn = false;
-						flareModeManualToggle.interactable = false;
-
-						flareModeAutoToggle.isOn = false;
-						flareModeAutoToggle.interactable = false;
+						flareModeManualButton.interactable = false;
+						flareModeAutoButton.interactable = false;
 
 						flareCountToggle.isOn = false;
 						flareCountToggle.interactable = false;
@@ -493,11 +487,8 @@ public class UseItemMenu : MonoBehaviour {
 							torpedoLaserScatteringToggle.interactable = false;
 
 
-							flareModeManualToggle.isOn = false;
-							flareModeManualToggle.interactable = false;
-
-							flareModeAutoToggle.isOn = false;
-							flareModeAutoToggle.interactable = false;
+							flareModeManualButton.interactable = false;
+							flareModeAutoButton.interactable = false;
 
 							flareCountToggle.isOn = false;
 							flareCountToggle.interactable = false;
@@ -546,11 +537,11 @@ public class UseItemMenu : MonoBehaviour {
 							if (mouseMananger.selectedUnit.GetComponentInChildren<StorageSection> ().flareMode == StorageSection.FlareMode.Manual) {
 
 								//set the manual toggle to on and the auto toggle to off
-								flareModeManualToggle.isOn = true;
-								flareModeManualToggle.interactable = true;
+								HighlightButton(flareModeManualButton);
+								flareModeManualButton.interactable = true;
 
-								flareModeAutoToggle.isOn = false;
-								flareModeAutoToggle.interactable = true;
+								UnhighlightButton(flareModeAutoButton);
+								flareModeAutoButton.interactable = true;
 
 
 							}
@@ -558,11 +549,11 @@ public class UseItemMenu : MonoBehaviour {
 							else if(mouseMananger.selectedUnit.GetComponentInChildren<StorageSection> ().flareMode == StorageSection.FlareMode.Auto){
 
 								//set the auto toggle to on and the manual toggle to off
-								flareModeManualToggle.isOn = false;
-								flareModeManualToggle.interactable = true;
+								HighlightButton(flareModeAutoButton);
+								flareModeManualButton.interactable = true;
 
-								flareModeAutoToggle.isOn = true;
-								flareModeAutoToggle.interactable = true;
+								UnhighlightButton(flareModeManualButton);
+								flareModeAutoButton.interactable = true;
 
 							}
 
@@ -732,12 +723,8 @@ public class UseItemMenu : MonoBehaviour {
 				torpedoLaserScatteringToggle.isOn = false;
 				torpedoLaserScatteringToggle.interactable = false;
 
-
-				flareModeManualToggle.isOn = false;
-				flareModeManualToggle.interactable = false;
-
-				flareModeAutoToggle.isOn = false;
-				flareModeAutoToggle.interactable = false;
+				flareModeManualButton.interactable = false;
+				flareModeAutoButton.interactable = false;
 
 				flareCountToggle.isOn = false;
 				flareCountToggle.interactable = false;
@@ -767,12 +754,8 @@ public class UseItemMenu : MonoBehaviour {
 				torpedoLaserScatteringToggle.isOn = false;
 				torpedoLaserScatteringToggle.interactable = false;
 
-
-				flareModeManualToggle.isOn = false;
-				flareModeManualToggle.interactable = false;
-
-				flareModeAutoToggle.isOn = false;
-				flareModeAutoToggle.interactable = false;
+				flareModeManualButton.interactable = false;
+				flareModeAutoButton.interactable = false;
 
 				flareCountToggle.isOn = false;
 				flareCountToggle.interactable = false;
@@ -1080,36 +1063,18 @@ public class UseItemMenu : MonoBehaviour {
 
 	//this function handles setting the flareMode to manual
 	private void SetFlareModeToManual(){
+		
+		//check to make sure we have a unit selected
+		if (mouseMananger.selectedUnit != null) {
 
-		//first, we need to check if we're turning it on or turning it off
-		//if we are turning it on, we want to turn off the flareModeAutoToggle
-		if (flareModeManualToggle.isOn == true) {
+			//higlight the button
+			HighlightButton(flareModeManualButton);
 
-			//check to make sure we have a unit selected
-			if (mouseMananger.selectedUnit != null) {
-				
-				//turn off the flareModeAutoToggle
-				flareModeAutoToggle.isOn = false;
+			//unlighlight the other button
+			UnhighlightButton(flareModeAutoButton);
 
-				//invoke the event for setting the flaremode, passing the selected unit
-				OnSetFlareModeToManual.Invoke (mouseMananger.selectedUnit.GetComponent<CombatUnit> ());
-
-			}
-
-		}
-		//the else case is we are turning it off
-		else {
-			
-			//check to make sure we have a unit selected
-			if (mouseMananger.selectedUnit != null) {
-
-				//if we are turning off the manual toggle, we want it to automatically turn on the auto toggle
-				flareModeAutoToggle.isOn = true;
-
-				//invoke the event for setting the flaremode, passing the selected unit
-				OnSetFlareModeToAuto.Invoke (mouseMananger.selectedUnit.GetComponent<CombatUnit> ());
-
-			}
+			//invoke the event for setting the flaremode, passing the selected unit
+			OnSetFlareModeToManual.Invoke (mouseMananger.selectedUnit.GetComponent<CombatUnit> ());
 
 		}
 
@@ -1118,37 +1083,38 @@ public class UseItemMenu : MonoBehaviour {
 	//this function handles setting the flareMode to auto
 	private void SetFlareModeToAuto(){
 
-		//first, we need to check if we're turning it on or turning it off
-		//if we are turning it on, we want to turn off the flareModeManualToggle
-		if (flareModeAutoToggle.isOn == true) {
+		//check to make sure we have a unit selected
+		if (mouseMananger.selectedUnit != null) {
 
-			//check to make sure we have a unit selected
-			if (mouseMananger.selectedUnit != null) {
+			//higlight the button
+			HighlightButton(flareModeAutoButton);
 
-				//turn off the flareModeManualToggle
-				flareModeManualToggle.isOn = false;
+			//unlighlight the other button
+			UnhighlightButton(flareModeManualButton);
 
-				//invoke the event for setting the flaremode, passing the selected unit
-				OnSetFlareModeToAuto.Invoke (mouseMananger.selectedUnit.GetComponent<CombatUnit> ());
-
-			}
+			//invoke the event for setting the flaremode, passing the selected unit
+			OnSetFlareModeToAuto.Invoke (mouseMananger.selectedUnit.GetComponent<CombatUnit> ());
 
 		}
-		//the else case is we are turning it off
-		else {
-			
-			//check to make sure we have a unit selected
-			if (mouseMananger.selectedUnit != null) {
-				
-				//if we are turning off the auto toggle, we want it to automatically turn on the manual toggle
-				flareModeManualToggle.isOn = true;
 
-				//invoke the event for setting the flaremode, passing the selected unit
-				OnSetFlareModeToManual.Invoke (mouseMananger.selectedUnit.GetComponent<CombatUnit> ());
+	}
 
-			}
+	//this function highlights a button passed to it
+	private void HighlightButton(Button highlightedButton){
 
-		}
+		ColorBlock colorBlock = highlightedButton.colors;
+		colorBlock.normalColor = selectedButtonColor;
+		colorBlock.highlightedColor = selectedButtonColor;
+		highlightedButton.colors = colorBlock;
+
+	}
+
+	//this function unhighlights a button passed to it
+	private void UnhighlightButton(Button unhighlightedButton){
+
+		ColorBlock colorBlock = unhighlightedButton.colors;
+		colorBlock = ColorBlock.defaultColorBlock;
+		unhighlightedButton.colors = colorBlock;
 
 	}
 
@@ -1203,17 +1169,17 @@ public class UseItemMenu : MonoBehaviour {
 
 		}
 
-		if (flareModeManualToggle != null) {
+		if (flareModeManualButton != null) {
 
 			//add an on-click event listener for the flareMode manual
-			flareModeManualToggle.onValueChanged.AddListener (boolSetFlareModeToManualAction);
+			flareModeManualButton.onClick.AddListener (clickSetFlareModeToManualAction);
 
 		}
 
-		if (flareModeAutoToggle != null) {
+		if (flareModeAutoButton != null) {
 			
 			//add an on-click event listener for the flareMode automatic
-			flareModeAutoToggle.onValueChanged.AddListener (boolSetFlareModeToAutoAction);
+			flareModeAutoButton.onClick.AddListener (clickSetFlareModeToAutoAction);
 
 		}
 

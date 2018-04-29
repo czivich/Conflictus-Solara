@@ -2452,6 +2452,7 @@ public class MouseManager : MonoBehaviour {
 			//remove listener for using crystals
 			uiManager.GetComponent<UseItemMenu>().OnUseDilithiumCrystal.RemoveListener(useCrystalClearSelectedUnitAction);
 			uiManager.GetComponent<UseItemMenu>().OnUseTrilithiumCrystal.RemoveListener(useCrystalClearSelectedUnitAction);
+
 		}
 
 		if (gameManager != null) {

@@ -10,6 +10,7 @@ public class ExitGamePrompt : MonoBehaviour {
 
 	//manager
 	private GameManager gameManager;
+	private UIManager uiManager;
 
 	//scene index
 	private int mainSceneIndex = 1;
@@ -37,21 +38,28 @@ public class ExitGamePrompt : MonoBehaviour {
 
 	//unityAction
 	private UnityAction<GameManager.ActionMode> actionModeSetButtonStatusAction;
+	private UnityAction victoryExitGameAction;
 
 	// Use this for initialization
 	public void Init () {
 
 		//set the actions
 		actionModeSetButtonStatusAction = (actionMode) => {SetExitButtonStatus(actionMode);};
+		victoryExitGameAction = () => {ClickedExitYes();};
 
-		//get the gameManager if we are in the main scene
+		//get the gameManager and uiManager if we are in the main scene
 		if (SceneManager.GetActiveScene ().buildIndex == mainSceneIndex) {
 
 			//get the gameManager
 			gameManager = GameObject.FindGameObjectWithTag ("GameManager").GetComponent<GameManager> ();
+			uiManager = GameObject.FindGameObjectWithTag ("UIManager").GetComponent<UIManager> ();
+
 
 			//add listener for actionMode change
 			gameManager.OnActionModeChange.AddListener(actionModeSetButtonStatusAction);
+
+			//add listener for exiting game from victory panel
+			uiManager.GetComponent<VictoryPanel>().OnExitGame.AddListener(victoryExitGameAction);
 
 		}
 
@@ -60,6 +68,8 @@ public class ExitGamePrompt : MonoBehaviour {
 		exitGameYesButton.onClick.AddListener(ClickedExitYes);
 		exitGameCancelButton.onClick.AddListener(ClickedExitCancel);
 		exitGameButton.onClick.AddListener (OpenWindow);
+
+
 
 		//start with the window closed
 		CloseWindow();
@@ -163,6 +173,13 @@ public class ExitGamePrompt : MonoBehaviour {
 
 			//remove listener for actionMode change
 			gameManager.OnActionModeChange.RemoveListener (actionModeSetButtonStatusAction);
+
+		}
+
+		if (uiManager != null) {
+			
+			//remove listener for exiting game from victory panel
+			uiManager.GetComponent<VictoryPanel> ().OnExitGame.RemoveListener (victoryExitGameAction);
 
 		}
 

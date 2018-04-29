@@ -47,6 +47,7 @@ public class SoundManager : MonoBehaviour {
 	public AudioClip clipFlareLaunch;
 	public AudioClip clipFlarePulse;
 	public AudioClip clipUnitExplosion;
+	public AudioClip clipVictoryFanfare;
 
 	//audioSource
 	private AudioSource audioMainBackgroundMusic;
@@ -84,6 +85,7 @@ public class SoundManager : MonoBehaviour {
 	private AudioSource audioFlareLaunch;
 	private AudioSource audioFlarePulse;
 	private AudioSource audioUnitExplosion;
+	private AudioSource audioVictoryFanfare;
 
 	//this array will hold all the sfxAudioSources
 	private AudioSource[] sfxAudioSources;
@@ -213,6 +215,7 @@ public class SoundManager : MonoBehaviour {
 	private UnityAction flareDespawnAction;
 	private UnityAction unitExplosionAction;
 	private UnityAction showFlarePanelAction;
+	private UnityAction victoryPanelAction;
 
 	// Use this for initialization
 	public void Init () {
@@ -601,6 +604,12 @@ public class SoundManager : MonoBehaviour {
 			}
 		};
 
+		victoryPanelAction = () => {
+
+			PlayVictoryFanfareSound();
+
+		};
+
 	}
 
 	//this function adds event listeners
@@ -747,6 +756,9 @@ public class SoundManager : MonoBehaviour {
 		//add listener for flare panel opening
 		uiManager.GetComponent<FlareManager>().OnShowFlarePanel.AddListener(showFlarePanelAction);
 
+		//add listener for victory panel
+		uiManager.GetComponent<VictoryPanel>().OnOpenVictoryPanel.AddListener(victoryPanelAction);
+
 	}
 
 	//this function creates a new audioSource component for the passed clip
@@ -799,9 +811,10 @@ public class SoundManager : MonoBehaviour {
 		audioFlareLaunch = AddAudio(clipFlareLaunch, false, false, 1.0f);
 		audioFlarePulse = AddAudio(clipFlarePulse, true, false, 1.0f); 
 		audioUnitExplosion = AddAudio(clipUnitExplosion, false, false, 1.0f);
+		audioVictoryFanfare = AddAudio(clipVictoryFanfare, false, false, 1.0f);
 
 		//fill up the sfx array
-		sfxAudioSources = new AudioSource[33];
+		sfxAudioSources = new AudioSource[34];
 		sfxAudioSources [0] = audioPhasorFire;
 		sfxAudioSources [1] = audioXRayFire;
 		sfxAudioSources [2] = audioPhasorHit;
@@ -835,6 +848,7 @@ public class SoundManager : MonoBehaviour {
 		sfxAudioSources [30] = audioFlareLaunch;
 		sfxAudioSources [31] = audioFlarePulse;
 		sfxAudioSources [32] = audioUnitExplosion;
+		sfxAudioSources [33] = audioVictoryFanfare;
 
 		//set up the section explosion array
 		int numberOfSectionExplosions = 30;
@@ -1410,6 +1424,14 @@ public class SoundManager : MonoBehaviour {
 
 	}
 
+	//this function plays the victory fanfare sound
+	private void PlayVictoryFanfareSound(){
+
+		//play the sound
+		audioVictoryFanfare.Play();
+
+	}
+
 	//this function handles on destroy
 	private void OnDestroy(){
 
@@ -1504,6 +1526,9 @@ public class SoundManager : MonoBehaviour {
 
 			//remove listener for flare panel opening
 			uiManager.GetComponent<FlareManager>().OnShowFlarePanel.RemoveListener(showFlarePanelAction);
+
+			//remove listener for victory panel
+			uiManager.GetComponent<VictoryPanel>().OnOpenVictoryPanel.RemoveListener(victoryPanelAction);
 
 		}
 

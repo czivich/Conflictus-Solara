@@ -139,6 +139,11 @@ public class PauseFadePanel : MonoBehaviour {
 		//add listener for settings window exit buttons
 		uiManager.GetComponent<Settings>().exitButton.onClick.AddListener(DisablePauseFadePanel);
 		uiManager.GetComponent<Settings>().acceptButton.onClick.AddListener(DisablePauseFadePanel);
+
+		//add listener for victory panel
+		uiManager.GetComponent<VictoryPanel>().OnOpenVictoryPanel.AddListener(EnablePauseFadePanel);
+		uiManager.GetComponent<VictoryPanel>().OnCloseVictoryPanel.AddListener(DisablePauseFadePanel);
+
 						
 	}
 
@@ -323,6 +328,10 @@ public class PauseFadePanel : MonoBehaviour {
 			uiManager.GetComponent<Settings> ().acceptButton.onClick.RemoveListener (DisablePauseFadePanel);
 
 		}
+
+		//remove listener for victory panel
+		uiManager.GetComponent<VictoryPanel>().OnOpenVictoryPanel.RemoveListener(EnablePauseFadePanel);
+		uiManager.GetComponent<VictoryPanel>().OnCloseVictoryPanel.RemoveListener(DisablePauseFadePanel);
 	
 	}
 

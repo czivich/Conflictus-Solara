@@ -47,6 +47,7 @@ public class UINavigationMain : MonoBehaviour {
 		FileDeletePrompt,
 		Settings,
 		ExitGamePrompt,
+		VictoryPanel,
 
 	}
 
@@ -120,6 +121,7 @@ public class UINavigationMain : MonoBehaviour {
 	private Selectable[][] FileDeletePromptGroup;
 	private Selectable[][] SettingsGroup;
 	private Selectable[][] ExitGamePromptGroup;
+	private Selectable[][] VictoryPanelGroup;
 
 	//these public arrays will hold the different selectables arrays
 	public Selectable[]	ActionMenuButtons;
@@ -213,6 +215,9 @@ public class UINavigationMain : MonoBehaviour {
 	public Selectable[] SettingsButtonsRow;
 
 	public Selectable[] ExitGameButtons;
+
+	public Selectable[] VictoryPanelButtons;
+
 
 	//these hold the sliders so I can reference them
 	public Slider ZoomSlider;
@@ -351,6 +356,9 @@ public class UINavigationMain : MonoBehaviour {
 
 	private UnityAction OpenExitGamePromptAction;
 	private UnityAction CloseExitGamePromptAction;
+
+	private UnityAction OpenVictoryPanelAction;
+	private UnityAction CloseVictoryPanelAction;
 
 	private UnityAction SelectableSetNavigationRulesAction;
 
@@ -1557,6 +1565,16 @@ public class UINavigationMain : MonoBehaviour {
 
 			} 
 
+			else if (CurrentUIState == UIState.VictoryPanel) {
+
+				//cancel out of the menu
+				uiManager.GetComponent<VictoryPanel> ().continuePlayingButton.onClick.Invoke ();
+
+				//invoke the event
+				//OnCloseWindowWithCancel.Invoke();
+
+			} 
+
 			else if (CurrentUIState == UIState.Status) {
 
 				//cancel out of the menu
@@ -2482,6 +2500,21 @@ public class UINavigationMain : MonoBehaviour {
 
 		};
 
+		OpenVictoryPanelAction = () => {CurrentUIState = UIState.VictoryPanel;};
+
+		CloseVictoryPanelAction = () => {
+
+			//CurrentUIState = UIState.Selection;
+			DetermineUIState();
+
+			//returnUIState = UIState.Selection;
+			//returnSelectable = FileMenuButtons[2];
+
+			//returnSelectable = null;
+			//delayReturnToSelectableCount = 2;
+
+		};
+
 		InputFieldEndEditIgnoreEscapeAction = (eventString) => {ignoreEscape = true;};
 
 		PointerClickResolveBlockAction = (selectable) => {ResolvePointerClickBlock (selectable);};
@@ -2700,6 +2733,10 @@ public class UINavigationMain : MonoBehaviour {
 		//add listener to the UI selection pointer click
 		UISelectionNonGroup.OnPointerClickSelectable.AddListener(OnPointerClickNonGroupTestAction);
 
+		//add listeners for victory panel
+		uiManager.GetComponent<VictoryPanel>().OnOpenVictoryPanel.AddListener(OpenVictoryPanelAction);
+		uiManager.GetComponent<VictoryPanel>().OnCloseVictoryPanel.AddListener(CloseVictoryPanelAction);
+
 	}
 
 	//this function defines the selectables groups
@@ -2877,6 +2914,9 @@ public class UINavigationMain : MonoBehaviour {
 
 		ExitGamePromptGroup = new Selectable[1][];
 		ExitGamePromptGroup [0] = ExitGameButtons;
+
+		VictoryPanelGroup = new Selectable[1][];
+		VictoryPanelGroup [0] = VictoryPanelButtons;
 
 		//Debug.Log ("Define Selectables");
 
@@ -3314,6 +3354,12 @@ public class UINavigationMain : MonoBehaviour {
 			selectablesWrap = true;
 
 		} else if (CurrentSelectables == ExitGameButtons){
+
+			horizontalCycling = true;
+			verticalCycling = false;
+			selectablesWrap = true;
+
+		} else if (CurrentSelectables == VictoryPanelButtons){
 
 			horizontalCycling = true;
 			verticalCycling = false;
@@ -5113,6 +5159,27 @@ public class UINavigationMain : MonoBehaviour {
 
 			break;
 
+		case UIState.VictoryPanel:
+
+			//set the current selectables group to match the UI state
+			currentSelectablesGroup = VictoryPanelGroup;
+
+			//find the first array in the group that has an interactable selectable
+			potentialCurrentSelectionGroupIndex = FindFirstInteractableArrayIndex (currentSelectablesGroup);
+
+			//set the selectable array that contains an interactable
+			if (potentialCurrentSelectionGroupIndex != -1) {
+
+				//set the currentSelectionGroupIndex
+				currentSelectionGroupIndex = potentialCurrentSelectionGroupIndex;
+
+				//set the currentSelectables based on the index returned
+				CurrentSelectables = currentSelectablesGroup[currentSelectionGroupIndex];
+
+			}
+
+			break;
+
 		default:
 
 			break;
@@ -6033,6 +6100,10 @@ public class UINavigationMain : MonoBehaviour {
 			//remove listeners telling us the input fields just ended edit, so we can ignore hitting escape
 			uiManager.GetComponent<RenameShip> ().renameInputField.onEndEdit.RemoveListener (InputFieldEndEditIgnoreEscapeAction);
 			uiManager.GetComponent<NameNewShip> ().shipNameInputField.onEndEdit.RemoveListener (InputFieldEndEditIgnoreEscapeAction);
+
+			//remove listeners for victory panel
+			uiManager.GetComponent<VictoryPanel>().OnOpenVictoryPanel.RemoveListener(OpenVictoryPanelAction);
+			uiManager.GetComponent<VictoryPanel>().OnCloseVictoryPanel.RemoveListener(CloseVictoryPanelAction);
 
 		}
 

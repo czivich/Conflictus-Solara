@@ -269,6 +269,11 @@ public class GameManager : MonoBehaviour {
 	private float miniMapCameraViewportHeight;
 	private float initialMiniMapBorderYMax;
 
+	//this variable is for tracking whether the game has already been won, so that if they keep playing
+	//the game won't continuously re-check for victory each year
+	//but this isn't saved, so if you load a game that has already been won, it will check the first end of year
+	private bool gameHasAlreadyBeenWon;
+
 	//declare public event for ending the turn
 	public EndTurnEvent OnEndTurn = new EndTurnEvent();
 
@@ -325,6 +330,14 @@ public class GameManager : MonoBehaviour {
 
 	//event for changing main camera size
 	public UnityEvent OnChangedMainCameraSetup = new UnityEvent();
+
+	//event for winning the game as a team
+	public TeamVictoryEvent OnTeamVictory = new TeamVictoryEvent ();
+	public class TeamVictoryEvent : UnityEvent<Player, Player>{};
+
+	//event for winning the game as an individual
+	public SoloVictoryEvent OnSoloVictory = new SoloVictoryEvent ();
+	public class SoloVictoryEvent : UnityEvent<Player>{};
 
 	//unityActions
 	private UnityAction<Toggle> toggleSetActionModeToTractorBeamAction;
@@ -791,6 +804,72 @@ public class GameManager : MonoBehaviour {
 			if (currentTurn == firstTurn) {
 
 				gameYear++;
+
+				//check if the game has already been won
+				if (gameHasAlreadyBeenWon == false) {
+
+					//check if we have a game win condition
+					if (teamsEnabled == true) {
+
+						//check if the green and red team has won
+						if (GreenAndRedTeamHasWon () == true) {
+
+							//invoke the victoryEvent
+							OnTeamVictory.Invoke (greenPlayer, redPlayer);
+
+							//set the alreadyWon flag
+							gameHasAlreadyBeenWon = true;
+
+						} else if (PurpleAndBlueTeamHasWon () == true) {
+
+							//invoke the victoryEvent
+							OnTeamVictory.Invoke (purplePlayer, bluePlayer);
+
+							//set the alreadyWon flag
+							gameHasAlreadyBeenWon = true;
+
+						}
+
+					} else {
+
+						//check if the green player has won
+						if (GreenPlayerHasWon () == true) {
+
+							//invoke the victoryEvent
+							OnSoloVictory.Invoke (greenPlayer);
+
+							//set the alreadyWon flag
+							gameHasAlreadyBeenWon = true;
+
+						} else if (PurplePlayerHasWon () == true) {
+
+							//invoke the victoryEvent
+							OnSoloVictory.Invoke (purplePlayer);
+
+							//set the alreadyWon flag
+							gameHasAlreadyBeenWon = true;
+
+						} else if (RedPlayerHasWon () == true) {
+
+							//invoke the victoryEvent
+							OnSoloVictory.Invoke (redPlayer);
+
+							//set the alreadyWon flag
+							gameHasAlreadyBeenWon = true;
+
+						} else if (BluePlayerHasWon () == true) {
+
+							//invoke the victoryEvent
+							OnSoloVictory.Invoke (bluePlayer);
+
+							//set the alreadyWon flag
+							gameHasAlreadyBeenWon = true;
+
+						}
+
+					}
+
+				}
 
 			}
 
@@ -1777,6 +1856,9 @@ public class GameManager : MonoBehaviour {
 		uiManager.GetComponent<TileMapAnimationManager> ().Init ();
 		uiManager.GetComponent<ExitGamePrompt> ().Init ();
 		uiManager.GetComponent<SceneTransitionFadePanel> ().Init ();
+		uiManager.GetComponent<VictoryPanel> ().Init ();
+
+
 
 		uiManager.GetComponent<UINavigationMain> ().Init ();
 
@@ -2456,6 +2538,110 @@ public class GameManager : MonoBehaviour {
 
 		//invoke the exit scene event
 		OnBeginSceneExit.Invoke();
+
+	}
+
+	//this function checks if we have a player that has won the game
+	private bool GreenAndRedTeamHasWon(){
+
+		//this is a team game
+		//we need to check if the green and red team has won
+		int greenAndRedPlanetTotal = colonyManager.PlanetsControlledByPlayer(greenPlayer) + colonyManager.PlanetsControlledByPlayer(redPlayer);
+
+		//check if the total planets is at least the victory total
+		if (greenAndRedPlanetTotal >= victoryPlanets) {
+
+			return true;
+
+		} else {
+
+			return false;
+
+		}
+
+	}
+
+	//this function checks if we have a player that has won the game
+	private bool PurpleAndBlueTeamHasWon(){
+
+		//this is a team game
+		//we need to check if the green and red team has won
+		int purpleAndBluePlanetTotal = colonyManager.PlanetsControlledByPlayer(purplePlayer) + colonyManager.PlanetsControlledByPlayer(bluePlayer);
+
+		//check if the total planets is at least the victory total
+		if (purpleAndBluePlanetTotal >= victoryPlanets) {
+
+			return true;
+
+		} else {
+
+			return false;
+
+		}
+
+	}
+
+	//this function checks if the green player has won the game
+	private bool GreenPlayerHasWon(){
+
+		//check if the total planets is at least the victory total
+		if (colonyManager.PlanetsControlledByPlayer(greenPlayer) >= victoryPlanets) {
+
+			return true;
+
+		} else {
+
+			return false;
+
+		}
+
+	}
+
+	//this function checks if the purple has won the game
+	private bool PurplePlayerHasWon(){
+
+		//check if the total planets is at least the victory total
+		if (colonyManager.PlanetsControlledByPlayer(purplePlayer) >= victoryPlanets) {
+
+			return true;
+
+		} else {
+
+			return false;
+
+		}
+
+	}
+
+	//this function checks if the red has won the game
+	private bool RedPlayerHasWon(){
+
+		//check if the total planets is at least the victory total
+		if (colonyManager.PlanetsControlledByPlayer(redPlayer) >= victoryPlanets) {
+
+			return true;
+
+		} else {
+
+			return false;
+
+		}
+
+	}
+
+	//this function checks if the blue has won the game
+	private bool BluePlayerHasWon(){
+
+		//check if the total planets is at least the victory total
+		if (colonyManager.PlanetsControlledByPlayer(bluePlayer) >= victoryPlanets) {
+
+			return true;
+
+		} else {
+
+			return false;
+
+		}
 
 	}
 

@@ -111,7 +111,8 @@ public class MouseManager : MonoBehaviour {
 	private UnityAction<bool> boolSetMouseZoomDirectionAction;
 	private UnityAction<int> intSetMouseZoomSensitivityAction;
 	private UnityAction<CombatUnit,CombatUnit,string> useRepairCrewClearSelectedUnitAction;
-		
+	private UnityAction<CombatUnit,CombatUnit,string> useCrystalClearSelectedUnitAction;
+
 	public void Init(){
 		
 		//during the start, find the minimap camera
@@ -136,6 +137,7 @@ public class MouseManager : MonoBehaviour {
 		boolSetMouseZoomDirectionAction = ((isInverted) => {SetMouseZoomDirection (isInverted);});
 		intSetMouseZoomSensitivityAction = ((zoomSensitivity) => {SetMouseZoomSensitivity (zoomSensitivity);});
 		useRepairCrewClearSelectedUnitAction = (selectedUnit,targetedUnit,sectionTargeted) => {ClearSelectedUnit();};
+		useCrystalClearSelectedUnitAction = (selectedUnit,targetedUnit,sectionTargeted) => {ClearSelectedUnit();};
 
 		//add a listener to the NextUnit button event
 		uiManager.GetComponent<NextUnit>().SetNextUnit.AddListener(nextUnitSetSelectedUnitAction);
@@ -191,6 +193,10 @@ public class MouseManager : MonoBehaviour {
 		//add listener for using repair crew
 		uiManager.GetComponent<CrewMenu>().OnUseRepairCrew.AddListener(useRepairCrewClearSelectedUnitAction);
 			
+		//add listener for using crystals
+		uiManager.GetComponent<UseItemMenu>().OnUseDilithiumCrystal.AddListener(useCrystalClearSelectedUnitAction);
+		uiManager.GetComponent<UseItemMenu>().OnUseTrilithiumCrystal.AddListener(useCrystalClearSelectedUnitAction);
+
 	}
 
 	// Update is called once per frame
@@ -2443,6 +2449,9 @@ public class MouseManager : MonoBehaviour {
 			//remove listener for using repair crew
 			uiManager.GetComponent<CrewMenu>().OnUseRepairCrew.RemoveListener(useRepairCrewClearSelectedUnitAction);
 
+			//remove listener for using crystals
+			uiManager.GetComponent<UseItemMenu>().OnUseDilithiumCrystal.RemoveListener(useCrystalClearSelectedUnitAction);
+			uiManager.GetComponent<UseItemMenu>().OnUseTrilithiumCrystal.RemoveListener(useCrystalClearSelectedUnitAction);
 		}
 
 		if (gameManager != null) {

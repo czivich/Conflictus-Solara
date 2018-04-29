@@ -169,6 +169,9 @@ public class MessageManager : MonoBehaviour {
 	private UnityAction<CombatUnit,CombatUnit,int> cutsceneFlaresSendFlaresDefeatLightTorpedoMessageAction;
 	private UnityAction<CombatUnit,CombatUnit,int> cutsceneFlaresSendFlaresDefeatHeavyTorpedoMessageAction;
 
+	//action for a player being killed
+	private UnityAction<Player> killPlayerAction;
+
 	// Use this for initialization
 	public void Init () {
 
@@ -312,6 +315,8 @@ public class MessageManager : MonoBehaviour {
 		saveDataSendSavedGameAction = (saveGameData) => {SendSaveGameMessage(saveGameData);};
 
 		stringSendDeletedFileMessageAction = (fileName) => {SendDeletedFileMessage (fileName);};
+
+		killPlayerAction = (player) => {SendPlayerEliminatedMessage(player);};
 
 
 		//add listener for the start of a new turn.  The onNewTurn passes a player, but we don't need it
@@ -547,6 +552,10 @@ public class MessageManager : MonoBehaviour {
 
 		//add listener for deleted file
 		uiManager.GetComponent<FileLoadWindow>().OnFileConfirmedDelete.AddListener(stringSendDeletedFileMessageAction);
+
+		//add listener for player being eliminated
+		gameManager.OnKillPlayer.AddListener(killPlayerAction);
+
 	}
 
 
@@ -2228,6 +2237,9 @@ public class MessageManager : MonoBehaviour {
 			//remove listener for loading a turn
 			gameManager.OnLoadedTurn.RemoveListener(playerSendLoadedTurnAction);
 
+			//remove listener for player being eliminated
+			gameManager.OnKillPlayer.RemoveListener(killPlayerAction);
+
 		}
 
 		if (uiManager != null) {
@@ -2456,6 +2468,7 @@ public class MessageManager : MonoBehaviour {
 		//remove listener for sunburst damage
 		Sunburst.OnSunburstDamageDealt.RemoveListener(combatUnitSendSunburstDamageMessageAction);
 
+
 	}
 
 	private void SendLoadedTurnPhaseMessage(){
@@ -2510,6 +2523,19 @@ public class MessageManager : MonoBehaviour {
 
 		//add the loaded game part of the new message to the beginning
 		newMessage = "Deleted Game " + "\"" + fileName + "\"";
+
+		//pass the message to the message log
+		AddMessageToLog(newMessage);
+
+	}
+
+	private void SendPlayerEliminatedMessage(Player player){
+
+		//create variable for message log input
+		string newMessage;
+
+		//add the loaded game part of the new message to the beginning
+		newMessage = player.playerName + "has been eliminated from the game!";
 
 		//pass the message to the message log
 		AddMessageToLog(newMessage);

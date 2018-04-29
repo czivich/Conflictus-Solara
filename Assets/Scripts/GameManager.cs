@@ -269,6 +269,12 @@ public class GameManager : MonoBehaviour {
 	private float miniMapCameraViewportHeight;
 	private float initialMiniMapBorderYMax;
 
+	//these gameObjects are the unit collectors
+	public GameObject greenUnits {get; private set;}
+	public GameObject purpleUnits { get; private set;}
+	public GameObject redUnits { get; private set;}
+	public GameObject blueUnits { get; private set;}
+
 	//this variable is for tracking whether the game has already been won, so that if they keep playing
 	//the game won't continuously re-check for victory each year
 	//but this isn't saved, so if you load a game that has already been won, it will check the first end of year
@@ -338,6 +344,9 @@ public class GameManager : MonoBehaviour {
 	//event for winning the game as an individual
 	public SoloVictoryEvent OnSoloVictory = new SoloVictoryEvent ();
 	public class SoloVictoryEvent : UnityEvent<Player>{};
+
+	//this event is for recognizing that a player should be dead and removed from the game
+	public SoloVictoryEvent OnKillPlayer = new SoloVictoryEvent();
 
 	//unityActions
 	private UnityAction<Toggle> toggleSetActionModeToTractorBeamAction;
@@ -410,6 +419,13 @@ public class GameManager : MonoBehaviour {
 
 		//set the main scene as the active scene
 		SceneManager.SetActiveScene (mainScene);
+
+		//get the unit collectors
+		//get the collectors
+		greenUnits = GameObject.Find ("GreenUnits");
+		purpleUnits = GameObject.Find ("PurpleUnits");
+		redUnits = GameObject.Find ("RedUnits");
+		blueUnits = GameObject.Find ("BlueUnits");
 
 		//check if the main menu scene is loaded
 		if (mainMenuScene.isLoaded == true) {
@@ -750,6 +766,29 @@ public class GameManager : MonoBehaviour {
 
 			//invoke the endTurn Event
 			OnEndTurn.Invoke(currentTurn);
+
+			//check if any players should be dead
+			if (PlayerShouldBeDead (greenPlayer) == true) {
+
+				OnKillPlayer.Invoke (greenPlayer);
+
+			}
+			if (PlayerShouldBeDead (purplePlayer) == true) {
+
+				OnKillPlayer.Invoke (purplePlayer);
+
+			}
+			if (PlayerShouldBeDead (redPlayer) == true) {
+
+				OnKillPlayer.Invoke (redPlayer);
+
+			}
+			if (PlayerShouldBeDead (bluePlayer) == true) {
+
+				OnKillPlayer.Invoke (bluePlayer);
+
+			}
+
 
 			//define an array of all the values of the Player color enum
 			Player.Color[] possibleColors = System.Enum.GetValues (typeof(Player.Color)).Cast<Player.Color>().ToArray();
@@ -2644,6 +2683,114 @@ public class GameManager : MonoBehaviour {
 		}
 
 	}
+
+	//this function checks if the player should be dead
+	private bool PlayerShouldBeDead(Player player){
+
+		//a player should be dead if all their units are destroyed and they have no ability to purchase new units
+		//either because they have no income, or have no available ships that could be bought
+
+		//start by checking if a player has units
+		switch (player.color) {
+
+		case Player.Color.Green:
+
+			if (greenUnits.transform.childCount > 0) {
+
+				//we can return false because the player has units
+				return false;
+
+			}
+
+			break;
+
+		case Player.Color.Purple:
+
+			if (purpleUnits.transform.childCount > 0) {
+
+				//we can return false because the player has units
+				return false;
+
+			}
+
+			break;
+
+		case Player.Color.Red:
+
+			if (redUnits.transform.childCount > 0) {
+
+				//we can return false because the player has units
+				return false;
+
+			}
+
+			break;
+
+		case Player.Color.Blue:
+
+			if (blueUnits.transform.childCount > 0) {
+
+				//we can return false because the player has units
+				return false;
+
+			}
+
+			break;
+
+		default:
+
+			return false;
+
+		}
+
+		//if we haven't returned false yet at this point, that means that the player has no units
+		//in this case, we need to check if they have the capability to produce units in the future
+
+		//check if the player can buy a scout
+		if(player.playerScoutPurchased < maxShipsPerClass && (player.playerMoney + player.playerPlanets * Player.planetValue >= PurchaseManager.costScout)){
+
+			//the player has bought less than the max scouts and can afford one with money on hand plus income to be generated from planets
+			//this means they should not be dead
+			return false;
+
+		}
+
+		//check if the player can buy a bird of prey
+		if(player.playerBirdOfPreyPurchased < maxShipsPerClass && (player.playerMoney + player.playerPlanets * Player.planetValue >= PurchaseManager.costBirdOfPrey)){
+
+			//the player has bought less than the max birds of prey and can afford one with money on hand plus income to be generated from planets
+			//this means they should not be dead
+			return false;
+
+		}
+
+		//check if the player can buy a destroyer
+		if(player.playerDestroyerPurchased < maxShipsPerClass && (player.playerMoney + player.playerPlanets * Player.planetValue >= PurchaseManager.costDestroyer)){
+
+			//the player has bought less than the max destroyers and can afford one with money on hand plus income to be generated from planets
+			//this means they should not be dead
+			return false;
+
+		}
+
+		//check if the player can buy a starship
+		if(player.playerStarshipPurchased < maxShipsPerClass && (player.playerMoney + player.playerPlanets * Player.planetValue >= PurchaseManager.costStarship)){
+
+			//the player has bought less than the max starships and can afford one with money on hand plus income to be generated from planets
+			//this means they should not be dead
+			return false;
+
+		}
+
+		//if we haven't returned false at this point, this means that not only does the player have no units,
+		//but the player cannot buy a scout, bird of prey, destroyer, or starship
+		//in this case, they can't participate in the game at all, and should be dead
+
+		return true;
+
+	}
+
+
 
 	//this function handles OnDestroy
 	private void OnDestroy(){

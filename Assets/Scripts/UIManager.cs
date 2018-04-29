@@ -8,6 +8,9 @@ using System;
 
 public class UIManager : MonoBehaviour {
 
+	//gameManager
+	private GameManager gameManager;
+
 	//variable for the canvas
 	public Canvas canvas;
 
@@ -50,6 +53,9 @@ public class UIManager : MonoBehaviour {
 	private UnityAction<CombatUnit,CombatUnit> repairCrewBaseStorageSection1Action;
 	private UnityAction<CombatUnit,CombatUnit> repairCrewBaseStorageSection2Action;
 
+	private UnityAction<Player> killPlayerAction;
+
+
 	//this list is all of the action modes that we want to lock out the main action buttons/toggles in
 	public static List<GameManager.ActionMode> lockMenuActionModes = new List<GameManager.ActionMode>() {
 
@@ -63,7 +69,10 @@ public class UIManager : MonoBehaviour {
 
 	//use this for initialization
 	public void Init(){
-		
+
+		//get the gameManager
+		gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
+
 		//disable the pauseFadePanels
 		foreach(GameObject go in GameObject.FindGameObjectsWithTag("PauseFadePanel")){
 			
@@ -250,6 +259,13 @@ public class UIManager : MonoBehaviour {
 
 		};
 
+		killPlayerAction = (player) => {
+			SetAlertString (player.playerName + "has been eliminated from the game!");
+			uiAlertPanel.SetActive(false);
+			uiAlertPanel.SetActive(true);
+
+		};
+
 	}
 
 	//this function adds event listeners
@@ -284,6 +300,9 @@ public class UIManager : MonoBehaviour {
 		CombatManager.OnRepairCrewUsedOnBaseCrewSection.AddListener(repairCrewBaseCrewSectionAction);
 		CombatManager.OnRepairCrewUsedOnBaseStorageSection1.AddListener(repairCrewBaseStorageSection1Action);
 		CombatManager.OnRepairCrewUsedOnBaseStorageSection2.AddListener(repairCrewBaseStorageSection2Action);
+
+		//add listener for player eliminated
+		gameManager.OnKillPlayer.AddListener(killPlayerAction);
 
 	}
 		
@@ -400,6 +419,13 @@ public class UIManager : MonoBehaviour {
 		CombatManager.OnRepairCrewUsedOnBaseCrewSection.RemoveListener(repairCrewBaseCrewSectionAction);
 		CombatManager.OnRepairCrewUsedOnBaseStorageSection1.RemoveListener(repairCrewBaseStorageSection1Action);
 		CombatManager.OnRepairCrewUsedOnBaseStorageSection2.RemoveListener(repairCrewBaseStorageSection2Action);
+
+		if (gameManager != null) {
+
+			//remove listener for player eliminated
+			gameManager.OnKillPlayer.RemoveListener (killPlayerAction);
+
+		}
 
 	}						
 }

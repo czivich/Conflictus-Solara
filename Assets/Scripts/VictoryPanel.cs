@@ -9,7 +9,6 @@ public class VictoryPanel : MonoBehaviour {
 
 	//managers
 	private GameManager gameManager;
-	//private UIManager uiManager;
 
 	//variable to hold the panel
 	public GameObject victoryPanel;
@@ -38,7 +37,6 @@ public class VictoryPanel : MonoBehaviour {
 
 		//get the managers
 		gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
-		//uiManager = GameObject.FindGameObjectWithTag("UIManager").GetComponent<UIManager>();
 
 		//set actions
 		SetUnityActions();

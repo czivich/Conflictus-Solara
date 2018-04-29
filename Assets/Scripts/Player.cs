@@ -177,7 +177,7 @@ public class Player : MonoBehaviour{
 	private static int starbaseSectionValue = 150;
 
 	//value of occupied planet
-	private static int planetValue = 100;
+	public static readonly int planetValue = 100;
 
 	//variable to hold the home starbase
 	private Starbase homeStarbase;
@@ -255,7 +255,7 @@ public class Player : MonoBehaviour{
 	private UnityAction<CombatUnit> combatUnitResolveShipDestroyedAction;
 	private UnityAction<CombatUnit,string,GameManager.ActionMode> combatUnitResolveRenameUnitAction;
 	private UnityAction<FileManager.SaveGameData> loadPlayerAttributesAction;
-
+	private UnityAction<Player> killPlayerAction;
 
 
 
@@ -306,7 +306,7 @@ public class Player : MonoBehaviour{
 		combatUnitResolveShipDestroyedAction = (combatUnit) => {ResolveShipDestroyed(combatUnit);};
 		combatUnitResolveRenameUnitAction = (combatUnit, newName, previousActionMode) => {ResolveRenamedUnit( combatUnit, newName);};
 		loadPlayerAttributesAction = (saveGameData) => {LoadPlayerAttributes(saveGameData);};
-
+		killPlayerAction = (player) => {killPlayerAction(player);};
 
 
 		//add listener for creating a new unit
@@ -337,6 +337,9 @@ public class Player : MonoBehaviour{
 
 		//add listener for loading players
 		gameManager.OnPlayersLoaded.AddListener(loadPlayerAttributesAction);
+
+		//add listener for killing player
+		gameManager.OnKillPlayer.AddListener(killPlayerAction);
 
 	}
 
@@ -782,6 +785,19 @@ public class Player : MonoBehaviour{
 
 	}
 
+	//this function kills the player
+	private void KillPlayer(Player player){
+
+		//check if the player passed is this player
+		if (player == this) {
+
+			//set the isAlive flag to false
+			this.isAlive = false;
+
+		}
+
+	}
+
 	//function to handle OnDestroy
 	private void OnDestroy(){
 
@@ -804,6 +820,9 @@ public class Player : MonoBehaviour{
 
 			//remove listener for loading players
 			gameManager.OnPlayersLoaded.RemoveListener(loadPlayerAttributesAction);
+
+			//remove listener for killing player
+			gameManager.OnKillPlayer.RemoveListener(killPlayerAction);
 
 		}
 

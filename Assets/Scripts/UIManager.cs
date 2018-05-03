@@ -55,6 +55,11 @@ public class UIManager : MonoBehaviour {
 
 	private UnityAction<Player> killPlayerAction;
 
+	private UnityAction<CombatUnit,int> sunburstDamageAction;
+
+	private UnityAction<CombatUnit> shipDestroyedAction;
+	private UnityAction<CombatUnit> baseDestroyedAction;
+
 
 	//this list is all of the action modes that we want to lock out the main action buttons/toggles in
 	public static List<GameManager.ActionMode> lockMenuActionModes = new List<GameManager.ActionMode>() {
@@ -260,7 +265,41 @@ public class UIManager : MonoBehaviour {
 		};
 
 		killPlayerAction = (player) => {
-			SetAlertString (player.playerName + "has been eliminated from the game!");
+			SetAlertString (player.playerName + "Has Been Eliminated From The Game!");
+			uiAlertPanel.SetActive(false);
+			uiAlertPanel.SetActive(true);
+
+		};
+
+		sunburstDamageAction = (damagedUnit, damage) => {
+
+			if(damagedUnit.GetComponent<Ship> () == true){
+				
+				SetAlertString (damagedUnit.GetComponent<Ship> ().shipType + " " + damagedUnit.GetComponent<Ship> ().shipName + 
+					" Takes " + damage.ToString() + " Sunburst Damage!");
+
+				uiAlertPanel.SetActive(false);
+				uiAlertPanel.SetActive(true);
+
+			}
+
+		};
+
+		shipDestroyedAction = (destroyedUnit) => {
+
+			SetAlertString (destroyedUnit.GetComponent<Ship> ().shipType + " " + destroyedUnit.GetComponent<Ship> ().shipName + 
+				" Has Been Completely Destroyed!!");
+
+			uiAlertPanel.SetActive(false);
+			uiAlertPanel.SetActive(true);
+
+		};
+
+		baseDestroyedAction = (destroyedUnit) => {
+
+			SetAlertString ("Starbase " + destroyedUnit.GetComponent<Starbase> ().baseName + 
+				" Has Been Completely Destroyed!!");
+
 			uiAlertPanel.SetActive(false);
 			uiAlertPanel.SetActive(true);
 
@@ -303,6 +342,13 @@ public class UIManager : MonoBehaviour {
 
 		//add listener for player eliminated
 		gameManager.OnKillPlayer.AddListener(killPlayerAction);
+
+		//add listener for sunburst damage
+		Sunburst.OnSunburstDamageDealt.AddListener(sunburstDamageAction);
+
+		//add listeners for units being destroyed
+		Ship.OnShipDestroyed.AddListener(shipDestroyedAction);
+		Starbase.OnBaseDestroyed.AddListener(baseDestroyedAction);
 
 	}
 		
@@ -426,6 +472,13 @@ public class UIManager : MonoBehaviour {
 			gameManager.OnKillPlayer.RemoveListener (killPlayerAction);
 
 		}
+
+		//remove listener for sunburst damage
+		Sunburst.OnSunburstDamageDealt.RemoveListener(sunburstDamageAction);
+
+		//remove listeners for units being destroyed
+		Ship.OnShipDestroyed.RemoveListener(shipDestroyedAction);
+		Starbase.OnBaseDestroyed.RemoveListener(baseDestroyedAction);
 
 	}						
 }

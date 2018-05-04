@@ -121,6 +121,20 @@ public class TileMap : MonoBehaviour {
 
 	}
 
+	public List<Hex> SunTiles {
+
+		get;
+		private set;
+
+	}
+
+	public List<Hex> NeutralStarbaseTiles {
+
+		get;
+		private set;
+
+	}
+
 	// Use this for initialization
 	public void Init () {
 
@@ -322,7 +336,7 @@ public class TileMap : MonoBehaviour {
 		AsteroidTiles.Add (new Hex (2, 22, -24));
 		AsteroidTiles.Add (new Hex (1, 23, -24));
 	
-		List<Hex> SunTiles = new List<Hex>();
+		SunTiles = new List<Hex>();
 		SunTiles.Add (new Hex (8, 15, -23));
 
 		List<Hex> SunRayTilesUpRight = new List<Hex>();
@@ -344,7 +358,7 @@ public class TileMap : MonoBehaviour {
 		List<Hex> SunRayTilesUpLeft = new List<Hex>();
 		SunRayTilesUpLeft.Add (new Hex (7, 16, -23));
 
-		List<Hex> NeutralStarbaseTiles = new List<Hex>();
+		NeutralStarbaseTiles = new List<Hex>();
 		NeutralStarbaseTiles.Add (new Hex (2, 9, -11));
 		NeutralStarbaseTiles.Add (new Hex (20, 9, -29));
 		NeutralStarbaseTiles.Add (new Hex (14, 21, -35));

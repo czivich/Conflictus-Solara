@@ -1896,6 +1896,7 @@ public class GameManager : MonoBehaviour {
 		uiManager.GetComponent<ExitGamePrompt> ().Init ();
 		uiManager.GetComponent<SceneTransitionFadePanel> ().Init ();
 		uiManager.GetComponent<VictoryPanel> ().Init ();
+		uiManager.GetComponent<ParticleManager> ().Init ();
 
 
 

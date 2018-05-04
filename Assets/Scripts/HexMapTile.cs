@@ -141,13 +141,6 @@ public class HexMapTile{
 	//simple class derived from unityEvent to pass hexMapTile
 	public class ColonizePlanetEvent : UnityEvent<HexMapTile,Player.Color>{};
 
-
-	//this event is used to announce a planet has been created in the universe
-	public static CreatePlanetEvent OnCreateNewPlanet = new CreatePlanetEvent();
-
-	//simple class derived from unityEvent to pass hexMapTile
-	public class CreatePlanetEvent : UnityEvent<HexMapTile>{};
-
 	//unityActions
 	private UnityAction<Ship> shipUpdatePassableOnMoveStartAction;
 	private UnityAction<Ship> shipUpdatePassableOnMoveFinishAction;
@@ -352,6 +345,7 @@ public class HexMapTile{
 			this.movementCost = 1.0f;
 			this.isPlanet = false;
 			break;
+
 		}
 
 

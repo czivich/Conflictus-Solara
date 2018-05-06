@@ -303,7 +303,7 @@ public class EngineSection : MonoBehaviour {
 		
 		};
 		shipMovementMoveShipAction = (selectedShip,destinationHex,targetedShip) => {MoveShip(selectedShip,destinationHex,targetedShip,null);};
-		attackHitTakeDamageAction = (attackingUnit, targetedUnit, phasorDamage) => {TakeDamage(targetedUnit,phasorDamage);};
+		attackHitTakeDamageAction = (attackingUnit, targetedUnit, phaserDamage) => {TakeDamage(targetedUnit,phaserDamage);};
 		crystalUsedHealDamageAction = (selectedUnit,targetedUnit,crystalType,shieldsHealed) => {HealDamage(targetedUnit,shieldsHealed);};
 		repairUsedRepairSectionAction = (selectedUnit,targetedUnit) => {RepairSection(targetedUnit);};
 		combatUnitCombatUnitDestroyedAction = (combatUnit) => {CombatUnitDestroyed(combatUnit);};
@@ -406,9 +406,9 @@ public class EngineSection : MonoBehaviour {
 		//add listener to mouseManager OnSignalMove event
 		mouseManager.OnSignalMovement.AddListener(shipMovementMoveShipAction);
 
-		//add listener for getting hit by phasor attack
-		//CombatManager.OnPhasorAttackHitShipEngineSection.AddListener(attackHitTakeDamageAction);
-		CutsceneManager.OnPhasorHitShipEngineSection.AddListener(attackHitTakeDamageAction);
+		//add listener for getting hit by phaser attack
+		//CombatManager.OnPhaserAttackHitShipEngineSection.AddListener(attackHitTakeDamageAction);
+		CutsceneManager.OnPhaserHitShipEngineSection.AddListener(attackHitTakeDamageAction);
 
 		//add listener for getting hit by torpedo attack
 		//CombatManager.OnLightTorpedoAttackHitShipEngineSection.AddListener(attackHitTakeDamageAction);
@@ -1662,9 +1662,9 @@ public class EngineSection : MonoBehaviour {
 
 		}
 
-		//remove listener for getting hit by phasor attack
-		//CombatManager.OnPhasorAttackHitShipEngineSection.RemoveListener(attackHitTakeDamageAction);
-		CutsceneManager.OnPhasorHitShipEngineSection.RemoveListener(attackHitTakeDamageAction);
+		//remove listener for getting hit by phaser attack
+		//CombatManager.OnPhaserAttackHitShipEngineSection.RemoveListener(attackHitTakeDamageAction);
+		CutsceneManager.OnPhaserHitShipEngineSection.RemoveListener(attackHitTakeDamageAction);
 
 		//remove listener for getting hit by torpedo attack
 		//CombatManager.OnLightTorpedoAttackHitShipEngineSection.RemoveListener(attackHitTakeDamageAction);

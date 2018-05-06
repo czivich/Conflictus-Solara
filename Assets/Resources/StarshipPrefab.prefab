@@ -85,7 +85,7 @@ GameObject:
   - component: {fileID: 222990999086158002}
   - component: {fileID: 114583826737861728}
   m_Layer: 9
-  m_Name: phasorText
+  m_Name: phaserText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1055,7 +1055,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   shipNameText: {fileID: 114234688852415536}
   movementText: {fileID: 114068344674292936}
-  phasorsText: {fileID: 114583826737861728}
+  phasersText: {fileID: 114583826737861728}
   torpedoText: {fileID: 114981844608994786}
   repairText: {fileID: 114320620433044102}
 --- !u!114 &114981844608994786

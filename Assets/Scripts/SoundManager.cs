@@ -14,9 +14,9 @@ public class SoundManager : MonoBehaviour {
 	//audioclips
 	public AudioClip clipMainBackgroundMusic;
 
-	public AudioClip clipPhasorFire;
+	public AudioClip clipPhaserFire;
 	public AudioClip clipXRayFire;
-	public AudioClip clipPhasorHit;
+	public AudioClip clipPhaserHit;
 	public AudioClip clipSelectableHover;
 	public AudioClip clipSelectableSubmit;
 	public AudioClip clipSelectUnit;
@@ -33,7 +33,7 @@ public class SoundManager : MonoBehaviour {
 	public AudioClip clipNewShip;
 	public AudioClip clipNewColony;
 	public AudioClip clipSunburstDamage;
-	public AudioClip clipChargePhasor;
+	public AudioClip clipChargePhaser;
 	public AudioClip clipChargeXRay;
 	public AudioClip[] clipSectionExplosion;
 	public AudioClip clipChargeLightTorpedo;
@@ -52,9 +52,9 @@ public class SoundManager : MonoBehaviour {
 	//audioSource
 	private AudioSource audioMainBackgroundMusic;
 
-	private AudioSource audioPhasorFire;
+	private AudioSource audioPhaserFire;
 	private AudioSource audioXRayFire;
-	private AudioSource audioPhasorHit;
+	private AudioSource audioPhaserHit;
 	private AudioSource audioSelectableHover;
 	private AudioSource audioSelectableSubmit;
 	private AudioSource audioSelectUnit;
@@ -72,7 +72,7 @@ public class SoundManager : MonoBehaviour {
 	private AudioSource audioNewShip;
 	private AudioSource audioNewColony;
 	private AudioSource audioSunburstDamage;
-	private AudioSource audioChargePhasor;
+	private AudioSource audioChargePhaser;
 	private AudioSource audioChargeXRay;
 	private AudioSource audioChargeLightTorpedo;
 	private AudioSource audioChargeHeavyTorpedo;
@@ -174,9 +174,9 @@ public class SoundManager : MonoBehaviour {
 	private UnityAction<Player> playerStartMainBackgroundAction;
 	private UnityAction<int> intChangeMusicVolumeAction;
 	private UnityAction<int> intChangeSfxVolumeAction;
-	private UnityAction phasorFireAction;
+	private UnityAction phaserFireAction;
 	private UnityAction xRayFireAction;
-	private UnityAction phasorHitAction;
+	private UnityAction phaserHitAction;
 	private UnityAction selectableHoverAction;
 	//private UnityAction<Selectable> selectableSetSelectableHoverAction;
 	private UnityAction<Selectable> selectableSetSelectableSubmitAction;
@@ -200,7 +200,7 @@ public class SoundManager : MonoBehaviour {
 	private UnityAction<Player> createNewUnitAction;
 	private UnityAction<string, Player> createNewColonyAction;
 	private UnityAction<CombatUnit, int> sunburstDamageAction;
-	private UnityAction chargePhasorAction;
+	private UnityAction chargePhaserAction;
 	private UnityAction chargeXRayAction;
 	private UnityAction playSectionExplosionSoundAction;
 	private UnityAction chargeLightTorpedoAction;
@@ -465,9 +465,9 @@ public class SoundManager : MonoBehaviour {
 		playerStartMainBackgroundAction = (player) => {StartMainBackgroundMusic();};
 		intChangeMusicVolumeAction = (volumeLevel) => {GetMusicVolumeLevel();};
 		intChangeSfxVolumeAction = (volumeLevel) => {GetSfxVolumeLevel();};
-		phasorFireAction = () => {audioPhasorFire.Play ();};
+		phaserFireAction = () => {audioPhaserFire.Play ();};
 		xRayFireAction = () => {audioXRayFire.Play ();};
-		phasorHitAction = () => {audioPhasorHit.PlayDelayed(.05f);};   //delay .125 seconds
+		phaserHitAction = () => {audioPhaserHit.PlayDelayed(.05f);};   //delay .125 seconds
 		selectableHoverAction = () => {playUISelectionSound = true;};
 		//selectableSetSelectableHoverAction = (selectable) => {PlayAudioSelectableHover();};
 		//selectableSetSelectableHoverAction = (selectable) => {playUISelectionSound = true;};
@@ -529,7 +529,7 @@ public class SoundManager : MonoBehaviour {
 
 		sunburstDamageAction = (damagedUnit, damage) => {PlaySunburstDamageSound();};
 
-		chargePhasorAction = () => {PlayChargePhasorSound();};
+		chargePhaserAction = () => {PlayChargePhaserSound();};
 		chargeXRayAction = () => {PlayChargeXRaySound();};
 
 		playSectionExplosionSoundAction = () => {PlaySectionExplosionSound();};
@@ -627,14 +627,14 @@ public class SoundManager : MonoBehaviour {
 		//add listener for sfx volume change
 		uiManager.GetComponent<Settings>().OnChangeSfxVolume.AddListener(intChangeSfxVolumeAction);
 
-		//add listener for phasor fire
-		uiManager.GetComponent<CutsceneManager>().OnFirePhasors.AddListener(phasorFireAction);
+		//add listener for phaser fire
+		uiManager.GetComponent<CutsceneManager>().OnFirePhasers.AddListener(phaserFireAction);
 
 		//add listener for xray fire
 		uiManager.GetComponent<CutsceneManager>().OnFireXRay.AddListener(xRayFireAction);
 
-		//add listener for phasor hit
-		uiManager.GetComponent<CutsceneManager>().OnPhasorHit.AddListener(phasorHitAction);
+		//add listener for phaser hit
+		uiManager.GetComponent<CutsceneManager>().OnPhaserHit.AddListener(phaserHitAction);
 
 		//add listener for selectable hover
 		uiManager.GetComponent<UINavigationMain>().OnPointerEnterValidSelectable.AddListener(selectableHoverAction);
@@ -692,7 +692,7 @@ public class SoundManager : MonoBehaviour {
 		EngineSection.OnWaitForTowedUnitAfterWarping.AddListener(stopEngineSoundAction);
 
 		//add listeners for firing weapons
-		uiManager.GetComponent<PhasorMenu>().OnFirePhasors.AddListener(fireWeaponAction);
+		uiManager.GetComponent<PhaserMenu>().OnFirePhasers.AddListener(fireWeaponAction);
 		uiManager.GetComponent<TorpedoMenu>().OnFireLightTorpedo.AddListener(fireWeaponAction);
 		uiManager.GetComponent<TorpedoMenu>().OnFireHeavyTorpedo.AddListener(fireWeaponAction);
 
@@ -720,8 +720,8 @@ public class SoundManager : MonoBehaviour {
 		//add listener for taking sunburst damage
 		Sunburst.OnSunburstDamageDealt.AddListener(sunburstDamageAction);
 
-		//add listeners for charging phasors
-		uiManager.GetComponent<CutsceneManager>().OnChargePhasors.AddListener(chargePhasorAction);
+		//add listeners for charging phasers
+		uiManager.GetComponent<CutsceneManager>().OnChargePhasers.AddListener(chargePhaserAction);
 		uiManager.GetComponent<CutsceneManager>().OnChargeXRay.AddListener(chargeXRayAction);
 
 		//add listeners for section explosion sound
@@ -778,9 +778,9 @@ public class SoundManager : MonoBehaviour {
 
 		audioMainBackgroundMusic = AddAudio (clipMainBackgroundMusic, true, false, 1.0f);
 
-		audioPhasorFire = AddAudio (clipPhasorFire, false, false, 1.0f);
+		audioPhaserFire = AddAudio (clipPhaserFire, false, false, 1.0f);
 		audioXRayFire = AddAudio (clipXRayFire, false, false, 1.0f);
-		audioPhasorHit = AddAudio (clipPhasorHit, false, false, 1.0f);
+		audioPhaserHit = AddAudio (clipPhaserHit, false, false, 1.0f);
 		audioSelectableHover = AddAudio (clipSelectableHover, false, false, 1.0f);
 		audioSelectableSubmit = AddAudio (clipSelectableSubmit, false, false, 1.0f);
 		audioSelectUnit = AddAudio (clipSelectUnit, false, false, 1.0f);
@@ -798,7 +798,7 @@ public class SoundManager : MonoBehaviour {
 		audioNewShip = AddAudio(clipNewShip, false, false, 1.0f);
 		audioNewColony = AddAudio(clipNewColony, false, false, 1.0f);
 		audioSunburstDamage = AddAudio(clipSunburstDamage, false, false, 1.0f);
-		audioChargePhasor = AddAudio(clipChargePhasor, false, false, 1.0f);
+		audioChargePhaser = AddAudio(clipChargePhaser, false, false, 1.0f);
 		audioChargeXRay = AddAudio(clipChargeXRay, false, false, 1.0f);
 		audioChargeLightTorpedo = AddAudio(clipChargeLightTorpedo, false, false, 1.0f);
 		audioChargeHeavyTorpedo = AddAudio(clipChargeHeavyTorpedo, false, false, 1.0f);
@@ -815,9 +815,9 @@ public class SoundManager : MonoBehaviour {
 
 		//fill up the sfx array
 		sfxAudioSources = new AudioSource[34];
-		sfxAudioSources [0] = audioPhasorFire;
+		sfxAudioSources [0] = audioPhaserFire;
 		sfxAudioSources [1] = audioXRayFire;
-		sfxAudioSources [2] = audioPhasorHit;
+		sfxAudioSources [2] = audioPhaserHit;
 		sfxAudioSources [3] = audioSelectableHover;
 		sfxAudioSources [4] = audioSelectableSubmit;
 		sfxAudioSources [5] = audioSelectUnit;
@@ -835,7 +835,7 @@ public class SoundManager : MonoBehaviour {
 		sfxAudioSources [17] = audioNewShip;
 		sfxAudioSources [18] = audioNewColony;
 		sfxAudioSources [19] = audioSunburstDamage;
-		sfxAudioSources [20] = audioChargePhasor;
+		sfxAudioSources [20] = audioChargePhaser;
 		sfxAudioSources [21] = audioChargeXRay;
 		sfxAudioSources [22] = audioChargeLightTorpedo;
 		sfxAudioSources [23] = audioChargeHeavyTorpedo;
@@ -1220,11 +1220,11 @@ public class SoundManager : MonoBehaviour {
 
 	}
 
-	//this function plays the new charge phasor sound
-	private void PlayChargePhasorSound(){
+	//this function plays the new charge phaser sound
+	private void PlayChargePhaserSound(){
 
 		//play the sound
-		audioChargePhasor.Play();
+		audioChargePhaser.Play();
 
 	}
 
@@ -1450,14 +1450,14 @@ public class SoundManager : MonoBehaviour {
 			//remove listener for sfx volume change
 			uiManager.GetComponent<Settings>().OnChangeSfxVolume.RemoveListener(intChangeSfxVolumeAction);
 
-			//remove listener for phasor fire
-			uiManager.GetComponent<CutsceneManager> ().OnFirePhasors.RemoveListener (phasorFireAction);
+			//remove listener for phaser fire
+			uiManager.GetComponent<CutsceneManager> ().OnFirePhasers.RemoveListener (phaserFireAction);
 
 			//remove listener for xray fire
 			uiManager.GetComponent<CutsceneManager>().OnFireXRay.RemoveListener(xRayFireAction);
 
-			//remove listener for phasor hit
-			uiManager.GetComponent<CutsceneManager>().OnPhasorHit.RemoveListener(phasorHitAction);
+			//remove listener for phaser hit
+			uiManager.GetComponent<CutsceneManager>().OnPhaserHit.RemoveListener(phaserHitAction);
 
 			//remove listener for selectable hover
 			uiManager.GetComponent<UINavigationMain>().OnPointerEnterValidSelectable.RemoveListener(selectableHoverAction);
@@ -1472,7 +1472,7 @@ public class SoundManager : MonoBehaviour {
 			uiManager.GetComponent<EndTurnDropDown>().OnEnterEndTurnPrompt.RemoveListener(togglePlaySubmitAction);
 
 			//remove listeners for firing weapons
-			uiManager.GetComponent<PhasorMenu>().OnFirePhasors.RemoveListener(fireWeaponAction);
+			uiManager.GetComponent<PhaserMenu>().OnFirePhasers.RemoveListener(fireWeaponAction);
 			uiManager.GetComponent<TorpedoMenu>().OnFireLightTorpedo.RemoveListener(fireWeaponAction);
 			uiManager.GetComponent<TorpedoMenu>().OnFireHeavyTorpedo.RemoveListener(fireWeaponAction);
 
@@ -1491,8 +1491,8 @@ public class SoundManager : MonoBehaviour {
 			//remove listener for repair crew
 			uiManager.GetComponent<CrewMenu>().OnUseRepairCrew.RemoveListener(useRepairAction);
 
-			//remove listeners for charging phasors
-			uiManager.GetComponent<CutsceneManager>().OnChargePhasors.RemoveListener(chargePhasorAction);
+			//remove listeners for charging phasers
+			uiManager.GetComponent<CutsceneManager>().OnChargePhasers.RemoveListener(chargePhaserAction);
 			uiManager.GetComponent<CutsceneManager>().OnChargeXRay.RemoveListener(chargeXRayAction);
 
 			//remove listeners for section explosion sound

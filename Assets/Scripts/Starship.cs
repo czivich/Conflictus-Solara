@@ -16,12 +16,12 @@ public class Starship : Ship {
 	public static readonly bool startingTranswarpDrive = false;
 	public static readonly int engineSectionShieldsMax = 100;
 
-	//phasor section values
-	public static readonly int startingPhasorRadarShot = 0;
+	//phaser section values
+	public static readonly int startingPhaserRadarShot = 0;
 	public static readonly bool startingXRayKernelUpgrade = false;
-	public static readonly bool startingPhasorRadarArray = false;
+	public static readonly bool startingPhaserRadarArray = false;
 	public static readonly bool startingTractorBeam = true;
-	public static readonly int phasorSectionShieldsMax = 100;
+	public static readonly int phaserSectionShieldsMax = 100;
 
 	//torpedo section values
 	public static readonly int startingTorpedoLaserShot = 0;
@@ -108,7 +108,7 @@ public class Starship : Ship {
 
 
 		//intialize the sections
-		this.GetComponent<PhasorSection>().Init();
+		this.GetComponent<PhaserSection>().Init();
 		this.GetComponent<TorpedoSection>().Init();
 		this.GetComponent<StorageSection>().Init();
 		this.GetComponent<CrewSection>().Init();

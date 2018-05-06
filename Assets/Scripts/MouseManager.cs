@@ -147,13 +147,13 @@ public class MouseManager : MonoBehaviour {
 
 		//add a listener for the static DisengageTractorBeam event so we can clear the targeted unit when it happens
 		//the event passes the ship that disengaged the tractor beam, but we don't need it to clear the targeted unit
-		PhasorSection.OnDisengageTractorBeam.AddListener(shipClearTargetedUnitAction);
+		PhaserSection.OnDisengageTractorBeam.AddListener(shipClearTargetedUnitAction);
 
 		//add a listener for turning off the tractor beam toggle so we can clear the targeted unit
 		uiManager.GetComponent<TractorBeamToggle>().OnTurnedOffTractorBeamToggleWhileNotEngaged.AddListener(ClearTargetedUnit);
 
-		//add a listener for turning off the phasor attack toggle so we can clear the targeted unit
-		uiManager.GetComponent<PhasorToggle>().OnTurnedOffPhasorToggle.AddListener(ClearTargetedUnit);
+		//add a listener for turning off the phaser attack toggle so we can clear the targeted unit
+		uiManager.GetComponent<PhaserToggle>().OnTurnedOffPhaserToggle.AddListener(ClearTargetedUnit);
 
 		//add a listener for turning off the torpedo attack toggle so we can clear the targeted unit
 		uiManager.GetComponent<TorpedoToggle>().OnTurnedOffTorpedoToggle.AddListener(ClearTargetedUnit);
@@ -318,7 +318,7 @@ public class MouseManager : MonoBehaviour {
 
 									//finally, check if the local hex we are mousing over is contained in the tractor beam range
 									//if so, we want to be using the targeting cursor
-									if (selectedUnit.GetComponent<PhasorSection> ().TargetableTractorBeamHexes.Contains (localHex) == true) {
+									if (selectedUnit.GetComponent<PhaserSection> ().TargetableTractorBeamHexes.Contains (localHex) == true) {
 
 										hexCursor.GetComponentInChildren<MeshRenderer> ().enabled = false;
 										targetingCursor.GetComponentInChildren<MeshRenderer> ().enabled = true;
@@ -353,7 +353,7 @@ public class MouseManager : MonoBehaviour {
 
 							}
 
-						} else if (gameManager.CurrentActionMode == GameManager.ActionMode.PhasorAttack) {
+						} else if (gameManager.CurrentActionMode == GameManager.ActionMode.PhaserAttack) {
 
 							//we need to determine if we are currently showing a range
 							//first, check if we have a combat unit selected
@@ -362,9 +362,9 @@ public class MouseManager : MonoBehaviour {
 								//next, check if the selected unit is a ship.  We will handle starbases slightly differently
 								if (selectedUnit.GetComponent<Ship> () == true) {
 
-									//finally, check if the local hex we are mousing over is contained in the phasor attack range
+									//finally, check if the local hex we are mousing over is contained in the phaser attack range
 									//if so, we want to be using the targeting cursor
-									if (selectedUnit.GetComponent<PhasorSection> ().TargetablePhasorHexes.Contains (localHex) == true) {
+									if (selectedUnit.GetComponent<PhaserSection> ().TargetablePhaserHexes.Contains (localHex) == true) {
 
 										hexCursor.GetComponentInChildren<MeshRenderer> ().enabled = false;
 										targetingCursor.GetComponentInChildren<MeshRenderer> ().enabled = true;
@@ -384,10 +384,10 @@ public class MouseManager : MonoBehaviour {
 								//else, if the selected unit is not a ship
 								else if (selectedUnit.GetComponent<Starbase> () == true) {
 
-									//finally, check if the local hex we are mousing over is contained in the phasor attack range
+									//finally, check if the local hex we are mousing over is contained in the phaser attack range
 									//if so, we want to be using the targeting cursor
-									//we can check either starbase phasor section for the targetable range
-									if (selectedUnit.GetComponent<StarbasePhasorSection1> ().TargetablePhasorHexes.Contains (localHex) == true) {
+									//we can check either starbase phaser section for the targetable range
+									if (selectedUnit.GetComponent<StarbasePhaserSection1> ().TargetablePhaserHexes.Contains (localHex) == true) {
 
 										hexCursor.GetComponentInChildren<MeshRenderer> ().enabled = false;
 										targetingCursor.GetComponentInChildren<MeshRenderer> ().enabled = true;
@@ -772,7 +772,7 @@ public class MouseManager : MonoBehaviour {
 											if (selectedUnit.GetComponent<EngineSection> ().ReachableHexes.Contains (localHex) == true) {
 
 												//check to see if the selected unit has a tractor beam engaged
-												if (selectedUnit.GetComponent<PhasorSection> ().tractorBeamIsPrimed == true) {
+												if (selectedUnit.GetComponent<PhaserSection> ().tractorBeamIsPrimed == true) {
 
 													//call the moveShip method with a towed unit and no unit towing us
 													//selectedUnit.GetComponent<Ship> ().MoveShip (localHex, targetedUnit.GetComponent<Ship> (), null);
@@ -847,7 +847,7 @@ public class MouseManager : MonoBehaviour {
 										else {
 										
 											//check if the unit we're hovering over is inside the targetable hexes
-											if (selectedUnit.GetComponent<PhasorSection> ().TargetableTractorBeamHexes.Contains (localHex) == true) {
+											if (selectedUnit.GetComponent<PhaserSection> ().TargetableTractorBeamHexes.Contains (localHex) == true) {
 
 												//check if the hovered object is already the targeted unit
 												if (targetedUnit == hoveredObject) {
@@ -865,7 +865,7 @@ public class MouseManager : MonoBehaviour {
 
 											}
 											//if the unit we're hovering over is outside the targetable hexes, then we want to select it
-											else if (selectedUnit.GetComponent<PhasorSection> ().TargetableTractorBeamHexes.Contains (localHex) == false) {
+											else if (selectedUnit.GetComponent<PhaserSection> ().TargetableTractorBeamHexes.Contains (localHex) == false) {
 
 												//Debug.Log ("Found Combat Unit!");
 												SetSelectedUnit (hoveredObject);
@@ -898,8 +898,8 @@ public class MouseManager : MonoBehaviour {
 							}
 							
 						} 
-						//this next section covers click events if we are in phasor attack mode
-						else if (gameManager.CurrentActionMode == GameManager.ActionMode.PhasorAttack) {
+						//this next section covers click events if we are in phaser attack mode
+						else if (gameManager.CurrentActionMode == GameManager.ActionMode.PhaserAttack) {
 
 							//check if we are clicking on the currenet selected unit.  we want to be able to clear the unit by clicking a 2nd time on it
 							if (hoveredObject == null || hoveredObject == selectedUnit) {
@@ -931,7 +931,7 @@ public class MouseManager : MonoBehaviour {
 											if (selectedUnit.GetComponent<Ship> () == true) {
 
 												//check if the unit we're hovering over is inside the targetable hexes
-												if (selectedUnit.GetComponent<PhasorSection> ().TargetablePhasorHexes.Contains (localHex) == true) {
+												if (selectedUnit.GetComponent<PhaserSection> ().TargetablePhaserHexes.Contains (localHex) == true) {
 
 
 													//check if the hovered object is already the targeted unit
@@ -943,7 +943,7 @@ public class MouseManager : MonoBehaviour {
 													} else {
 
 
-														//target the ship with phasors
+														//target the ship with phasers
 														SetTargetedUnit (hoveredObject);
 
 													}
@@ -951,7 +951,7 @@ public class MouseManager : MonoBehaviour {
 												}
 
 												//if the unit we're hovering over is outside the targetable hexes, then we want to select it
-												else if (selectedUnit.GetComponent<PhasorSection> ().TargetablePhasorHexes.Contains (localHex) == false) {
+												else if (selectedUnit.GetComponent<PhaserSection> ().TargetablePhaserHexes.Contains (localHex) == false) {
 
 													SetSelectedUnit (hoveredObject);
 
@@ -962,8 +962,8 @@ public class MouseManager : MonoBehaviour {
 											else if (selectedUnit.GetComponent<Starbase> () == true) {
 
 												//check if the unit we're hovering over is inside the targetable hexes
-												//we can use either starbase phasor section to check
-												if (selectedUnit.GetComponent<StarbasePhasorSection1> ().TargetablePhasorHexes.Contains (localHex) == true) {
+												//we can use either starbase phaser section to check
+												if (selectedUnit.GetComponent<StarbasePhaserSection1> ().TargetablePhaserHexes.Contains (localHex) == true) {
 
 													//check if the hovered object is already the targeted unit
 													if (targetedUnit == hoveredObject) {
@@ -974,7 +974,7 @@ public class MouseManager : MonoBehaviour {
 													} else {
 
 
-														//target the ship with phasors
+														//target the ship with phasers
 														SetTargetedUnit (hoveredObject);
 
 													}
@@ -982,7 +982,7 @@ public class MouseManager : MonoBehaviour {
 												}
 
 												//if the unit we're hovering over is outside the targetable hexes, then we want to select it
-												else if (selectedUnit.GetComponent<StarbasePhasorSection1> ().TargetablePhasorHexes.Contains (localHex) == false) {
+												else if (selectedUnit.GetComponent<StarbasePhaserSection1> ().TargetablePhaserHexes.Contains (localHex) == false) {
 
 													SetSelectedUnit (hoveredObject);
 
@@ -1013,7 +1013,7 @@ public class MouseManager : MonoBehaviour {
 										if (selectedUnit.GetComponent<Ship> () == true) {
 
 											//check if the unit we're hovering over is inside the targetable hexes
-											if (selectedUnit.GetComponent<PhasorSection> ().TargetablePhasorHexes.Contains (localHex) == true) {
+											if (selectedUnit.GetComponent<PhaserSection> ().TargetablePhaserHexes.Contains (localHex) == true) {
 
 												//check if the hovered object is already the targeted unit
 												if (targetedUnit == hoveredObject) {
@@ -1032,7 +1032,7 @@ public class MouseManager : MonoBehaviour {
 											}
 
 											//if the unit we're hovering over is outside the targetable hexes, then we want to select it
-											else if (selectedUnit.GetComponent<PhasorSection> ().TargetablePhasorHexes.Contains (localHex) == false) {
+											else if (selectedUnit.GetComponent<PhaserSection> ().TargetablePhaserHexes.Contains (localHex) == false) {
 
 												SetSelectedUnit (hoveredObject);
 
@@ -1043,8 +1043,8 @@ public class MouseManager : MonoBehaviour {
 										else if (selectedUnit.GetComponent<Starbase> () == true) {
 
 											//check if the unit we're hovering over is inside the targetable hexes
-											//we can use either starbase phasor section to check
-											if (selectedUnit.GetComponent<StarbasePhasorSection1> ().TargetablePhasorHexes.Contains (localHex) == true) {
+											//we can use either starbase phaser section to check
+											if (selectedUnit.GetComponent<StarbasePhaserSection1> ().TargetablePhaserHexes.Contains (localHex) == true) {
 
 												//check if the hovered object is already the targeted unit
 												if (targetedUnit == hoveredObject) {
@@ -1063,7 +1063,7 @@ public class MouseManager : MonoBehaviour {
 											}
 
 											//if the unit we're hovering over is outside the targetable hexes, then we want to select it
-											else if (selectedUnit.GetComponent<StarbasePhasorSection1> ().TargetablePhasorHexes.Contains (localHex) == false) {
+											else if (selectedUnit.GetComponent<StarbasePhaserSection1> ().TargetablePhaserHexes.Contains (localHex) == false) {
 
 												SetSelectedUnit (hoveredObject);
 
@@ -2075,11 +2075,11 @@ public class MouseManager : MonoBehaviour {
 
 			break;
 
-		case GameManager.ActionMode.PhasorAttack:
+		case GameManager.ActionMode.PhaserAttack:
 
-			//check if the unit has a phasor section
-			if (selectedUnit.GetComponent<PhasorSection> () == null && selectedUnit.GetComponent<StarbasePhasorSection1> () == null 
-				&& selectedUnit.GetComponent<StarbasePhasorSection2> () == null) {
+			//check if the unit has a phaser section
+			if (selectedUnit.GetComponent<PhaserSection> () == null && selectedUnit.GetComponent<StarbasePhaserSection1> () == null 
+				&& selectedUnit.GetComponent<StarbasePhaserSection2> () == null) {
 
 				//invoke the invalid event
 				OnInvalidActionModeForSelectedUnit.Invoke ();
@@ -2104,9 +2104,9 @@ public class MouseManager : MonoBehaviour {
 
 		case GameManager.ActionMode.TractorBeam:
 
-			//check if the unit has a phasor section
-			if (selectedUnit.GetComponent<PhasorSection> () == null && selectedUnit.GetComponent<StarbasePhasorSection1> () == null 
-				&& selectedUnit.GetComponent<StarbasePhasorSection2> () == null) {
+			//check if the unit has a phaser section
+			if (selectedUnit.GetComponent<PhaserSection> () == null && selectedUnit.GetComponent<StarbasePhaserSection1> () == null 
+				&& selectedUnit.GetComponent<StarbasePhaserSection2> () == null) {
 
 				//invoke the invalid event
 				OnInvalidActionModeForSelectedUnit.Invoke ();
@@ -2414,8 +2414,8 @@ public class MouseManager : MonoBehaviour {
 			//remove a listener for turning off the tractor beam toggle so we can clear the targeted unit
 			uiManager.GetComponent<TractorBeamToggle> ().OnTurnedOffTractorBeamToggleWhileNotEngaged.RemoveListener (ClearTargetedUnit);
 
-			//remove a listener for turning off the phasor attack toggle so we can clear the targeted unit
-			uiManager.GetComponent<PhasorToggle> ().OnTurnedOffPhasorToggle.RemoveListener (ClearTargetedUnit);
+			//remove a listener for turning off the phaser attack toggle so we can clear the targeted unit
+			uiManager.GetComponent<PhaserToggle> ().OnTurnedOffPhaserToggle.RemoveListener (ClearTargetedUnit);
 
 			//remove a listener for turning off the torpedo attack toggle so we can clear the targeted unit
 			uiManager.GetComponent<TorpedoToggle> ().OnTurnedOffTorpedoToggle.RemoveListener (ClearTargetedUnit);
@@ -2464,7 +2464,7 @@ public class MouseManager : MonoBehaviour {
 
 		//remove a listener for the static DisengageTractorBeam event so we can clear the targeted unit when it happens
 		//the event passes the ship that disengaged the tractor beam, but we don't need it to clear the targeted unit
-		PhasorSection.OnDisengageTractorBeam.RemoveListener (shipClearTargetedUnitAction);
+		PhaserSection.OnDisengageTractorBeam.RemoveListener (shipClearTargetedUnitAction);
 
 		//remove listener for ship getting destroyed
 		Ship.OnShipDestroyed.RemoveListener(combatUnitCheckTargetedUnitAction);

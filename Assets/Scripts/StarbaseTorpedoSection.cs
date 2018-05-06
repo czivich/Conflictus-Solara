@@ -182,9 +182,9 @@ public class StarbaseTorpedoSection : MonoBehaviour {
 		uiManager.GetComponent<TorpedoMenu>().OnFireLightTorpedo.AddListener (torpedoAttackFireLightTorpedoAction);
 		uiManager.GetComponent<TorpedoMenu>().OnFireHeavyTorpedo.AddListener (torpedoAttackFireHeavyTorpedoAction);
 
-		//add listener for getting hit by phasor attack
-		//CombatManager.OnPhasorAttackHitBaseTorpedoSection.AddListener(attackHitTakeDamageAction);
-		CutsceneManager.OnPhasorHitBaseTorpedoSection.AddListener(attackHitTakeDamageAction);
+		//add listener for getting hit by phaser attack
+		//CombatManager.OnPhaserAttackHitBaseTorpedoSection.AddListener(attackHitTakeDamageAction);
+		CutsceneManager.OnPhaserHitBaseTorpedoSection.AddListener(attackHitTakeDamageAction);
 
 		//add listener for getting hit by torpedo attack
 		//CombatManager.OnLightTorpedoAttackHitBaseTorpedoSection.AddListener(attackHitTakeDamageAction);
@@ -475,9 +475,9 @@ public class StarbaseTorpedoSection : MonoBehaviour {
 
 		}
 
-		//remove listener for getting hit by phasor attack
-		//CombatManager.OnPhasorAttackHitBaseTorpedoSection.RemoveListener(attackHitTakeDamageAction);
-		CutsceneManager.OnPhasorHitBaseTorpedoSection.RemoveListener(attackHitTakeDamageAction);
+		//remove listener for getting hit by phaser attack
+		//CombatManager.OnPhaserAttackHitBaseTorpedoSection.RemoveListener(attackHitTakeDamageAction);
+		CutsceneManager.OnPhaserHitBaseTorpedoSection.RemoveListener(attackHitTakeDamageAction);
 
 		//remove listener for getting hit by torpedo attack
 		//CombatManager.OnLightTorpedoAttackHitBaseTorpedoSection.RemoveListener(attackHitTakeDamageAction);

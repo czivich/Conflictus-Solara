@@ -55,19 +55,19 @@ public class MessageManager : MonoBehaviour {
 	private UnityAction<Ship> shipSendTractorBeamDisengagedMessageAction;
 	private UnityAction<Ship> shipSendUseWarpBoosterMessageAction;
 	private UnityAction<Ship> shipSendUseTranswarpBoosterMessageAction;
-	private UnityAction<CombatUnit,CombatUnit,String> firePhasorsSendPhasorAttackMessageAction;
-	private UnityAction<CombatUnit,CombatUnit,int> phasorsSendPhasorAttackHitShipPhasorSectionMessageAction;
-	private UnityAction<CombatUnit,CombatUnit,int> phasorsSendPhasorAttackHitShipTorpedoSectionMessageAction;
-	private UnityAction<CombatUnit,CombatUnit,int> phasorsSendPhasorAttackHitShipStorageSectionMessageAction;
-	private UnityAction<CombatUnit,CombatUnit,int> phasorsSendPhasorAttackHitShipCrewSectionMessageAction;
-	private UnityAction<CombatUnit,CombatUnit,int> phasorsSendPhasorAttackHitShipEngineSectionMessageAction;
-	//private UnityAction<CombatUnit,CombatUnit> phasorsSendPhasorAttackMissMessageAction;
-	private UnityAction<CombatUnit,CombatUnit,int> phasorsSendPhasorAttackHitBasePhasorSection1MessageAction;
-	private UnityAction<CombatUnit,CombatUnit,int> phasorsSendPhasorAttackHitBasePhasorSection2MessageAction;
-	private UnityAction<CombatUnit,CombatUnit,int> phasorsSendPhasorAttackHitBaseTorpedoSectionMessageAction;
-	private UnityAction<CombatUnit,CombatUnit,int> phasorsSendPhasorAttackHitBaseCrewSectionMessageAction;
-	private UnityAction<CombatUnit,CombatUnit,int> phasorsSendPhasorAttackHitBaseStorageSection1MessageAction;
-	private UnityAction<CombatUnit,CombatUnit,int> phasorsSendPhasorAttackHitBaseStorageSection2MessageAction;
+	private UnityAction<CombatUnit,CombatUnit,String> firePhasersSendPhaserAttackMessageAction;
+	private UnityAction<CombatUnit,CombatUnit,int> phasersSendPhaserAttackHitShipPhaserSectionMessageAction;
+	private UnityAction<CombatUnit,CombatUnit,int> phasersSendPhaserAttackHitShipTorpedoSectionMessageAction;
+	private UnityAction<CombatUnit,CombatUnit,int> phasersSendPhaserAttackHitShipStorageSectionMessageAction;
+	private UnityAction<CombatUnit,CombatUnit,int> phasersSendPhaserAttackHitShipCrewSectionMessageAction;
+	private UnityAction<CombatUnit,CombatUnit,int> phasersSendPhaserAttackHitShipEngineSectionMessageAction;
+	//private UnityAction<CombatUnit,CombatUnit> phasersSendPhaserAttackMissMessageAction;
+	private UnityAction<CombatUnit,CombatUnit,int> phasersSendPhaserAttackHitBasePhaserSection1MessageAction;
+	private UnityAction<CombatUnit,CombatUnit,int> phasersSendPhaserAttackHitBasePhaserSection2MessageAction;
+	private UnityAction<CombatUnit,CombatUnit,int> phasersSendPhaserAttackHitBaseTorpedoSectionMessageAction;
+	private UnityAction<CombatUnit,CombatUnit,int> phasersSendPhaserAttackHitBaseCrewSectionMessageAction;
+	private UnityAction<CombatUnit,CombatUnit,int> phasersSendPhaserAttackHitBaseStorageSection1MessageAction;
+	private UnityAction<CombatUnit,CombatUnit,int> phasersSendPhaserAttackHitBaseStorageSection2MessageAction;
 	private UnityAction<CombatUnit,CombatUnit,String> fireLightTorpedoSendTorpedoAttackMessageAction;
 	private UnityAction<CombatUnit,CombatUnit,String> fireHeavyTorpedoSendTorpedoAttackMessageAction;
 	private UnityAction<FlareManager.FlareEventData> flareSendUsedFlaresYesMessageAction;
@@ -76,12 +76,12 @@ public class MessageManager : MonoBehaviour {
 	//private UnityAction<CombatUnit,CombatUnit, CombatManager.ShipSectionTargeted,int> flaresSendFlaresDefeatHeavyTorpedoMessageAction;
 	private UnityAction<CombatUnit,CombatUnit,int> flaresSendFlaresFailLightTorpedoMessageAction;
 	private UnityAction<CombatUnit,CombatUnit,int> flaresSendFlaresFailHeavyTorpedoMessageAction;
-	private UnityAction<CombatUnit,CombatUnit,int> torpedoSendLightTorpedoAttackHitShipPhasorSectionMessageAction;
+	private UnityAction<CombatUnit,CombatUnit,int> torpedoSendLightTorpedoAttackHitShipPhaserSectionMessageAction;
 	private UnityAction<CombatUnit,CombatUnit,int> torpedoSendLightTorpedoAttackHitShipTorpedoSectionMessageAction;
 	private UnityAction<CombatUnit,CombatUnit,int> torpedoSendLightTorpedoAttackHitShipStorageSectionMessageAction;
 	private UnityAction<CombatUnit,CombatUnit,int> torpedoSendLightTorpedoAttackHitShipCrewSectionMessageAction;
 	private UnityAction<CombatUnit,CombatUnit,int> torpedoSendLightTorpedoAttackHitShipEngineSectionMessageAction;
-	private UnityAction<CombatUnit,CombatUnit,int> torpedoSendHeavyTorpedoAttackHitShipPhasorSectionMessageAction;
+	private UnityAction<CombatUnit,CombatUnit,int> torpedoSendHeavyTorpedoAttackHitShipPhaserSectionMessageAction;
 	private UnityAction<CombatUnit,CombatUnit,int> torpedoSendHeavyTorpedoAttackHitShipTorpedoSectionMessageAction;
 	private UnityAction<CombatUnit,CombatUnit,int> torpedoSendHeavyTorpedoAttackHitShipStorageSectionMessageAction;
 	private UnityAction<CombatUnit,CombatUnit,int> torpedoSendHeavyTorpedoAttackHitShipCrewSectionMessageAction;
@@ -89,53 +89,53 @@ public class MessageManager : MonoBehaviour {
 	//private UnityAction<CombatUnit,CombatUnit> torpedoSendLightTorpedoAttackMissMessageAction;
 	//private UnityAction<CombatUnit,CombatUnit> torpedoSendHeavyTorpedoAttackMissMessageAction;
 
-	private UnityAction<CombatUnit,CombatUnit,int> torpedoSendLightTorpedoAttackHitBasePhasorSection1MessageAction;
-	private UnityAction<CombatUnit,CombatUnit,int> torpedoSendLightTorpedoAttackHitBasePhasorSection2MessageAction;
+	private UnityAction<CombatUnit,CombatUnit,int> torpedoSendLightTorpedoAttackHitBasePhaserSection1MessageAction;
+	private UnityAction<CombatUnit,CombatUnit,int> torpedoSendLightTorpedoAttackHitBasePhaserSection2MessageAction;
 	private UnityAction<CombatUnit,CombatUnit,int> torpedoSendLightTorpedoAttackHitBaseTorpedoSectionMessageAction;
 	private UnityAction<CombatUnit,CombatUnit,int> torpedoSendLightTorpedoAttackHitBaseCrewSectionMessageAction;
 	private UnityAction<CombatUnit,CombatUnit,int> torpedoSendLightTorpedoAttackHitBaseStorageSection1MessageAction;
 	private UnityAction<CombatUnit,CombatUnit,int> torpedoSendLightTorpedoAttackHitBaseStorageSection2MessageAction;
-	private UnityAction<CombatUnit,CombatUnit,int> torpedoSendHeavyTorpedoAttackHitBasePhasorSection1MessageAction;
-	private UnityAction<CombatUnit,CombatUnit,int> torpedoSendHeavyTorpedoAttackHitBasePhasorSection2MessageAction;
+	private UnityAction<CombatUnit,CombatUnit,int> torpedoSendHeavyTorpedoAttackHitBasePhaserSection1MessageAction;
+	private UnityAction<CombatUnit,CombatUnit,int> torpedoSendHeavyTorpedoAttackHitBasePhaserSection2MessageAction;
 	private UnityAction<CombatUnit,CombatUnit,int> torpedoSendHeavyTorpedoAttackHitBaseTorpedoSectionMessageAction;
 	private UnityAction<CombatUnit,CombatUnit,int> torpedoSendHeavyTorpedoAttackHitBaseCrewSectionMessageAction;
 	private UnityAction<CombatUnit,CombatUnit,int> torpedoSendHeavyTorpedoAttackHitBaseStorageSection1MessageAction;
 	private UnityAction<CombatUnit,CombatUnit,int> torpedoSendHeavyTorpedoAttackHitBaseStorageSection2MessageAction;
 
-	private UnityAction<CombatUnit,CombatUnit,CombatManager.CrystalType,int> crystalSendCrystalUsedOnShipPhasorSectionMessageAction;
+	private UnityAction<CombatUnit,CombatUnit,CombatManager.CrystalType,int> crystalSendCrystalUsedOnShipPhaserSectionMessageAction;
 	private UnityAction<CombatUnit,CombatUnit,CombatManager.CrystalType,int> crystalSendCrystalUsedOnShipTorpedoSectionMessageAction;
 	private UnityAction<CombatUnit,CombatUnit,CombatManager.CrystalType,int> crystalSendCrystalUsedOnShipStorageSectionMessageAction;
 	private UnityAction<CombatUnit,CombatUnit,CombatManager.CrystalType,int> crystalSendCrystalUsedOnShipCrewSectionMessageAction;
 	private UnityAction<CombatUnit,CombatUnit,CombatManager.CrystalType,int> crystalSendCrystalUsedOnShipEngineSectionMessageAction;
 
-	private UnityAction<CombatUnit,CombatUnit,CombatManager.CrystalType,int> crystalSendCrystalUsedOnBasePhasorSection1MessageAction;
-	private UnityAction<CombatUnit,CombatUnit,CombatManager.CrystalType,int> crystalSendCrystalUsedOnBasePhasorSection2MessageAction;
+	private UnityAction<CombatUnit,CombatUnit,CombatManager.CrystalType,int> crystalSendCrystalUsedOnBasePhaserSection1MessageAction;
+	private UnityAction<CombatUnit,CombatUnit,CombatManager.CrystalType,int> crystalSendCrystalUsedOnBasePhaserSection2MessageAction;
 	private UnityAction<CombatUnit,CombatUnit,CombatManager.CrystalType,int> crystalSendCrystalUsedOnBaseTorpedoSectionMessageAction;
 	private UnityAction<CombatUnit,CombatUnit,CombatManager.CrystalType,int> crystalSendCrystalUsedOnBaseCrewSectionMessageAction;
 	private UnityAction<CombatUnit,CombatUnit,CombatManager.CrystalType,int> crystalSendCrystalUsedOnBaseStorageSection1MessageAction;
 	private UnityAction<CombatUnit,CombatUnit,CombatManager.CrystalType,int> crystalSendCrystalUsedOnBaseStorageSection2MessageAction;
 
-	private UnityAction<CombatUnit,CombatUnit> repairSendRepairCrewUsedOnShipPhasorSectionMessageAction;
+	private UnityAction<CombatUnit,CombatUnit> repairSendRepairCrewUsedOnShipPhaserSectionMessageAction;
 	private UnityAction<CombatUnit,CombatUnit> repairSendRepairCrewUsedOnShipTorpedoSectionMessageAction;
 	private UnityAction<CombatUnit,CombatUnit> repairSendRepairCrewUsedOnShipStorageSectionMessageAction;
 	private UnityAction<CombatUnit,CombatUnit> repairSendRepairCrewUsedOnShipCrewSectionMessageAction;
 	private UnityAction<CombatUnit,CombatUnit> repairSendRepairCrewUsedOnShipEngineSectionMessageAction;
 
-	private UnityAction<CombatUnit,CombatUnit> repairSendRepairCrewUsedOnBasePhasorSection1MessageAction;
-	private UnityAction<CombatUnit,CombatUnit> repairSendRepairCrewUsedOnBasePhasorSection2MessageAction;
+	private UnityAction<CombatUnit,CombatUnit> repairSendRepairCrewUsedOnBasePhaserSection1MessageAction;
+	private UnityAction<CombatUnit,CombatUnit> repairSendRepairCrewUsedOnBasePhaserSection2MessageAction;
 	private UnityAction<CombatUnit,CombatUnit> repairSendRepairCrewUsedOnBaseTorpedoSectionMessageAction;
 	private UnityAction<CombatUnit,CombatUnit> repairSendRepairCrewUsedOnBaseCrewSectionMessageAction;
 	private UnityAction<CombatUnit,CombatUnit> repairSendRepairCrewUsedOnBaseStorageSection1MessageAction;
 	private UnityAction<CombatUnit,CombatUnit> repairSendRepairCrewUsedOnBaseStorageSection2MessageAction;
 
-	private UnityAction<CombatUnit> combatUnitSendShipPhasorSectionDestroyedMessageAction;
+	private UnityAction<CombatUnit> combatUnitSendShipPhaserSectionDestroyedMessageAction;
 	private UnityAction<CombatUnit> combatUnitSendShipTorpedoSectionDestroyedMessageAction;
 	private UnityAction<CombatUnit> combatUnitSendShipStorageSectionDestroyedMessageAction;
 	private UnityAction<CombatUnit> combatUnitSendShipCrewSectionDestroyedMessageAction;
 	private UnityAction<CombatUnit> combatUnitSendShipEngineSectionDestroyedMessageAction;
 
-	private UnityAction<CombatUnit> combatUnitSendBasePhasorSection1DestroyedMessageAction;
-	private UnityAction<CombatUnit> combatUnitSendBasePhasorSection2DestroyedMessageAction;
+	private UnityAction<CombatUnit> combatUnitSendBasePhaserSection1DestroyedMessageAction;
+	private UnityAction<CombatUnit> combatUnitSendBasePhaserSection2DestroyedMessageAction;
 	private UnityAction<CombatUnit> combatUnitSendBaseTorpedoSectionDestroyedMessageAction;
 	private UnityAction<CombatUnit> combatUnitSendBaseCrewSectionDestroyedMessageAction;
 	private UnityAction<CombatUnit> combatUnitSendBaseStorageSection1DestroyedMessageAction;
@@ -163,7 +163,7 @@ public class MessageManager : MonoBehaviour {
 	private UnityAction<string> stringSendDeletedFileMessageAction;
 
 	//additional actions after adding cutscene manager
-	private UnityAction<CombatUnit,CombatUnit,int> cutscenePhasorsSendPhasorAttackMissMessageAction;
+	private UnityAction<CombatUnit,CombatUnit,int> cutscenePhasersSendPhaserAttackMissMessageAction;
 	private UnityAction<CombatUnit,CombatUnit,int> cutsceneTorpedoSendLightTorpedoAttackMissMessageAction;
 	private UnityAction<CombatUnit,CombatUnit,int> cutsceneTorpedoSendHeavyTorpedoAttackMissMessageAction;
 	private UnityAction<CombatUnit,CombatUnit,int> cutsceneFlaresSendFlaresDefeatLightTorpedoMessageAction;
@@ -194,22 +194,22 @@ public class MessageManager : MonoBehaviour {
 		shipSendUseWarpBoosterMessageAction = (ship) => {SendUseWarpBoosterMessage(ship);};
 		shipSendUseTranswarpBoosterMessageAction = (ship) => {SendUseTranswarpBoosterMessage(ship);};
 
-		firePhasorsSendPhasorAttackMessageAction = (attackingUnit, targetedUnit, sectionTargeted) => {SendPhasorAttackMessage(attackingUnit,targetedUnit);};
-		phasorsSendPhasorAttackHitShipPhasorSectionMessageAction = (attackingUnit, targetedUnit, damage) => {SendPhasorAttackHitShipPhasorSectionMessage(attackingUnit, targetedUnit, damage);};
-		phasorsSendPhasorAttackHitShipTorpedoSectionMessageAction = (attackingUnit, targetedUnit, damage) => {SendPhasorAttackHitShipTorpedoSectionMessage(attackingUnit, targetedUnit, damage);};
-		phasorsSendPhasorAttackHitShipStorageSectionMessageAction = (attackingUnit, targetedUnit, damage) => {SendPhasorAttackHitShipStorageSectionMessage(attackingUnit, targetedUnit, damage);};
-		phasorsSendPhasorAttackHitShipCrewSectionMessageAction = (attackingUnit, targetedUnit, damage) => {SendPhasorAttackHitShipCrewSectionMessage(attackingUnit, targetedUnit, damage);};
-		phasorsSendPhasorAttackHitShipEngineSectionMessageAction = (attackingUnit, targetedUnit, damage) => {SendPhasorAttackHitShipEngineSectionMessage(attackingUnit, targetedUnit, damage);};
-		//phasorsSendPhasorAttackMissMessageAction = (attackingUnit, targetedUnit) => {SendPhasorAttackMissMessage(attackingUnit, targetedUnit);};
+		firePhasersSendPhaserAttackMessageAction = (attackingUnit, targetedUnit, sectionTargeted) => {SendPhaserAttackMessage(attackingUnit,targetedUnit);};
+		phasersSendPhaserAttackHitShipPhaserSectionMessageAction = (attackingUnit, targetedUnit, damage) => {SendPhaserAttackHitShipPhaserSectionMessage(attackingUnit, targetedUnit, damage);};
+		phasersSendPhaserAttackHitShipTorpedoSectionMessageAction = (attackingUnit, targetedUnit, damage) => {SendPhaserAttackHitShipTorpedoSectionMessage(attackingUnit, targetedUnit, damage);};
+		phasersSendPhaserAttackHitShipStorageSectionMessageAction = (attackingUnit, targetedUnit, damage) => {SendPhaserAttackHitShipStorageSectionMessage(attackingUnit, targetedUnit, damage);};
+		phasersSendPhaserAttackHitShipCrewSectionMessageAction = (attackingUnit, targetedUnit, damage) => {SendPhaserAttackHitShipCrewSectionMessage(attackingUnit, targetedUnit, damage);};
+		phasersSendPhaserAttackHitShipEngineSectionMessageAction = (attackingUnit, targetedUnit, damage) => {SendPhaserAttackHitShipEngineSectionMessage(attackingUnit, targetedUnit, damage);};
+		//phasersSendPhaserAttackMissMessageAction = (attackingUnit, targetedUnit) => {SendPhaserAttackMissMessage(attackingUnit, targetedUnit);};
 
-		cutscenePhasorsSendPhasorAttackMissMessageAction = (attackingUnit, targetedUnit, damage) => {SendPhasorAttackMissMessage(attackingUnit, targetedUnit);};
+		cutscenePhasersSendPhaserAttackMissMessageAction = (attackingUnit, targetedUnit, damage) => {SendPhaserAttackMissMessage(attackingUnit, targetedUnit);};
 
-		phasorsSendPhasorAttackHitBasePhasorSection1MessageAction = (attackingUnit, targetedUnit, damage) => {SendPhasorAttackHitBasePhasorSection1Message(attackingUnit, targetedUnit, damage);};
-		phasorsSendPhasorAttackHitBasePhasorSection2MessageAction = (attackingUnit, targetedUnit, damage) => {SendPhasorAttackHitBasePhasorSection2Message(attackingUnit, targetedUnit, damage);};
-		phasorsSendPhasorAttackHitBaseTorpedoSectionMessageAction = (attackingUnit, targetedUnit, damage) => {SendPhasorAttackHitBaseTorpedoSectionMessage(attackingUnit, targetedUnit, damage);};
-		phasorsSendPhasorAttackHitBaseCrewSectionMessageAction = (attackingUnit, targetedUnit, damage) => {SendPhasorAttackHitBaseCrewSectionMessage(attackingUnit, targetedUnit, damage);};
-		phasorsSendPhasorAttackHitBaseStorageSection1MessageAction = (attackingUnit, targetedUnit, damage) => {SendPhasorAttackHitBaseStorageSection1Message(attackingUnit, targetedUnit, damage);};
-		phasorsSendPhasorAttackHitBaseStorageSection2MessageAction = (attackingUnit, targetedUnit, damage) => {SendPhasorAttackHitBaseStorageSection2Message(attackingUnit, targetedUnit, damage);};
+		phasersSendPhaserAttackHitBasePhaserSection1MessageAction = (attackingUnit, targetedUnit, damage) => {SendPhaserAttackHitBasePhaserSection1Message(attackingUnit, targetedUnit, damage);};
+		phasersSendPhaserAttackHitBasePhaserSection2MessageAction = (attackingUnit, targetedUnit, damage) => {SendPhaserAttackHitBasePhaserSection2Message(attackingUnit, targetedUnit, damage);};
+		phasersSendPhaserAttackHitBaseTorpedoSectionMessageAction = (attackingUnit, targetedUnit, damage) => {SendPhaserAttackHitBaseTorpedoSectionMessage(attackingUnit, targetedUnit, damage);};
+		phasersSendPhaserAttackHitBaseCrewSectionMessageAction = (attackingUnit, targetedUnit, damage) => {SendPhaserAttackHitBaseCrewSectionMessage(attackingUnit, targetedUnit, damage);};
+		phasersSendPhaserAttackHitBaseStorageSection1MessageAction = (attackingUnit, targetedUnit, damage) => {SendPhaserAttackHitBaseStorageSection1Message(attackingUnit, targetedUnit, damage);};
+		phasersSendPhaserAttackHitBaseStorageSection2MessageAction = (attackingUnit, targetedUnit, damage) => {SendPhaserAttackHitBaseStorageSection2Message(attackingUnit, targetedUnit, damage);};
 
 		fireLightTorpedoSendTorpedoAttackMessageAction = (attackingUnit,targetedUnit,sectionTargeted) => {SendTorpedoAttackMessage(attackingUnit,targetedUnit, "Light");};
 		fireHeavyTorpedoSendTorpedoAttackMessageAction = (attackingUnit,targetedUnit,sectionTargeted) => {SendTorpedoAttackMessage(attackingUnit,targetedUnit, "Heavy");};
@@ -226,8 +226,8 @@ public class MessageManager : MonoBehaviour {
 		flaresSendFlaresFailLightTorpedoMessageAction = (attackingUnit, targetedUnit, numberFlaresUsed) => {SendFlaresFailMessage("Light");};
 		flaresSendFlaresFailHeavyTorpedoMessageAction = (attackingUnit, targetedUnit, numberFlaresUsed) => {SendFlaresFailMessage("Heavy");};
 
-		torpedoSendLightTorpedoAttackHitShipPhasorSectionMessageAction = (attackingUnit, targetedUnit, damage) => {SendTorpedoAttackHitShipPhasorSectionMessage(attackingUnit, targetedUnit, damage, "Light");};
-		torpedoSendHeavyTorpedoAttackHitShipPhasorSectionMessageAction = (attackingUnit, targetedUnit, damage) => {SendTorpedoAttackHitShipPhasorSectionMessage(attackingUnit, targetedUnit, damage, "Heavy");};
+		torpedoSendLightTorpedoAttackHitShipPhaserSectionMessageAction = (attackingUnit, targetedUnit, damage) => {SendTorpedoAttackHitShipPhaserSectionMessage(attackingUnit, targetedUnit, damage, "Light");};
+		torpedoSendHeavyTorpedoAttackHitShipPhaserSectionMessageAction = (attackingUnit, targetedUnit, damage) => {SendTorpedoAttackHitShipPhaserSectionMessage(attackingUnit, targetedUnit, damage, "Heavy");};
 		torpedoSendLightTorpedoAttackHitShipTorpedoSectionMessageAction = (attackingUnit, targetedUnit, damage) => {SendTorpedoAttackHitShipTorpedoSectionMessage(attackingUnit, targetedUnit, damage, "Light");};
 		torpedoSendHeavyTorpedoAttackHitShipTorpedoSectionMessageAction = (attackingUnit, targetedUnit, damage) => {SendTorpedoAttackHitShipTorpedoSectionMessage(attackingUnit, targetedUnit, damage, "Heavy");};
 		torpedoSendLightTorpedoAttackHitShipStorageSectionMessageAction = (attackingUnit, targetedUnit, damage) => {SendTorpedoAttackHitShipStorageSectionMessage(attackingUnit, targetedUnit, damage, "Light");};
@@ -243,10 +243,10 @@ public class MessageManager : MonoBehaviour {
 		cutsceneTorpedoSendLightTorpedoAttackMissMessageAction = (attackingUnit, targetedUnit, damage) => {SendTorpedoAttackMissMessage(attackingUnit, targetedUnit, "Light");};
 		cutsceneTorpedoSendHeavyTorpedoAttackMissMessageAction = (attackingUnit, targetedUnit, damage) => {SendTorpedoAttackMissMessage(attackingUnit, targetedUnit, "Heavy");};
 
-		torpedoSendLightTorpedoAttackHitBasePhasorSection1MessageAction = (attackingUnit, targetedUnit, damage) => {SendTorpedoAttackHitBasePhasorSection1Message(attackingUnit, targetedUnit, damage, "Light");};
-		torpedoSendHeavyTorpedoAttackHitBasePhasorSection1MessageAction = (attackingUnit, targetedUnit, damage) => {SendTorpedoAttackHitBasePhasorSection1Message(attackingUnit, targetedUnit, damage, "Heavy");};
-		torpedoSendLightTorpedoAttackHitBasePhasorSection2MessageAction = (attackingUnit, targetedUnit, damage) => {SendTorpedoAttackHitBasePhasorSection2Message(attackingUnit, targetedUnit, damage, "Light");};
-		torpedoSendHeavyTorpedoAttackHitBasePhasorSection2MessageAction = (attackingUnit, targetedUnit, damage) => {SendTorpedoAttackHitBasePhasorSection2Message(attackingUnit, targetedUnit, damage, "Heavy");};
+		torpedoSendLightTorpedoAttackHitBasePhaserSection1MessageAction = (attackingUnit, targetedUnit, damage) => {SendTorpedoAttackHitBasePhaserSection1Message(attackingUnit, targetedUnit, damage, "Light");};
+		torpedoSendHeavyTorpedoAttackHitBasePhaserSection1MessageAction = (attackingUnit, targetedUnit, damage) => {SendTorpedoAttackHitBasePhaserSection1Message(attackingUnit, targetedUnit, damage, "Heavy");};
+		torpedoSendLightTorpedoAttackHitBasePhaserSection2MessageAction = (attackingUnit, targetedUnit, damage) => {SendTorpedoAttackHitBasePhaserSection2Message(attackingUnit, targetedUnit, damage, "Light");};
+		torpedoSendHeavyTorpedoAttackHitBasePhaserSection2MessageAction = (attackingUnit, targetedUnit, damage) => {SendTorpedoAttackHitBasePhaserSection2Message(attackingUnit, targetedUnit, damage, "Heavy");};
 		torpedoSendLightTorpedoAttackHitBaseTorpedoSectionMessageAction = (attackingUnit, targetedUnit, damage) => {SendTorpedoAttackHitBaseTorpedoSectionMessage(attackingUnit, targetedUnit, damage, "Light");};
 		torpedoSendHeavyTorpedoAttackHitBaseTorpedoSectionMessageAction = (attackingUnit, targetedUnit, damage) => {SendTorpedoAttackHitBaseTorpedoSectionMessage(attackingUnit, targetedUnit, damage, "Heavy");};
 		torpedoSendLightTorpedoAttackHitBaseCrewSectionMessageAction = (attackingUnit, targetedUnit, damage) => {SendTorpedoAttackHitBaseCrewSectionMessage(attackingUnit, targetedUnit, damage, "Light");};
@@ -256,40 +256,40 @@ public class MessageManager : MonoBehaviour {
 		torpedoSendLightTorpedoAttackHitBaseStorageSection2MessageAction = (attackingUnit, targetedUnit, damage) => {SendTorpedoAttackHitBaseStorageSection2Message(attackingUnit, targetedUnit, damage, "Light");};
 		torpedoSendHeavyTorpedoAttackHitBaseStorageSection2MessageAction = (attackingUnit, targetedUnit, damage) => {SendTorpedoAttackHitBaseStorageSection2Message(attackingUnit, targetedUnit, damage, "Heavy");};
 
-		crystalSendCrystalUsedOnShipPhasorSectionMessageAction = (selectedUnit, targetedUnit, crystalType, shieldsHealed) => {SendCrystalUsedMessage(selectedUnit,targetedUnit,crystalType,shieldsHealed,"Phasor Section");};
+		crystalSendCrystalUsedOnShipPhaserSectionMessageAction = (selectedUnit, targetedUnit, crystalType, shieldsHealed) => {SendCrystalUsedMessage(selectedUnit,targetedUnit,crystalType,shieldsHealed,"Phaser Section");};
 		crystalSendCrystalUsedOnShipTorpedoSectionMessageAction = (selectedUnit, targetedUnit, crystalType, shieldsHealed) => {SendCrystalUsedMessage(selectedUnit,targetedUnit,crystalType,shieldsHealed,"Torpedo Section");};
 		crystalSendCrystalUsedOnShipStorageSectionMessageAction = (selectedUnit, targetedUnit, crystalType, shieldsHealed) => {SendCrystalUsedMessage(selectedUnit,targetedUnit,crystalType,shieldsHealed,"Storage Section");};
 		crystalSendCrystalUsedOnShipCrewSectionMessageAction = (selectedUnit, targetedUnit, crystalType, shieldsHealed) => {SendCrystalUsedMessage(selectedUnit,targetedUnit,crystalType,shieldsHealed,"Crew Section");};
 		crystalSendCrystalUsedOnShipEngineSectionMessageAction = (selectedUnit, targetedUnit, crystalType, shieldsHealed) => {SendCrystalUsedMessage(selectedUnit,targetedUnit,crystalType,shieldsHealed,"Engine Section");};
 
-		crystalSendCrystalUsedOnBasePhasorSection1MessageAction = (selectedUnit, targetedUnit, crystalType, shieldsHealed) => {SendCrystalUsedMessage(selectedUnit,targetedUnit,crystalType,shieldsHealed,"Phasor Section 1");};
-		crystalSendCrystalUsedOnBasePhasorSection2MessageAction = (selectedUnit, targetedUnit, crystalType, shieldsHealed) => {SendCrystalUsedMessage(selectedUnit,targetedUnit,crystalType,shieldsHealed,"Phasor Section 2");};
+		crystalSendCrystalUsedOnBasePhaserSection1MessageAction = (selectedUnit, targetedUnit, crystalType, shieldsHealed) => {SendCrystalUsedMessage(selectedUnit,targetedUnit,crystalType,shieldsHealed,"Phaser Section 1");};
+		crystalSendCrystalUsedOnBasePhaserSection2MessageAction = (selectedUnit, targetedUnit, crystalType, shieldsHealed) => {SendCrystalUsedMessage(selectedUnit,targetedUnit,crystalType,shieldsHealed,"Phaser Section 2");};
 		crystalSendCrystalUsedOnBaseTorpedoSectionMessageAction = (selectedUnit, targetedUnit, crystalType, shieldsHealed) => {SendCrystalUsedMessage(selectedUnit,targetedUnit,crystalType,shieldsHealed,"Torpedo Section");};
 		crystalSendCrystalUsedOnBaseCrewSectionMessageAction = (selectedUnit, targetedUnit, crystalType, shieldsHealed) => {SendCrystalUsedMessage(selectedUnit,targetedUnit,crystalType,shieldsHealed,"Crew Section");};
 		crystalSendCrystalUsedOnBaseStorageSection1MessageAction = (selectedUnit, targetedUnit, crystalType, shieldsHealed) => {SendCrystalUsedMessage(selectedUnit,targetedUnit,crystalType,shieldsHealed,"Storage Section 1");};
 		crystalSendCrystalUsedOnBaseStorageSection2MessageAction = (selectedUnit, targetedUnit, crystalType, shieldsHealed) => {SendCrystalUsedMessage(selectedUnit,targetedUnit,crystalType,shieldsHealed,"Storage Section 2");};
 
-		repairSendRepairCrewUsedOnShipPhasorSectionMessageAction = (selectedUnit, targetedUnit) => {SendRepairCrewUsedMessage(selectedUnit,targetedUnit,"Phasor Section");};
+		repairSendRepairCrewUsedOnShipPhaserSectionMessageAction = (selectedUnit, targetedUnit) => {SendRepairCrewUsedMessage(selectedUnit,targetedUnit,"Phaser Section");};
 		repairSendRepairCrewUsedOnShipTorpedoSectionMessageAction = (selectedUnit, targetedUnit) => {SendRepairCrewUsedMessage(selectedUnit,targetedUnit,"Torpedo Section");};
 		repairSendRepairCrewUsedOnShipStorageSectionMessageAction = (selectedUnit, targetedUnit) => {SendRepairCrewUsedMessage(selectedUnit,targetedUnit,"Storage Section");};
 		repairSendRepairCrewUsedOnShipCrewSectionMessageAction = (selectedUnit, targetedUnit) => {SendRepairCrewUsedMessage(selectedUnit,targetedUnit,"Crew Section");};
 		repairSendRepairCrewUsedOnShipEngineSectionMessageAction = (selectedUnit, targetedUnit) => {SendRepairCrewUsedMessage(selectedUnit,targetedUnit,"Engine Section");};
 
-		repairSendRepairCrewUsedOnBasePhasorSection1MessageAction = (selectedUnit, targetedUnit) => {SendRepairCrewUsedMessage(selectedUnit,targetedUnit,"Phasor Section 1");};
-		repairSendRepairCrewUsedOnBasePhasorSection2MessageAction = (selectedUnit, targetedUnit) => {SendRepairCrewUsedMessage(selectedUnit,targetedUnit,"Phasor Section 2");};
+		repairSendRepairCrewUsedOnBasePhaserSection1MessageAction = (selectedUnit, targetedUnit) => {SendRepairCrewUsedMessage(selectedUnit,targetedUnit,"Phaser Section 1");};
+		repairSendRepairCrewUsedOnBasePhaserSection2MessageAction = (selectedUnit, targetedUnit) => {SendRepairCrewUsedMessage(selectedUnit,targetedUnit,"Phaser Section 2");};
 		repairSendRepairCrewUsedOnBaseTorpedoSectionMessageAction = (selectedUnit, targetedUnit) => {SendRepairCrewUsedMessage(selectedUnit,targetedUnit,"Torpedo Section");};
 		repairSendRepairCrewUsedOnBaseCrewSectionMessageAction = (selectedUnit, targetedUnit) => {SendRepairCrewUsedMessage(selectedUnit,targetedUnit,"Crew Section");};
 		repairSendRepairCrewUsedOnBaseStorageSection1MessageAction = (selectedUnit, targetedUnit) => {SendRepairCrewUsedMessage(selectedUnit,targetedUnit,"Storage Section 1");};
 		repairSendRepairCrewUsedOnBaseStorageSection2MessageAction = (selectedUnit, targetedUnit) => {SendRepairCrewUsedMessage(selectedUnit,targetedUnit,"Storage Section 2");};
 
-		combatUnitSendShipPhasorSectionDestroyedMessageAction = (combatUnit) => {SendShipPhasorSectionDestroyedMessage(combatUnit);};
+		combatUnitSendShipPhaserSectionDestroyedMessageAction = (combatUnit) => {SendShipPhaserSectionDestroyedMessage(combatUnit);};
 		combatUnitSendShipTorpedoSectionDestroyedMessageAction = (combatUnit) => {SendShipTorpedoSectionDestroyedMessage(combatUnit);};
 		combatUnitSendShipStorageSectionDestroyedMessageAction = (combatUnit) => {SendShipStorageSectionDestroyedMessage(combatUnit);};
 		combatUnitSendShipCrewSectionDestroyedMessageAction = (combatUnit) => {SendShipCrewSectionDestroyedMessage(combatUnit);};
 		combatUnitSendShipEngineSectionDestroyedMessageAction = (combatUnit) => {SendShipEngineSectionDestroyedMessage(combatUnit);};
 
-		combatUnitSendBasePhasorSection1DestroyedMessageAction = (combatUnit) => {SendBasePhasorSection1DestroyedMessage(combatUnit);};
-		combatUnitSendBasePhasorSection2DestroyedMessageAction = (combatUnit) => {SendBasePhasorSection2DestroyedMessage (combatUnit);};
+		combatUnitSendBasePhaserSection1DestroyedMessageAction = (combatUnit) => {SendBasePhaserSection1DestroyedMessage(combatUnit);};
+		combatUnitSendBasePhaserSection2DestroyedMessageAction = (combatUnit) => {SendBasePhaserSection2DestroyedMessage (combatUnit);};
 		combatUnitSendBaseTorpedoSectionDestroyedMessageAction = (combatUnit) => {SendBaseTorpedoSectionDestroyedMessage(combatUnit);};
 		combatUnitSendBaseCrewSectionDestroyedMessageAction = (combatUnit) => {SendBaseCrewSectionDestroyedMessage(combatUnit);};
 		combatUnitSendBaseStorageSection1DestroyedMessageAction = (combatUnit) => {SendBaseStorageSection1DestroyedMessage(combatUnit);};
@@ -332,57 +332,57 @@ public class MessageManager : MonoBehaviour {
 		EngineSection.OnMoveFromToFinish.AddListener(movementSendNewShipMovementMessageAction);
 
 		//add listeners for the tractor beam
-		PhasorSection.OnPrimeTractorBeam.AddListener(shipSendTractorBeamPrimedMessageAction);
-		PhasorSection.OnEngageTractorBeam.AddListener(shipSendTractorBeamEngagedMessageAction);
-		PhasorSection.OnDisengageTractorBeam.AddListener(shipSendTractorBeamDisengagedMessageAction);
+		PhaserSection.OnPrimeTractorBeam.AddListener(shipSendTractorBeamPrimedMessageAction);
+		PhaserSection.OnEngageTractorBeam.AddListener(shipSendTractorBeamEngagedMessageAction);
+		PhaserSection.OnDisengageTractorBeam.AddListener(shipSendTractorBeamDisengagedMessageAction);
 
 		//add listeners for warp boosters
 		EngineSection.OnUseWarpBooster.AddListener(shipSendUseWarpBoosterMessageAction);
 		EngineSection.OnUseTranswarpBooster.AddListener(shipSendUseTranswarpBoosterMessageAction);
 
-		//add listeners for ship phasor attacks
-		PhasorSection.OnFirePhasors.AddListener(firePhasorsSendPhasorAttackMessageAction);
+		//add listeners for ship phaser attacks
+		PhaserSection.OnFirePhasers.AddListener(firePhasersSendPhaserAttackMessageAction);
 
 		/*
 		//these are commented out so that I can replace them with listeners to cutscene events
-		CombatManager.OnPhasorAttackHitShipPhasorSection.AddListener(phasorsSendPhasorAttackHitShipPhasorSectionMessageAction);
-		CombatManager.OnPhasorAttackHitShipTorpedoSection.AddListener(phasorsSendPhasorAttackHitShipTorpedoSectionMessageAction);
-		CombatManager.OnPhasorAttackHitShipStorageSection.AddListener(phasorsSendPhasorAttackHitShipStorageSectionMessageAction);
-		CombatManager.OnPhasorAttackHitShipCrewSection.AddListener(phasorsSendPhasorAttackHitShipCrewSectionMessageAction);
-		CombatManager.OnPhasorAttackHitShipEngineSection.AddListener(phasorsSendPhasorAttackHitShipEngineSectionMessageAction);
-		CombatManager.OnPhasorAttackMissShip.AddListener(phasorsSendPhasorAttackMissMessageAction);
+		CombatManager.OnPhaserAttackHitShipPhaserSection.AddListener(phasersSendPhaserAttackHitShipPhaserSectionMessageAction);
+		CombatManager.OnPhaserAttackHitShipTorpedoSection.AddListener(phasersSendPhaserAttackHitShipTorpedoSectionMessageAction);
+		CombatManager.OnPhaserAttackHitShipStorageSection.AddListener(phasersSendPhaserAttackHitShipStorageSectionMessageAction);
+		CombatManager.OnPhaserAttackHitShipCrewSection.AddListener(phasersSendPhaserAttackHitShipCrewSectionMessageAction);
+		CombatManager.OnPhaserAttackHitShipEngineSection.AddListener(phasersSendPhaserAttackHitShipEngineSectionMessageAction);
+		CombatManager.OnPhaserAttackMissShip.AddListener(phasersSendPhaserAttackMissMessageAction);
 		*/
 
-		CutsceneManager.OnPhasorHitShipPhasorSection.AddListener (phasorsSendPhasorAttackHitShipPhasorSectionMessageAction);
-		CutsceneManager.OnPhasorHitShipTorpedoSection.AddListener (phasorsSendPhasorAttackHitShipTorpedoSectionMessageAction);
-		CutsceneManager.OnPhasorHitShipStorageSection.AddListener (phasorsSendPhasorAttackHitShipStorageSectionMessageAction);
-		CutsceneManager.OnPhasorHitShipCrewSection.AddListener (phasorsSendPhasorAttackHitShipCrewSectionMessageAction);
-		CutsceneManager.OnPhasorHitShipEngineSection.AddListener (phasorsSendPhasorAttackHitShipEngineSectionMessageAction);
-		CutsceneManager.OnPhasorMissShip.AddListener (cutscenePhasorsSendPhasorAttackMissMessageAction);
+		CutsceneManager.OnPhaserHitShipPhaserSection.AddListener (phasersSendPhaserAttackHitShipPhaserSectionMessageAction);
+		CutsceneManager.OnPhaserHitShipTorpedoSection.AddListener (phasersSendPhaserAttackHitShipTorpedoSectionMessageAction);
+		CutsceneManager.OnPhaserHitShipStorageSection.AddListener (phasersSendPhaserAttackHitShipStorageSectionMessageAction);
+		CutsceneManager.OnPhaserHitShipCrewSection.AddListener (phasersSendPhaserAttackHitShipCrewSectionMessageAction);
+		CutsceneManager.OnPhaserHitShipEngineSection.AddListener (phasersSendPhaserAttackHitShipEngineSectionMessageAction);
+		CutsceneManager.OnPhaserMissShip.AddListener (cutscenePhasersSendPhaserAttackMissMessageAction);
 
 
-		//add listeners for base phasor attacks
-		StarbasePhasorSection1.OnFirePhasors.AddListener(firePhasorsSendPhasorAttackMessageAction);
-		StarbasePhasorSection2.OnFirePhasors.AddListener(firePhasorsSendPhasorAttackMessageAction);
+		//add listeners for base phaser attacks
+		StarbasePhaserSection1.OnFirePhasers.AddListener(firePhasersSendPhaserAttackMessageAction);
+		StarbasePhaserSection2.OnFirePhasers.AddListener(firePhasersSendPhaserAttackMessageAction);
 
 		/*
 		//these are commented out so that I can replace them with listeners to cutscene events
-		CombatManager.OnPhasorAttackHitBasePhasorSection1.AddListener(phasorsSendPhasorAttackHitBasePhasorSection1MessageAction);
-		CombatManager.OnPhasorAttackHitBasePhasorSection2.AddListener(phasorsSendPhasorAttackHitBasePhasorSection2MessageAction);
-		CombatManager.OnPhasorAttackHitBaseTorpedoSection.AddListener(phasorsSendPhasorAttackHitBaseTorpedoSectionMessageAction);
-		CombatManager.OnPhasorAttackHitBaseCrewSection.AddListener(phasorsSendPhasorAttackHitBaseCrewSectionMessageAction);
-		CombatManager.OnPhasorAttackHitBaseStorageSection1.AddListener(phasorsSendPhasorAttackHitBaseStorageSection1MessageAction);
-		CombatManager.OnPhasorAttackHitBaseStorageSection2.AddListener(phasorsSendPhasorAttackHitBaseStorageSection2MessageAction);
-		CombatManager.OnPhasorAttackMissBase.AddListener(phasorsSendPhasorAttackMissMessageAction);
+		CombatManager.OnPhaserAttackHitBasePhaserSection1.AddListener(phasersSendPhaserAttackHitBasePhaserSection1MessageAction);
+		CombatManager.OnPhaserAttackHitBasePhaserSection2.AddListener(phasersSendPhaserAttackHitBasePhaserSection2MessageAction);
+		CombatManager.OnPhaserAttackHitBaseTorpedoSection.AddListener(phasersSendPhaserAttackHitBaseTorpedoSectionMessageAction);
+		CombatManager.OnPhaserAttackHitBaseCrewSection.AddListener(phasersSendPhaserAttackHitBaseCrewSectionMessageAction);
+		CombatManager.OnPhaserAttackHitBaseStorageSection1.AddListener(phasersSendPhaserAttackHitBaseStorageSection1MessageAction);
+		CombatManager.OnPhaserAttackHitBaseStorageSection2.AddListener(phasersSendPhaserAttackHitBaseStorageSection2MessageAction);
+		CombatManager.OnPhaserAttackMissBase.AddListener(phasersSendPhaserAttackMissMessageAction);
 		*/
 
-		CutsceneManager.OnPhasorHitBasePhasorSection1.AddListener (phasorsSendPhasorAttackHitBasePhasorSection1MessageAction);
-		CutsceneManager.OnPhasorHitBasePhasorSection2.AddListener (phasorsSendPhasorAttackHitBasePhasorSection2MessageAction);
-		CutsceneManager.OnPhasorHitBaseTorpedoSection.AddListener (phasorsSendPhasorAttackHitBaseTorpedoSectionMessageAction);
-		CutsceneManager.OnPhasorHitBaseCrewSection.AddListener (phasorsSendPhasorAttackHitBaseCrewSectionMessageAction);
-		CutsceneManager.OnPhasorHitBaseStorageSection1.AddListener (phasorsSendPhasorAttackHitBaseStorageSection1MessageAction);
-		CutsceneManager.OnPhasorHitBaseStorageSection2.AddListener (phasorsSendPhasorAttackHitBaseStorageSection2MessageAction);
-		CutsceneManager.OnPhasorMissBase.AddListener (cutscenePhasorsSendPhasorAttackMissMessageAction);
+		CutsceneManager.OnPhaserHitBasePhaserSection1.AddListener (phasersSendPhaserAttackHitBasePhaserSection1MessageAction);
+		CutsceneManager.OnPhaserHitBasePhaserSection2.AddListener (phasersSendPhaserAttackHitBasePhaserSection2MessageAction);
+		CutsceneManager.OnPhaserHitBaseTorpedoSection.AddListener (phasersSendPhaserAttackHitBaseTorpedoSectionMessageAction);
+		CutsceneManager.OnPhaserHitBaseCrewSection.AddListener (phasersSendPhaserAttackHitBaseCrewSectionMessageAction);
+		CutsceneManager.OnPhaserHitBaseStorageSection1.AddListener (phasersSendPhaserAttackHitBaseStorageSection1MessageAction);
+		CutsceneManager.OnPhaserHitBaseStorageSection2.AddListener (phasersSendPhaserAttackHitBaseStorageSection2MessageAction);
+		CutsceneManager.OnPhaserMissBase.AddListener (cutscenePhasersSendPhaserAttackMissMessageAction);
 
 
 		//add listeners for torpedo attacks
@@ -410,8 +410,8 @@ public class MessageManager : MonoBehaviour {
 		//add listeners for ship torpedo attacks
 		/*
 		//these are commented out so that I can replace them with listeners to cutscene events
-		CombatManager.OnLightTorpedoAttackHitShipPhasorSection.AddListener(torpedoSendLightTorpedoAttackHitShipPhasorSectionMessageAction);
-		CombatManager.OnHeavyTorpedoAttackHitShipPhasorSection.AddListener(torpedoSendHeavyTorpedoAttackHitShipPhasorSectionMessageAction);
+		CombatManager.OnLightTorpedoAttackHitShipPhaserSection.AddListener(torpedoSendLightTorpedoAttackHitShipPhaserSectionMessageAction);
+		CombatManager.OnHeavyTorpedoAttackHitShipPhaserSection.AddListener(torpedoSendHeavyTorpedoAttackHitShipPhaserSectionMessageAction);
 		CombatManager.OnLightTorpedoAttackHitShipTorpedoSection.AddListener(torpedoSendLightTorpedoAttackHitShipTorpedoSectionMessageAction);
 		CombatManager.OnHeavyTorpedoAttackHitShipTorpedoSection.AddListener(torpedoSendHeavyTorpedoAttackHitShipTorpedoSectionMessageAction);
 		CombatManager.OnLightTorpedoAttackHitShipStorageSection.AddListener(torpedoSendLightTorpedoAttackHitShipStorageSectionMessageAction);
@@ -424,8 +424,8 @@ public class MessageManager : MonoBehaviour {
 		CombatManager.OnHeavyTorpedoAttackMissShip.AddListener(torpedoSendHeavyTorpedoAttackMissMessageAction);
 		*/
 
-		CutsceneManager.OnLightTorpedoHitShipPhasorSection.AddListener (torpedoSendLightTorpedoAttackHitShipPhasorSectionMessageAction);
-		CutsceneManager.OnHeavyTorpedoHitShipPhasorSection.AddListener (torpedoSendHeavyTorpedoAttackHitShipPhasorSectionMessageAction);
+		CutsceneManager.OnLightTorpedoHitShipPhaserSection.AddListener (torpedoSendLightTorpedoAttackHitShipPhaserSectionMessageAction);
+		CutsceneManager.OnHeavyTorpedoHitShipPhaserSection.AddListener (torpedoSendHeavyTorpedoAttackHitShipPhaserSectionMessageAction);
 		CutsceneManager.OnLightTorpedoHitShipTorpedoSection.AddListener (torpedoSendLightTorpedoAttackHitShipTorpedoSectionMessageAction);
 		CutsceneManager.OnHeavyTorpedoHitShipTorpedoSection.AddListener (torpedoSendHeavyTorpedoAttackHitShipTorpedoSectionMessageAction);
 		CutsceneManager.OnLightTorpedoHitShipStorageSection.AddListener (torpedoSendLightTorpedoAttackHitShipStorageSectionMessageAction);
@@ -441,10 +441,10 @@ public class MessageManager : MonoBehaviour {
 		//add listeners for base torpedo attacks
 		/*
 		//these are commented out so that I can replace them with listeners to cutscene events
-		CombatManager.OnLightTorpedoAttackHitBasePhasorSection1.AddListener(torpedoSendLightTorpedoAttackHitBasePhasorSection1MessageAction);
-		CombatManager.OnHeavyTorpedoAttackHitBasePhasorSection1.AddListener(torpedoSendHeavyTorpedoAttackHitBasePhasorSection1MessageAction);
-		CombatManager.OnLightTorpedoAttackHitBasePhasorSection2.AddListener (torpedoSendLightTorpedoAttackHitBasePhasorSection2MessageAction);
-		CombatManager.OnHeavyTorpedoAttackHitBasePhasorSection2.AddListener(torpedoSendHeavyTorpedoAttackHitBasePhasorSection2MessageAction);
+		CombatManager.OnLightTorpedoAttackHitBasePhaserSection1.AddListener(torpedoSendLightTorpedoAttackHitBasePhaserSection1MessageAction);
+		CombatManager.OnHeavyTorpedoAttackHitBasePhaserSection1.AddListener(torpedoSendHeavyTorpedoAttackHitBasePhaserSection1MessageAction);
+		CombatManager.OnLightTorpedoAttackHitBasePhaserSection2.AddListener (torpedoSendLightTorpedoAttackHitBasePhaserSection2MessageAction);
+		CombatManager.OnHeavyTorpedoAttackHitBasePhaserSection2.AddListener(torpedoSendHeavyTorpedoAttackHitBasePhaserSection2MessageAction);
 		CombatManager.OnLightTorpedoAttackHitBaseTorpedoSection.AddListener(torpedoSendLightTorpedoAttackHitBaseTorpedoSectionMessageAction);
 		CombatManager.OnHeavyTorpedoAttackHitBaseTorpedoSection.AddListener(torpedoSendHeavyTorpedoAttackHitBaseTorpedoSectionMessageAction);
 		CombatManager.OnLightTorpedoAttackHitBaseCrewSection.AddListener(torpedoSendLightTorpedoAttackHitBaseCrewSectionMessageAction);
@@ -457,10 +457,10 @@ public class MessageManager : MonoBehaviour {
 		CombatManager.OnHeavyTorpedoAttackMissBase.AddListener(torpedoSendHeavyTorpedoAttackMissMessageAction);
 		*/
 
-		CutsceneManager.OnLightTorpedoHitBasePhasorSection1.AddListener (torpedoSendLightTorpedoAttackHitBasePhasorSection1MessageAction);
-		CutsceneManager.OnHeavyTorpedoHitBasePhasorSection1.AddListener (torpedoSendHeavyTorpedoAttackHitBasePhasorSection1MessageAction);
-		CutsceneManager.OnLightTorpedoHitBasePhasorSection2.AddListener (torpedoSendLightTorpedoAttackHitBasePhasorSection2MessageAction);
-		CutsceneManager.OnHeavyTorpedoHitBasePhasorSection2.AddListener (torpedoSendHeavyTorpedoAttackHitBasePhasorSection2MessageAction);
+		CutsceneManager.OnLightTorpedoHitBasePhaserSection1.AddListener (torpedoSendLightTorpedoAttackHitBasePhaserSection1MessageAction);
+		CutsceneManager.OnHeavyTorpedoHitBasePhaserSection1.AddListener (torpedoSendHeavyTorpedoAttackHitBasePhaserSection1MessageAction);
+		CutsceneManager.OnLightTorpedoHitBasePhaserSection2.AddListener (torpedoSendLightTorpedoAttackHitBasePhaserSection2MessageAction);
+		CutsceneManager.OnHeavyTorpedoHitBasePhaserSection2.AddListener (torpedoSendHeavyTorpedoAttackHitBasePhaserSection2MessageAction);
 		CutsceneManager.OnLightTorpedoHitBaseTorpedoSection.AddListener (torpedoSendLightTorpedoAttackHitBaseTorpedoSectionMessageAction);
 		CutsceneManager.OnHeavyTorpedoHitBaseTorpedoSection.AddListener (torpedoSendHeavyTorpedoAttackHitBaseTorpedoSectionMessageAction);
 		CutsceneManager.OnLightTorpedoHitBaseCrewSection.AddListener (torpedoSendLightTorpedoAttackHitBaseCrewSectionMessageAction);
@@ -473,45 +473,45 @@ public class MessageManager : MonoBehaviour {
 		CutsceneManager.OnHeavyTorpedoMissBase.AddListener (cutsceneTorpedoSendHeavyTorpedoAttackMissMessageAction);
 
 		//add listeners for using crystals to heal ships
-		CombatManager.OnCrystalUsedOnShipPhasorSection.AddListener(crystalSendCrystalUsedOnShipPhasorSectionMessageAction);
+		CombatManager.OnCrystalUsedOnShipPhaserSection.AddListener(crystalSendCrystalUsedOnShipPhaserSectionMessageAction);
 		CombatManager.OnCrystalUsedOnShipTorpedoSection.AddListener(crystalSendCrystalUsedOnShipTorpedoSectionMessageAction);
 		CombatManager.OnCrystalUsedOnShipStorageSection.AddListener(crystalSendCrystalUsedOnShipStorageSectionMessageAction);
 		CombatManager.OnCrystalUsedOnShipCrewSection.AddListener(crystalSendCrystalUsedOnShipCrewSectionMessageAction);
 		CombatManager.OnCrystalUsedOnShipEngineSection.AddListener(crystalSendCrystalUsedOnShipEngineSectionMessageAction);
 
 		//add listeners for using crystals to heal bases
-		CombatManager.OnCrystalUsedOnBasePhasorSection1.AddListener(crystalSendCrystalUsedOnBasePhasorSection1MessageAction);
-		CombatManager.OnCrystalUsedOnBasePhasorSection2.AddListener(crystalSendCrystalUsedOnBasePhasorSection2MessageAction);
+		CombatManager.OnCrystalUsedOnBasePhaserSection1.AddListener(crystalSendCrystalUsedOnBasePhaserSection1MessageAction);
+		CombatManager.OnCrystalUsedOnBasePhaserSection2.AddListener(crystalSendCrystalUsedOnBasePhaserSection2MessageAction);
 		CombatManager.OnCrystalUsedOnBaseTorpedoSection.AddListener(crystalSendCrystalUsedOnBaseTorpedoSectionMessageAction);
 		CombatManager.OnCrystalUsedOnBaseCrewSection.AddListener(crystalSendCrystalUsedOnBaseCrewSectionMessageAction);
 		CombatManager.OnCrystalUsedOnBaseStorageSection1.AddListener(crystalSendCrystalUsedOnBaseStorageSection1MessageAction);
 		CombatManager.OnCrystalUsedOnBaseStorageSection2.AddListener(crystalSendCrystalUsedOnBaseStorageSection2MessageAction);
 
 		//add listeners for using repair crews on ships
-		CombatManager.OnRepairCrewUsedOnShipPhasorSection.AddListener(repairSendRepairCrewUsedOnShipPhasorSectionMessageAction);
+		CombatManager.OnRepairCrewUsedOnShipPhaserSection.AddListener(repairSendRepairCrewUsedOnShipPhaserSectionMessageAction);
 		CombatManager.OnRepairCrewUsedOnShipTorpedoSection.AddListener(repairSendRepairCrewUsedOnShipTorpedoSectionMessageAction);
 		CombatManager.OnRepairCrewUsedOnShipStorageSection.AddListener(repairSendRepairCrewUsedOnShipStorageSectionMessageAction);
 		CombatManager.OnRepairCrewUsedOnShipCrewSection.AddListener(repairSendRepairCrewUsedOnShipCrewSectionMessageAction);
 		CombatManager.OnRepairCrewUsedOnShipEngineSection.AddListener(repairSendRepairCrewUsedOnShipEngineSectionMessageAction);
 
 		//add listeners for using repair crews on bases
-		CombatManager.OnRepairCrewUsedOnBasePhasorSection1.AddListener(repairSendRepairCrewUsedOnBasePhasorSection1MessageAction);
-		CombatManager.OnRepairCrewUsedOnBasePhasorSection2.AddListener(repairSendRepairCrewUsedOnBasePhasorSection2MessageAction);
+		CombatManager.OnRepairCrewUsedOnBasePhaserSection1.AddListener(repairSendRepairCrewUsedOnBasePhaserSection1MessageAction);
+		CombatManager.OnRepairCrewUsedOnBasePhaserSection2.AddListener(repairSendRepairCrewUsedOnBasePhaserSection2MessageAction);
 		CombatManager.OnRepairCrewUsedOnBaseTorpedoSection.AddListener(repairSendRepairCrewUsedOnBaseTorpedoSectionMessageAction);
 		CombatManager.OnRepairCrewUsedOnBaseCrewSection.AddListener(repairSendRepairCrewUsedOnBaseCrewSectionMessageAction);
 		CombatManager.OnRepairCrewUsedOnBaseStorageSection1.AddListener(repairSendRepairCrewUsedOnBaseStorageSection1MessageAction);
 		CombatManager.OnRepairCrewUsedOnBaseStorageSection2.AddListener(repairSendRepairCrewUsedOnBaseStorageSection2MessageAction);
 
 		//add listeners for ship sections being destroyed
-		PhasorSection.OnPhasorSectionDestroyed.AddListener(combatUnitSendShipPhasorSectionDestroyedMessageAction);
+		PhaserSection.OnPhaserSectionDestroyed.AddListener(combatUnitSendShipPhaserSectionDestroyedMessageAction);
 		TorpedoSection.OnTorpedoSectionDestroyed.AddListener(combatUnitSendShipTorpedoSectionDestroyedMessageAction);
 		StorageSection.OnStorageSectionDestroyed.AddListener(combatUnitSendShipStorageSectionDestroyedMessageAction);
 		CrewSection.OnCrewSectionDestroyed.AddListener(combatUnitSendShipCrewSectionDestroyedMessageAction);
 		EngineSection.OnEngineSectionDestroyed.AddListener(combatUnitSendShipEngineSectionDestroyedMessageAction);
 
 		//add listeners for base sections being destroyed
-		StarbasePhasorSection1.OnPhasorSection1Destroyed.AddListener(combatUnitSendBasePhasorSection1DestroyedMessageAction);
-		StarbasePhasorSection2.OnPhasorSection2Destroyed.AddListener(combatUnitSendBasePhasorSection2DestroyedMessageAction);
+		StarbasePhaserSection1.OnPhaserSection1Destroyed.AddListener(combatUnitSendBasePhaserSection1DestroyedMessageAction);
+		StarbasePhaserSection2.OnPhaserSection2Destroyed.AddListener(combatUnitSendBasePhaserSection2DestroyedMessageAction);
 		StarbaseTorpedoSection.OnTorpedoSectionDestroyed.AddListener(combatUnitSendBaseTorpedoSectionDestroyedMessageAction);
 		StarbaseCrewSection.OnCrewSectionDestroyed.AddListener(combatUnitSendBaseCrewSectionDestroyedMessageAction);
 		StarbaseStorageSection1.OnStorageSection1Destroyed.AddListener(combatUnitSendBaseStorageSection1DestroyedMessageAction);
@@ -778,8 +778,8 @@ public class MessageManager : MonoBehaviour {
 
 	}
 
-	//this function will send a message when a ship attacks with phasors
-	private void SendPhasorAttackMessage(CombatUnit attackingUnit, CombatUnit targetedUnit){
+	//this function will send a message when a ship attacks with phasers
+	private void SendPhaserAttackMessage(CombatUnit attackingUnit, CombatUnit targetedUnit){
 
 		string newMessage = "";
 
@@ -789,7 +789,7 @@ public class MessageManager : MonoBehaviour {
 			//check if the targeted unit is a ship
 			if (targetedUnit.GetComponent <Ship> () == true) {
 				
-				newMessage = attackingUnit.GetComponent<Ship> ().shipType + " " + attackingUnit.GetComponent<Ship> ().shipName + " fires phasors at " +
+				newMessage = attackingUnit.GetComponent<Ship> ().shipType + " " + attackingUnit.GetComponent<Ship> ().shipName + " fires phasers at " +
 				InsertColoredPlayerName (targetedUnit.GetComponent<CombatUnit> ().owner) +
 				" " + targetedUnit.GetComponent<Ship> ().shipType + " " + targetedUnit.GetComponent<Ship> ().shipName;
 
@@ -797,7 +797,7 @@ public class MessageManager : MonoBehaviour {
 			//the else condition is that the targeted unit is a base
 			else {
 				
-				newMessage = attackingUnit.GetComponent<Ship> ().shipType + " " + attackingUnit.GetComponent<Ship> ().shipName + " fires phasors at " +
+				newMessage = attackingUnit.GetComponent<Ship> ().shipType + " " + attackingUnit.GetComponent<Ship> ().shipName + " fires phasers at " +
 				InsertColoredPlayerName (targetedUnit.GetComponent<CombatUnit> ().owner) +
 				" Starbase " + targetedUnit.GetComponent<Starbase> ().baseName;
 
@@ -810,7 +810,7 @@ public class MessageManager : MonoBehaviour {
 			//check if the targeted unit is a ship
 			if (targetedUnit.GetComponent <Ship> () == true) {
 
-				newMessage = "Starbase " + attackingUnit.GetComponent<Starbase> ().baseName + " fires phasors at " +
+				newMessage = "Starbase " + attackingUnit.GetComponent<Starbase> ().baseName + " fires phasers at " +
 					InsertColoredPlayerName (targetedUnit.GetComponent<CombatUnit> ().owner) +
 					" " + targetedUnit.GetComponent<Ship> ().shipType + " " + targetedUnit.GetComponent<Ship> ().shipName;
 
@@ -818,7 +818,7 @@ public class MessageManager : MonoBehaviour {
 			//the else condition is that the targeted unit is a base
 			else {
 
-				newMessage = "Starbase " + attackingUnit.GetComponent<Starbase> ().baseName + " fires phasors at " +
+				newMessage = "Starbase " + attackingUnit.GetComponent<Starbase> ().baseName + " fires phasers at " +
 					InsertColoredPlayerName (targetedUnit.GetComponent<CombatUnit> ().owner) +
 					" Starbase " + targetedUnit.GetComponent<Starbase> ().baseName;
 
@@ -834,8 +834,8 @@ public class MessageManager : MonoBehaviour {
 
 	}
 
-	//this function will send a message when a ship phasor attack hits a ship phasor section
-	private void SendPhasorAttackHitShipPhasorSectionMessage(CombatUnit attackingUnit, CombatUnit targetedUnit, int damage){
+	//this function will send a message when a ship phaser attack hits a ship phaser section
+	private void SendPhaserAttackHitShipPhaserSectionMessage(CombatUnit attackingUnit, CombatUnit targetedUnit, int damage){
 
 		string newMessage = "";
 
@@ -845,7 +845,7 @@ public class MessageManager : MonoBehaviour {
 			newMessage = attackingUnit.GetComponent<Ship> ().shipType + " " + attackingUnit.GetComponent<Ship> ().shipName + " hits " +
 				InsertColoredPlayerName (targetedUnit.GetComponent<CombatUnit> ().owner) +
 				" " + targetedUnit.GetComponent<Ship> ().shipType + " " + targetedUnit.GetComponent<Ship> ().shipName
-				+ " Phasor Section and deals " + damage + " damage!";
+				+ " Phaser Section and deals " + damage + " damage!";
 
 			//add the player color prefix to the string
 			newMessage = AddPlayerColorToMessage (gameManager.currentTurnPlayer, newMessage);
@@ -860,7 +860,7 @@ public class MessageManager : MonoBehaviour {
 			newMessage = "Starbase " + attackingUnit.GetComponent<Starbase> ().baseName + " hits " +
 				InsertColoredPlayerName (targetedUnit.GetComponent<CombatUnit> ().owner) +
 				" " + targetedUnit.GetComponent<Ship> ().shipType + " " + targetedUnit.GetComponent<Ship> ().shipName
-				+ " Phasor Section and deals " + damage + " damage!";
+				+ " Phaser Section and deals " + damage + " damage!";
 
 			//add the player color prefix to the string
 			newMessage = AddPlayerColorToMessage (gameManager.currentTurnPlayer, newMessage);
@@ -872,8 +872,8 @@ public class MessageManager : MonoBehaviour {
 
 	}
 
-	//this function will send a message when a ship phasor attack hits a ship torpedo section
-	private void SendPhasorAttackHitShipTorpedoSectionMessage(CombatUnit attackingUnit, CombatUnit targetedUnit, int damage){
+	//this function will send a message when a ship phaser attack hits a ship torpedo section
+	private void SendPhaserAttackHitShipTorpedoSectionMessage(CombatUnit attackingUnit, CombatUnit targetedUnit, int damage){
 
 		string newMessage = "";
 
@@ -910,8 +910,8 @@ public class MessageManager : MonoBehaviour {
 
 	}
 
-	//this function will send a message when a ship phasor attack hits a ship storage section
-	private void SendPhasorAttackHitShipStorageSectionMessage(CombatUnit attackingUnit, CombatUnit targetedUnit, int damage){
+	//this function will send a message when a ship phaser attack hits a ship storage section
+	private void SendPhaserAttackHitShipStorageSectionMessage(CombatUnit attackingUnit, CombatUnit targetedUnit, int damage){
 
 		string newMessage = "";
 
@@ -948,8 +948,8 @@ public class MessageManager : MonoBehaviour {
 
 	}
 
-	//this function will send a message when a ship phasor attack hits a ship crew section
-	private void SendPhasorAttackHitShipCrewSectionMessage(CombatUnit attackingUnit, CombatUnit targetedUnit, int damage){
+	//this function will send a message when a ship phaser attack hits a ship crew section
+	private void SendPhaserAttackHitShipCrewSectionMessage(CombatUnit attackingUnit, CombatUnit targetedUnit, int damage){
 
 		string newMessage = "";
 
@@ -986,8 +986,8 @@ public class MessageManager : MonoBehaviour {
 
 	}
 
-	//this function will send a message when a ship phasor attack hits a ship engine section
-	private void SendPhasorAttackHitShipEngineSectionMessage(CombatUnit attackingUnit, CombatUnit targetedUnit, int damage){
+	//this function will send a message when a ship phaser attack hits a ship engine section
+	private void SendPhaserAttackHitShipEngineSectionMessage(CombatUnit attackingUnit, CombatUnit targetedUnit, int damage){
 
 		string newMessage = "";
 
@@ -1024,10 +1024,10 @@ public class MessageManager : MonoBehaviour {
 
 	}
 
-	//this function will send a message when a ship phasor attack misses
-	private void SendPhasorAttackMissMessage(CombatUnit attackingUnit, CombatUnit targetedUnit){
+	//this function will send a message when a ship phaser attack misses
+	private void SendPhaserAttackMissMessage(CombatUnit attackingUnit, CombatUnit targetedUnit){
 
-		string newMessage = "Phasor attack misses!";
+		string newMessage = "Phaser attack misses!";
 
 		//add the player color prefix to the string
 		newMessage = AddPlayerColorToMessage(gameManager.currentTurnPlayer,newMessage);
@@ -1037,8 +1037,8 @@ public class MessageManager : MonoBehaviour {
 
 	}
 
-	//this function will send a message when a phasor attack hits a base phasor section 1
-	private void SendPhasorAttackHitBasePhasorSection1Message(CombatUnit attackingUnit, CombatUnit targetedUnit, int damage){
+	//this function will send a message when a phaser attack hits a base phaser section 1
+	private void SendPhaserAttackHitBasePhaserSection1Message(CombatUnit attackingUnit, CombatUnit targetedUnit, int damage){
 
 		string newMessage = "";
 
@@ -1048,7 +1048,7 @@ public class MessageManager : MonoBehaviour {
 			newMessage = attackingUnit.GetComponent<Ship> ().shipType + " " + attackingUnit.GetComponent<Ship> ().shipName + " hits " +
 			                   InsertColoredPlayerName (targetedUnit.GetComponent<CombatUnit> ().owner) +
 			                   " Starbase " + targetedUnit.GetComponent<Starbase> ().baseName
-			                   + " Phasor Section 1 and deals " + damage + " damage!";
+			                   + " Phaser Section 1 and deals " + damage + " damage!";
 
 			//add the player color prefix to the string
 			newMessage = AddPlayerColorToMessage (gameManager.currentTurnPlayer, newMessage);
@@ -1063,7 +1063,7 @@ public class MessageManager : MonoBehaviour {
 			newMessage = "Starbase " + attackingUnit.GetComponent<Starbase> ().baseName + " hits " +
 				InsertColoredPlayerName (targetedUnit.GetComponent<CombatUnit> ().owner) +
 				" Starbase " + targetedUnit.GetComponent<Starbase> ().baseName
-				+ " Phasor Section 1 and deals " + damage + " damage!";
+				+ " Phaser Section 1 and deals " + damage + " damage!";
 
 			//add the player color prefix to the string
 			newMessage = AddPlayerColorToMessage (gameManager.currentTurnPlayer, newMessage);
@@ -1075,8 +1075,8 @@ public class MessageManager : MonoBehaviour {
 
 	}
 
-	//this function will send a message when a phasor attack hits a base phasor section 2
-	private void SendPhasorAttackHitBasePhasorSection2Message(CombatUnit attackingUnit, CombatUnit targetedUnit, int damage){
+	//this function will send a message when a phaser attack hits a base phaser section 2
+	private void SendPhaserAttackHitBasePhaserSection2Message(CombatUnit attackingUnit, CombatUnit targetedUnit, int damage){
 
 		string newMessage = "";
 
@@ -1086,7 +1086,7 @@ public class MessageManager : MonoBehaviour {
 			newMessage = attackingUnit.GetComponent<Ship> ().shipType + " " + attackingUnit.GetComponent<Ship> ().shipName + " hits " +
 				InsertColoredPlayerName (targetedUnit.GetComponent<CombatUnit> ().owner) +
 				" Starbase " + targetedUnit.GetComponent<Starbase> ().baseName
-				+ " Phasor Section 2 and deals " + damage + " damage!";
+				+ " Phaser Section 2 and deals " + damage + " damage!";
 
 			//add the player color prefix to the string
 			newMessage = AddPlayerColorToMessage (gameManager.currentTurnPlayer, newMessage);
@@ -1101,7 +1101,7 @@ public class MessageManager : MonoBehaviour {
 			newMessage = "Starbase " + attackingUnit.GetComponent<Starbase> ().baseName + " hits " +
 				InsertColoredPlayerName (targetedUnit.GetComponent<CombatUnit> ().owner) +
 				" Starbase " + targetedUnit.GetComponent<Starbase> ().baseName
-				+ " Phasor Section 2 and deals " + damage + " damage!";
+				+ " Phaser Section 2 and deals " + damage + " damage!";
 
 			//add the player color prefix to the string
 			newMessage = AddPlayerColorToMessage (gameManager.currentTurnPlayer, newMessage);
@@ -1113,8 +1113,8 @@ public class MessageManager : MonoBehaviour {
 
 	}
 
-	//this function will send a message when a phasor attack hits a base torpedo section
-	private void SendPhasorAttackHitBaseTorpedoSectionMessage(CombatUnit attackingUnit, CombatUnit targetedUnit, int damage){
+	//this function will send a message when a phaser attack hits a base torpedo section
+	private void SendPhaserAttackHitBaseTorpedoSectionMessage(CombatUnit attackingUnit, CombatUnit targetedUnit, int damage){
 
 		string newMessage = "";
 
@@ -1151,8 +1151,8 @@ public class MessageManager : MonoBehaviour {
 
 	}
 
-	//this function will send a message when a phasor attack hits a base crew section
-	private void SendPhasorAttackHitBaseCrewSectionMessage(CombatUnit attackingUnit, CombatUnit targetedUnit, int damage){
+	//this function will send a message when a phaser attack hits a base crew section
+	private void SendPhaserAttackHitBaseCrewSectionMessage(CombatUnit attackingUnit, CombatUnit targetedUnit, int damage){
 
 		string newMessage = "";
 
@@ -1189,8 +1189,8 @@ public class MessageManager : MonoBehaviour {
 
 	}
 
-	//this function will send a message when a phasor attack hits a base storage section 1
-	private void SendPhasorAttackHitBaseStorageSection1Message(CombatUnit attackingUnit, CombatUnit targetedUnit, int damage){
+	//this function will send a message when a phaser attack hits a base storage section 1
+	private void SendPhaserAttackHitBaseStorageSection1Message(CombatUnit attackingUnit, CombatUnit targetedUnit, int damage){
 
 		string newMessage = "";
 
@@ -1227,8 +1227,8 @@ public class MessageManager : MonoBehaviour {
 
 	}
 
-	//this function will send a message when a phasor attack hits a base storage section 2
-	private void SendPhasorAttackHitBaseStorageSection2Message(CombatUnit attackingUnit, CombatUnit targetedUnit, int damage){
+	//this function will send a message when a phaser attack hits a base storage section 2
+	private void SendPhaserAttackHitBaseStorageSection2Message(CombatUnit attackingUnit, CombatUnit targetedUnit, int damage){
 
 		string newMessage = "";
 
@@ -1411,8 +1411,8 @@ public class MessageManager : MonoBehaviour {
 
 	}
 
-	//this function will send a message when a ship torpedo attack hits a ship phasor section
-	private void SendTorpedoAttackHitShipPhasorSectionMessage(CombatUnit attackingUnit, CombatUnit targetedUnit, int damage, string torpedoType){
+	//this function will send a message when a ship torpedo attack hits a ship phaser section
+	private void SendTorpedoAttackHitShipPhaserSectionMessage(CombatUnit attackingUnit, CombatUnit targetedUnit, int damage, string torpedoType){
 
 		string newMessage = "";
 
@@ -1422,7 +1422,7 @@ public class MessageManager : MonoBehaviour {
 			newMessage = attackingUnit.GetComponent<Ship> ().shipType + " " + attackingUnit.GetComponent<Ship> ().shipName + " hits " +
 			InsertColoredPlayerName (targetedUnit.GetComponent<CombatUnit> ().owner) +
 			" " + targetedUnit.GetComponent<Ship> ().shipType + " " + targetedUnit.GetComponent<Ship> ().shipName
-			+ " Phasor Section with " + torpedoType + " Torpedo and deals " + damage + " damage!";
+			+ " Phaser Section with " + torpedoType + " Torpedo and deals " + damage + " damage!";
 
 		}
 		//the else condition is that the attacking unit is a base
@@ -1431,7 +1431,7 @@ public class MessageManager : MonoBehaviour {
 			newMessage = "Starbase " + attackingUnit.GetComponent<Starbase> ().baseName + " hits " +
 				InsertColoredPlayerName (targetedUnit.GetComponent<CombatUnit> ().owner) +
 				" " + targetedUnit.GetComponent<Ship> ().shipType + " " + targetedUnit.GetComponent<Ship> ().shipName
-				+ " Phasor Section with " + torpedoType + " Torpedo and deals " + damage + " damage!";
+				+ " Phaser Section with " + torpedoType + " Torpedo and deals " + damage + " damage!";
 
 		}
 
@@ -1575,8 +1575,8 @@ public class MessageManager : MonoBehaviour {
 
 	}
 
-	//this function will send a message when a ship torpedo attack hits a base phasor section 1
-	private void SendTorpedoAttackHitBasePhasorSection1Message(CombatUnit attackingUnit, CombatUnit targetedUnit, int damage, string torpedoType){
+	//this function will send a message when a ship torpedo attack hits a base phaser section 1
+	private void SendTorpedoAttackHitBasePhaserSection1Message(CombatUnit attackingUnit, CombatUnit targetedUnit, int damage, string torpedoType){
 
 		string newMessage = "";
 
@@ -1586,7 +1586,7 @@ public class MessageManager : MonoBehaviour {
 			newMessage = attackingUnit.GetComponent<Ship> ().shipType + " " + attackingUnit.GetComponent<Ship> ().shipName + " hits " +
 				InsertColoredPlayerName (targetedUnit.GetComponent<CombatUnit> ().owner) +
 				" Starbase " + targetedUnit.GetComponent<Starbase> ().baseName
-				+ " Phasor Section 1 with " + torpedoType + " Torpedo and deals " + damage + " damage!";
+				+ " Phaser Section 1 with " + torpedoType + " Torpedo and deals " + damage + " damage!";
 
 		}
 		//the else condition is that the attacking unit is a base
@@ -1595,7 +1595,7 @@ public class MessageManager : MonoBehaviour {
 			newMessage = "Starbase " + attackingUnit.GetComponent<Starbase> ().baseName + " hits " +
 				InsertColoredPlayerName (targetedUnit.GetComponent<CombatUnit> ().owner) +
 				" Starbase " + targetedUnit.GetComponent<Starbase> ().baseName
-				+ " Phasor Section 1 with " + torpedoType + " Torpedo and deals " + damage + " damage!";
+				+ " Phaser Section 1 with " + torpedoType + " Torpedo and deals " + damage + " damage!";
 
 		}
 
@@ -1607,8 +1607,8 @@ public class MessageManager : MonoBehaviour {
 
 	}
 
-	//this function will send a message when a ship torpedo attack hits a base phasor section 2
-	private void SendTorpedoAttackHitBasePhasorSection2Message(CombatUnit attackingUnit, CombatUnit targetedUnit, int damage, string torpedoType){
+	//this function will send a message when a ship torpedo attack hits a base phaser section 2
+	private void SendTorpedoAttackHitBasePhaserSection2Message(CombatUnit attackingUnit, CombatUnit targetedUnit, int damage, string torpedoType){
 
 		string newMessage = "";
 
@@ -1618,7 +1618,7 @@ public class MessageManager : MonoBehaviour {
 			newMessage = attackingUnit.GetComponent<Ship> ().shipType + " " + attackingUnit.GetComponent<Ship> ().shipName + " hits " +
 				InsertColoredPlayerName (targetedUnit.GetComponent<CombatUnit> ().owner) +
 				" Starbase " + targetedUnit.GetComponent<Starbase> ().baseName
-				+ " Phasor Section 2 with " + torpedoType + " Torpedo and deals " + damage + " damage!";
+				+ " Phaser Section 2 with " + torpedoType + " Torpedo and deals " + damage + " damage!";
 
 		}
 		//the else condition is that the attacking unit is a base
@@ -1627,7 +1627,7 @@ public class MessageManager : MonoBehaviour {
 			newMessage = "Starbase " + attackingUnit.GetComponent<Starbase> ().baseName + " hits " +
 				InsertColoredPlayerName (targetedUnit.GetComponent<CombatUnit> ().owner) +
 				" Starbase " + targetedUnit.GetComponent<Starbase> ().baseName
-				+ " Phasor Section 2 with " + torpedoType + " Torpedo and deals " + damage + " damage!";
+				+ " Phaser Section 2 with " + torpedoType + " Torpedo and deals " + damage + " damage!";
 
 		}
 
@@ -1780,12 +1780,12 @@ public class MessageManager : MonoBehaviour {
 
 	}
 
-	//this function will send a message when a ship phasor section is destroyed
-	private void SendShipPhasorSectionDestroyedMessage(CombatUnit combatUnit){
+	//this function will send a message when a ship phaser section is destroyed
+	private void SendShipPhaserSectionDestroyedMessage(CombatUnit combatUnit){
 
 		string newMessage = InsertColoredPlayerName(combatUnit.GetComponent<CombatUnit>().owner)+ " " + 
 			combatUnit.GetComponent<Ship> ().shipType + " " + combatUnit.GetComponent<Ship> ().shipName + 
-			" Phasor Section was Destroyed!!";
+			" Phaser Section was Destroyed!!";
 
 		//upload the completed string to the log
 		AddMessageToLog(newMessage);
@@ -1853,24 +1853,24 @@ public class MessageManager : MonoBehaviour {
 
 	}
 
-	//this function will send a message when a base phasor section 1 is destroyed
-	private void SendBasePhasorSection1DestroyedMessage(CombatUnit combatUnit){
+	//this function will send a message when a base phaser section 1 is destroyed
+	private void SendBasePhaserSection1DestroyedMessage(CombatUnit combatUnit){
 
 		string newMessage = InsertColoredPlayerName(combatUnit.GetComponent<CombatUnit>().owner) + 
 		" Starbase " + combatUnit.GetComponent<Starbase> ().baseName + 
-			" Phasor Section 1 was Destroyed!!";
+			" Phaser Section 1 was Destroyed!!";
 
 		//upload the completed string to the log
 		AddMessageToLog(newMessage);
 
 	}
 
-	//this function will send a message when a base phasor section 2 is destroyed
-	private void SendBasePhasorSection2DestroyedMessage(CombatUnit combatUnit){
+	//this function will send a message when a base phaser section 2 is destroyed
+	private void SendBasePhaserSection2DestroyedMessage(CombatUnit combatUnit){
 
 		string newMessage = InsertColoredPlayerName(combatUnit.GetComponent<CombatUnit>().owner) + 
 			" Starbase " + combatUnit.GetComponent<Starbase> ().baseName + 
-			" Phasor Section 2 was Destroyed!!";
+			" Phaser Section 2 was Destroyed!!";
 
 		//upload the completed string to the log
 		AddMessageToLog(newMessage);
@@ -2270,54 +2270,54 @@ public class MessageManager : MonoBehaviour {
 		EngineSection.OnMoveFromToFinish.RemoveListener(movementSendNewShipMovementMessageAction);
 
 		//remove listeners for the tractor beam
-		PhasorSection.OnPrimeTractorBeam.RemoveListener(shipSendTractorBeamPrimedMessageAction);
-		PhasorSection.OnEngageTractorBeam.RemoveListener(shipSendTractorBeamEngagedMessageAction);
-		PhasorSection.OnDisengageTractorBeam.RemoveListener(shipSendTractorBeamDisengagedMessageAction);
+		PhaserSection.OnPrimeTractorBeam.RemoveListener(shipSendTractorBeamPrimedMessageAction);
+		PhaserSection.OnEngageTractorBeam.RemoveListener(shipSendTractorBeamEngagedMessageAction);
+		PhaserSection.OnDisengageTractorBeam.RemoveListener(shipSendTractorBeamDisengagedMessageAction);
 
 		//remove listeners for warp boosters
 		EngineSection.OnUseWarpBooster.RemoveListener(shipSendUseWarpBoosterMessageAction);
 		EngineSection.OnUseTranswarpBooster.RemoveListener(shipSendUseTranswarpBoosterMessageAction);
 
-		//remove listeners for ship phasor attacks
+		//remove listeners for ship phaser attacks
 		/*
 		//these are commented out to replace with cutscene events
-		PhasorSection.OnFirePhasors.RemoveListener(firePhasorsSendPhasorAttackMessageAction);
-		CombatManager.OnPhasorAttackHitShipPhasorSection.RemoveListener(phasorsSendPhasorAttackHitShipPhasorSectionMessageAction);
-		CombatManager.OnPhasorAttackHitShipTorpedoSection.RemoveListener(phasorsSendPhasorAttackHitShipTorpedoSectionMessageAction);
-		CombatManager.OnPhasorAttackHitShipStorageSection.RemoveListener(phasorsSendPhasorAttackHitShipStorageSectionMessageAction);
-		CombatManager.OnPhasorAttackHitShipCrewSection.RemoveListener(phasorsSendPhasorAttackHitShipCrewSectionMessageAction);
-		CombatManager.OnPhasorAttackHitShipEngineSection.RemoveListener(phasorsSendPhasorAttackHitShipEngineSectionMessageAction);
-		CombatManager.OnPhasorAttackMissShip.RemoveListener(phasorsSendPhasorAttackMissMessageAction);
+		PhaserSection.OnFirePhasers.RemoveListener(firePhasersSendPhaserAttackMessageAction);
+		CombatManager.OnPhaserAttackHitShipPhaserSection.RemoveListener(phasersSendPhaserAttackHitShipPhaserSectionMessageAction);
+		CombatManager.OnPhaserAttackHitShipTorpedoSection.RemoveListener(phasersSendPhaserAttackHitShipTorpedoSectionMessageAction);
+		CombatManager.OnPhaserAttackHitShipStorageSection.RemoveListener(phasersSendPhaserAttackHitShipStorageSectionMessageAction);
+		CombatManager.OnPhaserAttackHitShipCrewSection.RemoveListener(phasersSendPhaserAttackHitShipCrewSectionMessageAction);
+		CombatManager.OnPhaserAttackHitShipEngineSection.RemoveListener(phasersSendPhaserAttackHitShipEngineSectionMessageAction);
+		CombatManager.OnPhaserAttackMissShip.RemoveListener(phasersSendPhaserAttackMissMessageAction);
 		*/
 
-		CutsceneManager.OnPhasorHitShipPhasorSection.RemoveListener (phasorsSendPhasorAttackHitShipPhasorSectionMessageAction);
-		CutsceneManager.OnPhasorHitShipTorpedoSection.RemoveListener (phasorsSendPhasorAttackHitShipTorpedoSectionMessageAction);
-		CutsceneManager.OnPhasorHitShipStorageSection.RemoveListener (phasorsSendPhasorAttackHitShipStorageSectionMessageAction);
-		CutsceneManager.OnPhasorHitShipCrewSection.RemoveListener (phasorsSendPhasorAttackHitShipCrewSectionMessageAction);
-		CutsceneManager.OnPhasorHitShipEngineSection.RemoveListener (phasorsSendPhasorAttackHitShipEngineSectionMessageAction);
-		CutsceneManager.OnPhasorMissShip.RemoveListener (cutscenePhasorsSendPhasorAttackMissMessageAction);
+		CutsceneManager.OnPhaserHitShipPhaserSection.RemoveListener (phasersSendPhaserAttackHitShipPhaserSectionMessageAction);
+		CutsceneManager.OnPhaserHitShipTorpedoSection.RemoveListener (phasersSendPhaserAttackHitShipTorpedoSectionMessageAction);
+		CutsceneManager.OnPhaserHitShipStorageSection.RemoveListener (phasersSendPhaserAttackHitShipStorageSectionMessageAction);
+		CutsceneManager.OnPhaserHitShipCrewSection.RemoveListener (phasersSendPhaserAttackHitShipCrewSectionMessageAction);
+		CutsceneManager.OnPhaserHitShipEngineSection.RemoveListener (phasersSendPhaserAttackHitShipEngineSectionMessageAction);
+		CutsceneManager.OnPhaserMissShip.RemoveListener (cutscenePhasersSendPhaserAttackMissMessageAction);
 
-		//remove listeners for base phasor attacks
+		//remove listeners for base phaser attacks
 		/*
 		//these are commented out to replace with cutscene events
-		StarbasePhasorSection1.OnFirePhasors.RemoveListener(firePhasorsSendPhasorAttackMessageAction);
-		StarbasePhasorSection2.OnFirePhasors.RemoveListener(firePhasorsSendPhasorAttackMessageAction);
-		CombatManager.OnPhasorAttackHitBasePhasorSection1.RemoveListener(phasorsSendPhasorAttackHitBasePhasorSection1MessageAction);
-		CombatManager.OnPhasorAttackHitBasePhasorSection2.RemoveListener(phasorsSendPhasorAttackHitBasePhasorSection2MessageAction);
-		CombatManager.OnPhasorAttackHitBaseTorpedoSection.RemoveListener(phasorsSendPhasorAttackHitBaseTorpedoSectionMessageAction);
-		CombatManager.OnPhasorAttackHitBaseCrewSection.RemoveListener(phasorsSendPhasorAttackHitBaseCrewSectionMessageAction);
-		CombatManager.OnPhasorAttackHitBaseStorageSection1.RemoveListener(phasorsSendPhasorAttackHitBaseStorageSection1MessageAction);
-		CombatManager.OnPhasorAttackHitBaseStorageSection2.RemoveListener(phasorsSendPhasorAttackHitBaseStorageSection2MessageAction);
-		CombatManager.OnPhasorAttackMissBase.RemoveListener(phasorsSendPhasorAttackMissMessageAction);
+		StarbasePhaserSection1.OnFirePhasers.RemoveListener(firePhasersSendPhaserAttackMessageAction);
+		StarbasePhaserSection2.OnFirePhasers.RemoveListener(firePhasersSendPhaserAttackMessageAction);
+		CombatManager.OnPhaserAttackHitBasePhaserSection1.RemoveListener(phasersSendPhaserAttackHitBasePhaserSection1MessageAction);
+		CombatManager.OnPhaserAttackHitBasePhaserSection2.RemoveListener(phasersSendPhaserAttackHitBasePhaserSection2MessageAction);
+		CombatManager.OnPhaserAttackHitBaseTorpedoSection.RemoveListener(phasersSendPhaserAttackHitBaseTorpedoSectionMessageAction);
+		CombatManager.OnPhaserAttackHitBaseCrewSection.RemoveListener(phasersSendPhaserAttackHitBaseCrewSectionMessageAction);
+		CombatManager.OnPhaserAttackHitBaseStorageSection1.RemoveListener(phasersSendPhaserAttackHitBaseStorageSection1MessageAction);
+		CombatManager.OnPhaserAttackHitBaseStorageSection2.RemoveListener(phasersSendPhaserAttackHitBaseStorageSection2MessageAction);
+		CombatManager.OnPhaserAttackMissBase.RemoveListener(phasersSendPhaserAttackMissMessageAction);
 		*/
 
-		CutsceneManager.OnPhasorHitBasePhasorSection1.RemoveListener (phasorsSendPhasorAttackHitBasePhasorSection1MessageAction);
-		CutsceneManager.OnPhasorHitBasePhasorSection2.RemoveListener (phasorsSendPhasorAttackHitBasePhasorSection2MessageAction);
-		CutsceneManager.OnPhasorHitBaseTorpedoSection.RemoveListener (phasorsSendPhasorAttackHitBaseTorpedoSectionMessageAction);
-		CutsceneManager.OnPhasorHitBaseCrewSection.RemoveListener (phasorsSendPhasorAttackHitBaseCrewSectionMessageAction);
-		CutsceneManager.OnPhasorHitBaseStorageSection1.RemoveListener (phasorsSendPhasorAttackHitBaseStorageSection1MessageAction);
-		CutsceneManager.OnPhasorHitBaseStorageSection2.RemoveListener (phasorsSendPhasorAttackHitBaseStorageSection2MessageAction);
-		CutsceneManager.OnPhasorMissBase.RemoveListener (cutscenePhasorsSendPhasorAttackMissMessageAction);
+		CutsceneManager.OnPhaserHitBasePhaserSection1.RemoveListener (phasersSendPhaserAttackHitBasePhaserSection1MessageAction);
+		CutsceneManager.OnPhaserHitBasePhaserSection2.RemoveListener (phasersSendPhaserAttackHitBasePhaserSection2MessageAction);
+		CutsceneManager.OnPhaserHitBaseTorpedoSection.RemoveListener (phasersSendPhaserAttackHitBaseTorpedoSectionMessageAction);
+		CutsceneManager.OnPhaserHitBaseCrewSection.RemoveListener (phasersSendPhaserAttackHitBaseCrewSectionMessageAction);
+		CutsceneManager.OnPhaserHitBaseStorageSection1.RemoveListener (phasersSendPhaserAttackHitBaseStorageSection1MessageAction);
+		CutsceneManager.OnPhaserHitBaseStorageSection2.RemoveListener (phasersSendPhaserAttackHitBaseStorageSection2MessageAction);
+		CutsceneManager.OnPhaserMissBase.RemoveListener (cutscenePhasersSendPhaserAttackMissMessageAction);
 
 		//remove listeners for torpedo attacks
 		TorpedoSection.OnFireLightTorpedo.RemoveListener(fireLightTorpedoSendTorpedoAttackMessageAction);
@@ -2341,8 +2341,8 @@ public class MessageManager : MonoBehaviour {
 		//remove listeners for ship torpedo attacks
 		/*
 		//these are commented out to replace with cutscene events
-		CombatManager.OnLightTorpedoAttackHitShipPhasorSection.RemoveListener(torpedoSendLightTorpedoAttackHitShipPhasorSectionMessageAction);
-		CombatManager.OnHeavyTorpedoAttackHitShipPhasorSection.RemoveListener(torpedoSendHeavyTorpedoAttackHitShipPhasorSectionMessageAction);
+		CombatManager.OnLightTorpedoAttackHitShipPhaserSection.RemoveListener(torpedoSendLightTorpedoAttackHitShipPhaserSectionMessageAction);
+		CombatManager.OnHeavyTorpedoAttackHitShipPhaserSection.RemoveListener(torpedoSendHeavyTorpedoAttackHitShipPhaserSectionMessageAction);
 		CombatManager.OnLightTorpedoAttackHitShipTorpedoSection.RemoveListener(torpedoSendLightTorpedoAttackHitShipTorpedoSectionMessageAction);
 		CombatManager.OnHeavyTorpedoAttackHitShipTorpedoSection.RemoveListener(torpedoSendHeavyTorpedoAttackHitShipTorpedoSectionMessageAction);
 		CombatManager.OnLightTorpedoAttackHitShipStorageSection.RemoveListener(torpedoSendLightTorpedoAttackHitShipStorageSectionMessageAction);
@@ -2355,8 +2355,8 @@ public class MessageManager : MonoBehaviour {
 		CombatManager.OnHeavyTorpedoAttackMissShip.RemoveListener(torpedoSendHeavyTorpedoAttackMissMessageAction);
 		*/
 
-		CutsceneManager.OnLightTorpedoHitShipPhasorSection.RemoveListener (torpedoSendLightTorpedoAttackHitShipPhasorSectionMessageAction);
-		CutsceneManager.OnHeavyTorpedoHitShipPhasorSection.RemoveListener (torpedoSendHeavyTorpedoAttackHitShipPhasorSectionMessageAction);
+		CutsceneManager.OnLightTorpedoHitShipPhaserSection.RemoveListener (torpedoSendLightTorpedoAttackHitShipPhaserSectionMessageAction);
+		CutsceneManager.OnHeavyTorpedoHitShipPhaserSection.RemoveListener (torpedoSendHeavyTorpedoAttackHitShipPhaserSectionMessageAction);
 		CutsceneManager.OnLightTorpedoHitShipTorpedoSection.RemoveListener (torpedoSendLightTorpedoAttackHitShipTorpedoSectionMessageAction);
 		CutsceneManager.OnHeavyTorpedoHitShipTorpedoSection.RemoveListener (torpedoSendHeavyTorpedoAttackHitShipTorpedoSectionMessageAction);
 		CutsceneManager.OnLightTorpedoHitShipStorageSection.RemoveListener (torpedoSendLightTorpedoAttackHitShipStorageSectionMessageAction);
@@ -2371,10 +2371,10 @@ public class MessageManager : MonoBehaviour {
 		//remove listeners for base torpedo attacks
 		/*
 		//these are commented out to replace with cutscene events
-		CombatManager.OnLightTorpedoAttackHitBasePhasorSection1.RemoveListener(torpedoSendLightTorpedoAttackHitBasePhasorSection1MessageAction);
-		CombatManager.OnHeavyTorpedoAttackHitBasePhasorSection1.RemoveListener(torpedoSendHeavyTorpedoAttackHitBasePhasorSection1MessageAction);
-		CombatManager.OnLightTorpedoAttackHitBasePhasorSection2.RemoveListener (torpedoSendLightTorpedoAttackHitBasePhasorSection2MessageAction);
-		CombatManager.OnHeavyTorpedoAttackHitBasePhasorSection2.RemoveListener(torpedoSendHeavyTorpedoAttackHitBasePhasorSection2MessageAction);
+		CombatManager.OnLightTorpedoAttackHitBasePhaserSection1.RemoveListener(torpedoSendLightTorpedoAttackHitBasePhaserSection1MessageAction);
+		CombatManager.OnHeavyTorpedoAttackHitBasePhaserSection1.RemoveListener(torpedoSendHeavyTorpedoAttackHitBasePhaserSection1MessageAction);
+		CombatManager.OnLightTorpedoAttackHitBasePhaserSection2.RemoveListener (torpedoSendLightTorpedoAttackHitBasePhaserSection2MessageAction);
+		CombatManager.OnHeavyTorpedoAttackHitBasePhaserSection2.RemoveListener(torpedoSendHeavyTorpedoAttackHitBasePhaserSection2MessageAction);
 		CombatManager.OnLightTorpedoAttackHitBaseTorpedoSection.RemoveListener(torpedoSendLightTorpedoAttackHitBaseTorpedoSectionMessageAction);
 		CombatManager.OnHeavyTorpedoAttackHitBaseTorpedoSection.RemoveListener(torpedoSendHeavyTorpedoAttackHitBaseTorpedoSectionMessageAction);
 		CombatManager.OnLightTorpedoAttackHitBaseCrewSection.RemoveListener(torpedoSendLightTorpedoAttackHitBaseCrewSectionMessageAction);
@@ -2387,10 +2387,10 @@ public class MessageManager : MonoBehaviour {
 		CombatManager.OnHeavyTorpedoAttackMissBase.RemoveListener(torpedoSendHeavyTorpedoAttackMissMessageAction);
 		*/
 
-		CutsceneManager.OnLightTorpedoHitBasePhasorSection1.RemoveListener (torpedoSendLightTorpedoAttackHitBasePhasorSection1MessageAction);
-		CutsceneManager.OnHeavyTorpedoHitBasePhasorSection1.RemoveListener (torpedoSendHeavyTorpedoAttackHitBasePhasorSection1MessageAction);
-		CutsceneManager.OnLightTorpedoHitBasePhasorSection2.RemoveListener (torpedoSendLightTorpedoAttackHitBasePhasorSection2MessageAction);
-		CutsceneManager.OnHeavyTorpedoHitBasePhasorSection2.RemoveListener (torpedoSendHeavyTorpedoAttackHitBasePhasorSection2MessageAction);
+		CutsceneManager.OnLightTorpedoHitBasePhaserSection1.RemoveListener (torpedoSendLightTorpedoAttackHitBasePhaserSection1MessageAction);
+		CutsceneManager.OnHeavyTorpedoHitBasePhaserSection1.RemoveListener (torpedoSendHeavyTorpedoAttackHitBasePhaserSection1MessageAction);
+		CutsceneManager.OnLightTorpedoHitBasePhaserSection2.RemoveListener (torpedoSendLightTorpedoAttackHitBasePhaserSection2MessageAction);
+		CutsceneManager.OnHeavyTorpedoHitBasePhaserSection2.RemoveListener (torpedoSendHeavyTorpedoAttackHitBasePhaserSection2MessageAction);
 		CutsceneManager.OnLightTorpedoHitBaseTorpedoSection.RemoveListener (torpedoSendLightTorpedoAttackHitBaseTorpedoSectionMessageAction);
 		CutsceneManager.OnHeavyTorpedoHitBaseTorpedoSection.RemoveListener (torpedoSendHeavyTorpedoAttackHitBaseTorpedoSectionMessageAction);
 		CutsceneManager.OnLightTorpedoHitBaseCrewSection.RemoveListener (torpedoSendLightTorpedoAttackHitBaseCrewSectionMessageAction);
@@ -2403,45 +2403,45 @@ public class MessageManager : MonoBehaviour {
 		CutsceneManager.OnHeavyTorpedoMissBase.RemoveListener (cutsceneTorpedoSendHeavyTorpedoAttackMissMessageAction);
 
 		//remove listeners for using crystals to heal ships
-		CombatManager.OnCrystalUsedOnShipPhasorSection.RemoveListener(crystalSendCrystalUsedOnShipPhasorSectionMessageAction);
+		CombatManager.OnCrystalUsedOnShipPhaserSection.RemoveListener(crystalSendCrystalUsedOnShipPhaserSectionMessageAction);
 		CombatManager.OnCrystalUsedOnShipTorpedoSection.RemoveListener(crystalSendCrystalUsedOnShipTorpedoSectionMessageAction);
 		CombatManager.OnCrystalUsedOnShipStorageSection.RemoveListener(crystalSendCrystalUsedOnShipStorageSectionMessageAction);
 		CombatManager.OnCrystalUsedOnShipCrewSection.RemoveListener(crystalSendCrystalUsedOnShipCrewSectionMessageAction);
 		CombatManager.OnCrystalUsedOnShipEngineSection.RemoveListener(crystalSendCrystalUsedOnShipEngineSectionMessageAction);
 
 		//remove listeners for using crystals to heal bases
-		CombatManager.OnCrystalUsedOnBasePhasorSection1.RemoveListener(crystalSendCrystalUsedOnBasePhasorSection1MessageAction);
-		CombatManager.OnCrystalUsedOnBasePhasorSection2.RemoveListener(crystalSendCrystalUsedOnBasePhasorSection2MessageAction);
+		CombatManager.OnCrystalUsedOnBasePhaserSection1.RemoveListener(crystalSendCrystalUsedOnBasePhaserSection1MessageAction);
+		CombatManager.OnCrystalUsedOnBasePhaserSection2.RemoveListener(crystalSendCrystalUsedOnBasePhaserSection2MessageAction);
 		CombatManager.OnCrystalUsedOnBaseTorpedoSection.RemoveListener(crystalSendCrystalUsedOnBaseTorpedoSectionMessageAction);
 		CombatManager.OnCrystalUsedOnBaseCrewSection.RemoveListener(crystalSendCrystalUsedOnBaseCrewSectionMessageAction);
 		CombatManager.OnCrystalUsedOnBaseStorageSection1.RemoveListener(crystalSendCrystalUsedOnBaseStorageSection1MessageAction);
 		CombatManager.OnCrystalUsedOnBaseStorageSection2.RemoveListener(crystalSendCrystalUsedOnBaseStorageSection2MessageAction);
 
 		//remove listeners for using repair crews on ships
-		CombatManager.OnRepairCrewUsedOnShipPhasorSection.RemoveListener(repairSendRepairCrewUsedOnShipPhasorSectionMessageAction);
+		CombatManager.OnRepairCrewUsedOnShipPhaserSection.RemoveListener(repairSendRepairCrewUsedOnShipPhaserSectionMessageAction);
 		CombatManager.OnRepairCrewUsedOnShipTorpedoSection.RemoveListener(repairSendRepairCrewUsedOnShipTorpedoSectionMessageAction);
 		CombatManager.OnRepairCrewUsedOnShipStorageSection.RemoveListener(repairSendRepairCrewUsedOnShipStorageSectionMessageAction);
 		CombatManager.OnRepairCrewUsedOnShipCrewSection.RemoveListener(repairSendRepairCrewUsedOnShipCrewSectionMessageAction);
 		CombatManager.OnRepairCrewUsedOnShipEngineSection.RemoveListener(repairSendRepairCrewUsedOnShipEngineSectionMessageAction);
 
 		//remove listeners for using repair crews on bases
-		CombatManager.OnRepairCrewUsedOnBasePhasorSection1.RemoveListener(repairSendRepairCrewUsedOnBasePhasorSection1MessageAction);
-		CombatManager.OnRepairCrewUsedOnBasePhasorSection2.RemoveListener(repairSendRepairCrewUsedOnBasePhasorSection2MessageAction);
+		CombatManager.OnRepairCrewUsedOnBasePhaserSection1.RemoveListener(repairSendRepairCrewUsedOnBasePhaserSection1MessageAction);
+		CombatManager.OnRepairCrewUsedOnBasePhaserSection2.RemoveListener(repairSendRepairCrewUsedOnBasePhaserSection2MessageAction);
 		CombatManager.OnRepairCrewUsedOnBaseTorpedoSection.RemoveListener(repairSendRepairCrewUsedOnBaseTorpedoSectionMessageAction);
 		CombatManager.OnRepairCrewUsedOnBaseCrewSection.RemoveListener(repairSendRepairCrewUsedOnBaseCrewSectionMessageAction);
 		CombatManager.OnRepairCrewUsedOnBaseStorageSection1.RemoveListener(repairSendRepairCrewUsedOnBaseStorageSection1MessageAction);
 		CombatManager.OnRepairCrewUsedOnBaseStorageSection2.RemoveListener(repairSendRepairCrewUsedOnBaseStorageSection2MessageAction);
 
 		//remove listeners for ship sections being destroyed
-		PhasorSection.OnPhasorSectionDestroyed.RemoveListener(combatUnitSendShipPhasorSectionDestroyedMessageAction);
+		PhaserSection.OnPhaserSectionDestroyed.RemoveListener(combatUnitSendShipPhaserSectionDestroyedMessageAction);
 		TorpedoSection.OnTorpedoSectionDestroyed.RemoveListener(combatUnitSendShipTorpedoSectionDestroyedMessageAction);
 		StorageSection.OnStorageSectionDestroyed.RemoveListener(combatUnitSendShipStorageSectionDestroyedMessageAction);
 		CrewSection.OnCrewSectionDestroyed.RemoveListener(combatUnitSendShipCrewSectionDestroyedMessageAction);
 		EngineSection.OnEngineSectionDestroyed.RemoveListener(combatUnitSendShipEngineSectionDestroyedMessageAction);
 
 		//remove listeners for base sections being destroyed
-		StarbasePhasorSection1.OnPhasorSection1Destroyed.RemoveListener(combatUnitSendBasePhasorSection1DestroyedMessageAction);
-		StarbasePhasorSection2.OnPhasorSection2Destroyed.RemoveListener(combatUnitSendBasePhasorSection2DestroyedMessageAction);
+		StarbasePhaserSection1.OnPhaserSection1Destroyed.RemoveListener(combatUnitSendBasePhaserSection1DestroyedMessageAction);
+		StarbasePhaserSection2.OnPhaserSection2Destroyed.RemoveListener(combatUnitSendBasePhaserSection2DestroyedMessageAction);
 		StarbaseTorpedoSection.OnTorpedoSectionDestroyed.RemoveListener(combatUnitSendBaseTorpedoSectionDestroyedMessageAction);
 		StarbaseCrewSection.OnCrewSectionDestroyed.RemoveListener(combatUnitSendBaseCrewSectionDestroyedMessageAction);
 		StarbaseStorageSection1.OnStorageSection1Destroyed.RemoveListener(combatUnitSendBaseStorageSection1DestroyedMessageAction);

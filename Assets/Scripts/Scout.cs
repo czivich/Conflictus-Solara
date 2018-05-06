@@ -13,12 +13,12 @@ public class Scout : Ship {
 	public static readonly bool startingTranswarpDrive = false;
 	public static readonly int engineSectionShieldsMax = 80;
 
-	//phasor section values
-	public static readonly int startingPhasorRadarShot = 0;
+	//phaser section values
+	public static readonly int startingPhaserRadarShot = 0;
 	public static readonly bool startingXRayKernelUpgrade = false;
-	public static readonly bool startingPhasorRadarArray = false;
+	public static readonly bool startingPhaserRadarArray = false;
 	public static readonly bool startingTractorBeam = false;
-	public static readonly int phasorSectionShieldsMax = 80;
+	public static readonly int phaserSectionShieldsMax = 80;
 
 	//storage section values
 	public static readonly int startingDilithiumCrystals = 2;
@@ -32,7 +32,7 @@ public class Scout : Ship {
 	protected override void OnInitLevel2 () {
 
 		//intialize the sections
-		this.GetComponent<PhasorSection>().Init();
+		this.GetComponent<PhaserSection>().Init();
 		this.GetComponent<StorageSection>().Init();
 		this.GetComponent<EngineSection>().Init();
 

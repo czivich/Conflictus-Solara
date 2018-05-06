@@ -27,27 +27,27 @@ public class UIManager : MonoBehaviour {
 	public string uiAlertPanelText {get; private set;}
 
 	//unityActions
-	private UnityAction<CombatUnit,CombatUnit,CombatManager.CrystalType,int> crystalHealShipPhasorSectionAction;
+	private UnityAction<CombatUnit,CombatUnit,CombatManager.CrystalType,int> crystalHealShipPhaserSectionAction;
 	private UnityAction<CombatUnit,CombatUnit,CombatManager.CrystalType,int> crystalHealShipTorpedoSectionAction;
 	private UnityAction<CombatUnit,CombatUnit,CombatManager.CrystalType,int> crystalHealShipStorageSectionAction;
 	private UnityAction<CombatUnit,CombatUnit,CombatManager.CrystalType,int> crystalHealShipCrewSectionAction;
 	private UnityAction<CombatUnit,CombatUnit,CombatManager.CrystalType,int> crystalHealShipEngineSectionAction;
 
-	private UnityAction<CombatUnit,CombatUnit,CombatManager.CrystalType,int> crystalHealBasePhasorSection1Action;
-	private UnityAction<CombatUnit,CombatUnit,CombatManager.CrystalType,int> crystalHealBasePhasorSection2Action;
+	private UnityAction<CombatUnit,CombatUnit,CombatManager.CrystalType,int> crystalHealBasePhaserSection1Action;
+	private UnityAction<CombatUnit,CombatUnit,CombatManager.CrystalType,int> crystalHealBasePhaserSection2Action;
 	private UnityAction<CombatUnit,CombatUnit,CombatManager.CrystalType,int> crystalHealBaseTorpedoSectionAction;
 	private UnityAction<CombatUnit,CombatUnit,CombatManager.CrystalType,int> crystalHealBaseCrewSectionAction;
 	private UnityAction<CombatUnit,CombatUnit,CombatManager.CrystalType,int> crystalHealBaseStorageSection1Action;
 	private UnityAction<CombatUnit,CombatUnit,CombatManager.CrystalType,int> crystalHealBaseStorageSection2Action;
 
-	private UnityAction<CombatUnit,CombatUnit> repairCrewShipPhasorSectionAction;
+	private UnityAction<CombatUnit,CombatUnit> repairCrewShipPhaserSectionAction;
 	private UnityAction<CombatUnit,CombatUnit> repairCrewShipTorpedoSectionAction;
 	private UnityAction<CombatUnit,CombatUnit> repairCrewShipStorageSectionAction;
 	private UnityAction<CombatUnit,CombatUnit> repairCrewShipCrewSectionAction;
 	private UnityAction<CombatUnit,CombatUnit> repairCrewShipEngineSectionAction;
 
-	private UnityAction<CombatUnit,CombatUnit> repairCrewBasePhasorSection1Action;
-	private UnityAction<CombatUnit,CombatUnit> repairCrewBasePhasorSection2Action;
+	private UnityAction<CombatUnit,CombatUnit> repairCrewBasePhaserSection1Action;
+	private UnityAction<CombatUnit,CombatUnit> repairCrewBasePhaserSection2Action;
 	private UnityAction<CombatUnit,CombatUnit> repairCrewBaseTorpedoSectionAction;
 	private UnityAction<CombatUnit,CombatUnit> repairCrewBaseCrewSectionAction;
 	private UnityAction<CombatUnit,CombatUnit> repairCrewBaseStorageSection1Action;
@@ -105,8 +105,8 @@ public class UIManager : MonoBehaviour {
 	//this function sets the unityActions
 	private void SetUnityActions(){
 
-		crystalHealShipPhasorSectionAction = (selectedUnit, targetedUnit, crystalType, shieldsHealed) => {
-			SetAlertString (shieldsHealed + " Shields Restored to Phasor Section!");
+		crystalHealShipPhaserSectionAction = (selectedUnit, targetedUnit, crystalType, shieldsHealed) => {
+			SetAlertString (shieldsHealed + " Shields Restored to Phaser Section!");
 			uiAlertPanel.SetActive(false);
 			uiAlertPanel.SetActive(true);
 
@@ -142,15 +142,15 @@ public class UIManager : MonoBehaviour {
 
 
 
-		crystalHealBasePhasorSection1Action = (selectedUnit, targetedUnit, crystalType, shieldsHealed) => {
-			SetAlertString (shieldsHealed + " Shields Restored to Phasor Section 1!");
+		crystalHealBasePhaserSection1Action = (selectedUnit, targetedUnit, crystalType, shieldsHealed) => {
+			SetAlertString (shieldsHealed + " Shields Restored to Phaser Section 1!");
 			uiAlertPanel.SetActive(false);
 			uiAlertPanel.SetActive(true);
 
 		};
 
-		crystalHealBasePhasorSection2Action = (selectedUnit, targetedUnit, crystalType, shieldsHealed) => {
-			SetAlertString (shieldsHealed + " Shields Restored to Phasor Section 2!");
+		crystalHealBasePhaserSection2Action = (selectedUnit, targetedUnit, crystalType, shieldsHealed) => {
+			SetAlertString (shieldsHealed + " Shields Restored to Phaser Section 2!");
 			uiAlertPanel.SetActive(false);
 			uiAlertPanel.SetActive(true);
 
@@ -185,8 +185,8 @@ public class UIManager : MonoBehaviour {
 		};
 
 
-		repairCrewShipPhasorSectionAction = (selectedUnit, targetedUnit) => {
-			SetAlertString ("Phasor Section Repaired!");
+		repairCrewShipPhaserSectionAction = (selectedUnit, targetedUnit) => {
+			SetAlertString ("Phaser Section Repaired!");
 			uiAlertPanel.SetActive(false);
 			uiAlertPanel.SetActive(true);
 
@@ -222,15 +222,15 @@ public class UIManager : MonoBehaviour {
 
 
 
-		repairCrewBasePhasorSection1Action = (selectedUnit, targetedUnit) => {
-			SetAlertString ("Phasor Section 1 Repaired!");
+		repairCrewBasePhaserSection1Action = (selectedUnit, targetedUnit) => {
+			SetAlertString ("Phaser Section 1 Repaired!");
 			uiAlertPanel.SetActive(false);
 			uiAlertPanel.SetActive(true);
 
 		};
 
-		repairCrewBasePhasorSection2Action = (selectedUnit, targetedUnit) => {
-			SetAlertString ("Phasor Section 2 Repaired!");
+		repairCrewBasePhaserSection2Action = (selectedUnit, targetedUnit) => {
+			SetAlertString ("Phaser Section 2 Repaired!");
 			uiAlertPanel.SetActive(false);
 			uiAlertPanel.SetActive(true);
 
@@ -311,30 +311,30 @@ public class UIManager : MonoBehaviour {
 	private void AddEventListeners(){
 
 		//add listeners for using crystals to heal ships
-		CombatManager.OnCrystalUsedOnShipPhasorSection.AddListener(crystalHealShipPhasorSectionAction);
+		CombatManager.OnCrystalUsedOnShipPhaserSection.AddListener(crystalHealShipPhaserSectionAction);
 		CombatManager.OnCrystalUsedOnShipTorpedoSection.AddListener(crystalHealShipTorpedoSectionAction);
 		CombatManager.OnCrystalUsedOnShipStorageSection.AddListener(crystalHealShipStorageSectionAction);
 		CombatManager.OnCrystalUsedOnShipCrewSection.AddListener(crystalHealShipCrewSectionAction);
 		CombatManager.OnCrystalUsedOnShipEngineSection.AddListener(crystalHealShipEngineSectionAction);
 
 		//add listeners for using crystals to heal bases
-		CombatManager.OnCrystalUsedOnBasePhasorSection1.AddListener(crystalHealBasePhasorSection1Action);
-		CombatManager.OnCrystalUsedOnBasePhasorSection2.AddListener(crystalHealBasePhasorSection2Action);
+		CombatManager.OnCrystalUsedOnBasePhaserSection1.AddListener(crystalHealBasePhaserSection1Action);
+		CombatManager.OnCrystalUsedOnBasePhaserSection2.AddListener(crystalHealBasePhaserSection2Action);
 		CombatManager.OnCrystalUsedOnBaseTorpedoSection.AddListener(crystalHealBaseTorpedoSectionAction);
 		CombatManager.OnCrystalUsedOnBaseCrewSection.AddListener(crystalHealBaseCrewSectionAction);
 		CombatManager.OnCrystalUsedOnBaseStorageSection1.AddListener(crystalHealBaseStorageSection1Action);
 		CombatManager.OnCrystalUsedOnBaseStorageSection2.AddListener(crystalHealBaseStorageSection2Action);
 
 		//add listeners for using repair crews on ships
-		CombatManager.OnRepairCrewUsedOnShipPhasorSection.AddListener(repairCrewShipPhasorSectionAction);
+		CombatManager.OnRepairCrewUsedOnShipPhaserSection.AddListener(repairCrewShipPhaserSectionAction);
 		CombatManager.OnRepairCrewUsedOnShipTorpedoSection.AddListener(repairCrewShipTorpedoSectionAction);
 		CombatManager.OnRepairCrewUsedOnShipStorageSection.AddListener(repairCrewShipStorageSectionAction);
 		CombatManager.OnRepairCrewUsedOnShipCrewSection.AddListener(repairCrewShipCrewSectionAction);
 		CombatManager.OnRepairCrewUsedOnShipEngineSection.AddListener(repairCrewShipEngineSectionAction);
 
 		//add listeners for using repair crews on bases
-		CombatManager.OnRepairCrewUsedOnBasePhasorSection1.AddListener(repairCrewBasePhasorSection1Action);
-		CombatManager.OnRepairCrewUsedOnBasePhasorSection2.AddListener(repairCrewBasePhasorSection2Action);
+		CombatManager.OnRepairCrewUsedOnBasePhaserSection1.AddListener(repairCrewBasePhaserSection1Action);
+		CombatManager.OnRepairCrewUsedOnBasePhaserSection2.AddListener(repairCrewBasePhaserSection2Action);
 		CombatManager.OnRepairCrewUsedOnBaseTorpedoSection.AddListener(repairCrewBaseTorpedoSectionAction);
 		CombatManager.OnRepairCrewUsedOnBaseCrewSection.AddListener(repairCrewBaseCrewSectionAction);
 		CombatManager.OnRepairCrewUsedOnBaseStorageSection1.AddListener(repairCrewBaseStorageSection1Action);
@@ -437,30 +437,30 @@ public class UIManager : MonoBehaviour {
 	private void RemoveEventListeners(){
 
 		//remove listeners for using crystals to heal ships
-		CombatManager.OnCrystalUsedOnShipPhasorSection.RemoveListener(crystalHealShipPhasorSectionAction);
+		CombatManager.OnCrystalUsedOnShipPhaserSection.RemoveListener(crystalHealShipPhaserSectionAction);
 		CombatManager.OnCrystalUsedOnShipTorpedoSection.RemoveListener(crystalHealShipTorpedoSectionAction);
 		CombatManager.OnCrystalUsedOnShipStorageSection.RemoveListener(crystalHealShipStorageSectionAction);
 		CombatManager.OnCrystalUsedOnShipCrewSection.RemoveListener(crystalHealShipCrewSectionAction);
 		CombatManager.OnCrystalUsedOnShipEngineSection.RemoveListener(crystalHealShipEngineSectionAction);
 
 		//remove listeners for using crystals to heal bases
-		CombatManager.OnCrystalUsedOnBasePhasorSection1.RemoveListener(crystalHealBasePhasorSection1Action);
-		CombatManager.OnCrystalUsedOnBasePhasorSection2.RemoveListener(crystalHealBasePhasorSection2Action);
+		CombatManager.OnCrystalUsedOnBasePhaserSection1.RemoveListener(crystalHealBasePhaserSection1Action);
+		CombatManager.OnCrystalUsedOnBasePhaserSection2.RemoveListener(crystalHealBasePhaserSection2Action);
 		CombatManager.OnCrystalUsedOnBaseTorpedoSection.RemoveListener(crystalHealBaseTorpedoSectionAction);
 		CombatManager.OnCrystalUsedOnBaseCrewSection.RemoveListener(crystalHealBaseCrewSectionAction);
 		CombatManager.OnCrystalUsedOnBaseStorageSection1.RemoveListener(crystalHealBaseStorageSection1Action);
 		CombatManager.OnCrystalUsedOnBaseStorageSection2.RemoveListener(crystalHealBaseStorageSection2Action);
 
 		//remove listeners for using repair crews on ships
-		CombatManager.OnRepairCrewUsedOnShipPhasorSection.RemoveListener(repairCrewShipPhasorSectionAction);
+		CombatManager.OnRepairCrewUsedOnShipPhaserSection.RemoveListener(repairCrewShipPhaserSectionAction);
 		CombatManager.OnRepairCrewUsedOnShipTorpedoSection.RemoveListener(repairCrewShipTorpedoSectionAction);
 		CombatManager.OnRepairCrewUsedOnShipStorageSection.RemoveListener(repairCrewShipStorageSectionAction);
 		CombatManager.OnRepairCrewUsedOnShipCrewSection.RemoveListener(repairCrewShipCrewSectionAction);
 		CombatManager.OnRepairCrewUsedOnShipEngineSection.RemoveListener(repairCrewShipEngineSectionAction);
 
 		//remove listeners for using repair crews on bases
-		CombatManager.OnRepairCrewUsedOnBasePhasorSection1.RemoveListener(repairCrewBasePhasorSection1Action);
-		CombatManager.OnRepairCrewUsedOnBasePhasorSection2.RemoveListener(repairCrewBasePhasorSection2Action);
+		CombatManager.OnRepairCrewUsedOnBasePhaserSection1.RemoveListener(repairCrewBasePhaserSection1Action);
+		CombatManager.OnRepairCrewUsedOnBasePhaserSection2.RemoveListener(repairCrewBasePhaserSection2Action);
 		CombatManager.OnRepairCrewUsedOnBaseTorpedoSection.RemoveListener(repairCrewBaseTorpedoSectionAction);
 		CombatManager.OnRepairCrewUsedOnBaseCrewSection.RemoveListener(repairCrewBaseCrewSectionAction);
 		CombatManager.OnRepairCrewUsedOnBaseStorageSection1.RemoveListener(repairCrewBaseStorageSection1Action);

@@ -19,10 +19,10 @@ public class UnitPanel : MonoBehaviour {
 	private CombatUnit highlightedUnit;
 
 	//variables to hold positions for text items
-	private Vector3 shipPhasorTextLocation = new Vector3(-7,-40,0);
+	private Vector3 shipPhaserTextLocation = new Vector3(-7,-40,0);
 	private Vector3 shipTorpedoTextLocation = new Vector3(7,-40,0);
 
-	private Vector3 basePhasorTextLocation = new Vector3(-13,-36,0);
+	private Vector3 basePhaserTextLocation = new Vector3(-13,-36,0);
 	private Vector3 baseTorpedoTextLocation = new Vector3(13,-36,0);
 
 	private Vector3 shipNameTextLocation = new Vector3(0,-23,0);
@@ -47,7 +47,7 @@ public class UnitPanel : MonoBehaviour {
 	//variables to hold text overlays on the highlighted unit
 	public TextMeshProUGUI shipName;
 	public TextMeshProUGUI torpedoText;
-	public TextMeshProUGUI phasorText;
+	public TextMeshProUGUI phaserText;
 	public TextMeshProUGUI movementText;
 	public TextMeshProUGUI specialText;
 	public TextMeshProUGUI highlightedUnitPanelTitle;
@@ -89,22 +89,22 @@ public class UnitPanel : MonoBehaviour {
 	private const float yellowThreshold = .25f;
 
 	//these variables hold the section display groups
-	public GameObject shipPhasorSection;
+	public GameObject shipPhaserSection;
 	public GameObject shipTorpedoSection;
 	public GameObject shipStorageSection;
 	public GameObject shipCrewSection;
 	public GameObject shipEngineSection;
 
-	public GameObject basePhasorSection1;
-	public GameObject basePhasorSection2;
+	public GameObject basePhaserSection1;
+	public GameObject basePhaserSection2;
 	public GameObject baseTorpedoSection;
 	public GameObject baseCrewSection;
 	public GameObject baseStorageSection1;
 	public GameObject baseStorageSection2;
 
 	//these variables hold the text mesh pro objects which display inventory values for ships
-	public TextMeshProUGUI shipPhasorRadarShotText;
-	public TextMeshProUGUI shipPhasorRadarArrayText;
+	public TextMeshProUGUI shipPhaserRadarShotText;
+	public TextMeshProUGUI shipPhaserRadarArrayText;
 	public TextMeshProUGUI shipXRayKernelText;
 	public TextMeshProUGUI shipTractorBeamText;
 
@@ -130,8 +130,8 @@ public class UnitPanel : MonoBehaviour {
 	public TextMeshProUGUI shipTranswarpDriveText;
 
 	//these variables hold the text mesh pro objects which display inventory values for bases
-	public TextMeshProUGUI basePhasorRadarShotText;
-	public TextMeshProUGUI basePhasorRadarArrayText;
+	public TextMeshProUGUI basePhaserRadarShotText;
+	public TextMeshProUGUI basePhaserRadarArrayText;
 
 	public TextMeshProUGUI baseXRayKernelText;
 
@@ -248,46 +248,46 @@ public class UnitPanel : MonoBehaviour {
 		EngineSection.OnUseWarpBooster.AddListener(shipSetHighlightedUnitAction);
 		EngineSection.OnUseTranswarpBooster.AddListener(shipSetHighlightedUnitAction);
 
-		//add listeners for phasor attacks that hit ships
+		//add listeners for phaser attacks that hit ships
 		/*
 		//these are commented out to be replaced by cutscene events
-		CombatManager.OnPhasorAttackHitShipPhasorSection.AddListener(attackSetHighlightedUnitAction);
-		CombatManager.OnPhasorAttackHitShipTorpedoSection.AddListener(attackSetHighlightedUnitAction);
-		CombatManager.OnPhasorAttackHitShipStorageSection.AddListener(attackSetHighlightedUnitAction);
-		CombatManager.OnPhasorAttackHitShipCrewSection.AddListener(attackSetHighlightedUnitAction);
-		CombatManager.OnPhasorAttackHitShipEngineSection.AddListener(attackSetHighlightedUnitAction);
-		CombatManager.OnPhasorAttackMissShip.AddListener(attackMissSetHighlightedUnitAction);
+		CombatManager.OnPhaserAttackHitShipPhaserSection.AddListener(attackSetHighlightedUnitAction);
+		CombatManager.OnPhaserAttackHitShipTorpedoSection.AddListener(attackSetHighlightedUnitAction);
+		CombatManager.OnPhaserAttackHitShipStorageSection.AddListener(attackSetHighlightedUnitAction);
+		CombatManager.OnPhaserAttackHitShipCrewSection.AddListener(attackSetHighlightedUnitAction);
+		CombatManager.OnPhaserAttackHitShipEngineSection.AddListener(attackSetHighlightedUnitAction);
+		CombatManager.OnPhaserAttackMissShip.AddListener(attackMissSetHighlightedUnitAction);
 		*/
 
-		//add listeners for phasor attacks that hit ships
-		CutsceneManager.OnPhasorHitShipPhasorSection.AddListener (attackSetHighlightedUnitAction);
-		CutsceneManager.OnPhasorHitShipTorpedoSection.AddListener (attackSetHighlightedUnitAction);
-		CutsceneManager.OnPhasorHitShipStorageSection.AddListener (attackSetHighlightedUnitAction);
-		CutsceneManager.OnPhasorHitShipCrewSection.AddListener (attackSetHighlightedUnitAction);
-		CutsceneManager.OnPhasorHitShipEngineSection.AddListener (attackSetHighlightedUnitAction);
-		CutsceneManager.OnPhasorMissShip.AddListener (attackSetHighlightedUnitAction);
+		//add listeners for phaser attacks that hit ships
+		CutsceneManager.OnPhaserHitShipPhaserSection.AddListener (attackSetHighlightedUnitAction);
+		CutsceneManager.OnPhaserHitShipTorpedoSection.AddListener (attackSetHighlightedUnitAction);
+		CutsceneManager.OnPhaserHitShipStorageSection.AddListener (attackSetHighlightedUnitAction);
+		CutsceneManager.OnPhaserHitShipCrewSection.AddListener (attackSetHighlightedUnitAction);
+		CutsceneManager.OnPhaserHitShipEngineSection.AddListener (attackSetHighlightedUnitAction);
+		CutsceneManager.OnPhaserMissShip.AddListener (attackSetHighlightedUnitAction);
 
 
-		//add listeners for phasor attacks that hit bases
+		//add listeners for phaser attacks that hit bases
 		/*
 		//these are commented out to be replaced by cutscene events
-		CombatManager.OnPhasorAttackHitBasePhasorSection1.AddListener(attackSetHighlightedUnitAction);
-		CombatManager.OnPhasorAttackHitBasePhasorSection2.AddListener(attackSetHighlightedUnitAction);
-		CombatManager.OnPhasorAttackHitBaseTorpedoSection.AddListener(attackSetHighlightedUnitAction);
-		CombatManager.OnPhasorAttackHitBaseCrewSection.AddListener(attackSetHighlightedUnitAction);
-		CombatManager.OnPhasorAttackHitBaseStorageSection1.AddListener(attackSetHighlightedUnitAction);
-		CombatManager.OnPhasorAttackHitBaseStorageSection2.AddListener(attackSetHighlightedUnitAction);
-		CombatManager.OnPhasorAttackMissBase.AddListener(attackMissSetHighlightedUnitAction);
+		CombatManager.OnPhaserAttackHitBasePhaserSection1.AddListener(attackSetHighlightedUnitAction);
+		CombatManager.OnPhaserAttackHitBasePhaserSection2.AddListener(attackSetHighlightedUnitAction);
+		CombatManager.OnPhaserAttackHitBaseTorpedoSection.AddListener(attackSetHighlightedUnitAction);
+		CombatManager.OnPhaserAttackHitBaseCrewSection.AddListener(attackSetHighlightedUnitAction);
+		CombatManager.OnPhaserAttackHitBaseStorageSection1.AddListener(attackSetHighlightedUnitAction);
+		CombatManager.OnPhaserAttackHitBaseStorageSection2.AddListener(attackSetHighlightedUnitAction);
+		CombatManager.OnPhaserAttackMissBase.AddListener(attackMissSetHighlightedUnitAction);
 		*/
 
-		//add listeners for phasor attacks that hit bases
-		CutsceneManager.OnPhasorHitBasePhasorSection1.AddListener (attackSetHighlightedUnitAction);
-		CutsceneManager.OnPhasorHitBasePhasorSection2.AddListener (attackSetHighlightedUnitAction);
-		CutsceneManager.OnPhasorHitBaseTorpedoSection.AddListener (attackSetHighlightedUnitAction);
-		CutsceneManager.OnPhasorHitBaseCrewSection.AddListener (attackSetHighlightedUnitAction);
-		CutsceneManager.OnPhasorHitBaseStorageSection1.AddListener (attackSetHighlightedUnitAction);
-		CutsceneManager.OnPhasorHitBaseStorageSection2.AddListener (attackSetHighlightedUnitAction);
-		CutsceneManager.OnPhasorMissBase.AddListener (attackSetHighlightedUnitAction);
+		//add listeners for phaser attacks that hit bases
+		CutsceneManager.OnPhaserHitBasePhaserSection1.AddListener (attackSetHighlightedUnitAction);
+		CutsceneManager.OnPhaserHitBasePhaserSection2.AddListener (attackSetHighlightedUnitAction);
+		CutsceneManager.OnPhaserHitBaseTorpedoSection.AddListener (attackSetHighlightedUnitAction);
+		CutsceneManager.OnPhaserHitBaseCrewSection.AddListener (attackSetHighlightedUnitAction);
+		CutsceneManager.OnPhaserHitBaseStorageSection1.AddListener (attackSetHighlightedUnitAction);
+		CutsceneManager.OnPhaserHitBaseStorageSection2.AddListener (attackSetHighlightedUnitAction);
+		CutsceneManager.OnPhaserMissBase.AddListener (attackSetHighlightedUnitAction);
 
 		//add listeners for torpedo attacks by ships
 		TorpedoSection.OnFireLightTorpedo.AddListener(attackFiredSetHighlightedUnitAction);
@@ -315,8 +315,8 @@ public class UnitPanel : MonoBehaviour {
 		//add listeners for ships hit by torpedo attacks
 		/*
 		//these are commented out to be replaced by cutscene events
-		CombatManager.OnLightTorpedoAttackHitShipPhasorSection.AddListener(attackSetHighlightedUnitAction);
-		CombatManager.OnHeavyTorpedoAttackHitShipPhasorSection.AddListener(attackSetHighlightedUnitAction);
+		CombatManager.OnLightTorpedoAttackHitShipPhaserSection.AddListener(attackSetHighlightedUnitAction);
+		CombatManager.OnHeavyTorpedoAttackHitShipPhaserSection.AddListener(attackSetHighlightedUnitAction);
 		CombatManager.OnLightTorpedoAttackHitShipTorpedoSection.AddListener(attackSetHighlightedUnitAction);
 		CombatManager.OnHeavyTorpedoAttackHitShipTorpedoSection.AddListener(attackSetHighlightedUnitAction);
 		CombatManager.OnLightTorpedoAttackHitShipStorageSection.AddListener(attackSetHighlightedUnitAction);
@@ -330,8 +330,8 @@ public class UnitPanel : MonoBehaviour {
 		*/
 
 		//add listeners for ships hit by torpedo attacks
-		CutsceneManager.OnLightTorpedoHitShipPhasorSection.AddListener (attackSetHighlightedUnitAction);
-		CutsceneManager.OnHeavyTorpedoHitShipPhasorSection.AddListener (attackSetHighlightedUnitAction);
+		CutsceneManager.OnLightTorpedoHitShipPhaserSection.AddListener (attackSetHighlightedUnitAction);
+		CutsceneManager.OnHeavyTorpedoHitShipPhaserSection.AddListener (attackSetHighlightedUnitAction);
 		CutsceneManager.OnLightTorpedoHitShipTorpedoSection.AddListener (attackSetHighlightedUnitAction);
 		CutsceneManager.OnHeavyTorpedoHitShipTorpedoSection.AddListener (attackSetHighlightedUnitAction);
 		CutsceneManager.OnLightTorpedoHitShipStorageSection.AddListener (attackSetHighlightedUnitAction);
@@ -347,10 +347,10 @@ public class UnitPanel : MonoBehaviour {
 		//add listeners for bases hit by torpedo attacks
 		/*
 		//these are commented out to be replaced by cutscene events
-		CombatManager.OnLightTorpedoAttackHitBasePhasorSection1.AddListener(attackSetHighlightedUnitAction);
-		CombatManager.OnHeavyTorpedoAttackHitBasePhasorSection1.AddListener(attackSetHighlightedUnitAction);
-		CombatManager.OnLightTorpedoAttackHitBasePhasorSection2.AddListener(attackSetHighlightedUnitAction);
-		CombatManager.OnHeavyTorpedoAttackHitBasePhasorSection2.AddListener(attackSetHighlightedUnitAction);
+		CombatManager.OnLightTorpedoAttackHitBasePhaserSection1.AddListener(attackSetHighlightedUnitAction);
+		CombatManager.OnHeavyTorpedoAttackHitBasePhaserSection1.AddListener(attackSetHighlightedUnitAction);
+		CombatManager.OnLightTorpedoAttackHitBasePhaserSection2.AddListener(attackSetHighlightedUnitAction);
+		CombatManager.OnHeavyTorpedoAttackHitBasePhaserSection2.AddListener(attackSetHighlightedUnitAction);
 		CombatManager.OnLightTorpedoAttackHitBaseTorpedoSection.AddListener(attackSetHighlightedUnitAction);
 		CombatManager.OnHeavyTorpedoAttackHitBaseTorpedoSection.AddListener(attackSetHighlightedUnitAction);
 		CombatManager.OnLightTorpedoAttackHitBaseCrewSection.AddListener(attackSetHighlightedUnitAction);
@@ -364,10 +364,10 @@ public class UnitPanel : MonoBehaviour {
 		*/
 
 		//add listeners for bases hit by torpedo attacks
-		CutsceneManager.OnLightTorpedoHitBasePhasorSection1.AddListener (attackSetHighlightedUnitAction);
-		CutsceneManager.OnHeavyTorpedoHitBasePhasorSection1.AddListener (attackSetHighlightedUnitAction);
-		CutsceneManager.OnLightTorpedoHitBasePhasorSection2.AddListener (attackSetHighlightedUnitAction);
-		CutsceneManager.OnHeavyTorpedoHitBasePhasorSection2.AddListener (attackSetHighlightedUnitAction);
+		CutsceneManager.OnLightTorpedoHitBasePhaserSection1.AddListener (attackSetHighlightedUnitAction);
+		CutsceneManager.OnHeavyTorpedoHitBasePhaserSection1.AddListener (attackSetHighlightedUnitAction);
+		CutsceneManager.OnLightTorpedoHitBasePhaserSection2.AddListener (attackSetHighlightedUnitAction);
+		CutsceneManager.OnHeavyTorpedoHitBasePhaserSection2.AddListener (attackSetHighlightedUnitAction);
 		CutsceneManager.OnLightTorpedoHitBaseTorpedoSection.AddListener (attackSetHighlightedUnitAction);
 		CutsceneManager.OnHeavyTorpedoHitBaseTorpedoSection.AddListener (attackSetHighlightedUnitAction);
 		CutsceneManager.OnLightTorpedoHitBaseCrewSection.AddListener (attackSetHighlightedUnitAction);
@@ -380,60 +380,60 @@ public class UnitPanel : MonoBehaviour {
 		CutsceneManager.OnHeavyTorpedoMissBase.AddListener (attackSetHighlightedUnitAction);
 
 		//add listeners for using crystals to heal ships
-		CombatManager.OnCrystalUsedOnShipPhasorSection.AddListener(crystalUsedSetHighlightedUnitAction);
+		CombatManager.OnCrystalUsedOnShipPhaserSection.AddListener(crystalUsedSetHighlightedUnitAction);
 		CombatManager.OnCrystalUsedOnShipTorpedoSection.AddListener(crystalUsedSetHighlightedUnitAction);
 		CombatManager.OnCrystalUsedOnShipStorageSection.AddListener(crystalUsedSetHighlightedUnitAction);
 		CombatManager.OnCrystalUsedOnShipCrewSection.AddListener(crystalUsedSetHighlightedUnitAction);
 		CombatManager.OnCrystalUsedOnShipEngineSection.AddListener(crystalUsedSetHighlightedUnitAction);
 
 		//add listeners for using crystals to heal bases
-		CombatManager.OnCrystalUsedOnBasePhasorSection1.AddListener(crystalUsedSetHighlightedUnitAction);
-		CombatManager.OnCrystalUsedOnBasePhasorSection2.AddListener(crystalUsedSetHighlightedUnitAction);
+		CombatManager.OnCrystalUsedOnBasePhaserSection1.AddListener(crystalUsedSetHighlightedUnitAction);
+		CombatManager.OnCrystalUsedOnBasePhaserSection2.AddListener(crystalUsedSetHighlightedUnitAction);
 		CombatManager.OnCrystalUsedOnBaseTorpedoSection.AddListener(crystalUsedSetHighlightedUnitAction);
 		CombatManager.OnCrystalUsedOnBaseCrewSection.AddListener(crystalUsedSetHighlightedUnitAction);
 		CombatManager.OnCrystalUsedOnBaseStorageSection1.AddListener(crystalUsedSetHighlightedUnitAction);
 		CombatManager.OnCrystalUsedOnBaseStorageSection2.AddListener(crystalUsedSetHighlightedUnitAction);
 
 		//add listeners for using repair crews on ships
-		CombatManager.OnRepairCrewUsedOnShipPhasorSection.AddListener(attackMissSetHighlightedUnitAction);
+		CombatManager.OnRepairCrewUsedOnShipPhaserSection.AddListener(attackMissSetHighlightedUnitAction);
 		CombatManager.OnRepairCrewUsedOnShipTorpedoSection.AddListener(attackMissSetHighlightedUnitAction);
 		CombatManager.OnRepairCrewUsedOnShipStorageSection.AddListener(attackMissSetHighlightedUnitAction);
 		CombatManager.OnRepairCrewUsedOnShipCrewSection.AddListener(attackMissSetHighlightedUnitAction);
 		CombatManager.OnRepairCrewUsedOnShipEngineSection.AddListener(attackMissSetHighlightedUnitAction);
 
 		//add listeners for using repair crews on bases
-		CombatManager.OnRepairCrewUsedOnBasePhasorSection1.AddListener(attackMissSetHighlightedUnitAction);
-		CombatManager.OnRepairCrewUsedOnBasePhasorSection2.AddListener(attackMissSetHighlightedUnitAction);
+		CombatManager.OnRepairCrewUsedOnBasePhaserSection1.AddListener(attackMissSetHighlightedUnitAction);
+		CombatManager.OnRepairCrewUsedOnBasePhaserSection2.AddListener(attackMissSetHighlightedUnitAction);
 		CombatManager.OnRepairCrewUsedOnBaseTorpedoSection.AddListener(attackMissSetHighlightedUnitAction);
 		CombatManager.OnRepairCrewUsedOnBaseCrewSection.AddListener(attackMissSetHighlightedUnitAction);
 		CombatManager.OnRepairCrewUsedOnBaseStorageSection1.AddListener(attackMissSetHighlightedUnitAction);
 		CombatManager.OnRepairCrewUsedOnBaseStorageSection2.AddListener(attackMissSetHighlightedUnitAction);
 
 		//add listeners for ship sections being destroyed
-		PhasorSection.OnPhasorSectionDestroyed.AddListener(combatUnitHighlightedUnitAction);
+		PhaserSection.OnPhaserSectionDestroyed.AddListener(combatUnitHighlightedUnitAction);
 		TorpedoSection.OnTorpedoSectionDestroyed.AddListener(combatUnitHighlightedUnitAction);
 		StorageSection.OnStorageSectionDestroyed.AddListener(combatUnitHighlightedUnitAction);
 		CrewSection.OnCrewSectionDestroyed.AddListener(combatUnitHighlightedUnitAction);
 		EngineSection.OnEngineSectionDestroyed.AddListener(combatUnitHighlightedUnitAction);
 
 		//add listeners for base sections being destroyed
-		StarbasePhasorSection1.OnPhasorSection1Destroyed.AddListener(combatUnitHighlightedUnitAction);
-		StarbasePhasorSection2.OnPhasorSection2Destroyed.AddListener(combatUnitHighlightedUnitAction);
+		StarbasePhaserSection1.OnPhaserSection1Destroyed.AddListener(combatUnitHighlightedUnitAction);
+		StarbasePhaserSection2.OnPhaserSection2Destroyed.AddListener(combatUnitHighlightedUnitAction);
 		StarbaseTorpedoSection.OnTorpedoSectionDestroyed.AddListener(combatUnitHighlightedUnitAction);
 		StarbaseCrewSection.OnCrewSectionDestroyed.AddListener(combatUnitHighlightedUnitAction);
 		StarbaseStorageSection1.OnStorageSection1Destroyed.AddListener(combatUnitHighlightedUnitAction);
 		StarbaseStorageSection2.OnStorageSection2Destroyed.AddListener(combatUnitHighlightedUnitAction);
 
 		//add listeners for ship sections being repaired
-		PhasorSection.OnPhasorSectionRepaired.AddListener(combatUnitHighlightedUnitAction);
+		PhaserSection.OnPhaserSectionRepaired.AddListener(combatUnitHighlightedUnitAction);
 		TorpedoSection.OnTorpedoSectionRepaired.AddListener(combatUnitHighlightedUnitAction);
 		StorageSection.OnStorageSectionRepaired.AddListener(combatUnitHighlightedUnitAction);
 		CrewSection.OnCrewSectionRepaired.AddListener(combatUnitHighlightedUnitAction);
 		EngineSection.OnEngineSectionRepaired.AddListener(combatUnitHighlightedUnitAction);
 
 		//add listeners for base sections being repaired
-		StarbasePhasorSection1.OnPhasorSection1Repaired.AddListener(combatUnitHighlightedUnitAction);
-		StarbasePhasorSection2.OnPhasorSection2Repaired.AddListener(combatUnitHighlightedUnitAction);
+		StarbasePhaserSection1.OnPhaserSection1Repaired.AddListener(combatUnitHighlightedUnitAction);
+		StarbasePhaserSection2.OnPhaserSection2Repaired.AddListener(combatUnitHighlightedUnitAction);
 		StarbaseTorpedoSection.OnTorpedoSectionRepaired.AddListener(combatUnitHighlightedUnitAction);
 		StarbaseCrewSection.OnCrewSectionRepaired.AddListener(combatUnitHighlightedUnitAction);
 		StarbaseStorageSection1.OnStorageSection1Repaired.AddListener(combatUnitHighlightedUnitAction);
@@ -446,15 +446,15 @@ public class UnitPanel : MonoBehaviour {
 		Starbase.OnBaseDestroyed.AddListener(combatUnitHighlightedUnitAction);
 
 		//add listeners for damage being taken by ships
-		PhasorSection.OnPhasorDamageTaken.AddListener(SetHighlightedUnit);
+		PhaserSection.OnPhaserDamageTaken.AddListener(SetHighlightedUnit);
 		TorpedoSection.OnTorpedoDamageTaken.AddListener(SetHighlightedUnit);
 		StorageSection.OnStorageDamageTaken.AddListener(SetHighlightedUnit);
 		CrewSection.OnCrewDamageTaken.AddListener(SetHighlightedUnit);
 		EngineSection.OnEngineDamageTaken.AddListener(SetHighlightedUnit);
 
 		//add listeners for damage being taken by bases
-		StarbasePhasorSection1.OnPhasorDamageTaken.AddListener(SetHighlightedUnit);
-		StarbasePhasorSection2.OnPhasorDamageTaken.AddListener(SetHighlightedUnit);
+		StarbasePhaserSection1.OnPhaserDamageTaken.AddListener(SetHighlightedUnit);
+		StarbasePhaserSection2.OnPhaserDamageTaken.AddListener(SetHighlightedUnit);
 		StarbaseTorpedoSection.OnTorpedoDamageTaken.AddListener(SetHighlightedUnit);
 		StarbaseCrewSection.OnCrewDamageTaken.AddListener(SetHighlightedUnit);
 		StarbaseStorageSection1.OnStorageDamageTaken.AddListener(SetHighlightedUnit);
@@ -485,7 +485,7 @@ public class UnitPanel : MonoBehaviour {
 		BirdOfPrey.OnUpdateCloakingStatus.AddListener(combatUnitHighlightedUnitAction);
 
 		//add listeners for purchasing items
-		PhasorSection.OnInventoryUpdated.AddListener(combatUnitHighlightedUnitAction);
+		PhaserSection.OnInventoryUpdated.AddListener(combatUnitHighlightedUnitAction);
 		TorpedoSection.OnInventoryUpdated.AddListener(combatUnitHighlightedUnitAction);
 		StorageSection.OnInventoryUpdated.AddListener(combatUnitHighlightedUnitAction);
 		CrewSection.OnInventoryUpdated.AddListener(combatUnitHighlightedUnitAction);
@@ -531,7 +531,7 @@ public class UnitPanel : MonoBehaviour {
 		highlightedUnitPanelTitle.rectTransform.localScale = Vector3.zero;
 		shipName.rectTransform.localScale = Vector3.zero;
 		torpedoText.rectTransform.localScale = Vector3.zero;
-		phasorText.rectTransform.localScale = Vector3.zero;
+		phaserText.rectTransform.localScale = Vector3.zero;
 		movementText.rectTransform.localScale = Vector3.zero;
 		specialText.rectTransform.localScale = Vector3.zero;
 
@@ -634,7 +634,7 @@ public class UnitPanel : MonoBehaviour {
 		
 			//assign the known sections
 				shields1Section.text = ("Engine");
-				shields2Section.text = ("Phasor");
+				shields2Section.text = ("Phaser");
 				shields3Section.text = ("Torpedo");
 				shields4Section.text = ("Crew");
 				shields5Section.text = ("Storage");
@@ -659,13 +659,13 @@ public class UnitPanel : MonoBehaviour {
 
 			//set the slider range to the shield range
 				shields1Slider.maxValue = (float)highlightedUnit.GetComponent<EngineSection> ().shieldsMax;
-				shields2Slider.maxValue = (float)highlightedUnit.GetComponent<PhasorSection> ().shieldsMax;
+				shields2Slider.maxValue = (float)highlightedUnit.GetComponent<PhaserSection> ().shieldsMax;
 				shields3Slider.maxValue = (float)highlightedUnit.GetComponent<TorpedoSection> ().shieldsMax;
 				shields4Slider.maxValue = (float)highlightedUnit.GetComponent<CrewSection> ().shieldsMax;
 				shields5Slider.maxValue = (float)highlightedUnit.GetComponent<StorageSection> ().shieldsMax;
 
 				shields1Slider.value = (float)highlightedUnit.GetComponent<EngineSection> ().shieldsCurrent;
-				shields2Slider.value = (float)highlightedUnit.GetComponent<PhasorSection> ().shieldsCurrent;
+				shields2Slider.value = (float)highlightedUnit.GetComponent<PhaserSection> ().shieldsCurrent;
 				shields3Slider.value = (float)highlightedUnit.GetComponent<TorpedoSection> ().shieldsCurrent;
 				shields4Slider.value = (float)highlightedUnit.GetComponent<CrewSection> ().shieldsCurrent;
 				shields5Slider.value = (float)highlightedUnit.GetComponent<StorageSection> ().shieldsCurrent;
@@ -683,7 +683,7 @@ public class UnitPanel : MonoBehaviour {
 
 			//assign the known current shields
 				shields1Value.text = (highlightedUnit.GetComponent<EngineSection> ().shieldsCurrent.ToString ());
-				shields2Value.text = (highlightedUnit.GetComponent<PhasorSection> ().shieldsCurrent.ToString ());
+				shields2Value.text = (highlightedUnit.GetComponent<PhaserSection> ().shieldsCurrent.ToString ());
 				shields3Value.text = (highlightedUnit.GetComponent<TorpedoSection> ().shieldsCurrent.ToString ());
 				shields4Value.text = (highlightedUnit.GetComponent<CrewSection> ().shieldsCurrent.ToString ());
 				shields5Value.text = (highlightedUnit.GetComponent<StorageSection> ().shieldsCurrent.ToString ());
@@ -711,7 +711,7 @@ public class UnitPanel : MonoBehaviour {
 
 				}
 
-				if (highlightedUnit.GetComponent<PhasorSection> ().isDestroyed == false) {
+				if (highlightedUnit.GetComponent<PhaserSection> ().isDestroyed == false) {
 
 					shields2Section.color = displayTextColor;
 					shields2Value.color = displayTextColor;
@@ -772,7 +772,7 @@ public class UnitPanel : MonoBehaviour {
 
 			//assign the known sections
 				shields1Section.text = ("Engine");
-				shields2Section.text = ("Phasor");
+				shields2Section.text = ("Phaser");
 				shields3Section.text = ("Torpedo");
 				shields4Section.text = ("Storage");
 
@@ -796,12 +796,12 @@ public class UnitPanel : MonoBehaviour {
 
 			//set the slider range to the shield range
 				shields1Slider.maxValue = (float)highlightedUnit.GetComponent<EngineSection> ().shieldsMax;
-				shields2Slider.maxValue = (float)highlightedUnit.GetComponent<PhasorSection> ().shieldsMax;
+				shields2Slider.maxValue = (float)highlightedUnit.GetComponent<PhaserSection> ().shieldsMax;
 				shields3Slider.maxValue = (float)highlightedUnit.GetComponent<TorpedoSection> ().shieldsMax;
 				shields4Slider.maxValue = (float)highlightedUnit.GetComponent<StorageSection> ().shieldsMax;
 
 				shields1Slider.value = (float)highlightedUnit.GetComponent<EngineSection> ().shieldsCurrent;
-				shields2Slider.value = (float)highlightedUnit.GetComponent<PhasorSection> ().shieldsCurrent;
+				shields2Slider.value = (float)highlightedUnit.GetComponent<PhaserSection> ().shieldsCurrent;
 				shields3Slider.value = (float)highlightedUnit.GetComponent<TorpedoSection> ().shieldsCurrent;
 				shields4Slider.value = (float)highlightedUnit.GetComponent<StorageSection> ().shieldsCurrent;
 
@@ -818,7 +818,7 @@ public class UnitPanel : MonoBehaviour {
 
 			//assign the known current shields
 				shields1Value.text = (highlightedUnit.GetComponent<EngineSection> ().shieldsCurrent.ToString ());
-				shields2Value.text = (highlightedUnit.GetComponent<PhasorSection> ().shieldsCurrent.ToString ());
+				shields2Value.text = (highlightedUnit.GetComponent<PhaserSection> ().shieldsCurrent.ToString ());
 				shields3Value.text = (highlightedUnit.GetComponent<TorpedoSection> ().shieldsCurrent.ToString ());
 				shields4Value.text = (highlightedUnit.GetComponent<StorageSection> ().shieldsCurrent.ToString ());
 
@@ -845,7 +845,7 @@ public class UnitPanel : MonoBehaviour {
 
 				}
 
-				if (highlightedUnit.GetComponent<PhasorSection> ().isDestroyed == false) {
+				if (highlightedUnit.GetComponent<PhaserSection> ().isDestroyed == false) {
 
 					shields2Section.color = displayTextColor;
 					shields2Value.color = displayTextColor;
@@ -893,7 +893,7 @@ public class UnitPanel : MonoBehaviour {
 
 			//assign the known sections
 				shields1Section.text = ("Engine");
-				shields2Section.text = ("Phasor");
+				shields2Section.text = ("Phaser");
 				shields3Section.text = ("Torpedo");
 
 				//update the font size if necessary
@@ -915,11 +915,11 @@ public class UnitPanel : MonoBehaviour {
 
 			//set the slider range to the shield range
 				shields1Slider.maxValue = (float)highlightedUnit.GetComponent<EngineSection> ().shieldsMax;
-				shields2Slider.maxValue = (float)highlightedUnit.GetComponent<PhasorSection> ().shieldsMax;
+				shields2Slider.maxValue = (float)highlightedUnit.GetComponent<PhaserSection> ().shieldsMax;
 				shields3Slider.maxValue = (float)highlightedUnit.GetComponent<TorpedoSection> ().shieldsMax;
 
 				shields1Slider.value = (float)highlightedUnit.GetComponent<EngineSection> ().shieldsCurrent;
-				shields2Slider.value = (float)highlightedUnit.GetComponent<PhasorSection> ().shieldsCurrent;
+				shields2Slider.value = (float)highlightedUnit.GetComponent<PhaserSection> ().shieldsCurrent;
 				shields3Slider.value = (float)highlightedUnit.GetComponent<TorpedoSection> ().shieldsCurrent;
 
 			//scale the blank sections to 0
@@ -936,7 +936,7 @@ public class UnitPanel : MonoBehaviour {
 
 			//assign the known current shields
 				shields1Value.text = (highlightedUnit.GetComponent<EngineSection> ().shieldsCurrent.ToString ());
-				shields2Value.text = (highlightedUnit.GetComponent<PhasorSection> ().shieldsCurrent.ToString ());
+				shields2Value.text = (highlightedUnit.GetComponent<PhaserSection> ().shieldsCurrent.ToString ());
 				shields3Value.text = (highlightedUnit.GetComponent<TorpedoSection> ().shieldsCurrent.ToString ());
 
 			//scale the blank sections to 0
@@ -962,7 +962,7 @@ public class UnitPanel : MonoBehaviour {
 
 				}
 
-				if (highlightedUnit.GetComponent<PhasorSection> ().isDestroyed == false) {
+				if (highlightedUnit.GetComponent<PhaserSection> ().isDestroyed == false) {
 
 					shields2Section.color = displayTextColor;
 					shields2Value.color = displayTextColor;
@@ -998,7 +998,7 @@ public class UnitPanel : MonoBehaviour {
 
 			//assign the known sections
 				shields1Section.text = ("Engine");
-				shields2Section.text = ("Phasor");
+				shields2Section.text = ("Phaser");
 				shields3Section.text = ("Storage");
 
 				//update the font size if necessary
@@ -1020,11 +1020,11 @@ public class UnitPanel : MonoBehaviour {
 
 			//set the slider range to the shield range
 				shields1Slider.maxValue = (float)highlightedUnit.GetComponent<EngineSection> ().shieldsMax;
-				shields2Slider.maxValue = (float)highlightedUnit.GetComponent<PhasorSection> ().shieldsMax;
+				shields2Slider.maxValue = (float)highlightedUnit.GetComponent<PhaserSection> ().shieldsMax;
 				shields3Slider.maxValue = (float)highlightedUnit.GetComponent<StorageSection> ().shieldsMax;
 
 				shields1Slider.value = (float)highlightedUnit.GetComponent<EngineSection> ().shieldsCurrent;
-				shields2Slider.value = (float)highlightedUnit.GetComponent<PhasorSection> ().shieldsCurrent;
+				shields2Slider.value = (float)highlightedUnit.GetComponent<PhaserSection> ().shieldsCurrent;
 				shields3Slider.value = (float)highlightedUnit.GetComponent<StorageSection> ().shieldsCurrent;
 
 			//scale the blank sections to 0
@@ -1041,7 +1041,7 @@ public class UnitPanel : MonoBehaviour {
 
 			//assign the known current shields
 				shields1Value.text = (highlightedUnit.GetComponent<EngineSection> ().shieldsCurrent.ToString ());
-				shields2Value.text = (highlightedUnit.GetComponent<PhasorSection> ().shieldsCurrent.ToString ());
+				shields2Value.text = (highlightedUnit.GetComponent<PhaserSection> ().shieldsCurrent.ToString ());
 				shields3Value.text = (highlightedUnit.GetComponent<StorageSection> ().shieldsCurrent.ToString ());
 
 			//scale the blank sections to 0
@@ -1067,7 +1067,7 @@ public class UnitPanel : MonoBehaviour {
 
 				}
 
-				if (highlightedUnit.GetComponent<PhasorSection> ().isDestroyed == false) {
+				if (highlightedUnit.GetComponent<PhaserSection> ().isDestroyed == false) {
 
 					shields2Section.color = displayTextColor;
 					shields2Value.color = displayTextColor;
@@ -1106,8 +1106,8 @@ public class UnitPanel : MonoBehaviour {
 				shields6Section.rectTransform.localScale = Vector3.one;
 
 			//assign the known sections
-				shields1Section.text = ("Phasor 1");
-				shields2Section.text = ("Phasor 2");
+				shields1Section.text = ("Phaser 1");
+				shields2Section.text = ("Phaser 2");
 				shields3Section.text = ("Torpedo");
 				shields4Section.text = ("Crew");
 				shields5Section.text = ("Storage 1");
@@ -1132,15 +1132,15 @@ public class UnitPanel : MonoBehaviour {
 				shields6Slider.fillRect.localScale = Vector3.one;
 
 			//set the slider range to the shield range
-				shields1Slider.maxValue = (float)highlightedUnit.GetComponent<StarbasePhasorSection1> ().shieldsMax;
-				shields2Slider.maxValue = (float)highlightedUnit.GetComponent<StarbasePhasorSection2> ().shieldsMax;
+				shields1Slider.maxValue = (float)highlightedUnit.GetComponent<StarbasePhaserSection1> ().shieldsMax;
+				shields2Slider.maxValue = (float)highlightedUnit.GetComponent<StarbasePhaserSection2> ().shieldsMax;
 				shields3Slider.maxValue = (float)highlightedUnit.GetComponent<StarbaseTorpedoSection> ().shieldsMax;
 				shields4Slider.maxValue = (float)highlightedUnit.GetComponent<StarbaseCrewSection> ().shieldsMax;
 				shields5Slider.maxValue = (float)highlightedUnit.GetComponent<StarbaseStorageSection1> ().shieldsMax;
 				shields6Slider.maxValue = (float)highlightedUnit.GetComponent<StarbaseStorageSection2> ().shieldsMax;
 
-				shields1Slider.value = (float)highlightedUnit.GetComponent<StarbasePhasorSection1> ().shieldsCurrent;
-				shields2Slider.value = (float)highlightedUnit.GetComponent<StarbasePhasorSection2> ().shieldsCurrent;
+				shields1Slider.value = (float)highlightedUnit.GetComponent<StarbasePhaserSection1> ().shieldsCurrent;
+				shields2Slider.value = (float)highlightedUnit.GetComponent<StarbasePhaserSection2> ().shieldsCurrent;
 				shields3Slider.value = (float)highlightedUnit.GetComponent<StarbaseTorpedoSection> ().shieldsCurrent;
 				shields4Slider.value = (float)highlightedUnit.GetComponent<StarbaseCrewSection> ().shieldsCurrent;
 				shields5Slider.value = (float)highlightedUnit.GetComponent<StarbaseStorageSection1> ().shieldsCurrent;
@@ -1156,8 +1156,8 @@ public class UnitPanel : MonoBehaviour {
 				shields6Value.rectTransform.localScale = Vector3.one;
 
 			//assign the known current shields
-				shields1Value.text = (highlightedUnit.GetComponent<StarbasePhasorSection1> ().shieldsCurrent.ToString ());
-				shields2Value.text = (highlightedUnit.GetComponent<StarbasePhasorSection2> ().shieldsCurrent.ToString ());
+				shields1Value.text = (highlightedUnit.GetComponent<StarbasePhaserSection1> ().shieldsCurrent.ToString ());
+				shields2Value.text = (highlightedUnit.GetComponent<StarbasePhaserSection2> ().shieldsCurrent.ToString ());
 				shields3Value.text = (highlightedUnit.GetComponent<StarbaseTorpedoSection> ().shieldsCurrent.ToString ());
 				shields4Value.text = (highlightedUnit.GetComponent<StarbaseCrewSection> ().shieldsCurrent.ToString ());
 				shields5Value.text = (highlightedUnit.GetComponent<StarbaseStorageSection1> ().shieldsCurrent.ToString ());
@@ -1172,7 +1172,7 @@ public class UnitPanel : MonoBehaviour {
 				SetShieldBarColor (shields6Fill, shields6Slider.value, shields6Slider.maxValue);
 
 				//color code the section names and shield values
-				if (highlightedUnit.GetComponent<StarbasePhasorSection1> ().isDestroyed == false) {
+				if (highlightedUnit.GetComponent<StarbasePhaserSection1> ().isDestroyed == false) {
 
 					shields1Section.color = displayTextColor;
 					shields1Value.color = displayTextColor;
@@ -1184,7 +1184,7 @@ public class UnitPanel : MonoBehaviour {
 
 				}
 
-				if (highlightedUnit.GetComponent<StarbasePhasorSection2> ().isDestroyed == false) {
+				if (highlightedUnit.GetComponent<StarbasePhaserSection2> ().isDestroyed == false) {
 
 					shields2Section.color = displayTextColor;
 					shields2Value.color = displayTextColor;
@@ -1350,18 +1350,18 @@ public class UnitPanel : MonoBehaviour {
 
 				}
 
-				phasorText.rectTransform.localScale = Vector3.one;
-				phasorText.rectTransform.localPosition = shipPhasorTextLocation;
+				phaserText.rectTransform.localScale = Vector3.one;
+				phaserText.rectTransform.localPosition = shipPhaserTextLocation;
 
 				//check attack status
-				if (highlightedUnit.hasRemainingPhasorAttack == true) {
+				if (highlightedUnit.hasRemainingPhaserAttack == true) {
 
-					phasorText.text = ("P");
+					phaserText.text = ("P");
 
 				}
-				else if( highlightedUnit.hasRemainingPhasorAttack == false) {
+				else if( highlightedUnit.hasRemainingPhaserAttack == false) {
 
-					phasorText.text = ("");
+					phaserText.text = ("");
 
 				}
 
@@ -1420,18 +1420,18 @@ public class UnitPanel : MonoBehaviour {
 
 				}
 
-				phasorText.rectTransform.localScale = Vector3.one;
-				phasorText.rectTransform.localPosition = shipPhasorTextLocation;
+				phaserText.rectTransform.localScale = Vector3.one;
+				phaserText.rectTransform.localPosition = shipPhaserTextLocation;
 
 				//check attack status
-				if (highlightedUnit.hasRemainingPhasorAttack == true) {
+				if (highlightedUnit.hasRemainingPhaserAttack == true) {
 
-					phasorText.text = ("P");
+					phaserText.text = ("P");
 
 				}
-				else if( highlightedUnit.hasRemainingPhasorAttack == false) {
+				else if( highlightedUnit.hasRemainingPhaserAttack == false) {
 
-					phasorText.text = ("");
+					phaserText.text = ("");
 
 				}
 
@@ -1474,18 +1474,18 @@ public class UnitPanel : MonoBehaviour {
 
 				}
 
-				phasorText.rectTransform.localScale = Vector3.one;
-				phasorText.rectTransform.localPosition = shipPhasorTextLocation;
+				phaserText.rectTransform.localScale = Vector3.one;
+				phaserText.rectTransform.localPosition = shipPhaserTextLocation;
 
 				//check attack status
-				if (highlightedUnit.hasRemainingPhasorAttack == true) {
+				if (highlightedUnit.hasRemainingPhaserAttack == true) {
 
-					phasorText.text = ("P");
+					phaserText.text = ("P");
 
 				}
-				else if( highlightedUnit.hasRemainingPhasorAttack == false) {
+				else if( highlightedUnit.hasRemainingPhaserAttack == false) {
 
-					phasorText.text = ("");
+					phaserText.text = ("");
 
 				}
 
@@ -1529,18 +1529,18 @@ public class UnitPanel : MonoBehaviour {
 
 				torpedoText.rectTransform.localScale = Vector3.zero;
 
-				phasorText.rectTransform.localScale = Vector3.one;
-				phasorText.rectTransform.localPosition = shipPhasorTextLocation;
+				phaserText.rectTransform.localScale = Vector3.one;
+				phaserText.rectTransform.localPosition = shipPhaserTextLocation;
 
 				//check attack status
-				if (highlightedUnit.hasRemainingPhasorAttack == true) {
+				if (highlightedUnit.hasRemainingPhaserAttack == true) {
 
-					phasorText.text = ("P");
+					phaserText.text = ("P");
 
 				}
-				else if( highlightedUnit.hasRemainingPhasorAttack == false) {
+				else if( highlightedUnit.hasRemainingPhaserAttack == false) {
 
-					phasorText.text = ("");
+					phaserText.text = ("");
 
 				}
 
@@ -1583,18 +1583,18 @@ public class UnitPanel : MonoBehaviour {
 
 				}
 
-				phasorText.rectTransform.localScale = Vector3.one;
-				phasorText.rectTransform.localPosition = basePhasorTextLocation;
+				phaserText.rectTransform.localScale = Vector3.one;
+				phaserText.rectTransform.localPosition = basePhaserTextLocation;
 
 				//check attack status
-				if (highlightedUnit.hasRemainingPhasorAttack == true) {
+				if (highlightedUnit.hasRemainingPhaserAttack == true) {
 
-					phasorText.text = ("P");
+					phaserText.text = ("P");
 
 				}
-				else if( highlightedUnit.hasRemainingPhasorAttack == false) {
+				else if( highlightedUnit.hasRemainingPhaserAttack == false) {
 
-					phasorText.text = ("");
+					phaserText.text = ("");
 
 				}
 
@@ -1626,7 +1626,7 @@ public class UnitPanel : MonoBehaviour {
 
 				torpedoText.rectTransform.localScale = Vector3.zero;
 
-				phasorText.rectTransform.localScale = Vector3.zero;
+				phaserText.rectTransform.localScale = Vector3.zero;
 
 				movementText.rectTransform.localScale = Vector3.zero;
 
@@ -1649,7 +1649,7 @@ public class UnitPanel : MonoBehaviour {
 
 			torpedoText.rectTransform.localScale = Vector3.zero;
 
-			phasorText.rectTransform.localScale = Vector3.zero;
+			phaserText.rectTransform.localScale = Vector3.zero;
 
 			movementText.rectTransform.localScale = Vector3.zero;
 
@@ -1771,14 +1771,14 @@ public class UnitPanel : MonoBehaviour {
 		if (highlightedUnit == null) {
 
 			//hide all the section displays
-			shipPhasorSection.SetActive (false);
+			shipPhaserSection.SetActive (false);
 			shipTorpedoSection.SetActive (false);
 			shipStorageSection.SetActive (false);
 			shipCrewSection.SetActive (false);
 			shipEngineSection.SetActive (false);
 
-			basePhasorSection1.SetActive (false);
-			basePhasorSection2.SetActive (false);
+			basePhaserSection1.SetActive (false);
+			basePhaserSection2.SetActive (false);
 			baseTorpedoSection.SetActive (false);
 			baseCrewSection.SetActive (false);
 			baseStorageSection1.SetActive (false);
@@ -1789,25 +1789,25 @@ public class UnitPanel : MonoBehaviour {
 			//the else condition is that the highlighted unit is a ship
 
 			//deactivate the base stuff
-			basePhasorSection1.SetActive (false);
-			basePhasorSection2.SetActive (false);
+			basePhaserSection1.SetActive (false);
+			basePhaserSection2.SetActive (false);
 			baseTorpedoSection.SetActive (false);
 			baseCrewSection.SetActive (false);
 			baseStorageSection1.SetActive (false);
 			baseStorageSection2.SetActive (false);
 
-			//check if the ship has a phasor section
-			if (highlightedUnit.GetComponent<PhasorSection> () == true) {
+			//check if the ship has a phaser section
+			if (highlightedUnit.GetComponent<PhaserSection> () == true) {
 
-				//activate the phasor section
-				shipPhasorSection.SetActive (true);
+				//activate the phaser section
+				shipPhaserSection.SetActive (true);
 
-				//update the phasor section
-				UpdateShipPhasorSection (highlightedUnit);
+				//update the phaser section
+				UpdateShipPhaserSection (highlightedUnit);
 
 			} else {
 
-				shipPhasorSection.SetActive (false);
+				shipPhaserSection.SetActive (false);
 
 			}
 
@@ -1876,39 +1876,39 @@ public class UnitPanel : MonoBehaviour {
 			//the else condition is that the highlighted unit is a starbase
 
 			//hide all the ship section displays
-			shipPhasorSection.SetActive (false);
+			shipPhaserSection.SetActive (false);
 			shipTorpedoSection.SetActive (false);
 			shipStorageSection.SetActive (false);
 			shipCrewSection.SetActive (false);
 			shipEngineSection.SetActive (false);
 
-			//check if the base has a phasor 1 section
-			if (highlightedUnit.GetComponent<StarbasePhasorSection1> () == true) {
+			//check if the base has a phaser 1 section
+			if (highlightedUnit.GetComponent<StarbasePhaserSection1> () == true) {
 
-				//activate the phasor 1 section
-				basePhasorSection1.SetActive (true);
+				//activate the phaser 1 section
+				basePhaserSection1.SetActive (true);
 
-				//update the phasor 1 section
-				UpdateBasePhasorSection1 (highlightedUnit);
+				//update the phaser 1 section
+				UpdateBasePhaserSection1 (highlightedUnit);
 
 			} else {
 
-				basePhasorSection1.SetActive (false);
+				basePhaserSection1.SetActive (false);
 
 			}
 
-			//check if the base has a phasor 2 section
-			if (highlightedUnit.GetComponent<StarbasePhasorSection2> () == true) {
+			//check if the base has a phaser 2 section
+			if (highlightedUnit.GetComponent<StarbasePhaserSection2> () == true) {
 
-				//activate the phasor 2 section
-				basePhasorSection2.SetActive (true);
+				//activate the phaser 2 section
+				basePhaserSection2.SetActive (true);
 
-				//update the phasor 2 section
-				UpdateBasePhasorSection2 (highlightedUnit);
+				//update the phaser 2 section
+				UpdateBasePhaserSection2 (highlightedUnit);
 
 			} else {
 
-				basePhasorSection2.SetActive (false);
+				basePhaserSection2.SetActive (false);
 
 			}
 
@@ -1976,21 +1976,21 @@ public class UnitPanel : MonoBehaviour {
 
 	}
 
-	//this function updates the phasor section values
-	private void UpdateShipPhasorSection(CombatUnit combatUnit){
+	//this function updates the phaser section values
+	private void UpdateShipPhaserSection(CombatUnit combatUnit){
 
 		//check if the section is destroyed
-		if (combatUnit.GetComponent<PhasorSection> ().isDestroyed == false) {
+		if (combatUnit.GetComponent<PhaserSection> ().isDestroyed == false) {
 
 			//get all the textmeshpro objects in the section
-			foreach (TextMeshProUGUI tmpro in shipPhasorSection.GetComponentsInChildren<TextMeshProUGUI>()) {
+			foreach (TextMeshProUGUI tmpro in shipPhaserSection.GetComponentsInChildren<TextMeshProUGUI>()) {
 
 				tmpro.color = displayTextColor;
 
 			}
 
 			//get all images in the section
-			foreach (Image image in shipPhasorSection.GetComponentsInChildren<Image>()) {
+			foreach (Image image in shipPhaserSection.GetComponentsInChildren<Image>()) {
 
 				image.color = displayTextColor;
 
@@ -1999,14 +1999,14 @@ public class UnitPanel : MonoBehaviour {
 		} else {
 			
 			//get all the textmeshpro objects in the section
-			foreach (TextMeshProUGUI tmpro in shipPhasorSection.GetComponentsInChildren<TextMeshProUGUI>()) {
+			foreach (TextMeshProUGUI tmpro in shipPhaserSection.GetComponentsInChildren<TextMeshProUGUI>()) {
 
 				tmpro.color = displayTextDestroyedSectionColor;
 
 			}
 
 			//get all images in the section
-			foreach (Image image in shipPhasorSection.GetComponentsInChildren<Image>()) {
+			foreach (Image image in shipPhaserSection.GetComponentsInChildren<Image>()) {
 
 				image.color = displayTextDestroyedSectionColor;
 
@@ -2015,22 +2015,22 @@ public class UnitPanel : MonoBehaviour {
 		}
 
 		//update the inventory values
-		shipPhasorRadarShotText.text = (combatUnit.GetComponent<PhasorSection>().phasorRadarShot.ToString());
+		shipPhaserRadarShotText.text = (combatUnit.GetComponent<PhaserSection>().phaserRadarShot.ToString());
 
 		//update the font size if necessary
-		UIManager.AutoSizeTextMeshFont (shipPhasorRadarShotText);
+		UIManager.AutoSizeTextMeshFont (shipPhaserRadarShotText);
 
-		if (combatUnit.GetComponent<PhasorSection> ().phasorRadarArray == true) {
+		if (combatUnit.GetComponent<PhaserSection> ().phaserRadarArray == true) {
 
-			shipPhasorRadarArrayText.text = ("1");
+			shipPhaserRadarArrayText.text = ("1");
 
 		} else {
 
-			shipPhasorRadarArrayText.text = ("0");
+			shipPhaserRadarArrayText.text = ("0");
 
 		}
 
-		if (combatUnit.GetComponent<PhasorSection> ().xRayKernalUpgrade == true) {
+		if (combatUnit.GetComponent<PhaserSection> ().xRayKernalUpgrade == true) {
 
 			shipXRayKernelText.text = ("1");
 
@@ -2040,7 +2040,7 @@ public class UnitPanel : MonoBehaviour {
 
 		}
 
-		if (combatUnit.GetComponent<PhasorSection> ().tractorBeam == true) {
+		if (combatUnit.GetComponent<PhaserSection> ().tractorBeam == true) {
 
 			shipTractorBeamText.text = ("1");
 
@@ -2333,21 +2333,21 @@ public class UnitPanel : MonoBehaviour {
 
 	}
 
-	//this function updates the base phasor section values
-	private void UpdateBasePhasorSection1(CombatUnit combatUnit){
+	//this function updates the base phaser section values
+	private void UpdateBasePhaserSection1(CombatUnit combatUnit){
 
 		//check if the section is destroyed
-		if (combatUnit.GetComponent<StarbasePhasorSection1> ().isDestroyed == false) {
+		if (combatUnit.GetComponent<StarbasePhaserSection1> ().isDestroyed == false) {
 
 			//get all the textmeshpro objects in the section
-			foreach (TextMeshProUGUI tmpro in basePhasorSection1.GetComponentsInChildren<TextMeshProUGUI>()) {
+			foreach (TextMeshProUGUI tmpro in basePhaserSection1.GetComponentsInChildren<TextMeshProUGUI>()) {
 
 				tmpro.color = displayTextColor;
 
 			}
 
 			//get all images in the section
-			foreach (Image image in basePhasorSection1.GetComponentsInChildren<Image>()) {
+			foreach (Image image in basePhaserSection1.GetComponentsInChildren<Image>()) {
 
 				image.color = displayTextColor;
 
@@ -2356,14 +2356,14 @@ public class UnitPanel : MonoBehaviour {
 		} else {
 
 			//get all the textmeshpro objects in the section
-			foreach (TextMeshProUGUI tmpro in basePhasorSection1.GetComponentsInChildren<TextMeshProUGUI>()) {
+			foreach (TextMeshProUGUI tmpro in basePhaserSection1.GetComponentsInChildren<TextMeshProUGUI>()) {
 
 				tmpro.color = displayTextDestroyedSectionColor;
 
 			}
 
 			//get all images in the section
-			foreach (Image image in basePhasorSection1.GetComponentsInChildren<Image>()) {
+			foreach (Image image in basePhaserSection1.GetComponentsInChildren<Image>()) {
 
 				image.color = displayTextDestroyedSectionColor;
 
@@ -2372,38 +2372,38 @@ public class UnitPanel : MonoBehaviour {
 		}
 
 		//update the inventory values
-		basePhasorRadarShotText.text = (combatUnit.GetComponent<StarbasePhasorSection1>().phasorRadarShot.ToString());
+		basePhaserRadarShotText.text = (combatUnit.GetComponent<StarbasePhaserSection1>().phaserRadarShot.ToString());
 
 		//update the font size if necessary
-		UIManager.AutoSizeTextMeshFont (basePhasorRadarShotText);
+		UIManager.AutoSizeTextMeshFont (basePhaserRadarShotText);
 
-		if (combatUnit.GetComponent<StarbasePhasorSection1> ().phasorRadarArray == true) {
+		if (combatUnit.GetComponent<StarbasePhaserSection1> ().phaserRadarArray == true) {
 
-			basePhasorRadarArrayText.text = ("1");
+			basePhaserRadarArrayText.text = ("1");
 
 		} else {
 
-			basePhasorRadarArrayText.text = ("0");
+			basePhaserRadarArrayText.text = ("0");
 
 		}
 
 	}
 
-	//this function updates the base phasor section values
-	private void UpdateBasePhasorSection2(CombatUnit combatUnit){
+	//this function updates the base phaser section values
+	private void UpdateBasePhaserSection2(CombatUnit combatUnit){
 
 		//check if the section is destroyed
-		if (combatUnit.GetComponent<StarbasePhasorSection2> ().isDestroyed == false) {
+		if (combatUnit.GetComponent<StarbasePhaserSection2> ().isDestroyed == false) {
 
 			//get all the textmeshpro objects in the section
-			foreach (TextMeshProUGUI tmpro in basePhasorSection2.GetComponentsInChildren<TextMeshProUGUI>()) {
+			foreach (TextMeshProUGUI tmpro in basePhaserSection2.GetComponentsInChildren<TextMeshProUGUI>()) {
 
 				tmpro.color = displayTextColor;
 
 			}
 
 			//get all images in the section
-			foreach (Image image in basePhasorSection2.GetComponentsInChildren<Image>()) {
+			foreach (Image image in basePhaserSection2.GetComponentsInChildren<Image>()) {
 
 				image.color = displayTextColor;
 
@@ -2412,14 +2412,14 @@ public class UnitPanel : MonoBehaviour {
 		} else {
 
 			//get all the textmeshpro objects in the section
-			foreach (TextMeshProUGUI tmpro in basePhasorSection2.GetComponentsInChildren<TextMeshProUGUI>()) {
+			foreach (TextMeshProUGUI tmpro in basePhaserSection2.GetComponentsInChildren<TextMeshProUGUI>()) {
 
 				tmpro.color = displayTextDestroyedSectionColor;
 
 			}
 
 			//get all images in the section
-			foreach (Image image in basePhasorSection2.GetComponentsInChildren<Image>()) {
+			foreach (Image image in basePhaserSection2.GetComponentsInChildren<Image>()) {
 
 				image.color = displayTextDestroyedSectionColor;
 
@@ -2428,7 +2428,7 @@ public class UnitPanel : MonoBehaviour {
 		}
 
 		//update the inventory values
-		if (combatUnit.GetComponent<StarbasePhasorSection2> ().xRayKernalUpgrade == true) {
+		if (combatUnit.GetComponent<StarbasePhaserSection2> ().xRayKernalUpgrade == true) {
 
 			baseXRayKernelText.text = ("1");
 
@@ -2760,45 +2760,45 @@ public class UnitPanel : MonoBehaviour {
 		EngineSection.OnUseWarpBooster.RemoveListener (shipSetHighlightedUnitAction);
 		EngineSection.OnUseTranswarpBooster.RemoveListener (shipSetHighlightedUnitAction);
 
-		//remove listeners for phasor attacks that hit ships
+		//remove listeners for phaser attacks that hit ships
 		/*
 		//these are commented out replaced by cutscene events
-		CombatManager.OnPhasorAttackHitShipPhasorSection.RemoveListener (attackSetHighlightedUnitAction);
-		CombatManager.OnPhasorAttackHitShipTorpedoSection.RemoveListener (attackSetHighlightedUnitAction);
-		CombatManager.OnPhasorAttackHitShipStorageSection.RemoveListener (attackSetHighlightedUnitAction);
-		CombatManager.OnPhasorAttackHitShipCrewSection.RemoveListener (attackSetHighlightedUnitAction);
-		CombatManager.OnPhasorAttackHitShipEngineSection.RemoveListener (attackSetHighlightedUnitAction);
-		CombatManager.OnPhasorAttackMissShip.RemoveListener (attackMissSetHighlightedUnitAction);
+		CombatManager.OnPhaserAttackHitShipPhaserSection.RemoveListener (attackSetHighlightedUnitAction);
+		CombatManager.OnPhaserAttackHitShipTorpedoSection.RemoveListener (attackSetHighlightedUnitAction);
+		CombatManager.OnPhaserAttackHitShipStorageSection.RemoveListener (attackSetHighlightedUnitAction);
+		CombatManager.OnPhaserAttackHitShipCrewSection.RemoveListener (attackSetHighlightedUnitAction);
+		CombatManager.OnPhaserAttackHitShipEngineSection.RemoveListener (attackSetHighlightedUnitAction);
+		CombatManager.OnPhaserAttackMissShip.RemoveListener (attackMissSetHighlightedUnitAction);
 		*/
 
-		//remove listeners for phasor attacks that hit ships
-		CutsceneManager.OnPhasorHitShipPhasorSection.RemoveListener (attackSetHighlightedUnitAction);
-		CutsceneManager.OnPhasorHitShipTorpedoSection.RemoveListener (attackSetHighlightedUnitAction);
-		CutsceneManager.OnPhasorHitShipStorageSection.RemoveListener (attackSetHighlightedUnitAction);
-		CutsceneManager.OnPhasorHitShipCrewSection.RemoveListener (attackSetHighlightedUnitAction);
-		CutsceneManager.OnPhasorHitShipEngineSection.RemoveListener (attackSetHighlightedUnitAction);
-		CutsceneManager.OnPhasorMissShip.RemoveListener (attackSetHighlightedUnitAction);
+		//remove listeners for phaser attacks that hit ships
+		CutsceneManager.OnPhaserHitShipPhaserSection.RemoveListener (attackSetHighlightedUnitAction);
+		CutsceneManager.OnPhaserHitShipTorpedoSection.RemoveListener (attackSetHighlightedUnitAction);
+		CutsceneManager.OnPhaserHitShipStorageSection.RemoveListener (attackSetHighlightedUnitAction);
+		CutsceneManager.OnPhaserHitShipCrewSection.RemoveListener (attackSetHighlightedUnitAction);
+		CutsceneManager.OnPhaserHitShipEngineSection.RemoveListener (attackSetHighlightedUnitAction);
+		CutsceneManager.OnPhaserMissShip.RemoveListener (attackSetHighlightedUnitAction);
 
-		//remove listeners for phasor attacks that hit bases
+		//remove listeners for phaser attacks that hit bases
 		/*
 		//these are commented out replaced by cutscene events
-		CombatManager.OnPhasorAttackHitBasePhasorSection1.RemoveListener (attackSetHighlightedUnitAction);
-		CombatManager.OnPhasorAttackHitBasePhasorSection2.RemoveListener (attackSetHighlightedUnitAction);
-		CombatManager.OnPhasorAttackHitBaseTorpedoSection.RemoveListener (attackSetHighlightedUnitAction);
-		CombatManager.OnPhasorAttackHitBaseCrewSection.RemoveListener (attackSetHighlightedUnitAction);
-		CombatManager.OnPhasorAttackHitBaseStorageSection1.RemoveListener (attackSetHighlightedUnitAction);
-		CombatManager.OnPhasorAttackHitBaseStorageSection2.RemoveListener (attackSetHighlightedUnitAction);
-		CombatManager.OnPhasorAttackMissBase.RemoveListener (attackMissSetHighlightedUnitAction);
+		CombatManager.OnPhaserAttackHitBasePhaserSection1.RemoveListener (attackSetHighlightedUnitAction);
+		CombatManager.OnPhaserAttackHitBasePhaserSection2.RemoveListener (attackSetHighlightedUnitAction);
+		CombatManager.OnPhaserAttackHitBaseTorpedoSection.RemoveListener (attackSetHighlightedUnitAction);
+		CombatManager.OnPhaserAttackHitBaseCrewSection.RemoveListener (attackSetHighlightedUnitAction);
+		CombatManager.OnPhaserAttackHitBaseStorageSection1.RemoveListener (attackSetHighlightedUnitAction);
+		CombatManager.OnPhaserAttackHitBaseStorageSection2.RemoveListener (attackSetHighlightedUnitAction);
+		CombatManager.OnPhaserAttackMissBase.RemoveListener (attackMissSetHighlightedUnitAction);
 		*/
 
-		//remove listeners for phasor attacks that hit bases
-		CutsceneManager.OnPhasorHitBasePhasorSection1.RemoveListener (attackSetHighlightedUnitAction);
-		CutsceneManager.OnPhasorHitBasePhasorSection2.RemoveListener (attackSetHighlightedUnitAction);
-		CutsceneManager.OnPhasorHitBaseTorpedoSection.RemoveListener (attackSetHighlightedUnitAction);
-		CutsceneManager.OnPhasorHitBaseCrewSection.RemoveListener (attackSetHighlightedUnitAction);
-		CutsceneManager.OnPhasorHitBaseStorageSection1.RemoveListener (attackSetHighlightedUnitAction);
-		CutsceneManager.OnPhasorHitBaseStorageSection2.RemoveListener (attackSetHighlightedUnitAction);
-		CutsceneManager.OnPhasorMissBase.RemoveListener (attackSetHighlightedUnitAction);
+		//remove listeners for phaser attacks that hit bases
+		CutsceneManager.OnPhaserHitBasePhaserSection1.RemoveListener (attackSetHighlightedUnitAction);
+		CutsceneManager.OnPhaserHitBasePhaserSection2.RemoveListener (attackSetHighlightedUnitAction);
+		CutsceneManager.OnPhaserHitBaseTorpedoSection.RemoveListener (attackSetHighlightedUnitAction);
+		CutsceneManager.OnPhaserHitBaseCrewSection.RemoveListener (attackSetHighlightedUnitAction);
+		CutsceneManager.OnPhaserHitBaseStorageSection1.RemoveListener (attackSetHighlightedUnitAction);
+		CutsceneManager.OnPhaserHitBaseStorageSection2.RemoveListener (attackSetHighlightedUnitAction);
+		CutsceneManager.OnPhaserMissBase.RemoveListener (attackSetHighlightedUnitAction);
 
 		//remove listeners for torpedo attacks by ships
 		TorpedoSection.OnFireLightTorpedo.RemoveListener (attackFiredSetHighlightedUnitAction);
@@ -2827,8 +2827,8 @@ public class UnitPanel : MonoBehaviour {
 		//remove listeners for ships hit by torpedo attacks
 		/*
 		//these are commented out replaced by cutscene events
-		CombatManager.OnLightTorpedoAttackHitShipPhasorSection.RemoveListener (attackSetHighlightedUnitAction);
-		CombatManager.OnHeavyTorpedoAttackHitShipPhasorSection.RemoveListener (attackSetHighlightedUnitAction);
+		CombatManager.OnLightTorpedoAttackHitShipPhaserSection.RemoveListener (attackSetHighlightedUnitAction);
+		CombatManager.OnHeavyTorpedoAttackHitShipPhaserSection.RemoveListener (attackSetHighlightedUnitAction);
 		CombatManager.OnLightTorpedoAttackHitShipTorpedoSection.RemoveListener (attackSetHighlightedUnitAction);
 		CombatManager.OnHeavyTorpedoAttackHitShipTorpedoSection.RemoveListener (attackSetHighlightedUnitAction);
 		CombatManager.OnLightTorpedoAttackHitShipStorageSection.RemoveListener (attackSetHighlightedUnitAction);
@@ -2842,8 +2842,8 @@ public class UnitPanel : MonoBehaviour {
 		*/
 
 		//remove listeners for ships hit by torpedo attacks
-		CutsceneManager.OnLightTorpedoHitShipPhasorSection.RemoveListener (attackSetHighlightedUnitAction);
-		CutsceneManager.OnHeavyTorpedoHitShipPhasorSection.RemoveListener (attackSetHighlightedUnitAction);
+		CutsceneManager.OnLightTorpedoHitShipPhaserSection.RemoveListener (attackSetHighlightedUnitAction);
+		CutsceneManager.OnHeavyTorpedoHitShipPhaserSection.RemoveListener (attackSetHighlightedUnitAction);
 		CutsceneManager.OnLightTorpedoHitShipTorpedoSection.RemoveListener (attackSetHighlightedUnitAction);
 		CutsceneManager.OnHeavyTorpedoHitShipTorpedoSection.RemoveListener (attackSetHighlightedUnitAction);
 		CutsceneManager.OnLightTorpedoHitShipStorageSection.RemoveListener (attackSetHighlightedUnitAction);
@@ -2858,10 +2858,10 @@ public class UnitPanel : MonoBehaviour {
 		//remove listeners for bases hit by torpedo attacks
 		/*
 		//these are commented out replaced by cutscene events
-		CombatManager.OnLightTorpedoAttackHitBasePhasorSection1.RemoveListener (attackSetHighlightedUnitAction);
-		CombatManager.OnHeavyTorpedoAttackHitBasePhasorSection1.RemoveListener (attackSetHighlightedUnitAction);
-		CombatManager.OnLightTorpedoAttackHitBasePhasorSection2.RemoveListener (attackSetHighlightedUnitAction);
-		CombatManager.OnHeavyTorpedoAttackHitBasePhasorSection2.RemoveListener (attackSetHighlightedUnitAction);
+		CombatManager.OnLightTorpedoAttackHitBasePhaserSection1.RemoveListener (attackSetHighlightedUnitAction);
+		CombatManager.OnHeavyTorpedoAttackHitBasePhaserSection1.RemoveListener (attackSetHighlightedUnitAction);
+		CombatManager.OnLightTorpedoAttackHitBasePhaserSection2.RemoveListener (attackSetHighlightedUnitAction);
+		CombatManager.OnHeavyTorpedoAttackHitBasePhaserSection2.RemoveListener (attackSetHighlightedUnitAction);
 		CombatManager.OnLightTorpedoAttackHitBaseTorpedoSection.RemoveListener (attackSetHighlightedUnitAction);
 		CombatManager.OnHeavyTorpedoAttackHitBaseTorpedoSection.RemoveListener (attackSetHighlightedUnitAction);
 		CombatManager.OnLightTorpedoAttackHitBaseCrewSection.RemoveListener (attackSetHighlightedUnitAction);
@@ -2875,10 +2875,10 @@ public class UnitPanel : MonoBehaviour {
 		*/
 
 		//remove listeners for bases hit by torpedo attacks
-		CutsceneManager.OnLightTorpedoHitBasePhasorSection1.RemoveListener (attackSetHighlightedUnitAction);
-		CutsceneManager.OnHeavyTorpedoHitBasePhasorSection1.RemoveListener (attackSetHighlightedUnitAction);
-		CutsceneManager.OnLightTorpedoHitBasePhasorSection2.RemoveListener (attackSetHighlightedUnitAction);
-		CutsceneManager.OnHeavyTorpedoHitBasePhasorSection2.RemoveListener (attackSetHighlightedUnitAction);
+		CutsceneManager.OnLightTorpedoHitBasePhaserSection1.RemoveListener (attackSetHighlightedUnitAction);
+		CutsceneManager.OnHeavyTorpedoHitBasePhaserSection1.RemoveListener (attackSetHighlightedUnitAction);
+		CutsceneManager.OnLightTorpedoHitBasePhaserSection2.RemoveListener (attackSetHighlightedUnitAction);
+		CutsceneManager.OnHeavyTorpedoHitBasePhaserSection2.RemoveListener (attackSetHighlightedUnitAction);
 		CutsceneManager.OnLightTorpedoHitBaseTorpedoSection.RemoveListener (attackSetHighlightedUnitAction);
 		CutsceneManager.OnHeavyTorpedoHitBaseTorpedoSection.RemoveListener (attackSetHighlightedUnitAction);
 		CutsceneManager.OnLightTorpedoHitBaseCrewSection.RemoveListener (attackSetHighlightedUnitAction);
@@ -2891,60 +2891,60 @@ public class UnitPanel : MonoBehaviour {
 		CutsceneManager.OnHeavyTorpedoMissBase.RemoveListener (attackSetHighlightedUnitAction);
 
 		//remove listeners for using crystals to heal ships
-		CombatManager.OnCrystalUsedOnShipPhasorSection.RemoveListener (crystalUsedSetHighlightedUnitAction);
+		CombatManager.OnCrystalUsedOnShipPhaserSection.RemoveListener (crystalUsedSetHighlightedUnitAction);
 		CombatManager.OnCrystalUsedOnShipTorpedoSection.RemoveListener (crystalUsedSetHighlightedUnitAction);
 		CombatManager.OnCrystalUsedOnShipStorageSection.RemoveListener (crystalUsedSetHighlightedUnitAction);
 		CombatManager.OnCrystalUsedOnShipCrewSection.RemoveListener (crystalUsedSetHighlightedUnitAction);
 		CombatManager.OnCrystalUsedOnShipEngineSection.RemoveListener (crystalUsedSetHighlightedUnitAction);
 
 		//remove listeners for using crystals to heal bases
-		CombatManager.OnCrystalUsedOnBasePhasorSection1.RemoveListener (crystalUsedSetHighlightedUnitAction);
-		CombatManager.OnCrystalUsedOnBasePhasorSection2.RemoveListener (crystalUsedSetHighlightedUnitAction);
+		CombatManager.OnCrystalUsedOnBasePhaserSection1.RemoveListener (crystalUsedSetHighlightedUnitAction);
+		CombatManager.OnCrystalUsedOnBasePhaserSection2.RemoveListener (crystalUsedSetHighlightedUnitAction);
 		CombatManager.OnCrystalUsedOnBaseTorpedoSection.RemoveListener (crystalUsedSetHighlightedUnitAction);
 		CombatManager.OnCrystalUsedOnBaseCrewSection.RemoveListener (crystalUsedSetHighlightedUnitAction);
 		CombatManager.OnCrystalUsedOnBaseStorageSection1.RemoveListener (crystalUsedSetHighlightedUnitAction);
 		CombatManager.OnCrystalUsedOnBaseStorageSection2.RemoveListener (crystalUsedSetHighlightedUnitAction);
 
 		//remove listeners for using repair crews on ships
-		CombatManager.OnRepairCrewUsedOnShipPhasorSection.RemoveListener (attackMissSetHighlightedUnitAction);
+		CombatManager.OnRepairCrewUsedOnShipPhaserSection.RemoveListener (attackMissSetHighlightedUnitAction);
 		CombatManager.OnRepairCrewUsedOnShipTorpedoSection.RemoveListener (attackMissSetHighlightedUnitAction);
 		CombatManager.OnRepairCrewUsedOnShipStorageSection.RemoveListener (attackMissSetHighlightedUnitAction);
 		CombatManager.OnRepairCrewUsedOnShipCrewSection.RemoveListener (attackMissSetHighlightedUnitAction);
 		CombatManager.OnRepairCrewUsedOnShipEngineSection.RemoveListener (attackMissSetHighlightedUnitAction);
 
 		//remove listeners for using repair crews on bases
-		CombatManager.OnRepairCrewUsedOnBasePhasorSection1.RemoveListener (attackMissSetHighlightedUnitAction);
-		CombatManager.OnRepairCrewUsedOnBasePhasorSection2.RemoveListener (attackMissSetHighlightedUnitAction);
+		CombatManager.OnRepairCrewUsedOnBasePhaserSection1.RemoveListener (attackMissSetHighlightedUnitAction);
+		CombatManager.OnRepairCrewUsedOnBasePhaserSection2.RemoveListener (attackMissSetHighlightedUnitAction);
 		CombatManager.OnRepairCrewUsedOnBaseTorpedoSection.RemoveListener (attackMissSetHighlightedUnitAction);
 		CombatManager.OnRepairCrewUsedOnBaseCrewSection.RemoveListener (attackMissSetHighlightedUnitAction);
 		CombatManager.OnRepairCrewUsedOnBaseStorageSection1.RemoveListener (attackMissSetHighlightedUnitAction);
 		CombatManager.OnRepairCrewUsedOnBaseStorageSection2.RemoveListener (attackMissSetHighlightedUnitAction);
 
 		//remove listeners for ship sections being destroyed
-		PhasorSection.OnPhasorSectionDestroyed.RemoveListener (combatUnitHighlightedUnitAction);
+		PhaserSection.OnPhaserSectionDestroyed.RemoveListener (combatUnitHighlightedUnitAction);
 		TorpedoSection.OnTorpedoSectionDestroyed.RemoveListener (combatUnitHighlightedUnitAction);
 		StorageSection.OnStorageSectionDestroyed.RemoveListener (combatUnitHighlightedUnitAction);
 		CrewSection.OnCrewSectionDestroyed.RemoveListener (combatUnitHighlightedUnitAction);
 		EngineSection.OnEngineSectionDestroyed.RemoveListener (combatUnitHighlightedUnitAction);
 
 		//remove listeners for base sections being destroyed
-		StarbasePhasorSection1.OnPhasorSection1Destroyed.RemoveListener (combatUnitHighlightedUnitAction);
-		StarbasePhasorSection2.OnPhasorSection2Destroyed.RemoveListener (combatUnitHighlightedUnitAction);
+		StarbasePhaserSection1.OnPhaserSection1Destroyed.RemoveListener (combatUnitHighlightedUnitAction);
+		StarbasePhaserSection2.OnPhaserSection2Destroyed.RemoveListener (combatUnitHighlightedUnitAction);
 		StarbaseTorpedoSection.OnTorpedoSectionDestroyed.RemoveListener (combatUnitHighlightedUnitAction);
 		StarbaseCrewSection.OnCrewSectionDestroyed.RemoveListener (combatUnitHighlightedUnitAction);
 		StarbaseStorageSection1.OnStorageSection1Destroyed.RemoveListener (combatUnitHighlightedUnitAction);
 		StarbaseStorageSection2.OnStorageSection2Destroyed.RemoveListener (combatUnitHighlightedUnitAction);
 
 		//remove listeners for ship sections being repaired
-		PhasorSection.OnPhasorSectionRepaired.RemoveListener (combatUnitHighlightedUnitAction);
+		PhaserSection.OnPhaserSectionRepaired.RemoveListener (combatUnitHighlightedUnitAction);
 		TorpedoSection.OnTorpedoSectionRepaired.RemoveListener (combatUnitHighlightedUnitAction);
 		StorageSection.OnStorageSectionRepaired.RemoveListener (combatUnitHighlightedUnitAction);
 		CrewSection.OnCrewSectionRepaired.RemoveListener (combatUnitHighlightedUnitAction);
 		EngineSection.OnEngineSectionRepaired.RemoveListener (combatUnitHighlightedUnitAction);
 
 		//remove listeners for base sections being repaired
-		StarbasePhasorSection1.OnPhasorSection1Repaired.RemoveListener (combatUnitHighlightedUnitAction);
-		StarbasePhasorSection2.OnPhasorSection2Repaired.RemoveListener (combatUnitHighlightedUnitAction);
+		StarbasePhaserSection1.OnPhaserSection1Repaired.RemoveListener (combatUnitHighlightedUnitAction);
+		StarbasePhaserSection2.OnPhaserSection2Repaired.RemoveListener (combatUnitHighlightedUnitAction);
 		StarbaseTorpedoSection.OnTorpedoSectionRepaired.RemoveListener (combatUnitHighlightedUnitAction);
 		StarbaseCrewSection.OnCrewSectionRepaired.RemoveListener (combatUnitHighlightedUnitAction);
 		StarbaseStorageSection1.OnStorageSection1Repaired.RemoveListener (combatUnitHighlightedUnitAction);
@@ -2957,15 +2957,15 @@ public class UnitPanel : MonoBehaviour {
 		Starbase.OnBaseDestroyed.RemoveListener (combatUnitHighlightedUnitAction);
 
 		//remove listeners for damage being taken by ships
-		PhasorSection.OnPhasorDamageTaken.RemoveListener (SetHighlightedUnit);
+		PhaserSection.OnPhaserDamageTaken.RemoveListener (SetHighlightedUnit);
 		TorpedoSection.OnTorpedoDamageTaken.RemoveListener (SetHighlightedUnit);
 		StorageSection.OnStorageDamageTaken.RemoveListener (SetHighlightedUnit);
 		CrewSection.OnCrewDamageTaken.RemoveListener (SetHighlightedUnit);
 		EngineSection.OnEngineDamageTaken.RemoveListener (SetHighlightedUnit);
 
 		//remove listeners for damage being taken by bases
-		StarbasePhasorSection1.OnPhasorDamageTaken.RemoveListener (SetHighlightedUnit);
-		StarbasePhasorSection2.OnPhasorDamageTaken.RemoveListener (SetHighlightedUnit);
+		StarbasePhaserSection1.OnPhaserDamageTaken.RemoveListener (SetHighlightedUnit);
+		StarbasePhaserSection2.OnPhaserDamageTaken.RemoveListener (SetHighlightedUnit);
 		StarbaseTorpedoSection.OnTorpedoDamageTaken.RemoveListener (SetHighlightedUnit);
 		StarbaseCrewSection.OnCrewDamageTaken.RemoveListener (SetHighlightedUnit);
 		StarbaseStorageSection1.OnStorageDamageTaken.RemoveListener (SetHighlightedUnit);
@@ -3000,7 +3000,7 @@ public class UnitPanel : MonoBehaviour {
 		BirdOfPrey.OnUpdateCloakingStatus.RemoveListener (combatUnitHighlightedUnitAction);
 
 		//remove listeners for purchasing items
-		PhasorSection.OnInventoryUpdated.RemoveListener (combatUnitHighlightedUnitAction);
+		PhaserSection.OnInventoryUpdated.RemoveListener (combatUnitHighlightedUnitAction);
 		TorpedoSection.OnInventoryUpdated.RemoveListener (combatUnitHighlightedUnitAction);
 		StorageSection.OnInventoryUpdated.RemoveListener (combatUnitHighlightedUnitAction);
 		CrewSection.OnInventoryUpdated.RemoveListener (combatUnitHighlightedUnitAction);

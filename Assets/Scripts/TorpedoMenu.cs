@@ -219,12 +219,12 @@ public class TorpedoMenu : MonoBehaviour {
 							heavyTorpedoCountToggle.interactable = false;
 
 						}
-						//check if we've used phasors and don't have an additional battle crew - we only get 1 attack per turn without the crew
-						else if ((mouseMananger.selectedUnit.GetComponent<StarbasePhasorSection1> ().usedPhasorsThisTurn == true ||
-							mouseMananger.selectedUnit.GetComponent<StarbasePhasorSection2> ().usedPhasorsThisTurn == true ) &&
+						//check if we've used phasers and don't have an additional battle crew - we only get 1 attack per turn without the crew
+						else if ((mouseMananger.selectedUnit.GetComponent<StarbasePhaserSection1> ().usedPhasersThisTurn == true ||
+							mouseMananger.selectedUnit.GetComponent<StarbasePhaserSection2> ().usedPhasersThisTurn == true ) &&
 							mouseMananger.selectedUnit.GetComponent<StarbaseCrewSection> ().battleCrew == false) {
 
-							//if we've already used phasors and don't have an additional battle crew, we can't use a laser shot or use the fire button
+							//if we've already used phasers and don't have an additional battle crew, we can't use a laser shot or use the fire button
 							useTorpedoLaserShotToggle.isOn = false;
 							useTorpedoLaserShotToggle.interactable = false;
 
@@ -1255,16 +1255,16 @@ public class TorpedoMenu : MonoBehaviour {
 								heavyTorpedoCountToggle.interactable = false;
 
 							}
-							//check if we've used phasors and don't have an additional battle crew - we only get 1 attack per turn without the crew
-							else if (mouseMananger.selectedUnit.GetComponent<PhasorSection> () == true &&
-								mouseMananger.selectedUnit.GetComponent<PhasorSection> ().usedPhasorsThisTurn == true &&
+							//check if we've used phasers and don't have an additional battle crew - we only get 1 attack per turn without the crew
+							else if (mouseMananger.selectedUnit.GetComponent<PhaserSection> () == true &&
+								mouseMananger.selectedUnit.GetComponent<PhaserSection> ().usedPhasersThisTurn == true &&
 
 								(mouseMananger.selectedUnit.GetComponent<CrewSection> () == false ||
 
 								(mouseMananger.selectedUnit.GetComponent<CrewSection> () == true &&
 										mouseMananger.selectedUnit.GetComponent<CrewSection> ().battleCrew == false))) {
 
-								//if we've already used phasors and don't have an additional battle crew, we can't use a laser shot or use the fire button
+								//if we've already used phasers and don't have an additional battle crew, we can't use a laser shot or use the fire button
 								useTorpedoLaserShotToggle.isOn = false;
 								useTorpedoLaserShotToggle.interactable = false;
 
@@ -2447,14 +2447,14 @@ public class TorpedoMenu : MonoBehaviour {
 
 					}
 
-					//check if the targeted ship has a phasor section
-					if (mouseMananger.targetedUnit.GetComponent<PhasorSection> () == true) {
+					//check if the targeted ship has a phaser section
+					if (mouseMananger.targetedUnit.GetComponent<PhaserSection> () == true) {
 
-						//check if the phasor section is not destroyed
-						if (mouseMananger.targetedUnit.GetComponent<PhasorSection> ().isDestroyed == false) {
+						//check if the phaser section is not destroyed
+						if (mouseMananger.targetedUnit.GetComponent<PhaserSection> ().isDestroyed == false) {
 
-							//add a dropdown option for the phasor section
-							dropDownOptions.Add (new TMP_Dropdown.OptionData ("Phasor Section"));
+							//add a dropdown option for the phaser section
+							dropDownOptions.Add (new TMP_Dropdown.OptionData ("Phaser Section"));
 
 						}
 
@@ -2503,26 +2503,26 @@ public class TorpedoMenu : MonoBehaviour {
 				//the else condition is that the targeted unit is not a ship, so it's a base
 				else if (mouseMananger.targetedUnit.GetComponent<Starbase> () == true)  {
 
-					//check if the phasor 1 section is not destroyed
-					if (mouseMananger.targetedUnit.GetComponent<StarbasePhasorSection1> ().isDestroyed == false) {
+					//check if the phaser 1 section is not destroyed
+					if (mouseMananger.targetedUnit.GetComponent<StarbasePhaserSection1> ().isDestroyed == false) {
 
-						//add a dropdown option for the phasor section 1
-						dropDownOptions.Add (new TMP_Dropdown.OptionData ("Phasor Section 1"));
+						//add a dropdown option for the phaser section 1
+						dropDownOptions.Add (new TMP_Dropdown.OptionData ("Phaser Section 1"));
 
 					}
 
-					//check if the phasor 2 section is not destroyed
-					if (mouseMananger.targetedUnit.GetComponent<StarbasePhasorSection2> ().isDestroyed == false) {
+					//check if the phaser 2 section is not destroyed
+					if (mouseMananger.targetedUnit.GetComponent<StarbasePhaserSection2> ().isDestroyed == false) {
 
-						//add a dropdown option for the phasor section 1
-						dropDownOptions.Add (new TMP_Dropdown.OptionData ("Phasor Section 2"));
+						//add a dropdown option for the phaser section 1
+						dropDownOptions.Add (new TMP_Dropdown.OptionData ("Phaser Section 2"));
 
 					}
 
 					//check if the torpedo section is not destroyed
 					if (mouseMananger.targetedUnit.GetComponent<StarbaseTorpedoSection> ().isDestroyed == false) {
 
-						//add a dropdown option for the phasor section 1
+						//add a dropdown option for the phaser section 1
 						dropDownOptions.Add (new TMP_Dropdown.OptionData ("Torpedo Section"));
 
 					}
@@ -2530,7 +2530,7 @@ public class TorpedoMenu : MonoBehaviour {
 					//check if the crew is not destroyed
 					if (mouseMananger.targetedUnit.GetComponent<StarbaseCrewSection> ().isDestroyed == false) {
 
-						//add a dropdown option for the phasor section 1
+						//add a dropdown option for the phaser section 1
 						dropDownOptions.Add (new TMP_Dropdown.OptionData ("Crew Section"));
 
 					}
@@ -2538,7 +2538,7 @@ public class TorpedoMenu : MonoBehaviour {
 					//check if the storage section 1 is not destroyed
 					if (mouseMananger.targetedUnit.GetComponent<StarbaseStorageSection1> ().isDestroyed == false) {
 
-						//add a dropdown option for the phasor section 1
+						//add a dropdown option for the phaser section 1
 						dropDownOptions.Add (new TMP_Dropdown.OptionData ("Storage Section 1"));
 
 					}
@@ -2546,7 +2546,7 @@ public class TorpedoMenu : MonoBehaviour {
 					//check if the storage section 2 is not destroyed
 					if (mouseMananger.targetedUnit.GetComponent<StarbaseStorageSection2> ().isDestroyed == false) {
 
-						//add a dropdown option for the phasor section 1
+						//add a dropdown option for the phaser section 1
 						dropDownOptions.Add (new TMP_Dropdown.OptionData ("Storage Section 2"));
 
 					}
@@ -2622,7 +2622,7 @@ public class TorpedoMenu : MonoBehaviour {
 				UIManager.AutoSizeTextMeshFont(heavyTorpedoFireButton.GetComponentInChildren<TextMeshProUGUI> ());
 
 			}
-			//the else condition is that the attack is not remaining and we did not fire torpedos, which means we must have fired phasors
+			//the else condition is that the attack is not remaining and we did not fire torpedos, which means we must have fired phasers
 			//and don't have double-attack capability
 			else {
 

@@ -32,9 +32,9 @@ public class CutsceneManager : MonoBehaviour {
 
 
 	//variables to hold the animation prefabs
-	public UIAnimation prefabPhasorHit;
+	public UIAnimation prefabPhaserHit;
 	public UIAnimation prefabXRayHit;
-	public UIAnimation prefabPhasorMuzzle;
+	public UIAnimation prefabPhaserMuzzle;
 	public UIAnimation prefabXRayMuzzle;
 	public UIAnimation prefabLightTorpedo;
 	public UIAnimation prefabHeavyTorpedo;
@@ -52,13 +52,13 @@ public class CutsceneManager : MonoBehaviour {
 	public GameObject[] targetedUnitSections = new GameObject[6];
 
 	//variables to hold the sprite objects
-	public Sprite greenPhasorSection;
+	public Sprite greenPhaserSection;
 	public Sprite greenTorpedoSection;
 	public Sprite greenStorageSection;
 	public Sprite greenCrewSection;
 	public Sprite greenEngineSection;
 
-	public Sprite greenPhasorSectionDestroyed;
+	public Sprite greenPhaserSectionDestroyed;
 	public Sprite greenTorpedoSectionDestroyed;
 	public Sprite greenStorageSectionDestroyed;
 	public Sprite greenCrewSectionDestroyed;
@@ -66,19 +66,19 @@ public class CutsceneManager : MonoBehaviour {
 
 	public Sprite greenBaseStorageSection;
 	public Sprite greenBaseMiddleSection;
-	public Sprite greenBasePhasorSection;
+	public Sprite greenBasePhaserSection;
 
 	public Sprite greenBaseStorageSectionDestroyed;
 	public Sprite greenBaseMiddleSectionDestroyed;
-	public Sprite greenBasePhasorSectionDestroyed;
+	public Sprite greenBasePhaserSectionDestroyed;
 
-	public Sprite purplePhasorSection;
+	public Sprite purplePhaserSection;
 	public Sprite purpleTorpedoSection;
 	public Sprite purpleStorageSection;
 	public Sprite purpleCrewSection;
 	public Sprite purpleEngineSection;
 
-	public Sprite purplePhasorSectionDestroyed;
+	public Sprite purplePhaserSectionDestroyed;
 	public Sprite purpleTorpedoSectionDestroyed;
 	public Sprite purpleStorageSectionDestroyed;
 	public Sprite purpleCrewSectionDestroyed;
@@ -86,19 +86,19 @@ public class CutsceneManager : MonoBehaviour {
 
 	public Sprite purpleBaseStorageSection;
 	public Sprite purpleBaseMiddleSection;
-	public Sprite purpleBasePhasorSection;
+	public Sprite purpleBasePhaserSection;
 
 	public Sprite purpleBaseStorageSectionDestroyed;
 	public Sprite purpleBaseMiddleSectionDestroyed;
-	public Sprite purpleBasePhasorSectionDestroyed;
+	public Sprite purpleBasePhaserSectionDestroyed;
 
-	public Sprite redPhasorSection;
+	public Sprite redPhaserSection;
 	public Sprite redTorpedoSection;
 	public Sprite redStorageSection;
 	public Sprite redCrewSection;
 	public Sprite redEngineSection;
 
-	public Sprite redPhasorSectionDestroyed;
+	public Sprite redPhaserSectionDestroyed;
 	public Sprite redTorpedoSectionDestroyed;
 	public Sprite redStorageSectionDestroyed;
 	public Sprite redCrewSectionDestroyed;
@@ -106,19 +106,19 @@ public class CutsceneManager : MonoBehaviour {
 
 	public Sprite redBaseStorageSection;
 	public Sprite redBaseMiddleSection;
-	public Sprite redBasePhasorSection;
+	public Sprite redBasePhaserSection;
 
 	public Sprite redBaseStorageSectionDestroyed;
 	public Sprite redBaseMiddleSectionDestroyed;
-	public Sprite redBasePhasorSectionDestroyed;
+	public Sprite redBasePhaserSectionDestroyed;
 
-	public Sprite bluePhasorSection;
+	public Sprite bluePhaserSection;
 	public Sprite blueTorpedoSection;
 	public Sprite blueStorageSection;
 	public Sprite blueCrewSection;
 	public Sprite blueEngineSection;
 
-	public Sprite bluePhasorSectionDestroyed;
+	public Sprite bluePhaserSectionDestroyed;
 	public Sprite blueTorpedoSectionDestroyed;
 	public Sprite blueStorageSectionDestroyed;
 	public Sprite blueCrewSectionDestroyed;
@@ -126,39 +126,39 @@ public class CutsceneManager : MonoBehaviour {
 
 	public Sprite blueBaseStorageSection;
 	public Sprite blueBaseMiddleSection;
-	public Sprite blueBasePhasorSection;
+	public Sprite blueBasePhaserSection;
 
 	public Sprite blueBaseStorageSectionDestroyed;
 	public Sprite blueBaseMiddleSectionDestroyed;
-	public Sprite blueBasePhasorSectionDestroyed;
+	public Sprite blueBasePhaserSectionDestroyed;
 
-	//variable to hold the phasor lines holder parent object
-	public GameObject phasorLinesHolder;
+	//variable to hold the phaser lines holder parent object
+	public GameObject phaserLinesHolder;
 
-	//variable to hold the phasor line renderers
-	private UILineRenderer[] phasorLineRenderer;
+	//variable to hold the phaser line renderers
+	private UILineRenderer[] phaserLineRenderer;
 
-	//variable to hold number of points per phasor shot
-	private int phasorPointsPerLine = 2;
+	//variable to hold number of points per phaser shot
+	private int phaserPointsPerLine = 2;
 
-	//I may want to have the manager cache the phasor starting and ending points
-	private Vector2[] phasorLineStartPoints;
-	private Vector2[] phasorLineEndPoints;
+	//I may want to have the manager cache the phaser starting and ending points
+	private Vector2[] phaserLineStartPoints;
+	private Vector2[] phaserLineEndPoints;
 
 	//I need some variables to hold vector2 offsets for various unit sections
-	private Vector2 starbasePhasorSection1AttackOffset;
-	private Vector2 starbasePhasorSection2AttackOffset;
-	private Vector2 shipPhasorSectionAttackOffset;
+	private Vector2 starbasePhaserSection1AttackOffset;
+	private Vector2 starbasePhaserSection2AttackOffset;
+	private Vector2 shipPhaserSectionAttackOffset;
 	private Vector2 starbaseTorpedoSectionAttackOffset;
 	private Vector2 shipTorpedoSectionAttackOffset;
 	private Vector2 shipFlareSpawnOffset;
 	private Vector2 starbaseFlareSpawnOffset;
 
-	//these offsets are for where the phasor lines hit the section
-	private Vector2 basePhasorSection1TargetedOffset;
-	private Vector2 basePhasorSection1TargetedOffsetSpacing;
-	private Vector2 basePhasorSection2TargetedOffset;
-	private Vector2 basePhasorSection2TargetedOffsetSpacing;
+	//these offsets are for where the phaser lines hit the section
+	private Vector2 basePhaserSection1TargetedOffset;
+	private Vector2 basePhaserSection1TargetedOffsetSpacing;
+	private Vector2 basePhaserSection2TargetedOffset;
+	private Vector2 basePhaserSection2TargetedOffsetSpacing;
 	private Vector2 baseTorpedoSectionTargetedOffset;
 	private Vector2 baseTorpedoSectionTargetedOffsetSpacing;
 	private Vector2 baseCrewSectionTargetedOffset;
@@ -168,8 +168,8 @@ public class CutsceneManager : MonoBehaviour {
 	private Vector2 baseStorageSection2TargetedOffset;
 	private Vector2 baseStorageSection2TargetedOffsetSpacing;
 
-	private Vector2 shipPhasorSectionTargetedOffset;
-	private Vector2 shipPhasorSectionTargetedOffsetSpacing;
+	private Vector2 shipPhaserSectionTargetedOffset;
+	private Vector2 shipPhaserSectionTargetedOffsetSpacing;
 	private Vector2 shipTorpedoSectionTargetedOffset;
 	private Vector2 shipTorpedoSectionTargetedOffsetSpacing;
 	private Vector2 shipStorageSectionTargetedOffset;
@@ -196,7 +196,7 @@ public class CutsceneManager : MonoBehaviour {
 		Inactive,
 		EnteringArena,
 		WaitingAfterEntering,
-		FiringPhasors,
+		FiringPhasers,
 		FiringTorpedos,
 		SectionExplosion,
 		UnitExplosion,
@@ -252,7 +252,7 @@ public class CutsceneManager : MonoBehaviour {
 	private CombatManager.BaseSectionTargeted combatBaseSectionTargeted;
 	private CombatManager.AttackType combatAttackType;
 	private int combatDamage;
-	private bool isPhasorHit = false;
+	private bool isPhaserHit = false;
 	private bool hasXRayKernel = false;
 	private bool isTorpedoHit = false;
 	private bool combatWillDestroySection;
@@ -275,14 +275,14 @@ public class CutsceneManager : MonoBehaviour {
 	private bool targetedUnitHasArrived = false;
 	private float bothArrivedWaitTime = 2f;
 
-	//variable to control how fast the phasor line fires
-	private float timeForPhasorToReachTarget = .25f;
+	//variable to control how fast the phaser line fires
+	private float timeForPhaserToReachTarget = .25f;
 
 	//[ColorUsageAttribute(true,true,0f,8f,0.125f,3f)]
 	//public Color colour;
 
-	//variables to hold the phasor attack colors
-	private Color normalPhasorColor = new Color(
+	//variables to hold the phaser attack colors
+	private Color normalPhaserColor = new Color(
 
 		255f/255f,
 		180f/255f,
@@ -292,7 +292,7 @@ public class CutsceneManager : MonoBehaviour {
 	);
 
 	/*
-	private Color xRayPhasorColor = new Color(
+	private Color xRayPhaserColor = new Color(
 
 		6.0f,
 		0.0f,
@@ -302,7 +302,7 @@ public class CutsceneManager : MonoBehaviour {
 	);
 	*/
 
-	private Color xRayPhasorColor = new Color(
+	private Color xRayPhaserColor = new Color(
 
 		255f/255f,
 		0f/255f,
@@ -312,11 +312,11 @@ public class CutsceneManager : MonoBehaviour {
 	);
 
 
-	//variables to help keep track of phasor line timing
-	private float[] percentPhasorLineStartRendered;
-	private float[] percentPhasorLineEndRendered;
-	private float[] phasorLineStartTimes;
-	private float phasorLinePulseLength = .25f;
+	//variables to help keep track of phaser line timing
+	private float[] percentPhaserLineStartRendered;
+	private float[] percentPhaserLineEndRendered;
+	private float[] phaserLineStartTimes;
+	private float phaserLinePulseLength = .25f;
 	private float closePanelWaitTime = 3.5f;
 
 	//variable to hold the torpedo destination position
@@ -365,13 +365,13 @@ public class CutsceneManager : MonoBehaviour {
 	public UnityEvent OnOpenCutsceneDisplayPanel = new UnityEvent();
 	public UnityEvent OnCloseCutsceneDisplayPanel = new UnityEvent();
 
-	//these events are for firing phasors
-	public UnityEvent OnFirePhasors = new UnityEvent();
+	//these events are for firing phasers
+	public UnityEvent OnFirePhasers = new UnityEvent();
 	public UnityEvent OnFireXRay = new UnityEvent();
-	public UnityEvent OnPhasorHit = new UnityEvent();
+	public UnityEvent OnPhaserHit = new UnityEvent();
 
 	//these events are for charging sounds
-	public UnityEvent OnChargePhasors = new UnityEvent();
+	public UnityEvent OnChargePhasers = new UnityEvent();
 	public UnityEvent OnChargeXRay = new UnityEvent();
 	public UnityEvent OnChargeLightTorpedo = new UnityEvent();
 	public UnityEvent OnChargeHeavyTorpedo = new UnityEvent();
@@ -397,45 +397,45 @@ public class CutsceneManager : MonoBehaviour {
 	public UnityEvent OnUnitExplosion = new UnityEvent();
 
 	//these events are for getting in between combat manager events and downstream events
-	public static CombatCutsceneEvent OnPhasorHitShipPhasorSection = new CombatCutsceneEvent();
-	public static CombatCutsceneEvent OnPhasorHitShipTorpedoSection = new CombatCutsceneEvent();
-	public static CombatCutsceneEvent OnPhasorHitShipStorageSection = new CombatCutsceneEvent();
-	public static CombatCutsceneEvent OnPhasorHitShipCrewSection = new CombatCutsceneEvent();
-	public static CombatCutsceneEvent OnPhasorHitShipEngineSection = new CombatCutsceneEvent();
-	public static CombatCutsceneEvent OnPhasorMissShip = new CombatCutsceneEvent();
+	public static CombatCutsceneEvent OnPhaserHitShipPhaserSection = new CombatCutsceneEvent();
+	public static CombatCutsceneEvent OnPhaserHitShipTorpedoSection = new CombatCutsceneEvent();
+	public static CombatCutsceneEvent OnPhaserHitShipStorageSection = new CombatCutsceneEvent();
+	public static CombatCutsceneEvent OnPhaserHitShipCrewSection = new CombatCutsceneEvent();
+	public static CombatCutsceneEvent OnPhaserHitShipEngineSection = new CombatCutsceneEvent();
+	public static CombatCutsceneEvent OnPhaserMissShip = new CombatCutsceneEvent();
 
-	public static CombatCutsceneEvent OnPhasorHitBasePhasorSection1 = new CombatCutsceneEvent();
-	public static CombatCutsceneEvent OnPhasorHitBasePhasorSection2 = new CombatCutsceneEvent();
-	public static CombatCutsceneEvent OnPhasorHitBaseTorpedoSection = new CombatCutsceneEvent();
-	public static CombatCutsceneEvent OnPhasorHitBaseCrewSection = new CombatCutsceneEvent();
-	public static CombatCutsceneEvent OnPhasorHitBaseStorageSection1 = new CombatCutsceneEvent();
-	public static CombatCutsceneEvent OnPhasorHitBaseStorageSection2 = new CombatCutsceneEvent();
-	public static CombatCutsceneEvent OnPhasorMissBase = new CombatCutsceneEvent();
+	public static CombatCutsceneEvent OnPhaserHitBasePhaserSection1 = new CombatCutsceneEvent();
+	public static CombatCutsceneEvent OnPhaserHitBasePhaserSection2 = new CombatCutsceneEvent();
+	public static CombatCutsceneEvent OnPhaserHitBaseTorpedoSection = new CombatCutsceneEvent();
+	public static CombatCutsceneEvent OnPhaserHitBaseCrewSection = new CombatCutsceneEvent();
+	public static CombatCutsceneEvent OnPhaserHitBaseStorageSection1 = new CombatCutsceneEvent();
+	public static CombatCutsceneEvent OnPhaserHitBaseStorageSection2 = new CombatCutsceneEvent();
+	public static CombatCutsceneEvent OnPhaserMissBase = new CombatCutsceneEvent();
 
-	public static CombatCutsceneEvent OnLightTorpedoHitShipPhasorSection = new CombatCutsceneEvent();
+	public static CombatCutsceneEvent OnLightTorpedoHitShipPhaserSection = new CombatCutsceneEvent();
 	public static CombatCutsceneEvent OnLightTorpedoHitShipTorpedoSection = new CombatCutsceneEvent();
 	public static CombatCutsceneEvent OnLightTorpedoHitShipStorageSection = new CombatCutsceneEvent();
 	public static CombatCutsceneEvent OnLightTorpedoHitShipCrewSection = new CombatCutsceneEvent();
 	public static CombatCutsceneEvent OnLightTorpedoHitShipEngineSection = new CombatCutsceneEvent();
 	public static CombatCutsceneEvent OnLightTorpedoMissShip = new CombatCutsceneEvent();
 
-	public static CombatCutsceneEvent OnLightTorpedoHitBasePhasorSection1 = new CombatCutsceneEvent();
-	public static CombatCutsceneEvent OnLightTorpedoHitBasePhasorSection2 = new CombatCutsceneEvent();
+	public static CombatCutsceneEvent OnLightTorpedoHitBasePhaserSection1 = new CombatCutsceneEvent();
+	public static CombatCutsceneEvent OnLightTorpedoHitBasePhaserSection2 = new CombatCutsceneEvent();
 	public static CombatCutsceneEvent OnLightTorpedoHitBaseTorpedoSection = new CombatCutsceneEvent();
 	public static CombatCutsceneEvent OnLightTorpedoHitBaseCrewSection = new CombatCutsceneEvent();
 	public static CombatCutsceneEvent OnLightTorpedoHitBaseStorageSection1 = new CombatCutsceneEvent();
 	public static CombatCutsceneEvent OnLightTorpedoHitBaseStorageSection2 = new CombatCutsceneEvent();
 	public static CombatCutsceneEvent OnLightTorpedoMissBase = new CombatCutsceneEvent();
 
-	public static CombatCutsceneEvent OnHeavyTorpedoHitShipPhasorSection = new CombatCutsceneEvent();
+	public static CombatCutsceneEvent OnHeavyTorpedoHitShipPhaserSection = new CombatCutsceneEvent();
 	public static CombatCutsceneEvent OnHeavyTorpedoHitShipTorpedoSection = new CombatCutsceneEvent();
 	public static CombatCutsceneEvent OnHeavyTorpedoHitShipStorageSection = new CombatCutsceneEvent();
 	public static CombatCutsceneEvent OnHeavyTorpedoHitShipCrewSection = new CombatCutsceneEvent();
 	public static CombatCutsceneEvent OnHeavyTorpedoHitShipEngineSection = new CombatCutsceneEvent();
 	public static CombatCutsceneEvent OnHeavyTorpedoMissShip = new CombatCutsceneEvent();
 
-	public static CombatCutsceneEvent OnHeavyTorpedoHitBasePhasorSection1 = new CombatCutsceneEvent();
-	public static CombatCutsceneEvent OnHeavyTorpedoHitBasePhasorSection2 = new CombatCutsceneEvent();
+	public static CombatCutsceneEvent OnHeavyTorpedoHitBasePhaserSection1 = new CombatCutsceneEvent();
+	public static CombatCutsceneEvent OnHeavyTorpedoHitBasePhaserSection2 = new CombatCutsceneEvent();
 	public static CombatCutsceneEvent OnHeavyTorpedoHitBaseTorpedoSection = new CombatCutsceneEvent();
 	public static CombatCutsceneEvent OnHeavyTorpedoHitBaseCrewSection = new CombatCutsceneEvent();
 	public static CombatCutsceneEvent OnHeavyTorpedoHitBaseStorageSection1 = new CombatCutsceneEvent();
@@ -455,45 +455,45 @@ public class CutsceneManager : MonoBehaviour {
 	public class CombatCutsceneEvent : UnityEvent<CombatUnit,CombatUnit,int>{}; 
 
 	//unity actions for events
-	private UnityAction<CombatUnit,CombatUnit,int> PhasorHitShipPhasorSectionAction;
-	private UnityAction<CombatUnit,CombatUnit,int> PhasorHitShipTorpedoSectionAction;
-	private UnityAction<CombatUnit,CombatUnit,int> PhasorHitShipStorageSectionAction;
-	private UnityAction<CombatUnit,CombatUnit,int> PhasorHitShipCrewSectionAction;
-	private UnityAction<CombatUnit,CombatUnit,int> PhasorHitShipEngineSectionAction;
-	private UnityAction<CombatUnit,CombatUnit> PhasorMissShipAction;
+	private UnityAction<CombatUnit,CombatUnit,int> PhaserHitShipPhaserSectionAction;
+	private UnityAction<CombatUnit,CombatUnit,int> PhaserHitShipTorpedoSectionAction;
+	private UnityAction<CombatUnit,CombatUnit,int> PhaserHitShipStorageSectionAction;
+	private UnityAction<CombatUnit,CombatUnit,int> PhaserHitShipCrewSectionAction;
+	private UnityAction<CombatUnit,CombatUnit,int> PhaserHitShipEngineSectionAction;
+	private UnityAction<CombatUnit,CombatUnit> PhaserMissShipAction;
 
-	private UnityAction<CombatUnit,CombatUnit,int> PhasorHitBasePhasorSection1Action;
-	private UnityAction<CombatUnit,CombatUnit,int> PhasorHitBasePhasorSection2Action;
-	private UnityAction<CombatUnit,CombatUnit,int> PhasorHitBaseTorpedoSectionAction;
-	private UnityAction<CombatUnit,CombatUnit,int> PhasorHitBaseCrewSectionAction;
-	private UnityAction<CombatUnit,CombatUnit,int> PhasorHitBaseStorageSection1Action;
-	private UnityAction<CombatUnit,CombatUnit,int> PhasorHitBaseStorageSection2Action;
-	private UnityAction<CombatUnit,CombatUnit> PhasorMissBaseAction;
+	private UnityAction<CombatUnit,CombatUnit,int> PhaserHitBasePhaserSection1Action;
+	private UnityAction<CombatUnit,CombatUnit,int> PhaserHitBasePhaserSection2Action;
+	private UnityAction<CombatUnit,CombatUnit,int> PhaserHitBaseTorpedoSectionAction;
+	private UnityAction<CombatUnit,CombatUnit,int> PhaserHitBaseCrewSectionAction;
+	private UnityAction<CombatUnit,CombatUnit,int> PhaserHitBaseStorageSection1Action;
+	private UnityAction<CombatUnit,CombatUnit,int> PhaserHitBaseStorageSection2Action;
+	private UnityAction<CombatUnit,CombatUnit> PhaserMissBaseAction;
 
-	private UnityAction<CombatUnit,CombatUnit,int> LightTorpedoHitShipPhasorSectionAction;
+	private UnityAction<CombatUnit,CombatUnit,int> LightTorpedoHitShipPhaserSectionAction;
 	private UnityAction<CombatUnit,CombatUnit,int> LightTorpedoHitShipTorpedoSectionAction;
 	private UnityAction<CombatUnit,CombatUnit,int> LightTorpedoHitShipStorageSectionAction;
 	private UnityAction<CombatUnit,CombatUnit,int> LightTorpedoHitShipCrewSectionAction;
 	private UnityAction<CombatUnit,CombatUnit,int> LightTorpedoHitShipEngineSectionAction;
 	private UnityAction<CombatUnit,CombatUnit> LightTorpedoMissShipAction;
 
-	private UnityAction<CombatUnit,CombatUnit,int> LightTorpedoHitBasePhasorSection1Action;
-	private UnityAction<CombatUnit,CombatUnit,int> LightTorpedoHitBasePhasorSection2Action;
+	private UnityAction<CombatUnit,CombatUnit,int> LightTorpedoHitBasePhaserSection1Action;
+	private UnityAction<CombatUnit,CombatUnit,int> LightTorpedoHitBasePhaserSection2Action;
 	private UnityAction<CombatUnit,CombatUnit,int> LightTorpedoHitBaseTorpedoSectionAction;
 	private UnityAction<CombatUnit,CombatUnit,int> LightTorpedoHitBaseCrewSectionAction;
 	private UnityAction<CombatUnit,CombatUnit,int> LightTorpedoHitBaseStorageSection1Action;
 	private UnityAction<CombatUnit,CombatUnit,int> LightTorpedoHitBaseStorageSection2Action;
 	private UnityAction<CombatUnit,CombatUnit> LightTorpedoMissBaseAction;
 
-	private UnityAction<CombatUnit,CombatUnit,int> HeavyTorpedoHitShipPhasorSectionAction;
+	private UnityAction<CombatUnit,CombatUnit,int> HeavyTorpedoHitShipPhaserSectionAction;
 	private UnityAction<CombatUnit,CombatUnit,int> HeavyTorpedoHitShipTorpedoSectionAction;
 	private UnityAction<CombatUnit,CombatUnit,int> HeavyTorpedoHitShipStorageSectionAction;
 	private UnityAction<CombatUnit,CombatUnit,int> HeavyTorpedoHitShipCrewSectionAction;
 	private UnityAction<CombatUnit,CombatUnit,int> HeavyTorpedoHitShipEngineSectionAction;
 	private UnityAction<CombatUnit,CombatUnit> HeavyTorpedoMissShipAction;
 
-	private UnityAction<CombatUnit,CombatUnit,int> HeavyTorpedoHitBasePhasorSection1Action;
-	private UnityAction<CombatUnit,CombatUnit,int> HeavyTorpedoHitBasePhasorSection2Action;
+	private UnityAction<CombatUnit,CombatUnit,int> HeavyTorpedoHitBasePhaserSection1Action;
+	private UnityAction<CombatUnit,CombatUnit,int> HeavyTorpedoHitBasePhaserSection2Action;
 	private UnityAction<CombatUnit,CombatUnit,int> HeavyTorpedoHitBaseTorpedoSectionAction;
 	private UnityAction<CombatUnit,CombatUnit,int> HeavyTorpedoHitBaseCrewSectionAction;
 	private UnityAction<CombatUnit,CombatUnit,int> HeavyTorpedoHitBaseStorageSection1Action;
@@ -512,36 +512,36 @@ public class CutsceneManager : MonoBehaviour {
 		tileMap = GameObject.FindGameObjectWithTag("TileMap").GetComponent<TileMap>();
 
 		//initialize the sprite positions
-		starshipSpritePosition[0] = new Vector3 (0,0,0);		//phasor
+		starshipSpritePosition[0] = new Vector3 (0,0,0);		//phaser
 		starshipSpritePosition[1] = new Vector3 (0,0,0);		//torpedo
 		starshipSpritePosition[2] = new Vector3 (0,0,0);		//storage
 		starshipSpritePosition[3] = new Vector3 (0,0,0);		//crew
 		starshipSpritePosition[4] = new Vector3 (0,0,0);		//engine
 		starshipSpritePosition[5] = new Vector3 (0,0,0);		//the 6th sprite should be inactive for a starship
 
-		destroyerSpritePosition[0] = new Vector3 (0,0,0);		//phasor
+		destroyerSpritePosition[0] = new Vector3 (0,0,0);		//phaser
 		destroyerSpritePosition[1] = new Vector3 (0,0,0);		//torpedo
 		destroyerSpritePosition[2] = new Vector3 (0,0,0);		//storage
 		destroyerSpritePosition[3] = new Vector3 (0,0,0);		//the 4th sprite should be inactive for a destroyer
 		destroyerSpritePosition[4] = new Vector3 (0,-32,0);		//engine
 		destroyerSpritePosition[5] = new Vector3 (0,0,0);		//the 6th sprite should be inactive for a destroyer
 
-		birdOfPreySpritePosition[0] = new Vector3 (0,0,0);		//phasor
+		birdOfPreySpritePosition[0] = new Vector3 (0,0,0);		//phaser
 		birdOfPreySpritePosition[1] = new Vector3 (0,0,0);		//torpedo
 		birdOfPreySpritePosition[2] = new Vector3 (0,0,0);		//the 3rd sprite should be inactive for a bird of prey
 		birdOfPreySpritePosition[3] = new Vector3 (0,0,0);		//the 4th sprite should be inactive for a bird of prey
 		birdOfPreySpritePosition[4] = new Vector3 (81,-52,0);	//engine
 		birdOfPreySpritePosition[5] = new Vector3 (0,0,0);		//the 6th sprite should be inactive for a bird of prey
 
-		scoutSpritePosition[0] = new Vector3 (0,-29,0);			//phasor
+		scoutSpritePosition[0] = new Vector3 (0,-29,0);			//phaser
 		scoutSpritePosition[1] = new Vector3 (0,0,0);			//the 2nd sprite should be inactive for a scout
 		scoutSpritePosition[2] = new Vector3 (0,0,0);			//storage
 		scoutSpritePosition[3] = new Vector3 (0,0,0);			//the 4th sprite should be inactive for a scout
 		scoutSpritePosition[4] = new Vector3 (0,-32,0);			//engine
 		scoutSpritePosition[5] = new Vector3 (0,0,0);			//the 6th sprite should be inactive for a scout
 
-		starbaseSpritePosition[0] = new Vector3 (0,0,0);		//phasor 1
-		starbaseSpritePosition[1] = new Vector3 (0,0,0);		//phasor 2
+		starbaseSpritePosition[0] = new Vector3 (0,0,0);		//phaser 1
+		starbaseSpritePosition[1] = new Vector3 (0,0,0);		//phaser 2
 		starbaseSpritePosition[2] = new Vector3 (0,0,0);		//torpedo
 		starbaseSpritePosition[3] = new Vector3 (0,0,0);		//crew
 		starbaseSpritePosition[4] = new Vector3 (0,0,0);		//storage 1
@@ -563,43 +563,43 @@ public class CutsceneManager : MonoBehaviour {
 		baseSpriteScale[5] = new Vector3 (1,-1,1);
 
 
-		//set up the phasor line array size
-		phasorLineRenderer = new UILineRenderer[phasorLinesHolder.transform.childCount];
-		phasorLineStartPoints = new Vector2[phasorLinesHolder.transform.childCount];
-		phasorLineEndPoints = new Vector2[phasorLinesHolder.transform.childCount];
+		//set up the phaser line array size
+		phaserLineRenderer = new UILineRenderer[phaserLinesHolder.transform.childCount];
+		phaserLineStartPoints = new Vector2[phaserLinesHolder.transform.childCount];
+		phaserLineEndPoints = new Vector2[phaserLinesHolder.transform.childCount];
 
-		percentPhasorLineStartRendered = new float[phasorLinesHolder.transform.childCount];
-		percentPhasorLineEndRendered = new float[phasorLinesHolder.transform.childCount];
-		phasorLineStartTimes = new float[phasorLinesHolder.transform.childCount];
+		percentPhaserLineStartRendered = new float[phaserLinesHolder.transform.childCount];
+		percentPhaserLineEndRendered = new float[phaserLinesHolder.transform.childCount];
+		phaserLineStartTimes = new float[phaserLinesHolder.transform.childCount];
 
-		//set the start times for phasor line drawing
-		phasorLineStartTimes[0] = 0.0f;
-		phasorLineStartTimes[1] = 0.5f;
-		phasorLineStartTimes[2] = 1.0f;
-		phasorLineStartTimes[3] = 1.5f;
-		phasorLineStartTimes[4] = 2.0f;
+		//set the start times for phaser line drawing
+		phaserLineStartTimes[0] = 0.0f;
+		phaserLineStartTimes[1] = 0.5f;
+		phaserLineStartTimes[2] = 1.0f;
+		phaserLineStartTimes[3] = 1.5f;
+		phaserLineStartTimes[4] = 2.0f;
 
 
-		//assign the phasorLineRenderers
-		for (int i = 0; i < phasorLineRenderer.Length; i++) {
+		//assign the phaserLineRenderers
+		for (int i = 0; i < phaserLineRenderer.Length; i++) {
 
 			//assign the renderers
-			phasorLineRenderer [i] = phasorLinesHolder.transform.GetChild (i).GetComponent<UILineRenderer> ();
-			phasorLineRenderer [i].Points = new Vector2[phasorPointsPerLine];
+			phaserLineRenderer [i] = phaserLinesHolder.transform.GetChild (i).GetComponent<UILineRenderer> ();
+			phaserLineRenderer [i].Points = new Vector2[phaserPointsPerLine];
 
 			//set the percentages to zero to start
-			percentPhasorLineStartRendered[i] = 0.0f;
-			percentPhasorLineEndRendered[i] = 0.0f;
+			percentPhaserLineStartRendered[i] = 0.0f;
+			percentPhaserLineEndRendered[i] = 0.0f;
 
 			//start with the renderer gameobjects disabled
-			phasorLineRenderer[i].gameObject.SetActive(false);
+			phaserLineRenderer[i].gameObject.SetActive(false);
 
 		}
 
 		//initialize the offsets
-		starbasePhasorSection1AttackOffset = new Vector2(23,100);
-		starbasePhasorSection2AttackOffset = new Vector2(23,-100);
-		shipPhasorSectionAttackOffset = new Vector2(123,24);
+		starbasePhaserSection1AttackOffset = new Vector2(23,100);
+		starbasePhaserSection2AttackOffset = new Vector2(23,-100);
+		shipPhaserSectionAttackOffset = new Vector2(123,24);
 
 		starbaseTorpedoSectionAttackOffset = new Vector2(75,36);
 		shipTorpedoSectionAttackOffset = new Vector2(48,-8);
@@ -607,10 +607,10 @@ public class CutsceneManager : MonoBehaviour {
 		shipFlareSpawnOffset = new Vector2 (55, -30);
 		starbaseFlareSpawnOffset = new Vector2 (86, -12);
 
-		basePhasorSection1TargetedOffset = new Vector2 (-40, 60);
-		basePhasorSection1TargetedOffsetSpacing = new Vector2 (20, 0);
-		basePhasorSection2TargetedOffset = new Vector2 (-40, -60);
-		basePhasorSection2TargetedOffsetSpacing = new Vector2 (20, 0);
+		basePhaserSection1TargetedOffset = new Vector2 (-40, 60);
+		basePhaserSection1TargetedOffsetSpacing = new Vector2 (20, 0);
+		basePhaserSection2TargetedOffset = new Vector2 (-40, -60);
+		basePhaserSection2TargetedOffsetSpacing = new Vector2 (20, 0);
 		baseTorpedoSectionTargetedOffset = new Vector2 (-60, 36);
 		baseTorpedoSectionTargetedOffsetSpacing = new Vector2 (30, 0);
 		baseCrewSectionTargetedOffset = new Vector2 (-60, -36);
@@ -620,8 +620,8 @@ public class CutsceneManager : MonoBehaviour {
 		baseStorageSection2TargetedOffset = new Vector2 (-70, -11);
 		baseStorageSection2TargetedOffsetSpacing = new Vector2 (35, 0);
 
-		shipPhasorSectionTargetedOffset = new Vector2(-110, 23);
-		shipPhasorSectionTargetedOffsetSpacing = new Vector2(20, 0);
+		shipPhaserSectionTargetedOffset = new Vector2(-110, 23);
+		shipPhaserSectionTargetedOffsetSpacing = new Vector2(20, 0);
 		shipTorpedoSectionTargetedOffset = new Vector2(-40, 7);
 		shipTorpedoSectionTargetedOffsetSpacing = new Vector2(5, -5);
 		shipStorageSectionTargetedOffset = new Vector2(-45, -30);
@@ -636,47 +636,47 @@ public class CutsceneManager : MonoBehaviour {
 		CloseCutsceneDisplayPanel();
 
 		//set the actions
-		PhasorHitShipPhasorSectionAction = (attackingUnit,targetedUnit,damage) => 
-		{ResolvePhasorHit(attackingUnit,targetedUnit,CombatManager.ShipSectionTargeted.PhasorSection,damage);};
+		PhaserHitShipPhaserSectionAction = (attackingUnit,targetedUnit,damage) => 
+		{ResolvePhaserHit(attackingUnit,targetedUnit,CombatManager.ShipSectionTargeted.PhaserSection,damage);};
 
-		PhasorHitShipTorpedoSectionAction = (attackingUnit,targetedUnit,damage) => 
-		{ResolvePhasorHit(attackingUnit,targetedUnit,CombatManager.ShipSectionTargeted.TorpedoSection,damage);};
+		PhaserHitShipTorpedoSectionAction = (attackingUnit,targetedUnit,damage) => 
+		{ResolvePhaserHit(attackingUnit,targetedUnit,CombatManager.ShipSectionTargeted.TorpedoSection,damage);};
 
-		PhasorHitShipStorageSectionAction = (attackingUnit,targetedUnit,damage) => 
-		{ResolvePhasorHit(attackingUnit,targetedUnit,CombatManager.ShipSectionTargeted.StorageSection,damage);};
+		PhaserHitShipStorageSectionAction = (attackingUnit,targetedUnit,damage) => 
+		{ResolvePhaserHit(attackingUnit,targetedUnit,CombatManager.ShipSectionTargeted.StorageSection,damage);};
 
-		PhasorHitShipCrewSectionAction = (attackingUnit,targetedUnit,damage) => 
-		{ResolvePhasorHit(attackingUnit,targetedUnit,CombatManager.ShipSectionTargeted.CrewSection,damage);};
+		PhaserHitShipCrewSectionAction = (attackingUnit,targetedUnit,damage) => 
+		{ResolvePhaserHit(attackingUnit,targetedUnit,CombatManager.ShipSectionTargeted.CrewSection,damage);};
 
-		PhasorHitShipEngineSectionAction = (attackingUnit,targetedUnit,damage) => 
-		{ResolvePhasorHit(attackingUnit,targetedUnit,CombatManager.ShipSectionTargeted.EngineSection,damage);};
+		PhaserHitShipEngineSectionAction = (attackingUnit,targetedUnit,damage) => 
+		{ResolvePhaserHit(attackingUnit,targetedUnit,CombatManager.ShipSectionTargeted.EngineSection,damage);};
 
-		PhasorMissShipAction = (attackingUnit,targetedUnit) => {ResolvePhasorMiss(attackingUnit,targetedUnit);};
-
-
-		PhasorHitBasePhasorSection1Action = (attackingUnit,targetedUnit,damage) => 
-		{ResolvePhasorHit(attackingUnit,targetedUnit,(CombatManager.ShipSectionTargeted)CombatManager.BaseSectionTargeted.PhasorSection1,damage);};
-
-		PhasorHitBasePhasorSection2Action = (attackingUnit,targetedUnit,damage) => 
-		{ResolvePhasorHit(attackingUnit,targetedUnit,(CombatManager.ShipSectionTargeted)CombatManager.BaseSectionTargeted.PhasorSection2,damage);};
-
-		PhasorHitBaseTorpedoSectionAction = (attackingUnit,targetedUnit,damage) => 
-		{ResolvePhasorHit(attackingUnit,targetedUnit,(CombatManager.ShipSectionTargeted)CombatManager.BaseSectionTargeted.TorpedoSection,damage);};
-
-		PhasorHitBaseCrewSectionAction = (attackingUnit,targetedUnit,damage) => 
-		{ResolvePhasorHit(attackingUnit,targetedUnit,(CombatManager.ShipSectionTargeted)CombatManager.BaseSectionTargeted.CrewSection,damage);};
-
-		PhasorHitBaseStorageSection1Action = (attackingUnit,targetedUnit,damage) => 
-		{ResolvePhasorHit(attackingUnit,targetedUnit,(CombatManager.ShipSectionTargeted)CombatManager.BaseSectionTargeted.StorageSection1,damage);};
-
-		PhasorHitBaseStorageSection2Action = (attackingUnit,targetedUnit,damage) => 
-		{ResolvePhasorHit(attackingUnit,targetedUnit,(CombatManager.ShipSectionTargeted)CombatManager.BaseSectionTargeted.StorageSection2,damage);};
-
-		PhasorMissBaseAction = (attackingUnit,targetedUnit) => {ResolvePhasorMiss(attackingUnit,targetedUnit);};
+		PhaserMissShipAction = (attackingUnit,targetedUnit) => {ResolvePhaserMiss(attackingUnit,targetedUnit);};
 
 
-		LightTorpedoHitShipPhasorSectionAction = (attackingUnit,targetedUnit,damage) => 
-		{ResolveTorpedoHit(attackingUnit,targetedUnit,CombatManager.ShipSectionTargeted.PhasorSection,CombatManager.AttackType.LightTorpedo,damage);};
+		PhaserHitBasePhaserSection1Action = (attackingUnit,targetedUnit,damage) => 
+		{ResolvePhaserHit(attackingUnit,targetedUnit,(CombatManager.ShipSectionTargeted)CombatManager.BaseSectionTargeted.PhaserSection1,damage);};
+
+		PhaserHitBasePhaserSection2Action = (attackingUnit,targetedUnit,damage) => 
+		{ResolvePhaserHit(attackingUnit,targetedUnit,(CombatManager.ShipSectionTargeted)CombatManager.BaseSectionTargeted.PhaserSection2,damage);};
+
+		PhaserHitBaseTorpedoSectionAction = (attackingUnit,targetedUnit,damage) => 
+		{ResolvePhaserHit(attackingUnit,targetedUnit,(CombatManager.ShipSectionTargeted)CombatManager.BaseSectionTargeted.TorpedoSection,damage);};
+
+		PhaserHitBaseCrewSectionAction = (attackingUnit,targetedUnit,damage) => 
+		{ResolvePhaserHit(attackingUnit,targetedUnit,(CombatManager.ShipSectionTargeted)CombatManager.BaseSectionTargeted.CrewSection,damage);};
+
+		PhaserHitBaseStorageSection1Action = (attackingUnit,targetedUnit,damage) => 
+		{ResolvePhaserHit(attackingUnit,targetedUnit,(CombatManager.ShipSectionTargeted)CombatManager.BaseSectionTargeted.StorageSection1,damage);};
+
+		PhaserHitBaseStorageSection2Action = (attackingUnit,targetedUnit,damage) => 
+		{ResolvePhaserHit(attackingUnit,targetedUnit,(CombatManager.ShipSectionTargeted)CombatManager.BaseSectionTargeted.StorageSection2,damage);};
+
+		PhaserMissBaseAction = (attackingUnit,targetedUnit) => {ResolvePhaserMiss(attackingUnit,targetedUnit);};
+
+
+		LightTorpedoHitShipPhaserSectionAction = (attackingUnit,targetedUnit,damage) => 
+		{ResolveTorpedoHit(attackingUnit,targetedUnit,CombatManager.ShipSectionTargeted.PhaserSection,CombatManager.AttackType.LightTorpedo,damage);};
 
 		LightTorpedoHitShipTorpedoSectionAction = (attackingUnit,targetedUnit,damage) => 
 		{ResolveTorpedoHit(attackingUnit,targetedUnit,CombatManager.ShipSectionTargeted.TorpedoSection,CombatManager.AttackType.LightTorpedo,damage);};
@@ -693,11 +693,11 @@ public class CutsceneManager : MonoBehaviour {
 		LightTorpedoMissShipAction = (attackingUnit,targetedUnit) => {ResolveTorpedoMiss(attackingUnit,targetedUnit,CombatManager.AttackType.LightTorpedo);};
 
 
-		LightTorpedoHitBasePhasorSection1Action = (attackingUnit,targetedUnit,damage) => 
-		{ResolveTorpedoHit(attackingUnit,targetedUnit,(CombatManager.ShipSectionTargeted)CombatManager.BaseSectionTargeted.PhasorSection1,CombatManager.AttackType.LightTorpedo,damage);};
+		LightTorpedoHitBasePhaserSection1Action = (attackingUnit,targetedUnit,damage) => 
+		{ResolveTorpedoHit(attackingUnit,targetedUnit,(CombatManager.ShipSectionTargeted)CombatManager.BaseSectionTargeted.PhaserSection1,CombatManager.AttackType.LightTorpedo,damage);};
 
-		LightTorpedoHitBasePhasorSection2Action = (attackingUnit,targetedUnit,damage) => 
-		{ResolveTorpedoHit(attackingUnit,targetedUnit,(CombatManager.ShipSectionTargeted)CombatManager.BaseSectionTargeted.PhasorSection2,CombatManager.AttackType.LightTorpedo,damage);};
+		LightTorpedoHitBasePhaserSection2Action = (attackingUnit,targetedUnit,damage) => 
+		{ResolveTorpedoHit(attackingUnit,targetedUnit,(CombatManager.ShipSectionTargeted)CombatManager.BaseSectionTargeted.PhaserSection2,CombatManager.AttackType.LightTorpedo,damage);};
 
 		LightTorpedoHitBaseTorpedoSectionAction = (attackingUnit,targetedUnit,damage) => 
 		{ResolveTorpedoHit(attackingUnit,targetedUnit,(CombatManager.ShipSectionTargeted)CombatManager.BaseSectionTargeted.TorpedoSection,CombatManager.AttackType.LightTorpedo,damage);};
@@ -714,8 +714,8 @@ public class CutsceneManager : MonoBehaviour {
 		LightTorpedoMissBaseAction = (attackingUnit,targetedUnit) => {ResolveTorpedoMiss(attackingUnit,targetedUnit,CombatManager.AttackType.LightTorpedo);};
 
 
-		HeavyTorpedoHitShipPhasorSectionAction = (attackingUnit,targetedUnit,damage) => 
-		{ResolveTorpedoHit(attackingUnit,targetedUnit,CombatManager.ShipSectionTargeted.PhasorSection,CombatManager.AttackType.HeavyTorpedo,damage);};
+		HeavyTorpedoHitShipPhaserSectionAction = (attackingUnit,targetedUnit,damage) => 
+		{ResolveTorpedoHit(attackingUnit,targetedUnit,CombatManager.ShipSectionTargeted.PhaserSection,CombatManager.AttackType.HeavyTorpedo,damage);};
 
 		HeavyTorpedoHitShipTorpedoSectionAction = (attackingUnit,targetedUnit,damage) => 
 		{ResolveTorpedoHit(attackingUnit,targetedUnit,CombatManager.ShipSectionTargeted.TorpedoSection,CombatManager.AttackType.HeavyTorpedo,damage);};
@@ -732,11 +732,11 @@ public class CutsceneManager : MonoBehaviour {
 		HeavyTorpedoMissShipAction = (attackingUnit,targetedUnit) => {ResolveTorpedoMiss(attackingUnit,targetedUnit,CombatManager.AttackType.HeavyTorpedo);};
 
 
-		HeavyTorpedoHitBasePhasorSection1Action = (attackingUnit,targetedUnit,damage) => 
-		{ResolveTorpedoHit(attackingUnit,targetedUnit,(CombatManager.ShipSectionTargeted)CombatManager.BaseSectionTargeted.PhasorSection1,CombatManager.AttackType.HeavyTorpedo,damage);};
+		HeavyTorpedoHitBasePhaserSection1Action = (attackingUnit,targetedUnit,damage) => 
+		{ResolveTorpedoHit(attackingUnit,targetedUnit,(CombatManager.ShipSectionTargeted)CombatManager.BaseSectionTargeted.PhaserSection1,CombatManager.AttackType.HeavyTorpedo,damage);};
 
-		HeavyTorpedoHitBasePhasorSection2Action = (attackingUnit,targetedUnit,damage) => 
-		{ResolveTorpedoHit(attackingUnit,targetedUnit,(CombatManager.ShipSectionTargeted)CombatManager.BaseSectionTargeted.PhasorSection2,CombatManager.AttackType.HeavyTorpedo,damage);};
+		HeavyTorpedoHitBasePhaserSection2Action = (attackingUnit,targetedUnit,damage) => 
+		{ResolveTorpedoHit(attackingUnit,targetedUnit,(CombatManager.ShipSectionTargeted)CombatManager.BaseSectionTargeted.PhaserSection2,CombatManager.AttackType.HeavyTorpedo,damage);};
 
 		HeavyTorpedoHitBaseTorpedoSectionAction = (attackingUnit,targetedUnit,damage) => 
 		{ResolveTorpedoHit(attackingUnit,targetedUnit,(CombatManager.ShipSectionTargeted)CombatManager.BaseSectionTargeted.TorpedoSection,CombatManager.AttackType.HeavyTorpedo,damage);};
@@ -767,46 +767,46 @@ public class CutsceneManager : MonoBehaviour {
 		
 		HeavyTorpedoFlareFailureAction = (attackingUnit, targetedUnit, numberFlares) => {CatchFlareResults (numberFlares, false);};
 
-		//add a listener for a phasor attack
-		CombatManager.OnPhasorAttackHitShipPhasorSection.AddListener(PhasorHitShipPhasorSectionAction);
-		CombatManager.OnPhasorAttackHitShipTorpedoSection.AddListener(PhasorHitShipTorpedoSectionAction);
-		CombatManager.OnPhasorAttackHitShipStorageSection.AddListener(PhasorHitShipStorageSectionAction);
-		CombatManager.OnPhasorAttackHitShipCrewSection.AddListener(PhasorHitShipCrewSectionAction);
-		CombatManager.OnPhasorAttackHitShipEngineSection.AddListener(PhasorHitShipEngineSectionAction);
-		CombatManager.OnPhasorAttackMissShip.AddListener(PhasorMissShipAction);
+		//add a listener for a phaser attack
+		CombatManager.OnPhaserAttackHitShipPhaserSection.AddListener(PhaserHitShipPhaserSectionAction);
+		CombatManager.OnPhaserAttackHitShipTorpedoSection.AddListener(PhaserHitShipTorpedoSectionAction);
+		CombatManager.OnPhaserAttackHitShipStorageSection.AddListener(PhaserHitShipStorageSectionAction);
+		CombatManager.OnPhaserAttackHitShipCrewSection.AddListener(PhaserHitShipCrewSectionAction);
+		CombatManager.OnPhaserAttackHitShipEngineSection.AddListener(PhaserHitShipEngineSectionAction);
+		CombatManager.OnPhaserAttackMissShip.AddListener(PhaserMissShipAction);
 
-		CombatManager.OnPhasorAttackHitBasePhasorSection1.AddListener(PhasorHitBasePhasorSection1Action);
-		CombatManager.OnPhasorAttackHitBasePhasorSection2.AddListener(PhasorHitBasePhasorSection2Action);
-		CombatManager.OnPhasorAttackHitBaseTorpedoSection.AddListener(PhasorHitBaseTorpedoSectionAction);
-		CombatManager.OnPhasorAttackHitBaseCrewSection.AddListener(PhasorHitBaseCrewSectionAction);
-		CombatManager.OnPhasorAttackHitBaseStorageSection1.AddListener(PhasorHitBaseStorageSection1Action);
-		CombatManager.OnPhasorAttackHitBaseStorageSection2.AddListener(PhasorHitBaseStorageSection2Action);
-		CombatManager.OnPhasorAttackMissBase.AddListener(PhasorMissBaseAction);
+		CombatManager.OnPhaserAttackHitBasePhaserSection1.AddListener(PhaserHitBasePhaserSection1Action);
+		CombatManager.OnPhaserAttackHitBasePhaserSection2.AddListener(PhaserHitBasePhaserSection2Action);
+		CombatManager.OnPhaserAttackHitBaseTorpedoSection.AddListener(PhaserHitBaseTorpedoSectionAction);
+		CombatManager.OnPhaserAttackHitBaseCrewSection.AddListener(PhaserHitBaseCrewSectionAction);
+		CombatManager.OnPhaserAttackHitBaseStorageSection1.AddListener(PhaserHitBaseStorageSection1Action);
+		CombatManager.OnPhaserAttackHitBaseStorageSection2.AddListener(PhaserHitBaseStorageSection2Action);
+		CombatManager.OnPhaserAttackMissBase.AddListener(PhaserMissBaseAction);
 
-		CombatManager.OnLightTorpedoAttackHitShipPhasorSection.AddListener(LightTorpedoHitShipPhasorSectionAction);
+		CombatManager.OnLightTorpedoAttackHitShipPhaserSection.AddListener(LightTorpedoHitShipPhaserSectionAction);
 		CombatManager.OnLightTorpedoAttackHitShipTorpedoSection.AddListener(LightTorpedoHitShipTorpedoSectionAction);
 		CombatManager.OnLightTorpedoAttackHitShipStorageSection.AddListener(LightTorpedoHitShipStorageSectionAction);
 		CombatManager.OnLightTorpedoAttackHitShipCrewSection.AddListener(LightTorpedoHitShipCrewSectionAction);
 		CombatManager.OnLightTorpedoAttackHitShipEngineSection.AddListener(LightTorpedoHitShipEngineSectionAction);
 		CombatManager.OnLightTorpedoAttackMissShip.AddListener(LightTorpedoMissShipAction);
 
-		CombatManager.OnLightTorpedoAttackHitBasePhasorSection1.AddListener(LightTorpedoHitBasePhasorSection1Action);
-		CombatManager.OnLightTorpedoAttackHitBasePhasorSection2.AddListener(LightTorpedoHitBasePhasorSection2Action);
+		CombatManager.OnLightTorpedoAttackHitBasePhaserSection1.AddListener(LightTorpedoHitBasePhaserSection1Action);
+		CombatManager.OnLightTorpedoAttackHitBasePhaserSection2.AddListener(LightTorpedoHitBasePhaserSection2Action);
 		CombatManager.OnLightTorpedoAttackHitBaseTorpedoSection.AddListener(LightTorpedoHitBaseTorpedoSectionAction);
 		CombatManager.OnLightTorpedoAttackHitBaseCrewSection.AddListener(LightTorpedoHitBaseCrewSectionAction);
 		CombatManager.OnLightTorpedoAttackHitBaseStorageSection1.AddListener(LightTorpedoHitBaseStorageSection1Action);
 		CombatManager.OnLightTorpedoAttackHitBaseStorageSection2.AddListener(LightTorpedoHitBaseStorageSection2Action);
 		CombatManager.OnLightTorpedoAttackMissBase.AddListener(LightTorpedoMissBaseAction);
 
-		CombatManager.OnHeavyTorpedoAttackHitShipPhasorSection.AddListener(HeavyTorpedoHitShipPhasorSectionAction);
+		CombatManager.OnHeavyTorpedoAttackHitShipPhaserSection.AddListener(HeavyTorpedoHitShipPhaserSectionAction);
 		CombatManager.OnHeavyTorpedoAttackHitShipTorpedoSection.AddListener(HeavyTorpedoHitShipTorpedoSectionAction);
 		CombatManager.OnHeavyTorpedoAttackHitShipStorageSection.AddListener(HeavyTorpedoHitShipStorageSectionAction);
 		CombatManager.OnHeavyTorpedoAttackHitShipCrewSection.AddListener(HeavyTorpedoHitShipCrewSectionAction);
 		CombatManager.OnHeavyTorpedoAttackHitShipEngineSection.AddListener(HeavyTorpedoHitShipEngineSectionAction);
 		CombatManager.OnHeavyTorpedoAttackMissShip.AddListener(HeavyTorpedoMissShipAction);
 
-		CombatManager.OnHeavyTorpedoAttackHitBasePhasorSection1.AddListener(HeavyTorpedoHitBasePhasorSection1Action);
-		CombatManager.OnHeavyTorpedoAttackHitBasePhasorSection2.AddListener(HeavyTorpedoHitBasePhasorSection2Action);
+		CombatManager.OnHeavyTorpedoAttackHitBasePhaserSection1.AddListener(HeavyTorpedoHitBasePhaserSection1Action);
+		CombatManager.OnHeavyTorpedoAttackHitBasePhaserSection2.AddListener(HeavyTorpedoHitBasePhaserSection2Action);
 		CombatManager.OnHeavyTorpedoAttackHitBaseTorpedoSection.AddListener(HeavyTorpedoHitBaseTorpedoSectionAction);
 		CombatManager.OnHeavyTorpedoAttackHitBaseCrewSection.AddListener(HeavyTorpedoHitBaseCrewSectionAction);
 		CombatManager.OnHeavyTorpedoAttackHitBaseStorageSection1.AddListener(HeavyTorpedoHitBaseStorageSection1Action);
@@ -1027,39 +1027,39 @@ public class CutsceneManager : MonoBehaviour {
 				//clear the first time flag
 				isNewAnimationState = false;
 
-				//check if this is a phasor attack
+				//check if this is a phaser attack
 				switch (combatAttackType) { 
 			
-				case CombatManager.AttackType.Phasor:
+				case CombatManager.AttackType.Phaser:
 
 					//check if the attacking unit has the x-ray upgrade
 					if (combatAttackingUnit.GetComponent<Ship> () == true) {
 
 						//check for upgrade
-						if (combatAttackingUnit.GetComponent<PhasorSection> ().xRayKernalUpgrade == true) {
+						if (combatAttackingUnit.GetComponent<PhaserSection> ().xRayKernalUpgrade == true) {
 
 							//invoke the x-ray charge event
 							OnChargeXRay.Invoke ();
 
 						} else {
 
-							//invoke the normal phasor charge event
-							OnChargePhasors.Invoke();
+							//invoke the normal phaser charge event
+							OnChargePhasers.Invoke();
 
 						}
 
 					} else if (combatAttackingUnit.GetComponent<Starbase> () == true) {
 
 						//check for upgrade
-						if (combatAttackingUnit.GetComponent<StarbasePhasorSection2> ().xRayKernalUpgrade == true) {
+						if (combatAttackingUnit.GetComponent<StarbasePhaserSection2> ().xRayKernalUpgrade == true) {
 
 							//invoke the x-ray charge event
 							OnChargeXRay.Invoke ();
 
 						} else {
 
-							//invoke the normal phasor charge event
-							OnChargePhasors.Invoke();
+							//invoke the normal phaser charge event
+							OnChargePhasers.Invoke();
 
 						}
 
@@ -1095,9 +1095,9 @@ public class CutsceneManager : MonoBehaviour {
 				//check the attack type
 				switch (combatAttackType) {
 
-				case CombatManager.AttackType.Phasor:
+				case CombatManager.AttackType.Phaser:
 
-					CurrentAnimationState = AnimationState.FiringPhasors;
+					CurrentAnimationState = AnimationState.FiringPhasers;
 
 					break;
 
@@ -1130,35 +1130,35 @@ public class CutsceneManager : MonoBehaviour {
 			break;
 
 
-		case AnimationState.FiringPhasors:
+		case AnimationState.FiringPhasers:
 
 			//check if this is the first time through the animation state
 			if (isNewAnimationState == true) {
 
 				//if it is a new animation, start by setting the start point to the cached start point
 				//and the end point to the start point
-				for (int i = 0; i < phasorLineRenderer.Length; i++) {
+				for (int i = 0; i < phaserLineRenderer.Length; i++) {
 
-					phasorLineRenderer [i].Points [0] = phasorLineStartPoints [i];
-					phasorLineRenderer [i].Points [1] = phasorLineRenderer [i].Points [0];
+					phaserLineRenderer [i].Points [0] = phaserLineStartPoints [i];
+					phaserLineRenderer [i].Points [1] = phaserLineRenderer [i].Points [0];
 
 					//set dirty so the renderer redraws them
-					phasorLineRenderer [i].SetAllDirty ();
+					phaserLineRenderer [i].SetAllDirty ();
 
 					//set the start point percentages to zero
-					percentPhasorLineStartRendered [i] = 0.0f;
+					percentPhaserLineStartRendered [i] = 0.0f;
 
 					//set the end point percentages to zero
-					percentPhasorLineEndRendered [i] = 0.0f;
+					percentPhaserLineEndRendered [i] = 0.0f;
 
 					//check if the attacking unit is a ship
 					if (combatAttackingUnit.GetComponent<Ship> () == true) {
 
 						//check if the attacking unit has an x-ray kernel
-						if (combatAttackingUnit.GetComponent<PhasorSection> ().xRayKernalUpgrade == true) {
+						if (combatAttackingUnit.GetComponent<PhaserSection> ().xRayKernalUpgrade == true) {
 
 							//set the line renderer color to the x-ray upgrade color
-							phasorLineRenderer [i].color = xRayPhasorColor;
+							phaserLineRenderer [i].color = xRayPhaserColor;
 
 							hasXRayKernel = true;
 
@@ -1166,7 +1166,7 @@ public class CutsceneManager : MonoBehaviour {
 
 							//the else condition is there is no x-ray upgrade
 							//set the line renderer color to the normal color
-							phasorLineRenderer [i].color = normalPhasorColor;
+							phaserLineRenderer [i].color = normalPhaserColor;
 
 							hasXRayKernel = false;
 
@@ -1176,10 +1176,10 @@ public class CutsceneManager : MonoBehaviour {
 
 						//the else condition is that the attacking unit is a starbase
 						//check if the attacking unit has an x-ray kernel
-						if (combatAttackingUnit.GetComponent<StarbasePhasorSection2> ().xRayKernalUpgrade == true) {
+						if (combatAttackingUnit.GetComponent<StarbasePhaserSection2> ().xRayKernalUpgrade == true) {
 
 							//set the line renderer color to the x-ray upgrade color
-							phasorLineRenderer [i].color = xRayPhasorColor;
+							phaserLineRenderer [i].color = xRayPhaserColor;
 
 							hasXRayKernel = true;
 
@@ -1187,7 +1187,7 @@ public class CutsceneManager : MonoBehaviour {
 
 							//the else condition is there is no x-ray upgrade
 							//set the line renderer color to the normal color
-							phasorLineRenderer [i].color = normalPhasorColor;
+							phaserLineRenderer [i].color = normalPhaserColor;
 
 							hasXRayKernel = false;
 
@@ -1202,91 +1202,91 @@ public class CutsceneManager : MonoBehaviour {
 
 			}
 
-			//we need to loop through each phasor line and determine which ones should be moving
-			for (int i = 0; i < phasorLineRenderer.Length; i++) {
+			//we need to loop through each phaser line and determine which ones should be moving
+			for (int i = 0; i < phaserLineRenderer.Length; i++) {
 
-				//check if the phasor start time is less than or equal to the elapsed time
-				if (currentAnimationStateTimer >= phasorLineStartTimes [i]) {
+				//check if the phaser start time is less than or equal to the elapsed time
+				if (currentAnimationStateTimer >= phaserLineStartTimes [i]) {
 
 					//activate the line renderer
-					phasorLineRenderer [i].gameObject.SetActive (true);
+					phaserLineRenderer [i].gameObject.SetActive (true);
 
-					//check if this phasor line is just starting
+					//check if this phaser line is just starting
 					//we can tell because the end percentage will be zero
-					if (percentPhasorLineEndRendered [i] < .001f) {
+					if (percentPhaserLineEndRendered [i] < .001f) {
 
 						//if it is just starting, spawn a muzzle blast
 						//check for x ray kernel
 						if (hasXRayKernel == true) {
 
 							//create a x-ray muzzle animation at the start point
-							UIAnimation.CreateUIAmination (prefabXRayMuzzle, phasorLinePulseLength, new Vector3 (3f, 3f, 3f),
-								phasorLineStartPoints [i], explosionsParent.transform, true);
+							UIAnimation.CreateUIAmination (prefabXRayMuzzle, phaserLinePulseLength, new Vector3 (3f, 3f, 3f),
+								phaserLineStartPoints [i], explosionsParent.transform, true);
 
 							//invoke the fire xray event
 							OnFireXRay.Invoke ();
 
 						} else {
 
-							//create a phasor muzzle animation at the start point
-							UIAnimation.CreateUIAmination (prefabPhasorMuzzle, phasorLinePulseLength, new Vector3 (2f, 2f, 2f),
-								phasorLineStartPoints [i], explosionsParent.transform, true);
+							//create a phaser muzzle animation at the start point
+							UIAnimation.CreateUIAmination (prefabPhaserMuzzle, phaserLinePulseLength, new Vector3 (2f, 2f, 2f),
+								phaserLineStartPoints [i], explosionsParent.transform, true);
 
-							//invoke the fire phasors event
-							OnFirePhasors.Invoke ();
+							//invoke the fire phasers event
+							OnFirePhasers.Invoke ();
 
 						}
 
 
 					}
 
-					//check if the elapsed time is long enough that this phasor line should stop
+					//check if the elapsed time is long enough that this phaser line should stop
 					//in other words, the start point starts going toward the end point
-					if (currentAnimationStateTimer >= phasorLineStartTimes [i] + phasorLinePulseLength && percentPhasorLineStartRendered [i] < 1.0f) {
+					if (currentAnimationStateTimer >= phaserLineStartTimes [i] + phaserLinePulseLength && percentPhaserLineStartRendered [i] < 1.0f) {
 
 						//since we have exceeded the pulse length time, we need to be moving the start point
 						//increment the percentage end rendered based on delta time
-						percentPhasorLineStartRendered [i] += Time.deltaTime / timeForPhasorToReachTarget;
+						percentPhaserLineStartRendered [i] += Time.deltaTime / timeForPhaserToReachTarget;
 
 						//clamp the percentage to 1.0f
-						percentPhasorLineStartRendered [i] = Mathf.Clamp (percentPhasorLineStartRendered [i], 0.0f, 1.0f);
+						percentPhaserLineStartRendered [i] = Mathf.Clamp (percentPhaserLineStartRendered [i], 0.0f, 1.0f);
 
 					}
 
 					//check if the end point percentage is less than 1
-					if (percentPhasorLineEndRendered [i] < 1.0f) {
+					if (percentPhaserLineEndRendered [i] < 1.0f) {
 
 						//increment the percentage end rendered based on delta time
-						percentPhasorLineEndRendered [i] += Time.deltaTime / timeForPhasorToReachTarget;
+						percentPhaserLineEndRendered [i] += Time.deltaTime / timeForPhaserToReachTarget;
 
 						//check if we are now at or over 1.0f
-						if (percentPhasorLineEndRendered [i] >= 1.0f) {
+						if (percentPhaserLineEndRendered [i] >= 1.0f) {
 
 							//this means we just reached the final end point this frame
 							//clamp it to 1.0f
-							percentPhasorLineEndRendered [i] = 1.0f;
+							percentPhaserLineEndRendered [i] = 1.0f;
 
-							//check if this is a phasor hit animation
-							if (isPhasorHit == true) {
+							//check if this is a phaser hit animation
+							if (isPhaserHit == true) {
 
 								//check if the attacking unit has X-ray kernel
 								if (hasXRayKernel == true) {
 
 									//create a x-ray hit animation at the end point
 									UIAnimation.CreateUIAmination (prefabXRayHit, 0.5f, new Vector3 (1f, 1f, 1f),
-										phasorLineEndPoints [i], explosionsParent.transform, true);
+										phaserLineEndPoints [i], explosionsParent.transform, true);
 
 									//invoke the hit event
-									OnPhasorHit.Invoke();
+									OnPhaserHit.Invoke();
 
 								} else {
 									
-									//create a phasor hit animation at the end point
-									UIAnimation.CreateUIAmination (prefabPhasorHit, 0.5f, new Vector3 (1f, 1f, 1f),
-										phasorLineEndPoints [i], explosionsParent.transform, true);
+									//create a phaser hit animation at the end point
+									UIAnimation.CreateUIAmination (prefabPhaserHit, 0.5f, new Vector3 (1f, 1f, 1f),
+										phaserLineEndPoints [i], explosionsParent.transform, true);
 
 									//invoke the hit event
-									OnPhasorHit.Invoke();
+									OnPhaserHit.Invoke();
 
 								}
 
@@ -1297,25 +1297,25 @@ public class CutsceneManager : MonoBehaviour {
 					}
 
 					//update the line renderer start point positions
-					phasorLineRenderer [i].Points [0] = phasorLineStartPoints [i] +
-					(phasorLineEndPoints [i] - phasorLineStartPoints [i]) * percentPhasorLineStartRendered [i];
+					phaserLineRenderer [i].Points [0] = phaserLineStartPoints [i] +
+					(phaserLineEndPoints [i] - phaserLineStartPoints [i]) * percentPhaserLineStartRendered [i];
 
 					//update the line renderer end point positions
-					phasorLineRenderer [i].Points [1] = phasorLineStartPoints [i] +
-					(phasorLineEndPoints [i] - phasorLineStartPoints [i]) * percentPhasorLineEndRendered [i];
+					phaserLineRenderer [i].Points [1] = phaserLineStartPoints [i] +
+					(phaserLineEndPoints [i] - phaserLineStartPoints [i]) * percentPhaserLineEndRendered [i];
 
 					//set dirty so the renderer redraws them
-					phasorLineRenderer [i].SetAllDirty ();
+					phaserLineRenderer [i].SetAllDirty ();
 
 				}
 
 			}
 
 			//check if the last line start and end points are at 100% rendered.  If so, we can break out of the isFiring animation state
-			if (percentPhasorLineStartRendered [phasorLineRenderer.Length - 1] == 1.0f && percentPhasorLineEndRendered [phasorLineRenderer.Length - 1] == 1.0f) {
+			if (percentPhaserLineStartRendered [phaserLineRenderer.Length - 1] == 1.0f && percentPhaserLineEndRendered [phaserLineRenderer.Length - 1] == 1.0f) {
 
 				//check if this is a hit
-				if (isPhasorHit == true) {
+				if (isPhaserHit == true) {
 
 					//set the status text
 					if (combatTargetedUnit.GetComponent<Starbase> () == true) {
@@ -1340,7 +1340,7 @@ public class CutsceneManager : MonoBehaviour {
 				} else {
 
 					//set the status text
-					statusLabel.text = ("Phasor Attack Misses!");
+					statusLabel.text = ("Phaser Attack Misses!");
 
 					//update the font size if necessary
 					UIManager.AutoSizeTextMeshFont(statusLabel);
@@ -2063,45 +2063,45 @@ public class CutsceneManager : MonoBehaviour {
 				//switch case on attack type
 				switch (combatAttackType) {
 
-				case CombatManager.AttackType.Phasor:
+				case CombatManager.AttackType.Phaser:
 
 					//check if the targeted unit is a base
 					if (combatTargetedUnit.unitType == CombatUnit.UnitType.Starbase) {
 
 						//check if it is a hit or miss
-						if (isPhasorHit == true) {
+						if (isPhaserHit == true) {
 
 							//switch case on section targeted
 							switch (combatBaseSectionTargeted) {
 
-							case CombatManager.BaseSectionTargeted.PhasorSection1:
+							case CombatManager.BaseSectionTargeted.PhaserSection1:
 
-								OnPhasorHitBasePhasorSection1.Invoke (combatAttackingUnit, combatTargetedUnit, combatDamage);
+								OnPhaserHitBasePhaserSection1.Invoke (combatAttackingUnit, combatTargetedUnit, combatDamage);
 								break;
 
-							case CombatManager.BaseSectionTargeted.PhasorSection2:
+							case CombatManager.BaseSectionTargeted.PhaserSection2:
 
-								OnPhasorHitBasePhasorSection2.Invoke (combatAttackingUnit, combatTargetedUnit, combatDamage);
+								OnPhaserHitBasePhaserSection2.Invoke (combatAttackingUnit, combatTargetedUnit, combatDamage);
 								break;
 
 							case CombatManager.BaseSectionTargeted.TorpedoSection:
 
-								OnPhasorHitBaseTorpedoSection.Invoke (combatAttackingUnit, combatTargetedUnit, combatDamage);
+								OnPhaserHitBaseTorpedoSection.Invoke (combatAttackingUnit, combatTargetedUnit, combatDamage);
 								break;
 
 							case CombatManager.BaseSectionTargeted.CrewSection:
 
-								OnPhasorHitBaseCrewSection.Invoke (combatAttackingUnit, combatTargetedUnit, combatDamage);
+								OnPhaserHitBaseCrewSection.Invoke (combatAttackingUnit, combatTargetedUnit, combatDamage);
 								break;
 
 							case CombatManager.BaseSectionTargeted.StorageSection1:
 
-								OnPhasorHitBaseStorageSection1.Invoke (combatAttackingUnit, combatTargetedUnit, combatDamage);
+								OnPhaserHitBaseStorageSection1.Invoke (combatAttackingUnit, combatTargetedUnit, combatDamage);
 								break;
 
 							case CombatManager.BaseSectionTargeted.StorageSection2:
 
-								OnPhasorHitBaseStorageSection2.Invoke (combatAttackingUnit, combatTargetedUnit, combatDamage);
+								OnPhaserHitBaseStorageSection2.Invoke (combatAttackingUnit, combatTargetedUnit, combatDamage);
 								break;
 
 							default:
@@ -2112,8 +2112,8 @@ public class CutsceneManager : MonoBehaviour {
 
 						} else {
 
-							//the else condition is it is a phasor miss
-							OnPhasorMissBase.Invoke (combatAttackingUnit, combatTargetedUnit, 0);
+							//the else condition is it is a phaser miss
+							OnPhaserMissBase.Invoke (combatAttackingUnit, combatTargetedUnit, 0);
 
 						}
 
@@ -2122,34 +2122,34 @@ public class CutsceneManager : MonoBehaviour {
 						//the else condition here is that the targeted unit is not a base, so it is a ship
 
 						//check if it is a hit or miss
-						if (isPhasorHit == true) {
+						if (isPhaserHit == true) {
 
 							//switch case on section targeted
 							switch (combatShipSectionTargeted) {
 
-							case CombatManager.ShipSectionTargeted.PhasorSection:
+							case CombatManager.ShipSectionTargeted.PhaserSection:
 
-								OnPhasorHitShipPhasorSection.Invoke (combatAttackingUnit, combatTargetedUnit, combatDamage);
+								OnPhaserHitShipPhaserSection.Invoke (combatAttackingUnit, combatTargetedUnit, combatDamage);
 								break;
 
 							case CombatManager.ShipSectionTargeted.TorpedoSection:
 
-								OnPhasorHitShipTorpedoSection.Invoke (combatAttackingUnit, combatTargetedUnit, combatDamage);
+								OnPhaserHitShipTorpedoSection.Invoke (combatAttackingUnit, combatTargetedUnit, combatDamage);
 								break;
 
 							case CombatManager.ShipSectionTargeted.StorageSection:
 
-								OnPhasorHitShipStorageSection.Invoke (combatAttackingUnit, combatTargetedUnit, combatDamage);
+								OnPhaserHitShipStorageSection.Invoke (combatAttackingUnit, combatTargetedUnit, combatDamage);
 								break;
 
 							case CombatManager.ShipSectionTargeted.CrewSection:
 
-								OnPhasorHitShipCrewSection.Invoke (combatAttackingUnit, combatTargetedUnit, combatDamage);
+								OnPhaserHitShipCrewSection.Invoke (combatAttackingUnit, combatTargetedUnit, combatDamage);
 								break;
 
 							case CombatManager.ShipSectionTargeted.EngineSection:
 
-								OnPhasorHitShipEngineSection.Invoke (combatAttackingUnit, combatTargetedUnit, combatDamage);
+								OnPhaserHitShipEngineSection.Invoke (combatAttackingUnit, combatTargetedUnit, combatDamage);
 								break;
 
 							default:
@@ -2160,8 +2160,8 @@ public class CutsceneManager : MonoBehaviour {
 
 						} else {
 
-							//the else condition is that it is a phasor miss
-							OnPhasorMissShip.Invoke (combatAttackingUnit, combatTargetedUnit, 0);
+							//the else condition is that it is a phaser miss
+							OnPhaserMissShip.Invoke (combatAttackingUnit, combatTargetedUnit, 0);
 
 						}
 
@@ -2197,14 +2197,14 @@ public class CutsceneManager : MonoBehaviour {
 							//switch case on section targeted
 							switch (combatBaseSectionTargeted) {
 
-							case CombatManager.BaseSectionTargeted.PhasorSection1:
+							case CombatManager.BaseSectionTargeted.PhaserSection1:
 
-								OnLightTorpedoHitBasePhasorSection1.Invoke (combatAttackingUnit, combatTargetedUnit, combatDamage);
+								OnLightTorpedoHitBasePhaserSection1.Invoke (combatAttackingUnit, combatTargetedUnit, combatDamage);
 								break;
 
-							case CombatManager.BaseSectionTargeted.PhasorSection2:
+							case CombatManager.BaseSectionTargeted.PhaserSection2:
 
-								OnLightTorpedoHitBasePhasorSection2.Invoke (combatAttackingUnit, combatTargetedUnit, combatDamage);
+								OnLightTorpedoHitBasePhaserSection2.Invoke (combatAttackingUnit, combatTargetedUnit, combatDamage);
 								break;
 
 							case CombatManager.BaseSectionTargeted.TorpedoSection:
@@ -2250,9 +2250,9 @@ public class CutsceneManager : MonoBehaviour {
 							//switch case on section targeted
 							switch (combatShipSectionTargeted) {
 
-							case CombatManager.ShipSectionTargeted.PhasorSection:
+							case CombatManager.ShipSectionTargeted.PhaserSection:
 
-								OnLightTorpedoHitShipPhasorSection.Invoke (combatAttackingUnit, combatTargetedUnit, combatDamage);
+								OnLightTorpedoHitShipPhaserSection.Invoke (combatAttackingUnit, combatTargetedUnit, combatDamage);
 								break;
 
 							case CombatManager.ShipSectionTargeted.TorpedoSection:
@@ -2283,7 +2283,7 @@ public class CutsceneManager : MonoBehaviour {
 
 						} else {
 
-							//the else condition is that it is a phasor miss
+							//the else condition is that it is a phaser miss
 							OnLightTorpedoMissShip.Invoke (combatAttackingUnit, combatTargetedUnit, 0);
 
 						}
@@ -2320,14 +2320,14 @@ public class CutsceneManager : MonoBehaviour {
 							//switch case on section targeted
 							switch (combatBaseSectionTargeted) {
 
-							case CombatManager.BaseSectionTargeted.PhasorSection1:
+							case CombatManager.BaseSectionTargeted.PhaserSection1:
 
-								OnHeavyTorpedoHitBasePhasorSection1.Invoke (combatAttackingUnit, combatTargetedUnit, combatDamage);
+								OnHeavyTorpedoHitBasePhaserSection1.Invoke (combatAttackingUnit, combatTargetedUnit, combatDamage);
 								break;
 
-							case CombatManager.BaseSectionTargeted.PhasorSection2:
+							case CombatManager.BaseSectionTargeted.PhaserSection2:
 
-								OnHeavyTorpedoHitBasePhasorSection2.Invoke (combatAttackingUnit, combatTargetedUnit, combatDamage);
+								OnHeavyTorpedoHitBasePhaserSection2.Invoke (combatAttackingUnit, combatTargetedUnit, combatDamage);
 								break;
 
 							case CombatManager.BaseSectionTargeted.TorpedoSection:
@@ -2373,9 +2373,9 @@ public class CutsceneManager : MonoBehaviour {
 							//switch case on section targeted
 							switch (combatShipSectionTargeted) {
 
-							case CombatManager.ShipSectionTargeted.PhasorSection:
+							case CombatManager.ShipSectionTargeted.PhaserSection:
 
-								OnHeavyTorpedoHitShipPhasorSection.Invoke (combatAttackingUnit, combatTargetedUnit, combatDamage);
+								OnHeavyTorpedoHitShipPhaserSection.Invoke (combatAttackingUnit, combatTargetedUnit, combatDamage);
 								break;
 
 							case CombatManager.ShipSectionTargeted.TorpedoSection:
@@ -2406,7 +2406,7 @@ public class CutsceneManager : MonoBehaviour {
 
 						} else {
 
-							//the else condition is that it is a phasor miss
+							//the else condition is that it is a phaser miss
 							OnHeavyTorpedoMissShip.Invoke (combatAttackingUnit, combatTargetedUnit, 0);
 
 						}
@@ -2507,16 +2507,16 @@ public class CutsceneManager : MonoBehaviour {
 
 	}
 
-	//this function resolves a phasor attack into what the cutscene needs to know to process the animation
-	private void ResolvePhasorHit(CombatUnit attackingUnit, CombatUnit targetedUnit, CombatManager.ShipSectionTargeted shipSectionTargeted, int damage){
+	//this function resolves a phaser attack into what the cutscene needs to know to process the animation
+	private void ResolvePhaserHit(CombatUnit attackingUnit, CombatUnit targetedUnit, CombatManager.ShipSectionTargeted shipSectionTargeted, int damage){
 
-		//this function will trigger from an event launched from combat manager where a ship is getting hit by a phasor attack
+		//this function will trigger from an event launched from combat manager where a ship is getting hit by a phaser attack
 		//start by caching the combat data
 		combatAttackingUnit = attackingUnit;
 		combatTargetedUnit = targetedUnit;
 		combatDamage = damage;
-		combatAttackType = CombatManager.AttackType.Phasor;
-		isPhasorHit = true;
+		combatAttackType = CombatManager.AttackType.Phaser;
+		isPhaserHit = true;
 
 		//set the initial sprites
 		SetInitialCombatUnitSprites(attackingUnit, targetedUnit);
@@ -2556,18 +2556,18 @@ public class CutsceneManager : MonoBehaviour {
 		//set the combat units vertical positions
 		SetCombatUnitsVerticalPosition(attackingUnit,targetedUnit);
 
-		//we will first need to determine the starting points and ending points in the phasor lines
-		SetPhasorLineStartingPoints(attackingUnit);
-		SetPhasorLineEndingPoints (targetedUnit, shipSectionTargeted);
+		//we will first need to determine the starting points and ending points in the phaser lines
+		SetPhaserLineStartingPoints(attackingUnit);
+		SetPhaserLineEndingPoints (targetedUnit, shipSectionTargeted);
 
 		//add some randomness to the end points
-		AddNoiseToPhasorLineEndPoints();
+		AddNoiseToPhaserLineEndPoints();
 
 		//position the units off camera to start
 		PositionCombatUnitsOffCamera();
 
-		//because this is a hit, we want the phasor lines to render over the targeted unit sprites, so it should be below in the hierarchy
-		phasorLinesHolder.transform.SetSiblingIndex(2);
+		//because this is a hit, we want the phaser lines to render over the targeted unit sprites, so it should be below in the hierarchy
+		phaserLinesHolder.transform.SetSiblingIndex(2);
 
 		//set the current animation state
 		CurrentAnimationState = AnimationState.EnteringArena;
@@ -2577,14 +2577,14 @@ public class CutsceneManager : MonoBehaviour {
 
 	}
 
-	//this function resolves a phasor attack miss into what the cutscene needs to know to process the animation
-	private void ResolvePhasorMiss(CombatUnit attackingUnit, CombatUnit targetedUnit){
+	//this function resolves a phaser attack miss into what the cutscene needs to know to process the animation
+	private void ResolvePhaserMiss(CombatUnit attackingUnit, CombatUnit targetedUnit){
 
 		//start by caching the combat data
 		combatAttackingUnit = attackingUnit;
 		combatTargetedUnit = targetedUnit;
-		combatAttackType = CombatManager.AttackType.Phasor;
-		isPhasorHit = false;
+		combatAttackType = CombatManager.AttackType.Phaser;
+		isPhaserHit = false;
 		combatWillDestroySection = false;
 		combatWillDestroyUnit = false;
 
@@ -2595,9 +2595,9 @@ public class CutsceneManager : MonoBehaviour {
 		SetCombatUnitsVerticalPosition(attackingUnit,targetedUnit);
 
 		//we know the outcome of the attack.  Now we need to set up the presentation.
-		//we will use the UI Line Renderer for the phasor attack animation
-		//we will first need to determine the starting points and ending points in the phasor lines
-		SetPhasorLineStartingPoints(attackingUnit);
+		//we will use the UI Line Renderer for the phaser attack animation
+		//we will first need to determine the starting points and ending points in the phaser lines
+		SetPhaserLineStartingPoints(attackingUnit);
 
 		//we need to pick a dummy section targeted, even though it's a miss.
 		//I want to randomly pick one of the sections that is alive in the target
@@ -2616,19 +2616,19 @@ public class CutsceneManager : MonoBehaviour {
 		}
 
 		//this will set the ending points to finish on the dummy section
-		SetPhasorLineEndingPoints (targetedUnit, dummySectionTargeted);
+		SetPhaserLineEndingPoints (targetedUnit, dummySectionTargeted);
 
 		//add some randomness to the end points
-		AddNoiseToPhasorLineEndPoints();
+		AddNoiseToPhaserLineEndPoints();
 
 		//we now want to extend the end lines to the edge of the panel
-		ExtendPhasorEndPointsToPanel();
+		ExtendPhaserEndPointsToPanel();
 
 		//position the units off camera to start
 		PositionCombatUnitsOffCamera();
 
-		//because this is a miss, we want the phasor lines to render below the targeted unit sprites, so it should be above in the hierarchy
-		phasorLinesHolder.transform.SetSiblingIndex(1);
+		//because this is a miss, we want the phaser lines to render below the targeted unit sprites, so it should be above in the hierarchy
+		phaserLinesHolder.transform.SetSiblingIndex(1);
 
 		//set the current animation state
 		CurrentAnimationState = AnimationState.EnteringArena;
@@ -2885,24 +2885,24 @@ public class CutsceneManager : MonoBehaviour {
 
 			case Player.Color.Green:
 
-				if (combatUnit.GetComponent<StarbasePhasorSection1> ().isDestroyed == true) {
+				if (combatUnit.GetComponent<StarbasePhaserSection1> ().isDestroyed == true) {
 
-					unitSections [0].GetComponent<Image> ().sprite = greenBasePhasorSectionDestroyed;
+					unitSections [0].GetComponent<Image> ().sprite = greenBasePhaserSectionDestroyed;
 
 				} else {
 
-					unitSections [0].GetComponent<Image> ().sprite = greenBasePhasorSection;
+					unitSections [0].GetComponent<Image> ().sprite = greenBasePhaserSection;
 
 				}
 
 
-				if (combatUnit.GetComponent<StarbasePhasorSection2> ().isDestroyed == true) {
+				if (combatUnit.GetComponent<StarbasePhaserSection2> ().isDestroyed == true) {
 
-					unitSections [1].GetComponent<Image> ().sprite = greenBasePhasorSectionDestroyed;
+					unitSections [1].GetComponent<Image> ().sprite = greenBasePhaserSectionDestroyed;
 
 				} else {
 
-					unitSections [1].GetComponent<Image> ().sprite = greenBasePhasorSection;
+					unitSections [1].GetComponent<Image> ().sprite = greenBasePhaserSection;
 
 				}
 
@@ -2954,24 +2954,24 @@ public class CutsceneManager : MonoBehaviour {
 
 			case Player.Color.Purple:
 
-				if (combatUnit.GetComponent<StarbasePhasorSection1> ().isDestroyed == true) {
+				if (combatUnit.GetComponent<StarbasePhaserSection1> ().isDestroyed == true) {
 
-					unitSections [0].GetComponent<Image> ().sprite = purpleBasePhasorSectionDestroyed;
+					unitSections [0].GetComponent<Image> ().sprite = purpleBasePhaserSectionDestroyed;
 
 				} else {
 
-					unitSections [0].GetComponent<Image> ().sprite = purpleBasePhasorSection;
+					unitSections [0].GetComponent<Image> ().sprite = purpleBasePhaserSection;
 
 				}
 
 
-				if (combatUnit.GetComponent<StarbasePhasorSection2> ().isDestroyed == true) {
+				if (combatUnit.GetComponent<StarbasePhaserSection2> ().isDestroyed == true) {
 
-					unitSections [1].GetComponent<Image> ().sprite = purpleBasePhasorSectionDestroyed;
+					unitSections [1].GetComponent<Image> ().sprite = purpleBasePhaserSectionDestroyed;
 
 				} else {
 
-					unitSections [1].GetComponent<Image> ().sprite = purpleBasePhasorSection;
+					unitSections [1].GetComponent<Image> ().sprite = purpleBasePhaserSection;
 
 				}
 
@@ -3023,24 +3023,24 @@ public class CutsceneManager : MonoBehaviour {
 
 			case Player.Color.Red:
 
-				if (combatUnit.GetComponent<StarbasePhasorSection1> ().isDestroyed == true) {
+				if (combatUnit.GetComponent<StarbasePhaserSection1> ().isDestroyed == true) {
 
-					unitSections [0].GetComponent<Image> ().sprite = redBasePhasorSectionDestroyed;
+					unitSections [0].GetComponent<Image> ().sprite = redBasePhaserSectionDestroyed;
 
 				} else {
 
-					unitSections [0].GetComponent<Image> ().sprite = redBasePhasorSection;
+					unitSections [0].GetComponent<Image> ().sprite = redBasePhaserSection;
 
 				}
 
 
-				if (combatUnit.GetComponent<StarbasePhasorSection2> ().isDestroyed == true) {
+				if (combatUnit.GetComponent<StarbasePhaserSection2> ().isDestroyed == true) {
 
-					unitSections [1].GetComponent<Image> ().sprite = redBasePhasorSectionDestroyed;
+					unitSections [1].GetComponent<Image> ().sprite = redBasePhaserSectionDestroyed;
 
 				} else {
 
-					unitSections [1].GetComponent<Image> ().sprite = redBasePhasorSection;
+					unitSections [1].GetComponent<Image> ().sprite = redBasePhaserSection;
 
 				}
 
@@ -3091,24 +3091,24 @@ public class CutsceneManager : MonoBehaviour {
 
 			case Player.Color.Blue:
 
-				if (combatUnit.GetComponent<StarbasePhasorSection1> ().isDestroyed == true) {
+				if (combatUnit.GetComponent<StarbasePhaserSection1> ().isDestroyed == true) {
 
-					unitSections [0].GetComponent<Image> ().sprite = blueBasePhasorSectionDestroyed;
+					unitSections [0].GetComponent<Image> ().sprite = blueBasePhaserSectionDestroyed;
 
 				} else {
 
-					unitSections [0].GetComponent<Image> ().sprite = blueBasePhasorSection;
+					unitSections [0].GetComponent<Image> ().sprite = blueBasePhaserSection;
 
 				}
 
 
-				if (combatUnit.GetComponent<StarbasePhasorSection2> ().isDestroyed == true) {
+				if (combatUnit.GetComponent<StarbasePhaserSection2> ().isDestroyed == true) {
 
-					unitSections [1].GetComponent<Image> ().sprite = blueBasePhasorSectionDestroyed;
+					unitSections [1].GetComponent<Image> ().sprite = blueBasePhaserSectionDestroyed;
 
 				} else {
 
-					unitSections [1].GetComponent<Image> ().sprite = blueBasePhasorSection;
+					unitSections [1].GetComponent<Image> ().sprite = blueBasePhaserSection;
 
 				}
 
@@ -3194,13 +3194,13 @@ public class CutsceneManager : MonoBehaviour {
 
 			case Player.Color.Green:
 
-				if (combatUnit.GetComponent<PhasorSection> ().isDestroyed == true) {
+				if (combatUnit.GetComponent<PhaserSection> ().isDestroyed == true) {
 
-					unitSections [0].GetComponent<Image> ().sprite = greenPhasorSectionDestroyed;
+					unitSections [0].GetComponent<Image> ().sprite = greenPhaserSectionDestroyed;
 
 				} else {
 
-					unitSections [0].GetComponent<Image> ().sprite = greenPhasorSection;
+					unitSections [0].GetComponent<Image> ().sprite = greenPhaserSection;
 
 				}
 
@@ -3250,13 +3250,13 @@ public class CutsceneManager : MonoBehaviour {
 
 			case Player.Color.Purple:
 
-				if (combatUnit.GetComponent<PhasorSection> ().isDestroyed == true) {
+				if (combatUnit.GetComponent<PhaserSection> ().isDestroyed == true) {
 
-					unitSections [0].GetComponent<Image> ().sprite = purplePhasorSectionDestroyed;
+					unitSections [0].GetComponent<Image> ().sprite = purplePhaserSectionDestroyed;
 
 				} else {
 
-					unitSections [0].GetComponent<Image> ().sprite = purplePhasorSection;
+					unitSections [0].GetComponent<Image> ().sprite = purplePhaserSection;
 
 				}
 
@@ -3306,13 +3306,13 @@ public class CutsceneManager : MonoBehaviour {
 
 			case Player.Color.Red:
 
-				if (combatUnit.GetComponent<PhasorSection> ().isDestroyed == true) {
+				if (combatUnit.GetComponent<PhaserSection> ().isDestroyed == true) {
 
-					unitSections [0].GetComponent<Image> ().sprite = redPhasorSectionDestroyed;
+					unitSections [0].GetComponent<Image> ().sprite = redPhaserSectionDestroyed;
 
 				} else {
 
-					unitSections [0].GetComponent<Image> ().sprite = redPhasorSection;
+					unitSections [0].GetComponent<Image> ().sprite = redPhaserSection;
 
 				}
 
@@ -3363,13 +3363,13 @@ public class CutsceneManager : MonoBehaviour {
 
 			case Player.Color.Blue:
 
-				if (combatUnit.GetComponent<PhasorSection> ().isDestroyed == true) {
+				if (combatUnit.GetComponent<PhaserSection> ().isDestroyed == true) {
 
-					unitSections [0].GetComponent<Image> ().sprite = bluePhasorSectionDestroyed;
+					unitSections [0].GetComponent<Image> ().sprite = bluePhaserSectionDestroyed;
 
 				} else {
 
-					unitSections [0].GetComponent<Image> ().sprite = bluePhasorSection;
+					unitSections [0].GetComponent<Image> ().sprite = bluePhaserSection;
 
 				}
 
@@ -3454,13 +3454,13 @@ public class CutsceneManager : MonoBehaviour {
 
 			case Player.Color.Green:
 
-				if (combatUnit.GetComponent<PhasorSection> ().isDestroyed == true) {
+				if (combatUnit.GetComponent<PhaserSection> ().isDestroyed == true) {
 
-					unitSections [0].GetComponent<Image> ().sprite = greenPhasorSectionDestroyed;
+					unitSections [0].GetComponent<Image> ().sprite = greenPhaserSectionDestroyed;
 
 				} else {
 
-					unitSections [0].GetComponent<Image> ().sprite = greenPhasorSection;
+					unitSections [0].GetComponent<Image> ().sprite = greenPhaserSection;
 
 				}
 
@@ -3502,13 +3502,13 @@ public class CutsceneManager : MonoBehaviour {
 
 			case Player.Color.Purple:
 
-				if (combatUnit.GetComponent<PhasorSection> ().isDestroyed == true) {
+				if (combatUnit.GetComponent<PhaserSection> ().isDestroyed == true) {
 
-					unitSections [0].GetComponent<Image> ().sprite = purplePhasorSectionDestroyed;
+					unitSections [0].GetComponent<Image> ().sprite = purplePhaserSectionDestroyed;
 
 				} else {
 
-					unitSections [0].GetComponent<Image> ().sprite = purplePhasorSection;
+					unitSections [0].GetComponent<Image> ().sprite = purplePhaserSection;
 
 				}
 
@@ -3550,13 +3550,13 @@ public class CutsceneManager : MonoBehaviour {
 
 			case Player.Color.Red:
 
-				if (combatUnit.GetComponent<PhasorSection> ().isDestroyed == true) {
+				if (combatUnit.GetComponent<PhaserSection> ().isDestroyed == true) {
 
-					unitSections [0].GetComponent<Image> ().sprite = redPhasorSectionDestroyed;
+					unitSections [0].GetComponent<Image> ().sprite = redPhaserSectionDestroyed;
 
 				} else {
 
-					unitSections [0].GetComponent<Image> ().sprite = redPhasorSection;
+					unitSections [0].GetComponent<Image> ().sprite = redPhaserSection;
 
 				}
 
@@ -3599,13 +3599,13 @@ public class CutsceneManager : MonoBehaviour {
 
 			case Player.Color.Blue:
 
-				if (combatUnit.GetComponent<PhasorSection> ().isDestroyed == true) {
+				if (combatUnit.GetComponent<PhaserSection> ().isDestroyed == true) {
 
-					unitSections [0].GetComponent<Image> ().sprite = bluePhasorSectionDestroyed;
+					unitSections [0].GetComponent<Image> ().sprite = bluePhaserSectionDestroyed;
 
 				} else {
 
-					unitSections [0].GetComponent<Image> ().sprite = bluePhasorSection;
+					unitSections [0].GetComponent<Image> ().sprite = bluePhaserSection;
 
 				}
 
@@ -3682,13 +3682,13 @@ public class CutsceneManager : MonoBehaviour {
 
 			case Player.Color.Green:
 
-				if (combatUnit.GetComponent<PhasorSection> ().isDestroyed == true) {
+				if (combatUnit.GetComponent<PhaserSection> ().isDestroyed == true) {
 
-					unitSections [0].GetComponent<Image> ().sprite = greenPhasorSectionDestroyed;
+					unitSections [0].GetComponent<Image> ().sprite = greenPhaserSectionDestroyed;
 
 				} else {
 
-					unitSections [0].GetComponent<Image> ().sprite = greenPhasorSection;
+					unitSections [0].GetComponent<Image> ().sprite = greenPhaserSection;
 
 				}
 
@@ -3722,13 +3722,13 @@ public class CutsceneManager : MonoBehaviour {
 
 			case Player.Color.Purple:
 
-				if (combatUnit.GetComponent<PhasorSection> ().isDestroyed == true) {
+				if (combatUnit.GetComponent<PhaserSection> ().isDestroyed == true) {
 
-					unitSections [0].GetComponent<Image> ().sprite = purplePhasorSectionDestroyed;
+					unitSections [0].GetComponent<Image> ().sprite = purplePhaserSectionDestroyed;
 
 				} else {
 
-					unitSections [0].GetComponent<Image> ().sprite = purplePhasorSection;
+					unitSections [0].GetComponent<Image> ().sprite = purplePhaserSection;
 
 				}
 
@@ -3762,13 +3762,13 @@ public class CutsceneManager : MonoBehaviour {
 
 			case Player.Color.Red:
 
-				if (combatUnit.GetComponent<PhasorSection> ().isDestroyed == true) {
+				if (combatUnit.GetComponent<PhaserSection> ().isDestroyed == true) {
 
-					unitSections [0].GetComponent<Image> ().sprite = redPhasorSectionDestroyed;
+					unitSections [0].GetComponent<Image> ().sprite = redPhaserSectionDestroyed;
 
 				} else {
 
-					unitSections [0].GetComponent<Image> ().sprite = redPhasorSection;
+					unitSections [0].GetComponent<Image> ().sprite = redPhaserSection;
 
 				}
 
@@ -3803,13 +3803,13 @@ public class CutsceneManager : MonoBehaviour {
 
 			case Player.Color.Blue:
 
-				if (combatUnit.GetComponent<PhasorSection> ().isDestroyed == true) {
+				if (combatUnit.GetComponent<PhaserSection> ().isDestroyed == true) {
 
-					unitSections [0].GetComponent<Image> ().sprite = bluePhasorSectionDestroyed;
+					unitSections [0].GetComponent<Image> ().sprite = bluePhaserSectionDestroyed;
 
 				} else {
 
-					unitSections [0].GetComponent<Image> ().sprite = bluePhasorSection;
+					unitSections [0].GetComponent<Image> ().sprite = bluePhaserSection;
 
 				}
 
@@ -3878,13 +3878,13 @@ public class CutsceneManager : MonoBehaviour {
 
 			case Player.Color.Green:
 
-				if (combatUnit.GetComponent<PhasorSection> ().isDestroyed == true) {
+				if (combatUnit.GetComponent<PhaserSection> ().isDestroyed == true) {
 
-					unitSections [0].GetComponent<Image> ().sprite = greenPhasorSectionDestroyed;
+					unitSections [0].GetComponent<Image> ().sprite = greenPhaserSectionDestroyed;
 
 				} else {
 
-					unitSections [0].GetComponent<Image> ().sprite = greenPhasorSection;
+					unitSections [0].GetComponent<Image> ().sprite = greenPhaserSection;
 
 				}
 
@@ -3918,13 +3918,13 @@ public class CutsceneManager : MonoBehaviour {
 
 			case Player.Color.Purple:
 
-				if (combatUnit.GetComponent<PhasorSection> ().isDestroyed == true) {
+				if (combatUnit.GetComponent<PhaserSection> ().isDestroyed == true) {
 
-					unitSections [0].GetComponent<Image> ().sprite = purplePhasorSectionDestroyed;
+					unitSections [0].GetComponent<Image> ().sprite = purplePhaserSectionDestroyed;
 
 				} else {
 
-					unitSections [0].GetComponent<Image> ().sprite = purplePhasorSection;
+					unitSections [0].GetComponent<Image> ().sprite = purplePhaserSection;
 
 				}
 
@@ -3958,13 +3958,13 @@ public class CutsceneManager : MonoBehaviour {
 
 			case Player.Color.Red:
 
-				if (combatUnit.GetComponent<PhasorSection> ().isDestroyed == true) {
+				if (combatUnit.GetComponent<PhaserSection> ().isDestroyed == true) {
 
-					unitSections [0].GetComponent<Image> ().sprite = redPhasorSectionDestroyed;
+					unitSections [0].GetComponent<Image> ().sprite = redPhaserSectionDestroyed;
 
 				} else {
 
-					unitSections [0].GetComponent<Image> ().sprite = redPhasorSection;
+					unitSections [0].GetComponent<Image> ().sprite = redPhaserSection;
 
 				}
 
@@ -3999,13 +3999,13 @@ public class CutsceneManager : MonoBehaviour {
 
 			case Player.Color.Blue:
 
-				if (combatUnit.GetComponent<PhasorSection> ().isDestroyed == true) {
+				if (combatUnit.GetComponent<PhaserSection> ().isDestroyed == true) {
 
-					unitSections [0].GetComponent<Image> ().sprite = bluePhasorSectionDestroyed;
+					unitSections [0].GetComponent<Image> ().sprite = bluePhaserSectionDestroyed;
 
 				} else {
 
-					unitSections [0].GetComponent<Image> ().sprite = bluePhasorSection;
+					unitSections [0].GetComponent<Image> ().sprite = bluePhaserSection;
 
 				}
 
@@ -4074,17 +4074,17 @@ public class CutsceneManager : MonoBehaviour {
 		//run a switch case on the section targeted
 		switch (shipSectionTargeted) {
 
-		case CombatManager.ShipSectionTargeted.PhasorSection:
+		case CombatManager.ShipSectionTargeted.PhaserSection:
 
 			//check if the section targeted is null - this represents a logic error somewhere upstream
-			if (targetedUnit.GetComponent<PhasorSection> () == null) {
+			if (targetedUnit.GetComponent<PhaserSection> () == null) {
 
-				Debug.LogError ("Function passed an attack to a phasor section for a combat unit without a phasor section");
+				Debug.LogError ("Function passed an attack to a phaser section for a combat unit without a phaser section");
 
 			}
 
 			//check if the damage is greater than or equal to the remaining shields
-			else if (damage >= targetedUnit.GetComponent<PhasorSection> ().shieldsCurrent) {
+			else if (damage >= targetedUnit.GetComponent<PhaserSection> ().shieldsCurrent) {
 
 				willBeDestroyed = true;
 
@@ -4184,17 +4184,17 @@ public class CutsceneManager : MonoBehaviour {
 		//run a switch case on the section targeted
 		switch (baseSectionTargeted) {
 
-		case CombatManager.BaseSectionTargeted.PhasorSection1:
+		case CombatManager.BaseSectionTargeted.PhaserSection1:
 
 			//check if the section targeted is null - this represents a logic error somewhere upstream
-			if (targetedUnit.GetComponent<StarbasePhasorSection1> () == null) {
+			if (targetedUnit.GetComponent<StarbasePhaserSection1> () == null) {
 
-				Debug.LogError ("Function passed an attack to a base phasor section 1 for a combat unit without a base phasor section 1");
+				Debug.LogError ("Function passed an attack to a base phaser section 1 for a combat unit without a base phaser section 1");
 
 			}
 
 			//check if the damage is greater than or equal to the remaining shields
-			else if (damage >= targetedUnit.GetComponent<StarbasePhasorSection1> ().shieldsCurrent) {
+			else if (damage >= targetedUnit.GetComponent<StarbasePhaserSection1> ().shieldsCurrent) {
 
 				willBeDestroyed = true;
 
@@ -4202,17 +4202,17 @@ public class CutsceneManager : MonoBehaviour {
 
 			break;
 
-		case CombatManager.BaseSectionTargeted.PhasorSection2:
+		case CombatManager.BaseSectionTargeted.PhaserSection2:
 
 			//check if the section targeted is null - this represents a logic error somewhere upstream
-			if (targetedUnit.GetComponent<StarbasePhasorSection2> () == null) {
+			if (targetedUnit.GetComponent<StarbasePhaserSection2> () == null) {
 
-				Debug.LogError ("Function passed an attack to a base phasor section 2 for a combat unit without a base phasor section 2");
+				Debug.LogError ("Function passed an attack to a base phaser section 2 for a combat unit without a base phaser section 2");
 
 			}
 
 			//check if the damage is greater than or equal to the remaining shields
-			else if (damage >= targetedUnit.GetComponent<StarbasePhasorSection2> ().shieldsCurrent) {
+			else if (damage >= targetedUnit.GetComponent<StarbasePhaserSection2> ().shieldsCurrent) {
 
 				willBeDestroyed = true;
 
@@ -4327,7 +4327,7 @@ public class CutsceneManager : MonoBehaviour {
 			//do a switch case on the section to be destroyed
 			switch (shipSectionToBeDestroyed) {
 
-			case CombatManager.ShipSectionTargeted.PhasorSection:
+			case CombatManager.ShipSectionTargeted.PhaserSection:
 
 				//check if any other sections are alive
 				if (targetedUnit.GetComponent<TorpedoSection> ().isDestroyed == false ||
@@ -4350,7 +4350,7 @@ public class CutsceneManager : MonoBehaviour {
 			case CombatManager.ShipSectionTargeted.TorpedoSection:
 
 				//check if any other sections are alive
-				if (targetedUnit.GetComponent<PhasorSection> ().isDestroyed == false ||
+				if (targetedUnit.GetComponent<PhaserSection> ().isDestroyed == false ||
 				    targetedUnit.GetComponent<StorageSection> ().isDestroyed == false ||
 				    targetedUnit.GetComponent<CrewSection> ().isDestroyed == false ||
 				    targetedUnit.GetComponent<EngineSection> ().isDestroyed == false) {
@@ -4370,7 +4370,7 @@ public class CutsceneManager : MonoBehaviour {
 			case CombatManager.ShipSectionTargeted.StorageSection:
 
 				//check if any other sections are alive
-				if (targetedUnit.GetComponent<PhasorSection> ().isDestroyed == false ||
+				if (targetedUnit.GetComponent<PhaserSection> ().isDestroyed == false ||
 				    targetedUnit.GetComponent<TorpedoSection> ().isDestroyed == false ||
 				    targetedUnit.GetComponent<CrewSection> ().isDestroyed == false ||
 				    targetedUnit.GetComponent<EngineSection> ().isDestroyed == false) {
@@ -4390,7 +4390,7 @@ public class CutsceneManager : MonoBehaviour {
 			case CombatManager.ShipSectionTargeted.CrewSection:
 
 				//check if any other sections are alive
-				if (targetedUnit.GetComponent<PhasorSection> ().isDestroyed == false ||
+				if (targetedUnit.GetComponent<PhaserSection> ().isDestroyed == false ||
 				    targetedUnit.GetComponent<TorpedoSection> ().isDestroyed == false ||
 				    targetedUnit.GetComponent<StorageSection> ().isDestroyed == false ||
 				    targetedUnit.GetComponent<EngineSection> ().isDestroyed == false) {
@@ -4410,7 +4410,7 @@ public class CutsceneManager : MonoBehaviour {
 			case CombatManager.ShipSectionTargeted.EngineSection:
 
 				//check if any other sections are alive
-				if (targetedUnit.GetComponent<PhasorSection> ().isDestroyed == false ||
+				if (targetedUnit.GetComponent<PhaserSection> ().isDestroyed == false ||
 				    targetedUnit.GetComponent<TorpedoSection> ().isDestroyed == false ||
 				    targetedUnit.GetComponent<StorageSection> ().isDestroyed == false ||
 				    targetedUnit.GetComponent<CrewSection> ().isDestroyed == false) {
@@ -4442,7 +4442,7 @@ public class CutsceneManager : MonoBehaviour {
 			//do a switch case on the section to be destroyed
 			switch (shipSectionToBeDestroyed) {
 
-			case CombatManager.ShipSectionTargeted.PhasorSection:
+			case CombatManager.ShipSectionTargeted.PhaserSection:
 
 				//check if any other sections are alive
 				if (targetedUnit.GetComponent<TorpedoSection> ().isDestroyed == false ||
@@ -4464,7 +4464,7 @@ public class CutsceneManager : MonoBehaviour {
 			case CombatManager.ShipSectionTargeted.TorpedoSection:
 
 				//check if any other sections are alive
-				if (targetedUnit.GetComponent<PhasorSection> ().isDestroyed == false ||
+				if (targetedUnit.GetComponent<PhaserSection> ().isDestroyed == false ||
 				    targetedUnit.GetComponent<StorageSection> ().isDestroyed == false ||
 				    targetedUnit.GetComponent<EngineSection> ().isDestroyed == false) {
 
@@ -4483,7 +4483,7 @@ public class CutsceneManager : MonoBehaviour {
 			case CombatManager.ShipSectionTargeted.StorageSection:
 
 				//check if any other sections are alive
-				if (targetedUnit.GetComponent<PhasorSection> ().isDestroyed == false ||
+				if (targetedUnit.GetComponent<PhaserSection> ().isDestroyed == false ||
 				    targetedUnit.GetComponent<TorpedoSection> ().isDestroyed == false ||
 				    targetedUnit.GetComponent<EngineSection> ().isDestroyed == false) {
 
@@ -4502,7 +4502,7 @@ public class CutsceneManager : MonoBehaviour {
 			case CombatManager.ShipSectionTargeted.EngineSection:
 
 				//check if any other sections are alive
-				if (targetedUnit.GetComponent<PhasorSection> ().isDestroyed == false ||
+				if (targetedUnit.GetComponent<PhaserSection> ().isDestroyed == false ||
 				    targetedUnit.GetComponent<TorpedoSection> ().isDestroyed == false ||
 				    targetedUnit.GetComponent<StorageSection> ().isDestroyed == false) {
 
@@ -4533,7 +4533,7 @@ public class CutsceneManager : MonoBehaviour {
 			//do a switch case on the section to be destroyed
 			switch (shipSectionToBeDestroyed) {
 
-			case CombatManager.ShipSectionTargeted.PhasorSection:
+			case CombatManager.ShipSectionTargeted.PhaserSection:
 
 				//check if any other sections are alive
 				if (targetedUnit.GetComponent<TorpedoSection> ().isDestroyed == false ||
@@ -4554,7 +4554,7 @@ public class CutsceneManager : MonoBehaviour {
 			case CombatManager.ShipSectionTargeted.TorpedoSection:
 
 				//check if any other sections are alive
-				if (targetedUnit.GetComponent<PhasorSection> ().isDestroyed == false ||
+				if (targetedUnit.GetComponent<PhaserSection> ().isDestroyed == false ||
 				    targetedUnit.GetComponent<EngineSection> ().isDestroyed == false) {
 
 					//if at least one of those sections is alive, the unit will not be completely destroyed
@@ -4572,7 +4572,7 @@ public class CutsceneManager : MonoBehaviour {
 			case CombatManager.ShipSectionTargeted.EngineSection:
 
 				//check if any other sections are alive
-				if (targetedUnit.GetComponent<PhasorSection> ().isDestroyed == false ||
+				if (targetedUnit.GetComponent<PhaserSection> ().isDestroyed == false ||
 				    targetedUnit.GetComponent<TorpedoSection> ().isDestroyed == false) {
 
 					//if at least one of those sections is alive, the unit will not be completely destroyed
@@ -4602,7 +4602,7 @@ public class CutsceneManager : MonoBehaviour {
 			//do a switch case on the section to be destroyed
 			switch (shipSectionToBeDestroyed) {
 
-			case CombatManager.ShipSectionTargeted.PhasorSection:
+			case CombatManager.ShipSectionTargeted.PhaserSection:
 
 				//check if any other sections are alive
 				if (targetedUnit.GetComponent<StorageSection> ().isDestroyed == false ||
@@ -4623,7 +4623,7 @@ public class CutsceneManager : MonoBehaviour {
 			case CombatManager.ShipSectionTargeted.StorageSection:
 
 				//check if any other sections are alive
-				if (targetedUnit.GetComponent<PhasorSection> ().isDestroyed == false ||
+				if (targetedUnit.GetComponent<PhaserSection> ().isDestroyed == false ||
 				    targetedUnit.GetComponent<EngineSection> ().isDestroyed == false) {
 
 					//if at least one of those sections is alive, the unit will not be completely destroyed
@@ -4641,7 +4641,7 @@ public class CutsceneManager : MonoBehaviour {
 			case CombatManager.ShipSectionTargeted.EngineSection:
 
 				//check if any other sections are alive
-				if (targetedUnit.GetComponent<PhasorSection> ().isDestroyed == false ||
+				if (targetedUnit.GetComponent<PhaserSection> ().isDestroyed == false ||
 				    targetedUnit.GetComponent<StorageSection> ().isDestroyed == false) {
 
 					//if at least one of those sections is alive, the unit will not be completely destroyed
@@ -4696,10 +4696,10 @@ public class CutsceneManager : MonoBehaviour {
 		//do a switch case on the section to be destroyed
 		switch (baseSectionToBeDestroyed) {
 
-		case CombatManager.BaseSectionTargeted.PhasorSection1:
+		case CombatManager.BaseSectionTargeted.PhaserSection1:
 
 			//check if any other sections are alive
-			if (targetedUnit.GetComponent<StarbasePhasorSection2> ().isDestroyed == false ||
+			if (targetedUnit.GetComponent<StarbasePhaserSection2> ().isDestroyed == false ||
 				targetedUnit.GetComponent<StarbaseTorpedoSection> ().isDestroyed == false ||
 				targetedUnit.GetComponent<StarbaseCrewSection> ().isDestroyed == false ||
 				targetedUnit.GetComponent<StarbaseStorageSection1> ().isDestroyed == false ||
@@ -4717,10 +4717,10 @@ public class CutsceneManager : MonoBehaviour {
 
 			break;
 
-		case CombatManager.BaseSectionTargeted.PhasorSection2:
+		case CombatManager.BaseSectionTargeted.PhaserSection2:
 
 			//check if any other sections are alive
-			if (targetedUnit.GetComponent<StarbasePhasorSection1> ().isDestroyed == false ||
+			if (targetedUnit.GetComponent<StarbasePhaserSection1> ().isDestroyed == false ||
 				targetedUnit.GetComponent<StarbaseTorpedoSection> ().isDestroyed == false ||
 				targetedUnit.GetComponent<StarbaseCrewSection> ().isDestroyed == false ||
 				targetedUnit.GetComponent<StarbaseStorageSection1> ().isDestroyed == false ||
@@ -4741,8 +4741,8 @@ public class CutsceneManager : MonoBehaviour {
 		case CombatManager.BaseSectionTargeted.TorpedoSection:
 
 			//check if any other sections are alive
-			if (targetedUnit.GetComponent<StarbasePhasorSection1> ().isDestroyed == false ||
-				targetedUnit.GetComponent<StarbasePhasorSection2> ().isDestroyed == false ||
+			if (targetedUnit.GetComponent<StarbasePhaserSection1> ().isDestroyed == false ||
+				targetedUnit.GetComponent<StarbasePhaserSection2> ().isDestroyed == false ||
 				targetedUnit.GetComponent<StarbaseCrewSection> ().isDestroyed == false ||
 				targetedUnit.GetComponent<StarbaseStorageSection1> ().isDestroyed == false ||
 				targetedUnit.GetComponent<StarbaseStorageSection2> ().isDestroyed == false) {
@@ -4762,8 +4762,8 @@ public class CutsceneManager : MonoBehaviour {
 		case CombatManager.BaseSectionTargeted.CrewSection:
 
 			//check if any other sections are alive
-			if (targetedUnit.GetComponent<StarbasePhasorSection1> ().isDestroyed == false ||
-				targetedUnit.GetComponent<StarbasePhasorSection2> ().isDestroyed == false ||
+			if (targetedUnit.GetComponent<StarbasePhaserSection1> ().isDestroyed == false ||
+				targetedUnit.GetComponent<StarbasePhaserSection2> ().isDestroyed == false ||
 				targetedUnit.GetComponent<StarbaseTorpedoSection> ().isDestroyed == false ||
 				targetedUnit.GetComponent<StarbaseStorageSection1> ().isDestroyed == false ||
 				targetedUnit.GetComponent<StarbaseStorageSection2> ().isDestroyed == false) {
@@ -4783,8 +4783,8 @@ public class CutsceneManager : MonoBehaviour {
 		case CombatManager.BaseSectionTargeted.StorageSection1:
 
 			//check if any other sections are alive
-			if (targetedUnit.GetComponent<StarbasePhasorSection1> ().isDestroyed == false ||
-				targetedUnit.GetComponent<StarbasePhasorSection2> ().isDestroyed == false ||
+			if (targetedUnit.GetComponent<StarbasePhaserSection1> ().isDestroyed == false ||
+				targetedUnit.GetComponent<StarbasePhaserSection2> ().isDestroyed == false ||
 				targetedUnit.GetComponent<StarbaseTorpedoSection> ().isDestroyed == false ||
 				targetedUnit.GetComponent<StarbaseCrewSection> ().isDestroyed == false ||
 				targetedUnit.GetComponent<StarbaseStorageSection2> ().isDestroyed == false) {
@@ -4804,8 +4804,8 @@ public class CutsceneManager : MonoBehaviour {
 		case CombatManager.BaseSectionTargeted.StorageSection2:
 
 			//check if any other sections are alive
-			if (targetedUnit.GetComponent<StarbasePhasorSection1> ().isDestroyed == false ||
-				targetedUnit.GetComponent<StarbasePhasorSection2> ().isDestroyed == false ||
+			if (targetedUnit.GetComponent<StarbasePhaserSection1> ().isDestroyed == false ||
+				targetedUnit.GetComponent<StarbasePhaserSection2> ().isDestroyed == false ||
 				targetedUnit.GetComponent<StarbaseTorpedoSection> ().isDestroyed == false ||
 				targetedUnit.GetComponent<StarbaseCrewSection> ().isDestroyed == false ||
 				targetedUnit.GetComponent<StarbaseStorageSection1> ().isDestroyed == false) {
@@ -4834,51 +4834,51 @@ public class CutsceneManager : MonoBehaviour {
 
 	}
 
-	//this function populates the phasor origin points for an attack, based on the attacking unit
-	private void SetPhasorLineStartingPoints(CombatUnit attackingUnit){
+	//this function populates the phaser origin points for an attack, based on the attacking unit
+	private void SetPhaserLineStartingPoints(CombatUnit attackingUnit){
 
-		//where the phasor shot originates from depends on the kind of unit
+		//where the phaser shot originates from depends on the kind of unit
 		switch (attackingUnit.unitType) {
 
 		case CombatUnit.UnitType.Starbase:
 
-			//for a starbase, we have 2 phasor sections, so we need to determine which one will fire.  We will fire from the first one
+			//for a starbase, we have 2 phaser sections, so we need to determine which one will fire.  We will fire from the first one
 			//(on top), unless it is destroyed
-			if (attackingUnit.GetComponent<StarbasePhasorSection1> ().isDestroyed == false) {
+			if (attackingUnit.GetComponent<StarbasePhaserSection1> ().isDestroyed == false) {
 
-				//we need to snap the starting X-Y coordinates of the phasor shots to the right pixel in the sprite
+				//we need to snap the starting X-Y coordinates of the phaser shots to the right pixel in the sprite
 				//this is also relative to the attacking unit parent object transform position
 				//all lines will have the same starting point
-				for (int i = 0; i < phasorLineRenderer.Length; i++) {
+				for (int i = 0; i < phaserLineRenderer.Length; i++) {
 
 					//the start point adjusts for the attackingUnitParent, then the section sprite, then finally an offset
-					phasorLineRenderer [i].Points [0] = new Vector2 (
-						attackingUnitParent.transform.localPosition.x + attackingUnitSections [0].transform.localPosition.x + starbasePhasorSection1AttackOffset.x,
-						attackingUnitParent.transform.localPosition.y + attackingUnitSections [0].transform.localPosition.y + starbasePhasorSection1AttackOffset.y);
+					phaserLineRenderer [i].Points [0] = new Vector2 (
+						attackingUnitParent.transform.localPosition.x + attackingUnitSections [0].transform.localPosition.x + starbasePhaserSection1AttackOffset.x,
+						attackingUnitParent.transform.localPosition.y + attackingUnitSections [0].transform.localPosition.y + starbasePhaserSection1AttackOffset.y);
 
 					//cache the start point
-					phasorLineStartPoints[i] = phasorLineRenderer [i].Points [0];
+					phaserLineStartPoints[i] = phaserLineRenderer [i].Points [0];
 
 					//inactivate the renderer
-					phasorLineRenderer [i].gameObject.SetActive(false);
+					phaserLineRenderer [i].gameObject.SetActive(false);
 
 				}
 
 			} else {
 
-				//the else condition is that the Phasor1 section is destroyed.  In this case, we assume that we are shooting from phasor 2
-				for (int i = 0; i < phasorLineRenderer.Length; i++) {
+				//the else condition is that the Phaser1 section is destroyed.  In this case, we assume that we are shooting from phaser 2
+				for (int i = 0; i < phaserLineRenderer.Length; i++) {
 
 					//the start point adjusts for the attackingUnitParent, then the section sprite, then finally an offset
-					phasorLineRenderer [i].Points [0] = new Vector2 (
-						attackingUnitParent.transform.localPosition.x + attackingUnitSections [1].transform.localPosition.x + starbasePhasorSection2AttackOffset.x,
-						attackingUnitParent.transform.localPosition.y + attackingUnitSections [1].transform.localPosition.y + starbasePhasorSection2AttackOffset.y);
+					phaserLineRenderer [i].Points [0] = new Vector2 (
+						attackingUnitParent.transform.localPosition.x + attackingUnitSections [1].transform.localPosition.x + starbasePhaserSection2AttackOffset.x,
+						attackingUnitParent.transform.localPosition.y + attackingUnitSections [1].transform.localPosition.y + starbasePhaserSection2AttackOffset.y);
 
 					//cache the start point
-					phasorLineStartPoints[i] = phasorLineRenderer [i].Points [0];
+					phaserLineStartPoints[i] = phaserLineRenderer [i].Points [0];
 
 					//inactivate the renderer
-					phasorLineRenderer [i].gameObject.SetActive(false);
+					phaserLineRenderer [i].gameObject.SetActive(false);
 
 				}
 
@@ -4888,21 +4888,21 @@ public class CutsceneManager : MonoBehaviour {
 
 		case CombatUnit.UnitType.Starship:
 
-			//we need to snap the starting X-Y coordinates of the phasor shots to the right pixel in the sprite
+			//we need to snap the starting X-Y coordinates of the phaser shots to the right pixel in the sprite
 			//this is also relative to the attacking unit parent object transform position
 			//all lines will have the same starting point
-			for (int i = 0; i < phasorLineRenderer.Length; i++) {
+			for (int i = 0; i < phaserLineRenderer.Length; i++) {
 
 				//the start point adjusts for the attackingUnitParent, then the section sprite, then finally an offset
-				phasorLineRenderer [i].Points [0] = new Vector2 (
-					attackingUnitParent.transform.localPosition.x + attackingUnitSections [0].transform.localPosition.x + shipPhasorSectionAttackOffset.x,
-					attackingUnitParent.transform.localPosition.y + attackingUnitSections [0].transform.localPosition.y + shipPhasorSectionAttackOffset.y);
+				phaserLineRenderer [i].Points [0] = new Vector2 (
+					attackingUnitParent.transform.localPosition.x + attackingUnitSections [0].transform.localPosition.x + shipPhaserSectionAttackOffset.x,
+					attackingUnitParent.transform.localPosition.y + attackingUnitSections [0].transform.localPosition.y + shipPhaserSectionAttackOffset.y);
 
 				//cache the start point
-				phasorLineStartPoints[i] = phasorLineRenderer [i].Points [0];
+				phaserLineStartPoints[i] = phaserLineRenderer [i].Points [0];
 
 				//inactivate the renderer
-				phasorLineRenderer [i].gameObject.SetActive(false);
+				phaserLineRenderer [i].gameObject.SetActive(false);
 
 			}
 
@@ -4910,21 +4910,21 @@ public class CutsceneManager : MonoBehaviour {
 
 		case CombatUnit.UnitType.Destroyer:
 
-			//we need to snap the starting X-Y coordinates of the phasor shots to the right pixel in the sprite
+			//we need to snap the starting X-Y coordinates of the phaser shots to the right pixel in the sprite
 			//this is also relative to the attacking unit parent object transform position
 			//all lines will have the same starting point
-			for (int i = 0; i < phasorLineRenderer.Length; i++) {
+			for (int i = 0; i < phaserLineRenderer.Length; i++) {
 
 				//the start point adjusts for the attackingUnitParent, then the section sprite, then finally an offset
-				phasorLineRenderer [i].Points [0] = new Vector2 (
-					attackingUnitParent.transform.localPosition.x + attackingUnitSections [0].transform.localPosition.x + shipPhasorSectionAttackOffset.x,
-					attackingUnitParent.transform.localPosition.y + attackingUnitSections [0].transform.localPosition.y + shipPhasorSectionAttackOffset.y);
+				phaserLineRenderer [i].Points [0] = new Vector2 (
+					attackingUnitParent.transform.localPosition.x + attackingUnitSections [0].transform.localPosition.x + shipPhaserSectionAttackOffset.x,
+					attackingUnitParent.transform.localPosition.y + attackingUnitSections [0].transform.localPosition.y + shipPhaserSectionAttackOffset.y);
 
 				//cache the start point
-				phasorLineStartPoints[i] = phasorLineRenderer [i].Points [0];
+				phaserLineStartPoints[i] = phaserLineRenderer [i].Points [0];
 
 				//inactivate the renderer
-				phasorLineRenderer [i].gameObject.SetActive(false);
+				phaserLineRenderer [i].gameObject.SetActive(false);
 
 			}
 
@@ -4932,21 +4932,21 @@ public class CutsceneManager : MonoBehaviour {
 
 		case CombatUnit.UnitType.BirdOfPrey:
 
-			//we need to snap the starting X-Y coordinates of the phasor shots to the right pixel in the sprite
+			//we need to snap the starting X-Y coordinates of the phaser shots to the right pixel in the sprite
 			//this is also relative to the attacking unit parent object transform position
 			//all lines will have the same starting point
-			for (int i = 0; i < phasorLineRenderer.Length; i++) {
+			for (int i = 0; i < phaserLineRenderer.Length; i++) {
 
 				//the start point adjusts for the attackingUnitParent, then the section sprite, then finally an offset
-				phasorLineRenderer [i].Points [0] = new Vector2 (
-					attackingUnitParent.transform.localPosition.x + attackingUnitSections [0].transform.localPosition.x + shipPhasorSectionAttackOffset.x,
-					attackingUnitParent.transform.localPosition.y + attackingUnitSections [0].transform.localPosition.y + shipPhasorSectionAttackOffset.y);
+				phaserLineRenderer [i].Points [0] = new Vector2 (
+					attackingUnitParent.transform.localPosition.x + attackingUnitSections [0].transform.localPosition.x + shipPhaserSectionAttackOffset.x,
+					attackingUnitParent.transform.localPosition.y + attackingUnitSections [0].transform.localPosition.y + shipPhaserSectionAttackOffset.y);
 
 				//cache the start point
-				phasorLineStartPoints[i] = phasorLineRenderer [i].Points [0];
+				phaserLineStartPoints[i] = phaserLineRenderer [i].Points [0];
 
 				//inactivate the renderer
-				phasorLineRenderer [i].gameObject.SetActive(false);
+				phaserLineRenderer [i].gameObject.SetActive(false);
 
 			}
 
@@ -4954,21 +4954,21 @@ public class CutsceneManager : MonoBehaviour {
 
 		case CombatUnit.UnitType.Scout:
 
-			//we need to snap the starting X-Y coordinates of the phasor shots to the right pixel in the sprite
+			//we need to snap the starting X-Y coordinates of the phaser shots to the right pixel in the sprite
 			//this is also relative to the attacking unit parent object transform position
 			//all lines will have the same starting point
-			for (int i = 0; i < phasorLineRenderer.Length; i++) {
+			for (int i = 0; i < phaserLineRenderer.Length; i++) {
 
 				//the start point adjusts for the attackingUnitParent, then the section sprite, then finally an offset
-				phasorLineRenderer [i].Points [0] = new Vector2 (
-					attackingUnitParent.transform.localPosition.x + attackingUnitSections [0].transform.localPosition.x + shipPhasorSectionAttackOffset.x,
-					attackingUnitParent.transform.localPosition.y + attackingUnitSections [0].transform.localPosition.y + shipPhasorSectionAttackOffset.y);
+				phaserLineRenderer [i].Points [0] = new Vector2 (
+					attackingUnitParent.transform.localPosition.x + attackingUnitSections [0].transform.localPosition.x + shipPhaserSectionAttackOffset.x,
+					attackingUnitParent.transform.localPosition.y + attackingUnitSections [0].transform.localPosition.y + shipPhaserSectionAttackOffset.y);
 
 				//cache the start point
-				phasorLineStartPoints[i] = phasorLineRenderer [i].Points [0];
+				phaserLineStartPoints[i] = phaserLineRenderer [i].Points [0];
 
 				//inactivate the renderer
-				phasorLineRenderer [i].gameObject.SetActive(false);
+				phaserLineRenderer [i].gameObject.SetActive(false);
 
 			}
 
@@ -4983,8 +4983,8 @@ public class CutsceneManager : MonoBehaviour {
 
 	}
 
-	//this function sets the phasor line ending points for a section targeted
-	private void SetPhasorLineEndingPoints(CombatUnit targetedUnit, CombatManager.ShipSectionTargeted shipSectionTargeted){
+	//this function sets the phaser line ending points for a section targeted
+	private void SetPhaserLineEndingPoints(CombatUnit targetedUnit, CombatManager.ShipSectionTargeted shipSectionTargeted){
 
 		//do a switch case on the targeted unit type
 		switch (targetedUnit.unitType) {
@@ -4997,31 +4997,31 @@ public class CutsceneManager : MonoBehaviour {
 			//do a switch case on the section targeted
 			switch (baseSectionTargeted) {
 
-			case CombatManager.BaseSectionTargeted.PhasorSection1:
+			case CombatManager.BaseSectionTargeted.PhaserSection1:
 
-				//loop through each of our phasor lines
-				for (int i = 0; i < phasorLineRenderer.Length; i++) {
+				//loop through each of our phaser lines
+				for (int i = 0; i < phaserLineRenderer.Length; i++) {
 
-					phasorLineEndPoints [i] = new Vector2 (
+					phaserLineEndPoints [i] = new Vector2 (
 						targetedUnitParent.transform.localPosition.x + targetedUnitParent.transform.localScale.x * targetedUnitSections [(int)baseSectionTargeted].transform.localPosition.x
-						+ basePhasorSection1TargetedOffset.x + basePhasorSection1TargetedOffsetSpacing.x * i,
+						+ basePhaserSection1TargetedOffset.x + basePhaserSection1TargetedOffsetSpacing.x * i,
 						targetedUnitParent.transform.localPosition.y + targetedUnitParent.transform.localScale.y * targetedUnitSections [(int)baseSectionTargeted].transform.localPosition.y
-						+ basePhasorSection1TargetedOffset.y + basePhasorSection1TargetedOffsetSpacing.y * i); 
+						+ basePhaserSection1TargetedOffset.y + basePhaserSection1TargetedOffsetSpacing.y * i); 
 					
 				}
 
 				break;
 
-			case CombatManager.BaseSectionTargeted.PhasorSection2:
+			case CombatManager.BaseSectionTargeted.PhaserSection2:
 
-				//loop through each of our phasor lines
-				for (int i = 0; i < phasorLineRenderer.Length; i++) {
+				//loop through each of our phaser lines
+				for (int i = 0; i < phaserLineRenderer.Length; i++) {
 
-					phasorLineEndPoints [i] = new Vector2 (
+					phaserLineEndPoints [i] = new Vector2 (
 						targetedUnitParent.transform.localPosition.x + targetedUnitParent.transform.localScale.x * targetedUnitSections [(int)baseSectionTargeted].transform.localPosition.x
-						+ basePhasorSection2TargetedOffset.x + basePhasorSection2TargetedOffsetSpacing.x * i,
+						+ basePhaserSection2TargetedOffset.x + basePhaserSection2TargetedOffsetSpacing.x * i,
 						targetedUnitParent.transform.localPosition.y + targetedUnitParent.transform.localScale.y * targetedUnitSections [(int)baseSectionTargeted].transform.localPosition.y
-						+ basePhasorSection2TargetedOffset.y + basePhasorSection2TargetedOffsetSpacing.y * i); 
+						+ basePhaserSection2TargetedOffset.y + basePhaserSection2TargetedOffsetSpacing.y * i); 
 
 				}
 
@@ -5029,10 +5029,10 @@ public class CutsceneManager : MonoBehaviour {
 
 			case CombatManager.BaseSectionTargeted.TorpedoSection:
 
-				//loop through each of our phasor lines
-				for (int i = 0; i < phasorLineRenderer.Length; i++) {
+				//loop through each of our phaser lines
+				for (int i = 0; i < phaserLineRenderer.Length; i++) {
 
-					phasorLineEndPoints [i] = new Vector2 (
+					phaserLineEndPoints [i] = new Vector2 (
 						targetedUnitParent.transform.localPosition.x + targetedUnitParent.transform.localScale.x * targetedUnitSections [(int)baseSectionTargeted].transform.localPosition.x
 						+ baseTorpedoSectionTargetedOffset.x + baseTorpedoSectionTargetedOffsetSpacing.x * i,
 						targetedUnitParent.transform.localPosition.y + targetedUnitParent.transform.localScale.y * targetedUnitSections [(int)baseSectionTargeted].transform.localPosition.y
@@ -5044,10 +5044,10 @@ public class CutsceneManager : MonoBehaviour {
 
 			case CombatManager.BaseSectionTargeted.CrewSection:
 
-				//loop through each of our phasor lines
-				for (int i = 0; i < phasorLineRenderer.Length; i++) {
+				//loop through each of our phaser lines
+				for (int i = 0; i < phaserLineRenderer.Length; i++) {
 
-					phasorLineEndPoints [i] = new Vector2 (
+					phaserLineEndPoints [i] = new Vector2 (
 						targetedUnitParent.transform.localPosition.x + targetedUnitParent.transform.localScale.x * targetedUnitSections [(int)baseSectionTargeted].transform.localPosition.x
 						+ baseCrewSectionTargetedOffset.x + baseCrewSectionTargetedOffsetSpacing.x * i,
 						targetedUnitParent.transform.localPosition.y + targetedUnitParent.transform.localScale.y * targetedUnitSections [(int)baseSectionTargeted].transform.localPosition.y
@@ -5059,10 +5059,10 @@ public class CutsceneManager : MonoBehaviour {
 
 			case CombatManager.BaseSectionTargeted.StorageSection1:
 
-				//loop through each of our phasor lines
-				for (int i = 0; i < phasorLineRenderer.Length; i++) {
+				//loop through each of our phaser lines
+				for (int i = 0; i < phaserLineRenderer.Length; i++) {
 
-					phasorLineEndPoints [i] = new Vector2 (
+					phaserLineEndPoints [i] = new Vector2 (
 						targetedUnitParent.transform.localPosition.x + targetedUnitParent.transform.localScale.x * targetedUnitSections [(int)baseSectionTargeted].transform.localPosition.x
 						+ baseStorageSection1TargetedOffset.x + baseStorageSection1TargetedOffsetSpacing.x * i,
 						targetedUnitParent.transform.localPosition.y + targetedUnitParent.transform.localScale.y * targetedUnitSections [(int)baseSectionTargeted].transform.localPosition.y
@@ -5074,10 +5074,10 @@ public class CutsceneManager : MonoBehaviour {
 
 			case CombatManager.BaseSectionTargeted.StorageSection2:
 
-				//loop through each of our phasor lines
-				for (int i = 0; i < phasorLineRenderer.Length; i++) {
+				//loop through each of our phaser lines
+				for (int i = 0; i < phaserLineRenderer.Length; i++) {
 
-					phasorLineEndPoints [i] = new Vector2 (
+					phaserLineEndPoints [i] = new Vector2 (
 						targetedUnitParent.transform.localPosition.x + targetedUnitParent.transform.localScale.x * targetedUnitSections [(int)baseSectionTargeted].transform.localPosition.x
 						+ baseStorageSection2TargetedOffset.x + baseStorageSection2TargetedOffsetSpacing.x * i,
 						targetedUnitParent.transform.localPosition.y + targetedUnitParent.transform.localScale.y * targetedUnitSections [(int)baseSectionTargeted].transform.localPosition.y
@@ -5100,16 +5100,16 @@ public class CutsceneManager : MonoBehaviour {
 			//do a switch case on the section targeted
 			switch (shipSectionTargeted) {
 
-			case CombatManager.ShipSectionTargeted.PhasorSection:
+			case CombatManager.ShipSectionTargeted.PhaserSection:
 
-				//loop through each of our phasor lines
-				for (int i = 0; i < phasorLineRenderer.Length; i++) {
+				//loop through each of our phaser lines
+				for (int i = 0; i < phaserLineRenderer.Length; i++) {
 
-					phasorLineEndPoints [i] = new Vector2 (
+					phaserLineEndPoints [i] = new Vector2 (
 						targetedUnitParent.transform.localPosition.x + targetedUnitParent.transform.localScale.x * targetedUnitSections [(int)shipSectionTargeted].transform.localPosition.x
-						+ shipPhasorSectionTargetedOffset.x + shipPhasorSectionTargetedOffsetSpacing.x * i,
+						+ shipPhaserSectionTargetedOffset.x + shipPhaserSectionTargetedOffsetSpacing.x * i,
 						targetedUnitParent.transform.localPosition.y + targetedUnitParent.transform.localScale.y * targetedUnitSections [(int)shipSectionTargeted].transform.localPosition.y
-						+ shipPhasorSectionTargetedOffset.y + shipPhasorSectionTargetedOffsetSpacing.y * i); 
+						+ shipPhaserSectionTargetedOffset.y + shipPhaserSectionTargetedOffsetSpacing.y * i); 
 
 				}
 
@@ -5117,10 +5117,10 @@ public class CutsceneManager : MonoBehaviour {
 
 			case CombatManager.ShipSectionTargeted.TorpedoSection:
 
-				//loop through each of our phasor lines
-				for (int i = 0; i < phasorLineRenderer.Length; i++) {
+				//loop through each of our phaser lines
+				for (int i = 0; i < phaserLineRenderer.Length; i++) {
 
-					phasorLineEndPoints [i] = new Vector2 (
+					phaserLineEndPoints [i] = new Vector2 (
 						targetedUnitParent.transform.localPosition.x + targetedUnitParent.transform.localScale.x * targetedUnitSections [(int)shipSectionTargeted].transform.localPosition.x
 						+ shipTorpedoSectionTargetedOffset.x + shipTorpedoSectionTargetedOffsetSpacing.x * i,
 						targetedUnitParent.transform.localPosition.y + targetedUnitParent.transform.localScale.y * targetedUnitSections [(int)shipSectionTargeted].transform.localPosition.y
@@ -5132,10 +5132,10 @@ public class CutsceneManager : MonoBehaviour {
 
 			case CombatManager.ShipSectionTargeted.StorageSection:
 
-				//loop through each of our phasor lines
-				for (int i = 0; i < phasorLineRenderer.Length; i++) {
+				//loop through each of our phaser lines
+				for (int i = 0; i < phaserLineRenderer.Length; i++) {
 
-					phasorLineEndPoints [i] = new Vector2 (
+					phaserLineEndPoints [i] = new Vector2 (
 						targetedUnitParent.transform.localPosition.x + targetedUnitParent.transform.localScale.x * targetedUnitSections [(int)shipSectionTargeted].transform.localPosition.x
 						+ shipStorageSectionTargetedOffset.x + shipStorageSectionTargetedOffsetSpacing.x * i,
 						targetedUnitParent.transform.localPosition.y + targetedUnitParent.transform.localScale.y * targetedUnitSections [(int)shipSectionTargeted].transform.localPosition.y
@@ -5147,10 +5147,10 @@ public class CutsceneManager : MonoBehaviour {
 
 			case CombatManager.ShipSectionTargeted.CrewSection:
 
-				//loop through each of our phasor lines
-				for (int i = 0; i < phasorLineRenderer.Length; i++) {
+				//loop through each of our phaser lines
+				for (int i = 0; i < phaserLineRenderer.Length; i++) {
 
-					phasorLineEndPoints [i] = new Vector2 (
+					phaserLineEndPoints [i] = new Vector2 (
 						targetedUnitParent.transform.localPosition.x + targetedUnitParent.transform.localScale.x * targetedUnitSections [(int)shipSectionTargeted].transform.localPosition.x
 						+ shipCrewSectionTargetedOffset.x + shipCrewSectionTargetedOffsetSpacing.x * i,
 						targetedUnitParent.transform.localPosition.y + targetedUnitParent.transform.localScale.y * targetedUnitSections [(int)shipSectionTargeted].transform.localPosition.y
@@ -5162,10 +5162,10 @@ public class CutsceneManager : MonoBehaviour {
 
 			case CombatManager.ShipSectionTargeted.EngineSection:
 
-				//loop through each of our phasor lines
-				for (int i = 0; i < phasorLineRenderer.Length; i++) {
+				//loop through each of our phaser lines
+				for (int i = 0; i < phaserLineRenderer.Length; i++) {
 
-					phasorLineEndPoints [i] = new Vector2 (
+					phaserLineEndPoints [i] = new Vector2 (
 						targetedUnitParent.transform.localPosition.x + targetedUnitParent.transform.localScale.x * targetedUnitSections [(int)shipSectionTargeted].transform.localPosition.x
 						+ shipEngineSectionTargetedOffset.x + shipEngineSectionTargetedOffsetSpacing.x * i,
 						targetedUnitParent.transform.localPosition.y + targetedUnitParent.transform.localScale.y * targetedUnitSections [(int)shipSectionTargeted].transform.localPosition.y
@@ -5188,16 +5188,16 @@ public class CutsceneManager : MonoBehaviour {
 				//do a switch case on the section targeted
 			switch (shipSectionTargeted) {
 
-			case CombatManager.ShipSectionTargeted.PhasorSection:
+			case CombatManager.ShipSectionTargeted.PhaserSection:
 
-					//loop through each of our phasor lines
-				for (int i = 0; i < phasorLineRenderer.Length; i++) {
+					//loop through each of our phaser lines
+				for (int i = 0; i < phaserLineRenderer.Length; i++) {
 
-					phasorLineEndPoints [i] = new Vector2 (
+					phaserLineEndPoints [i] = new Vector2 (
 						targetedUnitParent.transform.localPosition.x + targetedUnitParent.transform.localScale.x * targetedUnitSections [(int)shipSectionTargeted].transform.localPosition.x
-						+ shipPhasorSectionTargetedOffset.x + shipPhasorSectionTargetedOffsetSpacing.x * i,
+						+ shipPhaserSectionTargetedOffset.x + shipPhaserSectionTargetedOffsetSpacing.x * i,
 						targetedUnitParent.transform.localPosition.y + targetedUnitParent.transform.localScale.y * targetedUnitSections [(int)shipSectionTargeted].transform.localPosition.y
-						+ shipPhasorSectionTargetedOffset.y + shipPhasorSectionTargetedOffsetSpacing.y * i); 
+						+ shipPhaserSectionTargetedOffset.y + shipPhaserSectionTargetedOffsetSpacing.y * i); 
 
 				}
 
@@ -5205,10 +5205,10 @@ public class CutsceneManager : MonoBehaviour {
 
 			case CombatManager.ShipSectionTargeted.TorpedoSection:
 
-					//loop through each of our phasor lines
-				for (int i = 0; i < phasorLineRenderer.Length; i++) {
+					//loop through each of our phaser lines
+				for (int i = 0; i < phaserLineRenderer.Length; i++) {
 
-					phasorLineEndPoints [i] = new Vector2 (
+					phaserLineEndPoints [i] = new Vector2 (
 						targetedUnitParent.transform.localPosition.x + targetedUnitParent.transform.localScale.x * targetedUnitSections [(int)shipSectionTargeted].transform.localPosition.x
 						+ shipTorpedoSectionTargetedOffset.x + shipTorpedoSectionTargetedOffsetSpacing.x * i,
 						targetedUnitParent.transform.localPosition.y + targetedUnitParent.transform.localScale.y * targetedUnitSections [(int)shipSectionTargeted].transform.localPosition.y
@@ -5220,10 +5220,10 @@ public class CutsceneManager : MonoBehaviour {
 
 			case CombatManager.ShipSectionTargeted.StorageSection:
 
-					//loop through each of our phasor lines
-				for (int i = 0; i < phasorLineRenderer.Length; i++) {
+					//loop through each of our phaser lines
+				for (int i = 0; i < phaserLineRenderer.Length; i++) {
 
-					phasorLineEndPoints [i] = new Vector2 (
+					phaserLineEndPoints [i] = new Vector2 (
 						targetedUnitParent.transform.localPosition.x + targetedUnitParent.transform.localScale.x * targetedUnitSections [(int)shipSectionTargeted].transform.localPosition.x
 						+ shipStorageSectionTargetedOffset.x + shipStorageSectionTargetedOffsetSpacing.x * i,
 						targetedUnitParent.transform.localPosition.y + targetedUnitParent.transform.localScale.y * targetedUnitSections [(int)shipSectionTargeted].transform.localPosition.y
@@ -5235,10 +5235,10 @@ public class CutsceneManager : MonoBehaviour {
 
 			case CombatManager.ShipSectionTargeted.EngineSection:
 
-					//loop through each of our phasor lines
-				for (int i = 0; i < phasorLineRenderer.Length; i++) {
+					//loop through each of our phaser lines
+				for (int i = 0; i < phaserLineRenderer.Length; i++) {
 
-					phasorLineEndPoints [i] = new Vector2 (
+					phaserLineEndPoints [i] = new Vector2 (
 						targetedUnitParent.transform.localPosition.x + targetedUnitParent.transform.localScale.x * targetedUnitSections [(int)shipSectionTargeted].transform.localPosition.x
 						+ shipEngineSectionTargetedOffset.x + shipEngineSectionTargetedOffsetSpacing.x * i,
 						targetedUnitParent.transform.localPosition.y + targetedUnitParent.transform.localScale.y * targetedUnitSections [(int)shipSectionTargeted].transform.localPosition.y
@@ -5261,16 +5261,16 @@ public class CutsceneManager : MonoBehaviour {
 			//do a switch case on the section targeted
 			switch (shipSectionTargeted) {
 
-			case CombatManager.ShipSectionTargeted.PhasorSection:
+			case CombatManager.ShipSectionTargeted.PhaserSection:
 
-				//loop through each of our phasor lines
-				for (int i = 0; i < phasorLineRenderer.Length; i++) {
+				//loop through each of our phaser lines
+				for (int i = 0; i < phaserLineRenderer.Length; i++) {
 
-					phasorLineEndPoints [i] = new Vector2 (
+					phaserLineEndPoints [i] = new Vector2 (
 						targetedUnitParent.transform.localPosition.x + targetedUnitParent.transform.localScale.x * targetedUnitSections [(int)shipSectionTargeted].transform.localPosition.x
-						+ shipPhasorSectionTargetedOffset.x + shipPhasorSectionTargetedOffsetSpacing.x * i,
+						+ shipPhaserSectionTargetedOffset.x + shipPhaserSectionTargetedOffsetSpacing.x * i,
 						targetedUnitParent.transform.localPosition.y + targetedUnitParent.transform.localScale.y * targetedUnitSections [(int)shipSectionTargeted].transform.localPosition.y
-						+ shipPhasorSectionTargetedOffset.y + shipPhasorSectionTargetedOffsetSpacing.y * i); 
+						+ shipPhaserSectionTargetedOffset.y + shipPhaserSectionTargetedOffsetSpacing.y * i); 
 
 				}
 
@@ -5278,10 +5278,10 @@ public class CutsceneManager : MonoBehaviour {
 
 			case CombatManager.ShipSectionTargeted.TorpedoSection:
 
-				//loop through each of our phasor lines
-				for (int i = 0; i < phasorLineRenderer.Length; i++) {
+				//loop through each of our phaser lines
+				for (int i = 0; i < phaserLineRenderer.Length; i++) {
 
-					phasorLineEndPoints [i] = new Vector2 (
+					phaserLineEndPoints [i] = new Vector2 (
 						targetedUnitParent.transform.localPosition.x + targetedUnitParent.transform.localScale.x * targetedUnitSections [(int)shipSectionTargeted].transform.localPosition.x
 						+ shipTorpedoSectionTargetedOffset.x + shipTorpedoSectionTargetedOffsetSpacing.x * i,
 						targetedUnitParent.transform.localPosition.y + targetedUnitParent.transform.localScale.y * targetedUnitSections [(int)shipSectionTargeted].transform.localPosition.y
@@ -5293,10 +5293,10 @@ public class CutsceneManager : MonoBehaviour {
 
 			case CombatManager.ShipSectionTargeted.EngineSection:
 
-				//loop through each of our phasor lines
-				for (int i = 0; i < phasorLineRenderer.Length; i++) {
+				//loop through each of our phaser lines
+				for (int i = 0; i < phaserLineRenderer.Length; i++) {
 
-					phasorLineEndPoints [i] = new Vector2 (
+					phaserLineEndPoints [i] = new Vector2 (
 						targetedUnitParent.transform.localPosition.x + targetedUnitParent.transform.localScale.x * targetedUnitSections [(int)shipSectionTargeted].transform.localPosition.x
 						+ shipEngineSectionTargetedOffset.x + shipEngineSectionTargetedOffsetSpacing.x * i,
 						targetedUnitParent.transform.localPosition.y + targetedUnitParent.transform.localScale.y * targetedUnitSections [(int)shipSectionTargeted].transform.localPosition.y
@@ -5319,16 +5319,16 @@ public class CutsceneManager : MonoBehaviour {
 			//do a switch case on the section targeted
 			switch (shipSectionTargeted) {
 
-			case CombatManager.ShipSectionTargeted.PhasorSection:
+			case CombatManager.ShipSectionTargeted.PhaserSection:
 
-				//loop through each of our phasor lines
-				for (int i = 0; i < phasorLineRenderer.Length; i++) {
+				//loop through each of our phaser lines
+				for (int i = 0; i < phaserLineRenderer.Length; i++) {
 
-					phasorLineEndPoints [i] = new Vector2 (
+					phaserLineEndPoints [i] = new Vector2 (
 						targetedUnitParent.transform.localPosition.x + targetedUnitParent.transform.localScale.x * targetedUnitSections [(int)shipSectionTargeted].transform.localPosition.x
-						+ shipPhasorSectionTargetedOffset.x + shipPhasorSectionTargetedOffsetSpacing.x * i,
+						+ shipPhaserSectionTargetedOffset.x + shipPhaserSectionTargetedOffsetSpacing.x * i,
 						targetedUnitParent.transform.localPosition.y + targetedUnitParent.transform.localScale.y * targetedUnitSections [(int)shipSectionTargeted].transform.localPosition.y
-						+ shipPhasorSectionTargetedOffset.y + shipPhasorSectionTargetedOffsetSpacing.y * i); 
+						+ shipPhaserSectionTargetedOffset.y + shipPhaserSectionTargetedOffsetSpacing.y * i); 
 
 				}
 
@@ -5336,10 +5336,10 @@ public class CutsceneManager : MonoBehaviour {
 
 			case CombatManager.ShipSectionTargeted.StorageSection:
 
-				//loop through each of our phasor lines
-				for (int i = 0; i < phasorLineRenderer.Length; i++) {
+				//loop through each of our phaser lines
+				for (int i = 0; i < phaserLineRenderer.Length; i++) {
 
-					phasorLineEndPoints [i] = new Vector2 (
+					phaserLineEndPoints [i] = new Vector2 (
 						targetedUnitParent.transform.localPosition.x + targetedUnitParent.transform.localScale.x * targetedUnitSections [(int)shipSectionTargeted].transform.localPosition.x
 						+ shipStorageSectionTargetedOffset.x + shipStorageSectionTargetedOffsetSpacing.x * i,
 						targetedUnitParent.transform.localPosition.y + targetedUnitParent.transform.localScale.y * targetedUnitSections [(int)shipSectionTargeted].transform.localPosition.y
@@ -5351,10 +5351,10 @@ public class CutsceneManager : MonoBehaviour {
 
 			case CombatManager.ShipSectionTargeted.EngineSection:
 
-				//loop through each of our phasor lines
-				for (int i = 0; i < phasorLineRenderer.Length; i++) {
+				//loop through each of our phaser lines
+				for (int i = 0; i < phaserLineRenderer.Length; i++) {
 
-					phasorLineEndPoints [i] = new Vector2 (
+					phaserLineEndPoints [i] = new Vector2 (
 						targetedUnitParent.transform.localPosition.x + targetedUnitParent.transform.localScale.x * targetedUnitSections [(int)shipSectionTargeted].transform.localPosition.x
 						+ shipEngineSectionTargetedOffset.x + shipEngineSectionTargetedOffsetSpacing.x * i,
 						targetedUnitParent.transform.localPosition.y + targetedUnitParent.transform.localScale.y * targetedUnitSections [(int)shipSectionTargeted].transform.localPosition.y
@@ -5391,9 +5391,9 @@ public class CutsceneManager : MonoBehaviour {
 
 		case CombatUnit.UnitType.Starship:
 
-			if (targetedUnit.GetComponent<PhasorSection> ().isDestroyed == false) {
+			if (targetedUnit.GetComponent<PhaserSection> ().isDestroyed == false) {
 
-				possibleSections.Add (CombatManager.ShipSectionTargeted.PhasorSection);
+				possibleSections.Add (CombatManager.ShipSectionTargeted.PhaserSection);
 
 			}
 
@@ -5425,9 +5425,9 @@ public class CutsceneManager : MonoBehaviour {
 
 		case CombatUnit.UnitType.Destroyer:
 
-			if (targetedUnit.GetComponent<PhasorSection> ().isDestroyed == false) {
+			if (targetedUnit.GetComponent<PhaserSection> ().isDestroyed == false) {
 
-				possibleSections.Add (CombatManager.ShipSectionTargeted.PhasorSection);
+				possibleSections.Add (CombatManager.ShipSectionTargeted.PhaserSection);
 
 			}
 
@@ -5453,9 +5453,9 @@ public class CutsceneManager : MonoBehaviour {
 
 		case CombatUnit.UnitType.BirdOfPrey:
 
-			if (targetedUnit.GetComponent<PhasorSection> ().isDestroyed == false) {
+			if (targetedUnit.GetComponent<PhaserSection> ().isDestroyed == false) {
 
-				possibleSections.Add (CombatManager.ShipSectionTargeted.PhasorSection);
+				possibleSections.Add (CombatManager.ShipSectionTargeted.PhaserSection);
 
 			}
 
@@ -5475,9 +5475,9 @@ public class CutsceneManager : MonoBehaviour {
 
 		case CombatUnit.UnitType.Scout:
 
-			if (targetedUnit.GetComponent<PhasorSection> ().isDestroyed == false) {
+			if (targetedUnit.GetComponent<PhaserSection> ().isDestroyed == false) {
 
-				possibleSections.Add (CombatManager.ShipSectionTargeted.PhasorSection);
+				possibleSections.Add (CombatManager.ShipSectionTargeted.PhaserSection);
 
 			}
 
@@ -5498,15 +5498,15 @@ public class CutsceneManager : MonoBehaviour {
 
 		case CombatUnit.UnitType.Starbase:
 
-			if (targetedUnit.GetComponent<StarbasePhasorSection1> ().isDestroyed == false) {
+			if (targetedUnit.GetComponent<StarbasePhaserSection1> ().isDestroyed == false) {
 
-				possibleSections.Add ((CombatManager.ShipSectionTargeted)CombatManager.BaseSectionTargeted.PhasorSection1);
+				possibleSections.Add ((CombatManager.ShipSectionTargeted)CombatManager.BaseSectionTargeted.PhaserSection1);
 
 			}
 
-			if (targetedUnit.GetComponent<StarbasePhasorSection2> ().isDestroyed == false) {
+			if (targetedUnit.GetComponent<StarbasePhaserSection2> ().isDestroyed == false) {
 
-				possibleSections.Add ((CombatManager.ShipSectionTargeted)CombatManager.BaseSectionTargeted.PhasorSection2);
+				possibleSections.Add ((CombatManager.ShipSectionTargeted)CombatManager.BaseSectionTargeted.PhaserSection2);
 
 			}
 
@@ -5547,8 +5547,8 @@ public class CutsceneManager : MonoBehaviour {
 
 	}
 
-	//this function will extend the phasor end points to the border of the cutscene panel, to be used for a miss
-	private void ExtendPhasorEndPointsToPanel(){
+	//this function will extend the phaser end points to the border of the cutscene panel, to be used for a miss
+	private void ExtendPhaserEndPointsToPanel(){
 
 		//floats to determine the xmax and ymin, ymax allowable for the end points
 		float xmax;
@@ -5563,7 +5563,7 @@ public class CutsceneManager : MonoBehaviour {
 		ymax = cutscenePanel.GetComponent<RectTransform> ().rect.height / 2.0f;
 
 		//loop through each end point
-		for (int i = 0; i < phasorLineEndPoints.Length; i++) {
+		for (int i = 0; i < phaserLineEndPoints.Length; i++) {
 
 			//define a temporary vector2 to hold the end point
 			Vector2 tempEndPoint;
@@ -5572,10 +5572,10 @@ public class CutsceneManager : MonoBehaviour {
 			float lineSlope;
 
 			//calculate the slope to be delta rise / delta run
-			lineSlope = (phasorLineEndPoints [i].y - phasorLineStartPoints [i].y) / (phasorLineEndPoints [i].x - phasorLineStartPoints [i].x);
+			lineSlope = (phaserLineEndPoints [i].y - phaserLineStartPoints [i].y) / (phaserLineEndPoints [i].x - phaserLineStartPoints [i].x);
 
 			//take the current end point, and scale it's x value based on the slope
-			tempEndPoint = new Vector2 (xmax, phasorLineEndPoints [i].y + (xmax - phasorLineEndPoints [i].x) * lineSlope);
+			tempEndPoint = new Vector2 (xmax, phaserLineEndPoints [i].y + (xmax - phaserLineEndPoints [i].x) * lineSlope);
 
 			//check if the tempEndPoint y value is below the min
 			if (tempEndPoint.y < ymin) {
@@ -5592,27 +5592,27 @@ public class CutsceneManager : MonoBehaviour {
 
 			}
 
-			//now, we can set the phasorLineEndPoints to the tempEndPoint
-			phasorLineEndPoints[i] = tempEndPoint;
+			//now, we can set the phaserLineEndPoints to the tempEndPoint
+			phaserLineEndPoints[i] = tempEndPoint;
 
 		}
 
 	}
 
-	//this function will add randomness to the phasor line end points
-	private void AddNoiseToPhasorLineEndPoints(){
+	//this function will add randomness to the phaser line end points
+	private void AddNoiseToPhaserLineEndPoints(){
 
 		//variable to control magnitude of randomness in pixels
 		int randomAmplitude = 5;
 
-		for (int i = 0; i < phasorLineEndPoints.Length; i++) {
+		for (int i = 0; i < phaserLineEndPoints.Length; i++) {
 
 			//define a temporary Vector2 for the randomized end point
-			Vector2 tempEndPoint = new Vector2 (phasorLineEndPoints [i].x + Random.Range (-randomAmplitude, randomAmplitude + 1), 
-				                       phasorLineEndPoints [i].y + Random.Range (-randomAmplitude, randomAmplitude + 1));
+			Vector2 tempEndPoint = new Vector2 (phaserLineEndPoints [i].x + Random.Range (-randomAmplitude, randomAmplitude + 1), 
+				                       phaserLineEndPoints [i].y + Random.Range (-randomAmplitude, randomAmplitude + 1));
 
 			//set the actual end point to the temporary end point
-			phasorLineEndPoints[i] = tempEndPoint;
+			phaserLineEndPoints[i] = tempEndPoint;
 
 		}
 
@@ -5757,23 +5757,23 @@ public class CutsceneManager : MonoBehaviour {
 			//do a switch case on the section targeted
 			switch (baseSectionTargeted) {
 
-			case CombatManager.BaseSectionTargeted.PhasorSection1:
+			case CombatManager.BaseSectionTargeted.PhaserSection1:
 
 				torpedoDestinationPosition = new Vector2 (
 					targetedUnitParent.transform.localPosition.x + targetedUnitParent.transform.localScale.x * targetedUnitSections [(int)baseSectionTargeted].transform.localPosition.x
-					+ basePhasorSection1TargetedOffset.x + basePhasorSection1TargetedOffsetSpacing.x * Random.Range(0,phasorLineRenderer.Length),
+					+ basePhaserSection1TargetedOffset.x + basePhaserSection1TargetedOffsetSpacing.x * Random.Range(0,phaserLineRenderer.Length),
 					targetedUnitParent.transform.localPosition.y + targetedUnitParent.transform.localScale.y * targetedUnitSections [(int)baseSectionTargeted].transform.localPosition.y
-					+ basePhasorSection1TargetedOffset.y + basePhasorSection1TargetedOffsetSpacing.y * Random.Range(0,phasorLineRenderer.Length)); 
+					+ basePhaserSection1TargetedOffset.y + basePhaserSection1TargetedOffsetSpacing.y * Random.Range(0,phaserLineRenderer.Length)); 
 
 				break;
 
-			case CombatManager.BaseSectionTargeted.PhasorSection2:
+			case CombatManager.BaseSectionTargeted.PhaserSection2:
 
 				torpedoDestinationPosition = new Vector2 (
 					targetedUnitParent.transform.localPosition.x + targetedUnitParent.transform.localScale.x * targetedUnitSections [(int)baseSectionTargeted].transform.localPosition.x
-					+ basePhasorSection2TargetedOffset.x + basePhasorSection2TargetedOffsetSpacing.x * Random.Range(0,phasorLineRenderer.Length),
+					+ basePhaserSection2TargetedOffset.x + basePhaserSection2TargetedOffsetSpacing.x * Random.Range(0,phaserLineRenderer.Length),
 					targetedUnitParent.transform.localPosition.y + targetedUnitParent.transform.localScale.y * targetedUnitSections [(int)baseSectionTargeted].transform.localPosition.y
-					+ basePhasorSection2TargetedOffset.y + basePhasorSection2TargetedOffsetSpacing.y * Random.Range(0,phasorLineRenderer.Length));  
+					+ basePhaserSection2TargetedOffset.y + basePhaserSection2TargetedOffsetSpacing.y * Random.Range(0,phaserLineRenderer.Length));  
 
 				break;
 
@@ -5781,9 +5781,9 @@ public class CutsceneManager : MonoBehaviour {
 
 				torpedoDestinationPosition = new Vector2 (
 					targetedUnitParent.transform.localPosition.x + targetedUnitParent.transform.localScale.x * targetedUnitSections [(int)baseSectionTargeted].transform.localPosition.x
-					+ baseTorpedoSectionTargetedOffset.x + baseTorpedoSectionTargetedOffsetSpacing.x * Random.Range(0,phasorLineRenderer.Length),
+					+ baseTorpedoSectionTargetedOffset.x + baseTorpedoSectionTargetedOffsetSpacing.x * Random.Range(0,phaserLineRenderer.Length),
 					targetedUnitParent.transform.localPosition.y + targetedUnitParent.transform.localScale.y * targetedUnitSections [(int)baseSectionTargeted].transform.localPosition.y
-					+ baseTorpedoSectionTargetedOffset.y + baseTorpedoSectionTargetedOffsetSpacing.y * Random.Range(0,phasorLineRenderer.Length)); 
+					+ baseTorpedoSectionTargetedOffset.y + baseTorpedoSectionTargetedOffsetSpacing.y * Random.Range(0,phaserLineRenderer.Length)); 
 
 				break;
 
@@ -5791,9 +5791,9 @@ public class CutsceneManager : MonoBehaviour {
 
 				torpedoDestinationPosition = new Vector2 (
 					targetedUnitParent.transform.localPosition.x + targetedUnitParent.transform.localScale.x * targetedUnitSections [(int)baseSectionTargeted].transform.localPosition.x
-					+ baseCrewSectionTargetedOffset.x + baseCrewSectionTargetedOffsetSpacing.x * Random.Range(0,phasorLineRenderer.Length),
+					+ baseCrewSectionTargetedOffset.x + baseCrewSectionTargetedOffsetSpacing.x * Random.Range(0,phaserLineRenderer.Length),
 					targetedUnitParent.transform.localPosition.y + targetedUnitParent.transform.localScale.y * targetedUnitSections [(int)baseSectionTargeted].transform.localPosition.y
-					+ baseCrewSectionTargetedOffset.y + baseCrewSectionTargetedOffsetSpacing.y * Random.Range(0,phasorLineRenderer.Length)); 
+					+ baseCrewSectionTargetedOffset.y + baseCrewSectionTargetedOffsetSpacing.y * Random.Range(0,phaserLineRenderer.Length)); 
 
 				break;
 
@@ -5801,9 +5801,9 @@ public class CutsceneManager : MonoBehaviour {
 
 				torpedoDestinationPosition = new Vector2 (
 					targetedUnitParent.transform.localPosition.x + targetedUnitParent.transform.localScale.x * targetedUnitSections [(int)baseSectionTargeted].transform.localPosition.x
-					+ baseStorageSection1TargetedOffset.x + baseStorageSection1TargetedOffsetSpacing.x * Random.Range(0,phasorLineRenderer.Length),
+					+ baseStorageSection1TargetedOffset.x + baseStorageSection1TargetedOffsetSpacing.x * Random.Range(0,phaserLineRenderer.Length),
 					targetedUnitParent.transform.localPosition.y + targetedUnitParent.transform.localScale.y * targetedUnitSections [(int)baseSectionTargeted].transform.localPosition.y
-					+ baseStorageSection1TargetedOffset.y + baseStorageSection1TargetedOffsetSpacing.y * Random.Range(0,phasorLineRenderer.Length)); 
+					+ baseStorageSection1TargetedOffset.y + baseStorageSection1TargetedOffsetSpacing.y * Random.Range(0,phaserLineRenderer.Length)); 
 
 				break;
 
@@ -5811,9 +5811,9 @@ public class CutsceneManager : MonoBehaviour {
 
 				torpedoDestinationPosition = new Vector2 (
 					targetedUnitParent.transform.localPosition.x + targetedUnitParent.transform.localScale.x * targetedUnitSections [(int)baseSectionTargeted].transform.localPosition.x
-					+ baseStorageSection2TargetedOffset.x + baseStorageSection2TargetedOffsetSpacing.x * Random.Range(0,phasorLineRenderer.Length),
+					+ baseStorageSection2TargetedOffset.x + baseStorageSection2TargetedOffsetSpacing.x * Random.Range(0,phaserLineRenderer.Length),
 					targetedUnitParent.transform.localPosition.y + targetedUnitParent.transform.localScale.y * targetedUnitSections [(int)baseSectionTargeted].transform.localPosition.y
-					+ baseStorageSection2TargetedOffset.y + baseStorageSection2TargetedOffsetSpacing.y * Random.Range(0,phasorLineRenderer.Length)); 
+					+ baseStorageSection2TargetedOffset.y + baseStorageSection2TargetedOffsetSpacing.y * Random.Range(0,phaserLineRenderer.Length)); 
 
 				break;
 
@@ -5830,13 +5830,13 @@ public class CutsceneManager : MonoBehaviour {
 			//do a switch case on the section targeted
 			switch (shipSectionTargeted) {
 
-			case CombatManager.ShipSectionTargeted.PhasorSection:
+			case CombatManager.ShipSectionTargeted.PhaserSection:
 
 				torpedoDestinationPosition = new Vector2 (
 					targetedUnitParent.transform.localPosition.x + targetedUnitParent.transform.localScale.x * targetedUnitSections [(int)shipSectionTargeted].transform.localPosition.x
-					+ shipPhasorSectionTargetedOffset.x + shipPhasorSectionTargetedOffsetSpacing.x * Random.Range(0,phasorLineRenderer.Length),
+					+ shipPhaserSectionTargetedOffset.x + shipPhaserSectionTargetedOffsetSpacing.x * Random.Range(0,phaserLineRenderer.Length),
 					targetedUnitParent.transform.localPosition.y + targetedUnitParent.transform.localScale.y * targetedUnitSections [(int)shipSectionTargeted].transform.localPosition.y
-					+ shipPhasorSectionTargetedOffset.y + shipPhasorSectionTargetedOffsetSpacing.y * Random.Range(0,phasorLineRenderer.Length));
+					+ shipPhaserSectionTargetedOffset.y + shipPhaserSectionTargetedOffsetSpacing.y * Random.Range(0,phaserLineRenderer.Length));
 
 				break;
 
@@ -5844,9 +5844,9 @@ public class CutsceneManager : MonoBehaviour {
 
 				torpedoDestinationPosition = new Vector2 (
 					targetedUnitParent.transform.localPosition.x + targetedUnitParent.transform.localScale.x * targetedUnitSections [(int)shipSectionTargeted].transform.localPosition.x
-					+ shipTorpedoSectionTargetedOffset.x + shipTorpedoSectionTargetedOffsetSpacing.x * Random.Range(0,phasorLineRenderer.Length),
+					+ shipTorpedoSectionTargetedOffset.x + shipTorpedoSectionTargetedOffsetSpacing.x * Random.Range(0,phaserLineRenderer.Length),
 					targetedUnitParent.transform.localPosition.y + targetedUnitParent.transform.localScale.y * targetedUnitSections [(int)shipSectionTargeted].transform.localPosition.y
-					+ shipTorpedoSectionTargetedOffset.y + shipTorpedoSectionTargetedOffsetSpacing.y * Random.Range(0,phasorLineRenderer.Length)); 
+					+ shipTorpedoSectionTargetedOffset.y + shipTorpedoSectionTargetedOffsetSpacing.y * Random.Range(0,phaserLineRenderer.Length)); 
 
 				break;
 
@@ -5854,9 +5854,9 @@ public class CutsceneManager : MonoBehaviour {
 
 				torpedoDestinationPosition = new Vector2 (
 					targetedUnitParent.transform.localPosition.x + targetedUnitParent.transform.localScale.x * targetedUnitSections [(int)shipSectionTargeted].transform.localPosition.x
-					+ shipStorageSectionTargetedOffset.x + shipStorageSectionTargetedOffsetSpacing.x * Random.Range(0,phasorLineRenderer.Length),
+					+ shipStorageSectionTargetedOffset.x + shipStorageSectionTargetedOffsetSpacing.x * Random.Range(0,phaserLineRenderer.Length),
 					targetedUnitParent.transform.localPosition.y + targetedUnitParent.transform.localScale.y * targetedUnitSections [(int)shipSectionTargeted].transform.localPosition.y
-					+ shipStorageSectionTargetedOffset.y + shipStorageSectionTargetedOffsetSpacing.y * Random.Range(0,phasorLineRenderer.Length)); 
+					+ shipStorageSectionTargetedOffset.y + shipStorageSectionTargetedOffsetSpacing.y * Random.Range(0,phaserLineRenderer.Length)); 
 
 				break;
 
@@ -5864,9 +5864,9 @@ public class CutsceneManager : MonoBehaviour {
 
 				torpedoDestinationPosition = new Vector2 (
 					targetedUnitParent.transform.localPosition.x + targetedUnitParent.transform.localScale.x * targetedUnitSections [(int)shipSectionTargeted].transform.localPosition.x
-					+ shipCrewSectionTargetedOffset.x + shipCrewSectionTargetedOffsetSpacing.x * Random.Range(0,phasorLineRenderer.Length),
+					+ shipCrewSectionTargetedOffset.x + shipCrewSectionTargetedOffsetSpacing.x * Random.Range(0,phaserLineRenderer.Length),
 					targetedUnitParent.transform.localPosition.y + targetedUnitParent.transform.localScale.y * targetedUnitSections [(int)shipSectionTargeted].transform.localPosition.y
-					+ shipCrewSectionTargetedOffset.y + shipCrewSectionTargetedOffsetSpacing.y * Random.Range(0,phasorLineRenderer.Length)); 
+					+ shipCrewSectionTargetedOffset.y + shipCrewSectionTargetedOffsetSpacing.y * Random.Range(0,phaserLineRenderer.Length)); 
 
 				break;
 
@@ -5874,9 +5874,9 @@ public class CutsceneManager : MonoBehaviour {
 
 				torpedoDestinationPosition = new Vector2 (
 					targetedUnitParent.transform.localPosition.x + targetedUnitParent.transform.localScale.x * targetedUnitSections [(int)shipSectionTargeted].transform.localPosition.x
-					+ shipEngineSectionTargetedOffset.x + shipEngineSectionTargetedOffsetSpacing.x * Random.Range(0,phasorLineRenderer.Length),
+					+ shipEngineSectionTargetedOffset.x + shipEngineSectionTargetedOffsetSpacing.x * Random.Range(0,phaserLineRenderer.Length),
 					targetedUnitParent.transform.localPosition.y + targetedUnitParent.transform.localScale.y * targetedUnitSections [(int)shipSectionTargeted].transform.localPosition.y
-					+ shipEngineSectionTargetedOffset.y + shipEngineSectionTargetedOffsetSpacing.y * Random.Range(0,phasorLineRenderer.Length)); 
+					+ shipEngineSectionTargetedOffset.y + shipEngineSectionTargetedOffsetSpacing.y * Random.Range(0,phaserLineRenderer.Length)); 
 
 				break;
 
@@ -5893,13 +5893,13 @@ public class CutsceneManager : MonoBehaviour {
 			//do a switch case on the section targeted
 			switch (shipSectionTargeted) {
 
-			case CombatManager.ShipSectionTargeted.PhasorSection:
+			case CombatManager.ShipSectionTargeted.PhaserSection:
 
 				torpedoDestinationPosition = new Vector2 (
 					targetedUnitParent.transform.localPosition.x + targetedUnitParent.transform.localScale.x * targetedUnitSections [(int)shipSectionTargeted].transform.localPosition.x
-					+ shipPhasorSectionTargetedOffset.x + shipPhasorSectionTargetedOffsetSpacing.x * Random.Range(0,phasorLineRenderer.Length),
+					+ shipPhaserSectionTargetedOffset.x + shipPhaserSectionTargetedOffsetSpacing.x * Random.Range(0,phaserLineRenderer.Length),
 					targetedUnitParent.transform.localPosition.y + targetedUnitParent.transform.localScale.y * targetedUnitSections [(int)shipSectionTargeted].transform.localPosition.y
-					+ shipPhasorSectionTargetedOffset.y + shipPhasorSectionTargetedOffsetSpacing.y * Random.Range(0,phasorLineRenderer.Length));
+					+ shipPhaserSectionTargetedOffset.y + shipPhaserSectionTargetedOffsetSpacing.y * Random.Range(0,phaserLineRenderer.Length));
 
 
 				break;
@@ -5908,9 +5908,9 @@ public class CutsceneManager : MonoBehaviour {
 
 				torpedoDestinationPosition = new Vector2 (
 					targetedUnitParent.transform.localPosition.x + targetedUnitParent.transform.localScale.x * targetedUnitSections [(int)shipSectionTargeted].transform.localPosition.x
-					+ shipTorpedoSectionTargetedOffset.x + shipTorpedoSectionTargetedOffsetSpacing.x * Random.Range(0,phasorLineRenderer.Length),
+					+ shipTorpedoSectionTargetedOffset.x + shipTorpedoSectionTargetedOffsetSpacing.x * Random.Range(0,phaserLineRenderer.Length),
 					targetedUnitParent.transform.localPosition.y + targetedUnitParent.transform.localScale.y * targetedUnitSections [(int)shipSectionTargeted].transform.localPosition.y
-					+ shipTorpedoSectionTargetedOffset.y + shipTorpedoSectionTargetedOffsetSpacing.y * Random.Range(0,phasorLineRenderer.Length)); 
+					+ shipTorpedoSectionTargetedOffset.y + shipTorpedoSectionTargetedOffsetSpacing.y * Random.Range(0,phaserLineRenderer.Length)); 
 
 
 				break;
@@ -5919,9 +5919,9 @@ public class CutsceneManager : MonoBehaviour {
 
 				torpedoDestinationPosition = new Vector2 (
 					targetedUnitParent.transform.localPosition.x + targetedUnitParent.transform.localScale.x * targetedUnitSections [(int)shipSectionTargeted].transform.localPosition.x
-					+ shipStorageSectionTargetedOffset.x + shipStorageSectionTargetedOffsetSpacing.x * Random.Range(0,phasorLineRenderer.Length),
+					+ shipStorageSectionTargetedOffset.x + shipStorageSectionTargetedOffsetSpacing.x * Random.Range(0,phaserLineRenderer.Length),
 					targetedUnitParent.transform.localPosition.y + targetedUnitParent.transform.localScale.y * targetedUnitSections [(int)shipSectionTargeted].transform.localPosition.y
-					+ shipStorageSectionTargetedOffset.y + shipStorageSectionTargetedOffsetSpacing.y * Random.Range(0,phasorLineRenderer.Length)); 
+					+ shipStorageSectionTargetedOffset.y + shipStorageSectionTargetedOffsetSpacing.y * Random.Range(0,phaserLineRenderer.Length)); 
 
 
 				break;
@@ -5930,9 +5930,9 @@ public class CutsceneManager : MonoBehaviour {
 
 				torpedoDestinationPosition = new Vector2 (
 					targetedUnitParent.transform.localPosition.x + targetedUnitParent.transform.localScale.x * targetedUnitSections [(int)shipSectionTargeted].transform.localPosition.x
-					+ shipEngineSectionTargetedOffset.x + shipEngineSectionTargetedOffsetSpacing.x * Random.Range(0,phasorLineRenderer.Length),
+					+ shipEngineSectionTargetedOffset.x + shipEngineSectionTargetedOffsetSpacing.x * Random.Range(0,phaserLineRenderer.Length),
 					targetedUnitParent.transform.localPosition.y + targetedUnitParent.transform.localScale.y * targetedUnitSections [(int)shipSectionTargeted].transform.localPosition.y
-					+ shipEngineSectionTargetedOffset.y + shipEngineSectionTargetedOffsetSpacing.y * Random.Range(0,phasorLineRenderer.Length)); 
+					+ shipEngineSectionTargetedOffset.y + shipEngineSectionTargetedOffsetSpacing.y * Random.Range(0,phaserLineRenderer.Length)); 
 
 				break;
 
@@ -5949,13 +5949,13 @@ public class CutsceneManager : MonoBehaviour {
 			//do a switch case on the section targeted
 			switch (shipSectionTargeted) {
 
-			case CombatManager.ShipSectionTargeted.PhasorSection:
+			case CombatManager.ShipSectionTargeted.PhaserSection:
 
 				torpedoDestinationPosition = new Vector2 (
 					targetedUnitParent.transform.localPosition.x + targetedUnitParent.transform.localScale.x * targetedUnitSections [(int)shipSectionTargeted].transform.localPosition.x
-					+ shipPhasorSectionTargetedOffset.x + shipPhasorSectionTargetedOffsetSpacing.x * Random.Range(0,phasorLineRenderer.Length),
+					+ shipPhaserSectionTargetedOffset.x + shipPhaserSectionTargetedOffsetSpacing.x * Random.Range(0,phaserLineRenderer.Length),
 					targetedUnitParent.transform.localPosition.y + targetedUnitParent.transform.localScale.y * targetedUnitSections [(int)shipSectionTargeted].transform.localPosition.y
-					+ shipPhasorSectionTargetedOffset.y + shipPhasorSectionTargetedOffsetSpacing.y * Random.Range(0,phasorLineRenderer.Length));
+					+ shipPhaserSectionTargetedOffset.y + shipPhaserSectionTargetedOffsetSpacing.y * Random.Range(0,phaserLineRenderer.Length));
 
 
 				break;
@@ -5964,9 +5964,9 @@ public class CutsceneManager : MonoBehaviour {
 
 				torpedoDestinationPosition = new Vector2 (
 					targetedUnitParent.transform.localPosition.x + targetedUnitParent.transform.localScale.x * targetedUnitSections [(int)shipSectionTargeted].transform.localPosition.x
-					+ shipTorpedoSectionTargetedOffset.x + shipTorpedoSectionTargetedOffsetSpacing.x * Random.Range(0,phasorLineRenderer.Length),
+					+ shipTorpedoSectionTargetedOffset.x + shipTorpedoSectionTargetedOffsetSpacing.x * Random.Range(0,phaserLineRenderer.Length),
 					targetedUnitParent.transform.localPosition.y + targetedUnitParent.transform.localScale.y * targetedUnitSections [(int)shipSectionTargeted].transform.localPosition.y
-					+ shipTorpedoSectionTargetedOffset.y + shipTorpedoSectionTargetedOffsetSpacing.y * Random.Range(0,phasorLineRenderer.Length)); 
+					+ shipTorpedoSectionTargetedOffset.y + shipTorpedoSectionTargetedOffsetSpacing.y * Random.Range(0,phaserLineRenderer.Length)); 
 
 
 				break;
@@ -5975,9 +5975,9 @@ public class CutsceneManager : MonoBehaviour {
 
 				torpedoDestinationPosition = new Vector2 (
 					targetedUnitParent.transform.localPosition.x + targetedUnitParent.transform.localScale.x * targetedUnitSections [(int)shipSectionTargeted].transform.localPosition.x
-					+ shipEngineSectionTargetedOffset.x + shipEngineSectionTargetedOffsetSpacing.x * Random.Range(0,phasorLineRenderer.Length),
+					+ shipEngineSectionTargetedOffset.x + shipEngineSectionTargetedOffsetSpacing.x * Random.Range(0,phaserLineRenderer.Length),
 					targetedUnitParent.transform.localPosition.y + targetedUnitParent.transform.localScale.y * targetedUnitSections [(int)shipSectionTargeted].transform.localPosition.y
-					+ shipEngineSectionTargetedOffset.y + shipEngineSectionTargetedOffsetSpacing.y * Random.Range(0,phasorLineRenderer.Length)); 
+					+ shipEngineSectionTargetedOffset.y + shipEngineSectionTargetedOffsetSpacing.y * Random.Range(0,phaserLineRenderer.Length)); 
 
 				break;
 
@@ -5994,13 +5994,13 @@ public class CutsceneManager : MonoBehaviour {
 			//do a switch case on the section targeted
 			switch (shipSectionTargeted) {
 
-			case CombatManager.ShipSectionTargeted.PhasorSection:
+			case CombatManager.ShipSectionTargeted.PhaserSection:
 
 				torpedoDestinationPosition = new Vector2 (
 					targetedUnitParent.transform.localPosition.x + targetedUnitParent.transform.localScale.x * targetedUnitSections [(int)shipSectionTargeted].transform.localPosition.x
-					+ shipPhasorSectionTargetedOffset.x + shipPhasorSectionTargetedOffsetSpacing.x * Random.Range(0,phasorLineRenderer.Length),
+					+ shipPhaserSectionTargetedOffset.x + shipPhaserSectionTargetedOffsetSpacing.x * Random.Range(0,phaserLineRenderer.Length),
 					targetedUnitParent.transform.localPosition.y + targetedUnitParent.transform.localScale.y * targetedUnitSections [(int)shipSectionTargeted].transform.localPosition.y
-					+ shipPhasorSectionTargetedOffset.y + shipPhasorSectionTargetedOffsetSpacing.y * Random.Range(0,phasorLineRenderer.Length));
+					+ shipPhaserSectionTargetedOffset.y + shipPhaserSectionTargetedOffsetSpacing.y * Random.Range(0,phaserLineRenderer.Length));
 
 
 				break;
@@ -6009,9 +6009,9 @@ public class CutsceneManager : MonoBehaviour {
 
 				torpedoDestinationPosition = new Vector2 (
 					targetedUnitParent.transform.localPosition.x + targetedUnitParent.transform.localScale.x * targetedUnitSections [(int)shipSectionTargeted].transform.localPosition.x
-					+ shipStorageSectionTargetedOffset.x + shipStorageSectionTargetedOffsetSpacing.x * Random.Range(0,phasorLineRenderer.Length),
+					+ shipStorageSectionTargetedOffset.x + shipStorageSectionTargetedOffsetSpacing.x * Random.Range(0,phaserLineRenderer.Length),
 					targetedUnitParent.transform.localPosition.y + targetedUnitParent.transform.localScale.y * targetedUnitSections [(int)shipSectionTargeted].transform.localPosition.y
-					+ shipStorageSectionTargetedOffset.y + shipStorageSectionTargetedOffsetSpacing.y * Random.Range(0,phasorLineRenderer.Length)); 
+					+ shipStorageSectionTargetedOffset.y + shipStorageSectionTargetedOffsetSpacing.y * Random.Range(0,phaserLineRenderer.Length)); 
 
 
 				break;
@@ -6020,9 +6020,9 @@ public class CutsceneManager : MonoBehaviour {
 
 				torpedoDestinationPosition = new Vector2 (
 					targetedUnitParent.transform.localPosition.x + targetedUnitParent.transform.localScale.x * targetedUnitSections [(int)shipSectionTargeted].transform.localPosition.x
-					+ shipEngineSectionTargetedOffset.x + shipEngineSectionTargetedOffsetSpacing.x * Random.Range(0,phasorLineRenderer.Length),
+					+ shipEngineSectionTargetedOffset.x + shipEngineSectionTargetedOffsetSpacing.x * Random.Range(0,phaserLineRenderer.Length),
 					targetedUnitParent.transform.localPosition.y + targetedUnitParent.transform.localScale.y * targetedUnitSections [(int)shipSectionTargeted].transform.localPosition.y
-					+ shipEngineSectionTargetedOffset.y + shipEngineSectionTargetedOffsetSpacing.y * Random.Range(0,phasorLineRenderer.Length)); 
+					+ shipEngineSectionTargetedOffset.y + shipEngineSectionTargetedOffsetSpacing.y * Random.Range(0,phaserLineRenderer.Length)); 
 
 				break;
 
@@ -6099,7 +6099,7 @@ public class CutsceneManager : MonoBehaviour {
 
 		}
 
-		//now, we can set the phasorLineEndPoints to the tempEndPoint
+		//now, we can set the phaserLineEndPoints to the tempEndPoint
 		torpedoDestinationPosition = tempEndPoint;
 
 	}
@@ -6237,7 +6237,7 @@ public class CutsceneManager : MonoBehaviour {
 			//do a switch case on the section targeted
 			switch (baseSectionTargeted) {
 
-			case CombatManager.BaseSectionTargeted.PhasorSection1:
+			case CombatManager.BaseSectionTargeted.PhaserSection1:
 
 				//loop through the sectionDestroyedExplosions points
 				for (int i = 0; i < sectionDestroyedExplosions.Length; i++) {
@@ -6245,19 +6245,19 @@ public class CutsceneManager : MonoBehaviour {
 					sectionDestroyedExplosions[i] = new Vector2 (
 						targetedUnitParent.transform.localPosition.x + 
 						targetedUnitParent.transform.localScale.x * targetedUnitSections [(int)baseSectionTargeted].transform.localPosition.x
-						+ basePhasorSection1TargetedOffset.x + basePhasorSection1TargetedOffsetSpacing.x * (i / numberOfPointsPerOffset) + 
+						+ basePhaserSection1TargetedOffset.x + basePhaserSection1TargetedOffsetSpacing.x * (i / numberOfPointsPerOffset) + 
 						Random.Range(-randomAmplitude, randomAmplitude+1),
 
 						targetedUnitParent.transform.localPosition.y + 
 						targetedUnitParent.transform.localScale.y * targetedUnitSections [(int)baseSectionTargeted].transform.localPosition.y
-						+ basePhasorSection1TargetedOffset.y + basePhasorSection1TargetedOffsetSpacing.y *  (i / numberOfPointsPerOffset) + 
+						+ basePhaserSection1TargetedOffset.y + basePhaserSection1TargetedOffsetSpacing.y *  (i / numberOfPointsPerOffset) + 
 						Random.Range(-randomAmplitude, randomAmplitude+1)); 
 
 				}
 
 				break;
 
-			case CombatManager.BaseSectionTargeted.PhasorSection2:
+			case CombatManager.BaseSectionTargeted.PhaserSection2:
 
 				//loop through the sectionDestroyedExplosions points
 				for (int i = 0; i < sectionDestroyedExplosions.Length; i++) {
@@ -6265,12 +6265,12 @@ public class CutsceneManager : MonoBehaviour {
 					sectionDestroyedExplosions[i] = new Vector2 (
 						targetedUnitParent.transform.localPosition.x + 
 						targetedUnitParent.transform.localScale.x * targetedUnitSections [(int)baseSectionTargeted].transform.localPosition.x
-						+ basePhasorSection2TargetedOffset.x + basePhasorSection2TargetedOffsetSpacing.x * (i / numberOfPointsPerOffset) + 
+						+ basePhaserSection2TargetedOffset.x + basePhaserSection2TargetedOffsetSpacing.x * (i / numberOfPointsPerOffset) + 
 						Random.Range(-randomAmplitude, randomAmplitude+1),
 
 						targetedUnitParent.transform.localPosition.y + 
 						targetedUnitParent.transform.localScale.y * targetedUnitSections [(int)baseSectionTargeted].transform.localPosition.y
-						+ basePhasorSection2TargetedOffset.y + basePhasorSection2TargetedOffsetSpacing.y *  (i / numberOfPointsPerOffset) + 
+						+ basePhaserSection2TargetedOffset.y + basePhaserSection2TargetedOffsetSpacing.y *  (i / numberOfPointsPerOffset) + 
 						Random.Range(-randomAmplitude, randomAmplitude+1)); 
 
 				}
@@ -6370,7 +6370,7 @@ public class CutsceneManager : MonoBehaviour {
 			//do a switch case on the section targeted
 			switch (sectionTargeted) {
 
-			case CombatManager.ShipSectionTargeted.PhasorSection:
+			case CombatManager.ShipSectionTargeted.PhaserSection:
 
 				//loop through the sectionDestroyedExplosions points
 				for (int i = 0; i < sectionDestroyedExplosions.Length; i++) {
@@ -6378,12 +6378,12 @@ public class CutsceneManager : MonoBehaviour {
 					sectionDestroyedExplosions[i] = new Vector2 (
 						targetedUnitParent.transform.localPosition.x + 
 						targetedUnitParent.transform.localScale.x * targetedUnitSections [(int)sectionTargeted].transform.localPosition.x
-						+ shipPhasorSectionTargetedOffset.x + shipPhasorSectionTargetedOffsetSpacing.x * (i / numberOfPointsPerOffset) + 
+						+ shipPhaserSectionTargetedOffset.x + shipPhaserSectionTargetedOffsetSpacing.x * (i / numberOfPointsPerOffset) + 
 						Random.Range(-randomAmplitude, randomAmplitude+1),
 
 						targetedUnitParent.transform.localPosition.y + 
 						targetedUnitParent.transform.localScale.y * targetedUnitSections [(int)sectionTargeted].transform.localPosition.y
-						+ shipPhasorSectionTargetedOffset.y + shipPhasorSectionTargetedOffsetSpacing.y *  (i / numberOfPointsPerOffset) + 
+						+ shipPhaserSectionTargetedOffset.y + shipPhaserSectionTargetedOffsetSpacing.y *  (i / numberOfPointsPerOffset) + 
 						Random.Range(-randomAmplitude, randomAmplitude+1)); 
 
 				}
@@ -6483,7 +6483,7 @@ public class CutsceneManager : MonoBehaviour {
 			//do a switch case on the section targeted
 			switch (sectionTargeted) {
 
-			case CombatManager.ShipSectionTargeted.PhasorSection:
+			case CombatManager.ShipSectionTargeted.PhaserSection:
 
 				//loop through the sectionDestroyedExplosions points
 				for (int i = 0; i < sectionDestroyedExplosions.Length; i++) {
@@ -6491,12 +6491,12 @@ public class CutsceneManager : MonoBehaviour {
 					sectionDestroyedExplosions[i] = new Vector2 (
 						targetedUnitParent.transform.localPosition.x + 
 						targetedUnitParent.transform.localScale.x * targetedUnitSections [(int)sectionTargeted].transform.localPosition.x
-						+ shipPhasorSectionTargetedOffset.x + shipPhasorSectionTargetedOffsetSpacing.x * (i / numberOfPointsPerOffset) + 
+						+ shipPhaserSectionTargetedOffset.x + shipPhaserSectionTargetedOffsetSpacing.x * (i / numberOfPointsPerOffset) + 
 						Random.Range(-randomAmplitude, randomAmplitude+1),
 
 						targetedUnitParent.transform.localPosition.y + 
 						targetedUnitParent.transform.localScale.y * targetedUnitSections [(int)sectionTargeted].transform.localPosition.y
-						+ shipPhasorSectionTargetedOffset.y + shipPhasorSectionTargetedOffsetSpacing.y *  (i / numberOfPointsPerOffset) + 
+						+ shipPhaserSectionTargetedOffset.y + shipPhaserSectionTargetedOffsetSpacing.y *  (i / numberOfPointsPerOffset) + 
 						Random.Range(-randomAmplitude, randomAmplitude+1)); 
 
 				}
@@ -6576,7 +6576,7 @@ public class CutsceneManager : MonoBehaviour {
 			//do a switch case on the section targeted
 			switch (sectionTargeted) {
 
-			case CombatManager.ShipSectionTargeted.PhasorSection:
+			case CombatManager.ShipSectionTargeted.PhaserSection:
 
 				//loop through the sectionDestroyedExplosions points
 				for (int i = 0; i < sectionDestroyedExplosions.Length; i++) {
@@ -6584,12 +6584,12 @@ public class CutsceneManager : MonoBehaviour {
 					sectionDestroyedExplosions[i] = new Vector2 (
 						targetedUnitParent.transform.localPosition.x + 
 						targetedUnitParent.transform.localScale.x * targetedUnitSections [(int)sectionTargeted].transform.localPosition.x
-						+ shipPhasorSectionTargetedOffset.x + shipPhasorSectionTargetedOffsetSpacing.x * (i / numberOfPointsPerOffset) + 
+						+ shipPhaserSectionTargetedOffset.x + shipPhaserSectionTargetedOffsetSpacing.x * (i / numberOfPointsPerOffset) + 
 						Random.Range(-randomAmplitude, randomAmplitude+1),
 
 						targetedUnitParent.transform.localPosition.y + 
 						targetedUnitParent.transform.localScale.y * targetedUnitSections [(int)sectionTargeted].transform.localPosition.y
-						+ shipPhasorSectionTargetedOffset.y + shipPhasorSectionTargetedOffsetSpacing.y *  (i / numberOfPointsPerOffset) + 
+						+ shipPhaserSectionTargetedOffset.y + shipPhaserSectionTargetedOffsetSpacing.y *  (i / numberOfPointsPerOffset) + 
 						Random.Range(-randomAmplitude, randomAmplitude+1)); 
 
 				}
@@ -6649,7 +6649,7 @@ public class CutsceneManager : MonoBehaviour {
 			//do a switch case on the section targeted
 			switch (sectionTargeted) {
 
-			case CombatManager.ShipSectionTargeted.PhasorSection:
+			case CombatManager.ShipSectionTargeted.PhaserSection:
 
 				//loop through the sectionDestroyedExplosions points
 				for (int i = 0; i < sectionDestroyedExplosions.Length; i++) {
@@ -6657,12 +6657,12 @@ public class CutsceneManager : MonoBehaviour {
 					sectionDestroyedExplosions[i] = new Vector2 (
 						targetedUnitParent.transform.localPosition.x + 
 						targetedUnitParent.transform.localScale.x * targetedUnitSections [(int)sectionTargeted].transform.localPosition.x
-						+ shipPhasorSectionTargetedOffset.x + shipPhasorSectionTargetedOffsetSpacing.x * (i / numberOfPointsPerOffset) + 
+						+ shipPhaserSectionTargetedOffset.x + shipPhaserSectionTargetedOffsetSpacing.x * (i / numberOfPointsPerOffset) + 
 						Random.Range(-randomAmplitude, randomAmplitude+1),
 
 						targetedUnitParent.transform.localPosition.y + 
 						targetedUnitParent.transform.localScale.y * targetedUnitSections [(int)sectionTargeted].transform.localPosition.y
-						+ shipPhasorSectionTargetedOffset.y + shipPhasorSectionTargetedOffsetSpacing.y *  (i / numberOfPointsPerOffset) + 
+						+ shipPhaserSectionTargetedOffset.y + shipPhaserSectionTargetedOffsetSpacing.y *  (i / numberOfPointsPerOffset) + 
 						Random.Range(-randomAmplitude, randomAmplitude+1)); 
 
 				}
@@ -6744,14 +6744,14 @@ public class CutsceneManager : MonoBehaviour {
 				//now we need to know what section we are supposed to destroy
 				switch (baseSectionTargeted) {
 
-				case CombatManager.BaseSectionTargeted.PhasorSection1:
+				case CombatManager.BaseSectionTargeted.PhaserSection1:
 
-					targetedUnitSections [(int)baseSectionTargeted].GetComponent<Image> ().sprite = greenBasePhasorSectionDestroyed;
+					targetedUnitSections [(int)baseSectionTargeted].GetComponent<Image> ().sprite = greenBasePhaserSectionDestroyed;
 					break;
 
-				case CombatManager.BaseSectionTargeted.PhasorSection2:
+				case CombatManager.BaseSectionTargeted.PhaserSection2:
 
-					targetedUnitSections [(int)baseSectionTargeted].GetComponent<Image> ().sprite = greenBasePhasorSectionDestroyed;
+					targetedUnitSections [(int)baseSectionTargeted].GetComponent<Image> ().sprite = greenBasePhaserSectionDestroyed;
 					break;
 
 				case CombatManager.BaseSectionTargeted.TorpedoSection:
@@ -6787,14 +6787,14 @@ public class CutsceneManager : MonoBehaviour {
 				//now we need to know what section we are supposed to destroy
 				switch (baseSectionTargeted) {
 
-				case CombatManager.BaseSectionTargeted.PhasorSection1:
+				case CombatManager.BaseSectionTargeted.PhaserSection1:
 
-					targetedUnitSections [(int)baseSectionTargeted].GetComponent<Image> ().sprite = purpleBasePhasorSectionDestroyed;
+					targetedUnitSections [(int)baseSectionTargeted].GetComponent<Image> ().sprite = purpleBasePhaserSectionDestroyed;
 					break;
 
-				case CombatManager.BaseSectionTargeted.PhasorSection2:
+				case CombatManager.BaseSectionTargeted.PhaserSection2:
 
-					targetedUnitSections [(int)baseSectionTargeted].GetComponent<Image> ().sprite = purpleBasePhasorSectionDestroyed;
+					targetedUnitSections [(int)baseSectionTargeted].GetComponent<Image> ().sprite = purpleBasePhaserSectionDestroyed;
 					break;
 
 				case CombatManager.BaseSectionTargeted.TorpedoSection:
@@ -6830,14 +6830,14 @@ public class CutsceneManager : MonoBehaviour {
 				//now we need to know what section we are supposed to destroy
 				switch (baseSectionTargeted) {
 
-				case CombatManager.BaseSectionTargeted.PhasorSection1:
+				case CombatManager.BaseSectionTargeted.PhaserSection1:
 
-					targetedUnitSections [(int)baseSectionTargeted].GetComponent<Image> ().sprite = redBasePhasorSectionDestroyed;
+					targetedUnitSections [(int)baseSectionTargeted].GetComponent<Image> ().sprite = redBasePhaserSectionDestroyed;
 					break;
 
-				case CombatManager.BaseSectionTargeted.PhasorSection2:
+				case CombatManager.BaseSectionTargeted.PhaserSection2:
 
-					targetedUnitSections [(int)baseSectionTargeted].GetComponent<Image> ().sprite = redBasePhasorSectionDestroyed;
+					targetedUnitSections [(int)baseSectionTargeted].GetComponent<Image> ().sprite = redBasePhaserSectionDestroyed;
 					break;
 
 				case CombatManager.BaseSectionTargeted.TorpedoSection:
@@ -6873,14 +6873,14 @@ public class CutsceneManager : MonoBehaviour {
 				//now we need to know what section we are supposed to destroy
 				switch (baseSectionTargeted) {
 
-				case CombatManager.BaseSectionTargeted.PhasorSection1:
+				case CombatManager.BaseSectionTargeted.PhaserSection1:
 
-					targetedUnitSections [(int)baseSectionTargeted].GetComponent<Image> ().sprite = blueBasePhasorSectionDestroyed;
+					targetedUnitSections [(int)baseSectionTargeted].GetComponent<Image> ().sprite = blueBasePhaserSectionDestroyed;
 					break;
 
-				case CombatManager.BaseSectionTargeted.PhasorSection2:
+				case CombatManager.BaseSectionTargeted.PhaserSection2:
 
-					targetedUnitSections [(int)baseSectionTargeted].GetComponent<Image> ().sprite = blueBasePhasorSectionDestroyed;
+					targetedUnitSections [(int)baseSectionTargeted].GetComponent<Image> ().sprite = blueBasePhaserSectionDestroyed;
 					break;
 
 				case CombatManager.BaseSectionTargeted.TorpedoSection:
@@ -6929,9 +6929,9 @@ public class CutsceneManager : MonoBehaviour {
 				//now we need to know what section we are supposed to destroy
 				switch (sectionTargeted) {
 
-				case CombatManager.ShipSectionTargeted.PhasorSection:
+				case CombatManager.ShipSectionTargeted.PhaserSection:
 
-					targetedUnitSections [(int)sectionTargeted].GetComponent<Image> ().sprite = greenPhasorSectionDestroyed;
+					targetedUnitSections [(int)sectionTargeted].GetComponent<Image> ().sprite = greenPhaserSectionDestroyed;
 					break;
 
 				case CombatManager.ShipSectionTargeted.TorpedoSection:
@@ -6967,9 +6967,9 @@ public class CutsceneManager : MonoBehaviour {
 				//now we need to know what section we are supposed to destroy
 				switch (sectionTargeted) {
 
-				case CombatManager.ShipSectionTargeted.PhasorSection:
+				case CombatManager.ShipSectionTargeted.PhaserSection:
 
-					targetedUnitSections [(int)sectionTargeted].GetComponent<Image> ().sprite = purplePhasorSectionDestroyed;
+					targetedUnitSections [(int)sectionTargeted].GetComponent<Image> ().sprite = purplePhaserSectionDestroyed;
 					break;
 
 				case CombatManager.ShipSectionTargeted.TorpedoSection:
@@ -7005,9 +7005,9 @@ public class CutsceneManager : MonoBehaviour {
 				//now we need to know what section we are supposed to destroy
 				switch (sectionTargeted) {
 
-				case CombatManager.ShipSectionTargeted.PhasorSection:
+				case CombatManager.ShipSectionTargeted.PhaserSection:
 
-					targetedUnitSections [(int)sectionTargeted].GetComponent<Image> ().sprite = redPhasorSectionDestroyed;
+					targetedUnitSections [(int)sectionTargeted].GetComponent<Image> ().sprite = redPhaserSectionDestroyed;
 					break;
 
 				case CombatManager.ShipSectionTargeted.TorpedoSection:
@@ -7043,9 +7043,9 @@ public class CutsceneManager : MonoBehaviour {
 				//now we need to know what section we are supposed to destroy
 				switch (sectionTargeted) {
 
-				case CombatManager.ShipSectionTargeted.PhasorSection:
+				case CombatManager.ShipSectionTargeted.PhaserSection:
 
-					targetedUnitSections [(int)sectionTargeted].GetComponent<Image> ().sprite = bluePhasorSectionDestroyed;
+					targetedUnitSections [(int)sectionTargeted].GetComponent<Image> ().sprite = bluePhaserSectionDestroyed;
 					break;
 
 				case CombatManager.ShipSectionTargeted.TorpedoSection:
@@ -7094,9 +7094,9 @@ public class CutsceneManager : MonoBehaviour {
 				//now we need to know what section we are supposed to destroy
 				switch (sectionTargeted) {
 
-				case CombatManager.ShipSectionTargeted.PhasorSection:
+				case CombatManager.ShipSectionTargeted.PhaserSection:
 
-					targetedUnitSections [(int)sectionTargeted].GetComponent<Image> ().sprite = greenPhasorSectionDestroyed;
+					targetedUnitSections [(int)sectionTargeted].GetComponent<Image> ().sprite = greenPhaserSectionDestroyed;
 					break;
 
 				case CombatManager.ShipSectionTargeted.TorpedoSection:
@@ -7127,9 +7127,9 @@ public class CutsceneManager : MonoBehaviour {
 				//now we need to know what section we are supposed to destroy
 				switch (sectionTargeted) {
 
-				case CombatManager.ShipSectionTargeted.PhasorSection:
+				case CombatManager.ShipSectionTargeted.PhaserSection:
 
-					targetedUnitSections [(int)sectionTargeted].GetComponent<Image> ().sprite = purplePhasorSectionDestroyed;
+					targetedUnitSections [(int)sectionTargeted].GetComponent<Image> ().sprite = purplePhaserSectionDestroyed;
 					break;
 
 				case CombatManager.ShipSectionTargeted.TorpedoSection:
@@ -7160,9 +7160,9 @@ public class CutsceneManager : MonoBehaviour {
 				//now we need to know what section we are supposed to destroy
 				switch (sectionTargeted) {
 
-				case CombatManager.ShipSectionTargeted.PhasorSection:
+				case CombatManager.ShipSectionTargeted.PhaserSection:
 
-					targetedUnitSections [(int)sectionTargeted].GetComponent<Image> ().sprite = redPhasorSectionDestroyed;
+					targetedUnitSections [(int)sectionTargeted].GetComponent<Image> ().sprite = redPhaserSectionDestroyed;
 					break;
 
 				case CombatManager.ShipSectionTargeted.TorpedoSection:
@@ -7193,9 +7193,9 @@ public class CutsceneManager : MonoBehaviour {
 				//now we need to know what section we are supposed to destroy
 				switch (sectionTargeted) {
 
-				case CombatManager.ShipSectionTargeted.PhasorSection:
+				case CombatManager.ShipSectionTargeted.PhaserSection:
 
-					targetedUnitSections [(int)sectionTargeted].GetComponent<Image> ().sprite = bluePhasorSectionDestroyed;
+					targetedUnitSections [(int)sectionTargeted].GetComponent<Image> ().sprite = bluePhaserSectionDestroyed;
 					break;
 
 				case CombatManager.ShipSectionTargeted.TorpedoSection:
@@ -7239,9 +7239,9 @@ public class CutsceneManager : MonoBehaviour {
 				//now we need to know what section we are supposed to destroy
 				switch (sectionTargeted) {
 
-				case CombatManager.ShipSectionTargeted.PhasorSection:
+				case CombatManager.ShipSectionTargeted.PhaserSection:
 
-					targetedUnitSections [(int)sectionTargeted].GetComponent<Image> ().sprite = greenPhasorSectionDestroyed;
+					targetedUnitSections [(int)sectionTargeted].GetComponent<Image> ().sprite = greenPhaserSectionDestroyed;
 					break;
 
 				case CombatManager.ShipSectionTargeted.TorpedoSection:
@@ -7267,9 +7267,9 @@ public class CutsceneManager : MonoBehaviour {
 				//now we need to know what section we are supposed to destroy
 				switch (sectionTargeted) {
 
-				case CombatManager.ShipSectionTargeted.PhasorSection:
+				case CombatManager.ShipSectionTargeted.PhaserSection:
 
-					targetedUnitSections [(int)sectionTargeted].GetComponent<Image> ().sprite = purplePhasorSectionDestroyed;
+					targetedUnitSections [(int)sectionTargeted].GetComponent<Image> ().sprite = purplePhaserSectionDestroyed;
 					break;
 
 				case CombatManager.ShipSectionTargeted.TorpedoSection:
@@ -7295,9 +7295,9 @@ public class CutsceneManager : MonoBehaviour {
 				//now we need to know what section we are supposed to destroy
 				switch (sectionTargeted) {
 
-				case CombatManager.ShipSectionTargeted.PhasorSection:
+				case CombatManager.ShipSectionTargeted.PhaserSection:
 
-					targetedUnitSections [(int)sectionTargeted].GetComponent<Image> ().sprite = redPhasorSectionDestroyed;
+					targetedUnitSections [(int)sectionTargeted].GetComponent<Image> ().sprite = redPhaserSectionDestroyed;
 					break;
 
 				case CombatManager.ShipSectionTargeted.TorpedoSection:
@@ -7323,9 +7323,9 @@ public class CutsceneManager : MonoBehaviour {
 				//now we need to know what section we are supposed to destroy
 				switch (sectionTargeted) {
 
-				case CombatManager.ShipSectionTargeted.PhasorSection:
+				case CombatManager.ShipSectionTargeted.PhaserSection:
 
-					targetedUnitSections [(int)sectionTargeted].GetComponent<Image> ().sprite = bluePhasorSectionDestroyed;
+					targetedUnitSections [(int)sectionTargeted].GetComponent<Image> ().sprite = bluePhaserSectionDestroyed;
 					break;
 
 				case CombatManager.ShipSectionTargeted.TorpedoSection:
@@ -7364,9 +7364,9 @@ public class CutsceneManager : MonoBehaviour {
 				//now we need to know what section we are supposed to destroy
 				switch (sectionTargeted) {
 
-				case CombatManager.ShipSectionTargeted.PhasorSection:
+				case CombatManager.ShipSectionTargeted.PhaserSection:
 
-					targetedUnitSections [(int)sectionTargeted].GetComponent<Image> ().sprite = greenPhasorSectionDestroyed;
+					targetedUnitSections [(int)sectionTargeted].GetComponent<Image> ().sprite = greenPhaserSectionDestroyed;
 					break;
 
 				case CombatManager.ShipSectionTargeted.StorageSection:
@@ -7392,9 +7392,9 @@ public class CutsceneManager : MonoBehaviour {
 				//now we need to know what section we are supposed to destroy
 				switch (sectionTargeted) {
 
-				case CombatManager.ShipSectionTargeted.PhasorSection:
+				case CombatManager.ShipSectionTargeted.PhaserSection:
 
-					targetedUnitSections [(int)sectionTargeted].GetComponent<Image> ().sprite = purplePhasorSectionDestroyed;
+					targetedUnitSections [(int)sectionTargeted].GetComponent<Image> ().sprite = purplePhaserSectionDestroyed;
 					break;
 
 				case CombatManager.ShipSectionTargeted.StorageSection:
@@ -7420,9 +7420,9 @@ public class CutsceneManager : MonoBehaviour {
 				//now we need to know what section we are supposed to destroy
 				switch (sectionTargeted) {
 
-				case CombatManager.ShipSectionTargeted.PhasorSection:
+				case CombatManager.ShipSectionTargeted.PhaserSection:
 
-					targetedUnitSections [(int)sectionTargeted].GetComponent<Image> ().sprite = redPhasorSectionDestroyed;
+					targetedUnitSections [(int)sectionTargeted].GetComponent<Image> ().sprite = redPhaserSectionDestroyed;
 					break;
 
 				case CombatManager.ShipSectionTargeted.StorageSection:
@@ -7448,9 +7448,9 @@ public class CutsceneManager : MonoBehaviour {
 				//now we need to know what section we are supposed to destroy
 				switch (sectionTargeted) {
 
-				case CombatManager.ShipSectionTargeted.PhasorSection:
+				case CombatManager.ShipSectionTargeted.PhaserSection:
 
-					targetedUnitSections [(int)sectionTargeted].GetComponent<Image> ().sprite = bluePhasorSectionDestroyed;
+					targetedUnitSections [(int)sectionTargeted].GetComponent<Image> ().sprite = bluePhaserSectionDestroyed;
 					break;
 
 				case CombatManager.ShipSectionTargeted.StorageSection:
@@ -7508,25 +7508,25 @@ public class CutsceneManager : MonoBehaviour {
 
 				unitDestroyedExplosions.Add (new Vector2 (
 					targetedUnitParent.transform.localPosition.x +
-					targetedUnitParent.transform.localScale.x * targetedUnitSections [(int)CombatManager.BaseSectionTargeted.PhasorSection1].transform.localPosition.x
-					+ basePhasorSection1TargetedOffset.x + basePhasorSection1TargetedOffsetSpacing.x * (i / numberOfPointsPerOffset) +
+					targetedUnitParent.transform.localScale.x * targetedUnitSections [(int)CombatManager.BaseSectionTargeted.PhaserSection1].transform.localPosition.x
+					+ basePhaserSection1TargetedOffset.x + basePhaserSection1TargetedOffsetSpacing.x * (i / numberOfPointsPerOffset) +
 					Random.Range (-randomAmplitude, randomAmplitude + 1),
 
 					targetedUnitParent.transform.localPosition.y +
-					targetedUnitParent.transform.localScale.y * targetedUnitSections [(int)CombatManager.BaseSectionTargeted.PhasorSection1].transform.localPosition.y
-					+ basePhasorSection1TargetedOffset.y + basePhasorSection1TargetedOffsetSpacing.y * (i / numberOfPointsPerOffset) +
+					targetedUnitParent.transform.localScale.y * targetedUnitSections [(int)CombatManager.BaseSectionTargeted.PhaserSection1].transform.localPosition.y
+					+ basePhaserSection1TargetedOffset.y + basePhaserSection1TargetedOffsetSpacing.y * (i / numberOfPointsPerOffset) +
 					Random.Range (-randomAmplitude, randomAmplitude + 1)));
 
 
 				unitDestroyedExplosions.Add (new Vector2 (
 					targetedUnitParent.transform.localPosition.x +
-					targetedUnitParent.transform.localScale.x * targetedUnitSections [(int)CombatManager.BaseSectionTargeted.PhasorSection2].transform.localPosition.x
-					+ basePhasorSection2TargetedOffset.x + basePhasorSection2TargetedOffsetSpacing.x * (i / numberOfPointsPerOffset) +
+					targetedUnitParent.transform.localScale.x * targetedUnitSections [(int)CombatManager.BaseSectionTargeted.PhaserSection2].transform.localPosition.x
+					+ basePhaserSection2TargetedOffset.x + basePhaserSection2TargetedOffsetSpacing.x * (i / numberOfPointsPerOffset) +
 					Random.Range (-randomAmplitude, randomAmplitude + 1),
 
 					targetedUnitParent.transform.localPosition.y +
-					targetedUnitParent.transform.localScale.y * targetedUnitSections [(int)CombatManager.BaseSectionTargeted.PhasorSection2].transform.localPosition.y
-					+ basePhasorSection2TargetedOffset.y + basePhasorSection2TargetedOffsetSpacing.y * (i / numberOfPointsPerOffset) +
+					targetedUnitParent.transform.localScale.y * targetedUnitSections [(int)CombatManager.BaseSectionTargeted.PhaserSection2].transform.localPosition.y
+					+ basePhaserSection2TargetedOffset.y + basePhaserSection2TargetedOffsetSpacing.y * (i / numberOfPointsPerOffset) +
 					Random.Range (-randomAmplitude, randomAmplitude + 1)));
 
 
@@ -7585,13 +7585,13 @@ public class CutsceneManager : MonoBehaviour {
 
 				unitDestroyedExplosions.Add (new Vector2 (
 					targetedUnitParent.transform.localPosition.x +
-					targetedUnitParent.transform.localScale.x * targetedUnitSections [(int)CombatManager.ShipSectionTargeted.PhasorSection].transform.localPosition.x
-					+ shipPhasorSectionTargetedOffset.x + shipPhasorSectionTargetedOffsetSpacing.x * (i / numberOfPointsPerOffset) +
+					targetedUnitParent.transform.localScale.x * targetedUnitSections [(int)CombatManager.ShipSectionTargeted.PhaserSection].transform.localPosition.x
+					+ shipPhaserSectionTargetedOffset.x + shipPhaserSectionTargetedOffsetSpacing.x * (i / numberOfPointsPerOffset) +
 					Random.Range (-randomAmplitude, randomAmplitude + 1),
 
 					targetedUnitParent.transform.localPosition.y +
-					targetedUnitParent.transform.localScale.y * targetedUnitSections [(int)CombatManager.ShipSectionTargeted.PhasorSection].transform.localPosition.y
-					+ shipPhasorSectionTargetedOffset.y + shipPhasorSectionTargetedOffsetSpacing.y * (i / numberOfPointsPerOffset) +
+					targetedUnitParent.transform.localScale.y * targetedUnitSections [(int)CombatManager.ShipSectionTargeted.PhaserSection].transform.localPosition.y
+					+ shipPhaserSectionTargetedOffset.y + shipPhaserSectionTargetedOffsetSpacing.y * (i / numberOfPointsPerOffset) +
 					Random.Range (-randomAmplitude, randomAmplitude + 1)));
 
 
@@ -7652,13 +7652,13 @@ public class CutsceneManager : MonoBehaviour {
 
 				unitDestroyedExplosions.Add (new Vector2 (
 					targetedUnitParent.transform.localPosition.x +
-					targetedUnitParent.transform.localScale.x * targetedUnitSections [(int)CombatManager.ShipSectionTargeted.PhasorSection].transform.localPosition.x
-					+ shipPhasorSectionTargetedOffset.x + shipPhasorSectionTargetedOffsetSpacing.x * (i / numberOfPointsPerOffset) +
+					targetedUnitParent.transform.localScale.x * targetedUnitSections [(int)CombatManager.ShipSectionTargeted.PhaserSection].transform.localPosition.x
+					+ shipPhaserSectionTargetedOffset.x + shipPhaserSectionTargetedOffsetSpacing.x * (i / numberOfPointsPerOffset) +
 					Random.Range (-randomAmplitude, randomAmplitude + 1),
 
 					targetedUnitParent.transform.localPosition.y +
-					targetedUnitParent.transform.localScale.y * targetedUnitSections [(int)CombatManager.ShipSectionTargeted.PhasorSection].transform.localPosition.y
-					+ shipPhasorSectionTargetedOffset.y + shipPhasorSectionTargetedOffsetSpacing.y * (i / numberOfPointsPerOffset) +
+					targetedUnitParent.transform.localScale.y * targetedUnitSections [(int)CombatManager.ShipSectionTargeted.PhaserSection].transform.localPosition.y
+					+ shipPhaserSectionTargetedOffset.y + shipPhaserSectionTargetedOffsetSpacing.y * (i / numberOfPointsPerOffset) +
 					Random.Range (-randomAmplitude, randomAmplitude + 1)));
 
 
@@ -7707,13 +7707,13 @@ public class CutsceneManager : MonoBehaviour {
 
 				unitDestroyedExplosions.Add (new Vector2 (
 					targetedUnitParent.transform.localPosition.x +
-					targetedUnitParent.transform.localScale.x * targetedUnitSections [(int)CombatManager.ShipSectionTargeted.PhasorSection].transform.localPosition.x
-					+ shipPhasorSectionTargetedOffset.x + shipPhasorSectionTargetedOffsetSpacing.x * (i / numberOfPointsPerOffset) +
+					targetedUnitParent.transform.localScale.x * targetedUnitSections [(int)CombatManager.ShipSectionTargeted.PhaserSection].transform.localPosition.x
+					+ shipPhaserSectionTargetedOffset.x + shipPhaserSectionTargetedOffsetSpacing.x * (i / numberOfPointsPerOffset) +
 					Random.Range (-randomAmplitude, randomAmplitude + 1),
 
 					targetedUnitParent.transform.localPosition.y +
-					targetedUnitParent.transform.localScale.y * targetedUnitSections [(int)CombatManager.ShipSectionTargeted.PhasorSection].transform.localPosition.y
-					+ shipPhasorSectionTargetedOffset.y + shipPhasorSectionTargetedOffsetSpacing.y * (i / numberOfPointsPerOffset) +
+					targetedUnitParent.transform.localScale.y * targetedUnitSections [(int)CombatManager.ShipSectionTargeted.PhaserSection].transform.localPosition.y
+					+ shipPhaserSectionTargetedOffset.y + shipPhaserSectionTargetedOffsetSpacing.y * (i / numberOfPointsPerOffset) +
 					Random.Range (-randomAmplitude, randomAmplitude + 1)));
 
 
@@ -7751,13 +7751,13 @@ public class CutsceneManager : MonoBehaviour {
 
 				unitDestroyedExplosions.Add (new Vector2 (
 					targetedUnitParent.transform.localPosition.x +
-					targetedUnitParent.transform.localScale.x * targetedUnitSections [(int)CombatManager.ShipSectionTargeted.PhasorSection].transform.localPosition.x
-					+ shipPhasorSectionTargetedOffset.x + shipPhasorSectionTargetedOffsetSpacing.x * (i / numberOfPointsPerOffset) +
+					targetedUnitParent.transform.localScale.x * targetedUnitSections [(int)CombatManager.ShipSectionTargeted.PhaserSection].transform.localPosition.x
+					+ shipPhaserSectionTargetedOffset.x + shipPhaserSectionTargetedOffsetSpacing.x * (i / numberOfPointsPerOffset) +
 					Random.Range (-randomAmplitude, randomAmplitude + 1),
 
 					targetedUnitParent.transform.localPosition.y +
-					targetedUnitParent.transform.localScale.y * targetedUnitSections [(int)CombatManager.ShipSectionTargeted.PhasorSection].transform.localPosition.y
-					+ shipPhasorSectionTargetedOffset.y + shipPhasorSectionTargetedOffsetSpacing.y * (i / numberOfPointsPerOffset) +
+					targetedUnitParent.transform.localScale.y * targetedUnitSections [(int)CombatManager.ShipSectionTargeted.PhaserSection].transform.localPosition.y
+					+ shipPhaserSectionTargetedOffset.y + shipPhaserSectionTargetedOffsetSpacing.y * (i / numberOfPointsPerOffset) +
 					Random.Range (-randomAmplitude, randomAmplitude + 1)));
 
 
@@ -7842,45 +7842,45 @@ public class CutsceneManager : MonoBehaviour {
 	private void RemoveAllListeners(){
 
 		//remove a listener
-		CombatManager.OnPhasorAttackHitShipPhasorSection.RemoveListener(PhasorHitShipPhasorSectionAction);
-		CombatManager.OnPhasorAttackHitShipTorpedoSection.RemoveListener(PhasorHitShipTorpedoSectionAction);
-		CombatManager.OnPhasorAttackHitShipStorageSection.RemoveListener(PhasorHitShipStorageSectionAction);
-		CombatManager.OnPhasorAttackHitShipCrewSection.RemoveListener(PhasorHitShipCrewSectionAction);
-		CombatManager.OnPhasorAttackHitShipEngineSection.RemoveListener(PhasorHitShipEngineSectionAction);
-		CombatManager.OnPhasorAttackMissShip.RemoveListener(PhasorMissShipAction);
+		CombatManager.OnPhaserAttackHitShipPhaserSection.RemoveListener(PhaserHitShipPhaserSectionAction);
+		CombatManager.OnPhaserAttackHitShipTorpedoSection.RemoveListener(PhaserHitShipTorpedoSectionAction);
+		CombatManager.OnPhaserAttackHitShipStorageSection.RemoveListener(PhaserHitShipStorageSectionAction);
+		CombatManager.OnPhaserAttackHitShipCrewSection.RemoveListener(PhaserHitShipCrewSectionAction);
+		CombatManager.OnPhaserAttackHitShipEngineSection.RemoveListener(PhaserHitShipEngineSectionAction);
+		CombatManager.OnPhaserAttackMissShip.RemoveListener(PhaserMissShipAction);
 
-		CombatManager.OnPhasorAttackHitBasePhasorSection1.RemoveListener(PhasorHitBasePhasorSection1Action);
-		CombatManager.OnPhasorAttackHitBasePhasorSection2.RemoveListener(PhasorHitBasePhasorSection2Action);
-		CombatManager.OnPhasorAttackHitBaseTorpedoSection.RemoveListener(PhasorHitBaseTorpedoSectionAction);
-		CombatManager.OnPhasorAttackHitBaseCrewSection.RemoveListener(PhasorHitBaseCrewSectionAction);
-		CombatManager.OnPhasorAttackHitBaseStorageSection1.RemoveListener(PhasorHitBaseStorageSection1Action);
-		CombatManager.OnPhasorAttackHitBaseStorageSection2.RemoveListener(PhasorHitBaseStorageSection2Action);
-		CombatManager.OnPhasorAttackMissBase.RemoveListener(PhasorMissBaseAction);
+		CombatManager.OnPhaserAttackHitBasePhaserSection1.RemoveListener(PhaserHitBasePhaserSection1Action);
+		CombatManager.OnPhaserAttackHitBasePhaserSection2.RemoveListener(PhaserHitBasePhaserSection2Action);
+		CombatManager.OnPhaserAttackHitBaseTorpedoSection.RemoveListener(PhaserHitBaseTorpedoSectionAction);
+		CombatManager.OnPhaserAttackHitBaseCrewSection.RemoveListener(PhaserHitBaseCrewSectionAction);
+		CombatManager.OnPhaserAttackHitBaseStorageSection1.RemoveListener(PhaserHitBaseStorageSection1Action);
+		CombatManager.OnPhaserAttackHitBaseStorageSection2.RemoveListener(PhaserHitBaseStorageSection2Action);
+		CombatManager.OnPhaserAttackMissBase.RemoveListener(PhaserMissBaseAction);
 
-		CombatManager.OnLightTorpedoAttackHitShipPhasorSection.RemoveListener(LightTorpedoHitShipPhasorSectionAction);
+		CombatManager.OnLightTorpedoAttackHitShipPhaserSection.RemoveListener(LightTorpedoHitShipPhaserSectionAction);
 		CombatManager.OnLightTorpedoAttackHitShipTorpedoSection.RemoveListener(LightTorpedoHitShipTorpedoSectionAction);
 		CombatManager.OnLightTorpedoAttackHitShipStorageSection.RemoveListener(LightTorpedoHitShipStorageSectionAction);
 		CombatManager.OnLightTorpedoAttackHitShipCrewSection.RemoveListener(LightTorpedoHitShipCrewSectionAction);
 		CombatManager.OnLightTorpedoAttackHitShipEngineSection.RemoveListener(LightTorpedoHitShipEngineSectionAction);
 		CombatManager.OnLightTorpedoAttackMissShip.RemoveListener(LightTorpedoMissShipAction);
 
-		CombatManager.OnLightTorpedoAttackHitBasePhasorSection1.RemoveListener(LightTorpedoHitBasePhasorSection1Action);
-		CombatManager.OnLightTorpedoAttackHitBasePhasorSection2.RemoveListener(LightTorpedoHitBasePhasorSection2Action);
+		CombatManager.OnLightTorpedoAttackHitBasePhaserSection1.RemoveListener(LightTorpedoHitBasePhaserSection1Action);
+		CombatManager.OnLightTorpedoAttackHitBasePhaserSection2.RemoveListener(LightTorpedoHitBasePhaserSection2Action);
 		CombatManager.OnLightTorpedoAttackHitBaseTorpedoSection.RemoveListener(LightTorpedoHitBaseTorpedoSectionAction);
 		CombatManager.OnLightTorpedoAttackHitBaseCrewSection.RemoveListener(LightTorpedoHitBaseCrewSectionAction);
 		CombatManager.OnLightTorpedoAttackHitBaseStorageSection1.RemoveListener(LightTorpedoHitBaseStorageSection1Action);
 		CombatManager.OnLightTorpedoAttackHitBaseStorageSection2.RemoveListener(LightTorpedoHitBaseStorageSection2Action);
 		CombatManager.OnLightTorpedoAttackMissBase.RemoveListener(LightTorpedoMissBaseAction);
 
-		CombatManager.OnHeavyTorpedoAttackHitShipPhasorSection.RemoveListener(HeavyTorpedoHitShipPhasorSectionAction);
+		CombatManager.OnHeavyTorpedoAttackHitShipPhaserSection.RemoveListener(HeavyTorpedoHitShipPhaserSectionAction);
 		CombatManager.OnHeavyTorpedoAttackHitShipTorpedoSection.RemoveListener(HeavyTorpedoHitShipTorpedoSectionAction);
 		CombatManager.OnHeavyTorpedoAttackHitShipStorageSection.RemoveListener(HeavyTorpedoHitShipStorageSectionAction);
 		CombatManager.OnHeavyTorpedoAttackHitShipCrewSection.RemoveListener(HeavyTorpedoHitShipCrewSectionAction);
 		CombatManager.OnHeavyTorpedoAttackHitShipEngineSection.RemoveListener(HeavyTorpedoHitShipEngineSectionAction);
 		CombatManager.OnHeavyTorpedoAttackMissShip.RemoveListener(HeavyTorpedoMissShipAction);
 
-		CombatManager.OnHeavyTorpedoAttackHitBasePhasorSection1.RemoveListener(HeavyTorpedoHitBasePhasorSection1Action);
-		CombatManager.OnHeavyTorpedoAttackHitBasePhasorSection2.RemoveListener(HeavyTorpedoHitBasePhasorSection2Action);
+		CombatManager.OnHeavyTorpedoAttackHitBasePhaserSection1.RemoveListener(HeavyTorpedoHitBasePhaserSection1Action);
+		CombatManager.OnHeavyTorpedoAttackHitBasePhaserSection2.RemoveListener(HeavyTorpedoHitBasePhaserSection2Action);
 		CombatManager.OnHeavyTorpedoAttackHitBaseTorpedoSection.RemoveListener(HeavyTorpedoHitBaseTorpedoSectionAction);
 		CombatManager.OnHeavyTorpedoAttackHitBaseCrewSection.RemoveListener(HeavyTorpedoHitBaseCrewSectionAction);
 		CombatManager.OnHeavyTorpedoAttackHitBaseStorageSection1.RemoveListener(HeavyTorpedoHitBaseStorageSection1Action);

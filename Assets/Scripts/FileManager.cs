@@ -104,13 +104,13 @@ public class FileManager : MonoBehaviour  {
 
 		//variables for ship attributes
 		public Hex[,] scoutHexLocation { get; private set; }
-		public bool[,] scoutHasRemainingPhasorAttack { get; private set; }
+		public bool[,] scoutHasRemainingPhaserAttack { get; private set; }
 		//the unit name and serial number variables in CombatUnit can be populated from playerScoutNamesPurchased and the array index
-		public bool[,] scoutPhasorSectionIsDestroyed { get; private set; }
-		public int[,] scoutPhasorSectionShieldsCurrent { get; private set; }
-		public bool[,] scoutUsedPhasorsThisTurn { get; private set; }
-		public int[,] scoutPhasorRadarShot { get; private set; }
-		public bool[,] scoutPhasorRadarArray { get; private set; }
+		public bool[,] scoutPhaserSectionIsDestroyed { get; private set; }
+		public int[,] scoutPhaserSectionShieldsCurrent { get; private set; }
+		public bool[,] scoutUsedPhasersThisTurn { get; private set; }
+		public int[,] scoutPhaserRadarShot { get; private set; }
+		public bool[,] scoutPhaserRadarArray { get; private set; }
 		public bool[,] scoutXRayKernel { get; private set; }
 		public bool[,] scoutTractorBeam { get; private set; }
 		public bool[,] scoutStorageSectionIsDestroyed { get; private set; }
@@ -133,12 +133,12 @@ public class FileManager : MonoBehaviour  {
 
 
 		public Hex[,] birdOfPreyHexLocation { get; private set; }
-		public bool[,] birdOfPreyHasRemainingPhasorAttack { get; private set; }
-		public bool[,] birdOfPreyPhasorSectionIsDestroyed { get; private set; }
-		public int[,] birdOfPreyPhasorSectionShieldsCurrent { get; private set; }
-		public bool[,] birdOfPreyUsedPhasorsThisTurn { get; private set; }
-		public int[,] birdOfPreyPhasorRadarShot { get; private set; }
-		public bool[,] birdOfPreyPhasorRadarArray { get; private set; }
+		public bool[,] birdOfPreyHasRemainingPhaserAttack { get; private set; }
+		public bool[,] birdOfPreyPhaserSectionIsDestroyed { get; private set; }
+		public int[,] birdOfPreyPhaserSectionShieldsCurrent { get; private set; }
+		public bool[,] birdOfPreyUsedPhasersThisTurn { get; private set; }
+		public int[,] birdOfPreyPhaserRadarShot { get; private set; }
+		public bool[,] birdOfPreyPhaserRadarArray { get; private set; }
 		public bool[,] birdOfPreyXRayKernel { get; private set; }
 		public bool[,] birdOfPreyTractorBeam { get; private set; }
 		public bool[,] birdOfPreyHasRemainingTorpedoAttack { get; private set; }
@@ -165,12 +165,12 @@ public class FileManager : MonoBehaviour  {
 
 
 		public Hex[,] destroyerHexLocation { get; private set; }
-		public bool[,] destroyerHasRemainingPhasorAttack { get; private set; }
-		public bool[,] destroyerPhasorSectionIsDestroyed { get; private set; }
-		public int[,] destroyerPhasorSectionShieldsCurrent { get; private set; }
-		public bool[,] destroyerUsedPhasorsThisTurn { get; private set; }
-		public int[,] destroyerPhasorRadarShot { get; private set; }
-		public bool[,] destroyerPhasorRadarArray { get; private set; }
+		public bool[,] destroyerHasRemainingPhaserAttack { get; private set; }
+		public bool[,] destroyerPhaserSectionIsDestroyed { get; private set; }
+		public int[,] destroyerPhaserSectionShieldsCurrent { get; private set; }
+		public bool[,] destroyerUsedPhasersThisTurn { get; private set; }
+		public int[,] destroyerPhaserRadarShot { get; private set; }
+		public bool[,] destroyerPhaserRadarArray { get; private set; }
 		public bool[,] destroyerXRayKernel { get; private set; }
 		public bool[,] destroyerTractorBeam { get; private set; }
 		public bool[,] destroyerHasRemainingTorpedoAttack { get; private set; }
@@ -202,12 +202,12 @@ public class FileManager : MonoBehaviour  {
 		public bool[,] destroyerUsedTranswarpBoosterThisTurn { get; private set; }
 
 		public Hex[,] starshipHexLocation { get; private set; }
-		public bool[,] starshipHasRemainingPhasorAttack { get; private set; }
-		public bool[,] starshipPhasorSectionIsDestroyed { get; private set; }
-		public int[,] starshipPhasorSectionShieldsCurrent { get; private set; }
-		public bool[,] starshipUsedPhasorsThisTurn { get; private set; }
-		public int[,] starshipPhasorRadarShot { get; private set; }
-		public bool[,] starshipPhasorRadarArray { get; private set; }
+		public bool[,] starshipHasRemainingPhaserAttack { get; private set; }
+		public bool[,] starshipPhaserSectionIsDestroyed { get; private set; }
+		public int[,] starshipPhaserSectionShieldsCurrent { get; private set; }
+		public bool[,] starshipUsedPhasersThisTurn { get; private set; }
+		public int[,] starshipPhaserRadarShot { get; private set; }
+		public bool[,] starshipPhaserRadarArray { get; private set; }
 		public bool[,] starshipXRayKernel { get; private set; }
 		public bool[,] starshipTractorBeam { get; private set; }
 		public bool[,] starshipHasRemainingTorpedoAttack { get; private set; }
@@ -245,18 +245,18 @@ public class FileManager : MonoBehaviour  {
 		public bool[,] starshipUsedTranswarpBoosterThisTurn { get; private set; }
 
 		public Hex[] starbaseHexLocation { get; private set; }
-		public bool[] starbaseHasRemainingPhasorAttack { get; private set; }
+		public bool[] starbaseHasRemainingPhaserAttack { get; private set; }
 		public bool[] starbaseHasRemainingTorpedoAttack { get; private set; }
 		public string[] starbaseUnitName { get; private set; }
 		public bool[] starbaseHasRemainingRepairAction { get; private set; }
-		public bool[] starbasePhasorSection1IsDestroyed { get; private set; }
-		public int[] starbasePhasorSection1ShieldsCurrent { get; private set; }
-		public bool[] starbasePhasorSection1UsedPhasorsThisTurn { get; private set; }
-		public int[] starbasePhasorRadarShot { get; private set; }
-		public bool[] starbasePhasorRadarArray { get; private set; }
-		public bool[] starbasePhasorSection2IsDestroyed { get; private set; }
-		public int[] starbasePhasorSection2ShieldsCurrent { get; private set; }
-		public bool[] starbasePhasorSection2UsedPhasorsThisTurn { get; private set; }
+		public bool[] starbasePhaserSection1IsDestroyed { get; private set; }
+		public int[] starbasePhaserSection1ShieldsCurrent { get; private set; }
+		public bool[] starbasePhaserSection1UsedPhasersThisTurn { get; private set; }
+		public int[] starbasePhaserRadarShot { get; private set; }
+		public bool[] starbasePhaserRadarArray { get; private set; }
+		public bool[] starbasePhaserSection2IsDestroyed { get; private set; }
+		public int[] starbasePhaserSection2ShieldsCurrent { get; private set; }
+		public bool[] starbasePhaserSection2UsedPhasersThisTurn { get; private set; }
 		public bool[] starbaseXRayKernel { get; private set; }
 		public bool[] starbaseTorpedoSectionIsDestroyed { get; private set; }
 		public int[] starbaseTorpedoSectionShieldsCurrent { get; private set; }
@@ -328,13 +328,13 @@ public class FileManager : MonoBehaviour  {
 
 			//scout stuff
 			scoutHexLocation = new Hex[playerArray.Length,GameManager.maxShipsPerClass];
-			scoutHasRemainingPhasorAttack = new bool[playerArray.Length,GameManager.maxShipsPerClass];
+			scoutHasRemainingPhaserAttack = new bool[playerArray.Length,GameManager.maxShipsPerClass];
 
-			scoutPhasorSectionIsDestroyed = new bool[playerArray.Length,GameManager.maxShipsPerClass];
-			scoutPhasorSectionShieldsCurrent = new int[playerArray.Length,GameManager.maxShipsPerClass];
-			scoutUsedPhasorsThisTurn = new bool[playerArray.Length,GameManager.maxShipsPerClass];
-			scoutPhasorRadarShot = new int[playerArray.Length,GameManager.maxShipsPerClass];
-			scoutPhasorRadarArray= new bool[playerArray.Length,GameManager.maxShipsPerClass];
+			scoutPhaserSectionIsDestroyed = new bool[playerArray.Length,GameManager.maxShipsPerClass];
+			scoutPhaserSectionShieldsCurrent = new int[playerArray.Length,GameManager.maxShipsPerClass];
+			scoutUsedPhasersThisTurn = new bool[playerArray.Length,GameManager.maxShipsPerClass];
+			scoutPhaserRadarShot = new int[playerArray.Length,GameManager.maxShipsPerClass];
+			scoutPhaserRadarArray= new bool[playerArray.Length,GameManager.maxShipsPerClass];
 			scoutXRayKernel = new bool[playerArray.Length,GameManager.maxShipsPerClass];
 			scoutTractorBeam = new bool[playerArray.Length,GameManager.maxShipsPerClass];
 
@@ -360,16 +360,16 @@ public class FileManager : MonoBehaviour  {
 
 			//bird of prey stuff
 			birdOfPreyHexLocation = new Hex[playerArray.Length,GameManager.maxShipsPerClass];
-			birdOfPreyHasRemainingPhasorAttack = new bool[playerArray.Length,GameManager.maxShipsPerClass];
+			birdOfPreyHasRemainingPhaserAttack = new bool[playerArray.Length,GameManager.maxShipsPerClass];
 			birdOfPreyIsCloaked = new bool[playerArray.Length,GameManager.maxShipsPerClass];
 			birdOfPreyUsedCloakingDeviceThisTurn = new bool[playerArray.Length,GameManager.maxShipsPerClass];
 
-			birdOfPreyHasRemainingPhasorAttack = new bool[playerArray.Length,GameManager.maxShipsPerClass];
-			birdOfPreyPhasorSectionIsDestroyed = new bool[playerArray.Length,GameManager.maxShipsPerClass];
-			birdOfPreyPhasorSectionShieldsCurrent = new int[playerArray.Length,GameManager.maxShipsPerClass];
-			birdOfPreyUsedPhasorsThisTurn = new bool[playerArray.Length,GameManager.maxShipsPerClass];
-			birdOfPreyPhasorRadarShot = new int[playerArray.Length,GameManager.maxShipsPerClass];
-			birdOfPreyPhasorRadarArray= new bool[playerArray.Length,GameManager.maxShipsPerClass];
+			birdOfPreyHasRemainingPhaserAttack = new bool[playerArray.Length,GameManager.maxShipsPerClass];
+			birdOfPreyPhaserSectionIsDestroyed = new bool[playerArray.Length,GameManager.maxShipsPerClass];
+			birdOfPreyPhaserSectionShieldsCurrent = new int[playerArray.Length,GameManager.maxShipsPerClass];
+			birdOfPreyUsedPhasersThisTurn = new bool[playerArray.Length,GameManager.maxShipsPerClass];
+			birdOfPreyPhaserRadarShot = new int[playerArray.Length,GameManager.maxShipsPerClass];
+			birdOfPreyPhaserRadarArray= new bool[playerArray.Length,GameManager.maxShipsPerClass];
 			birdOfPreyXRayKernel = new bool[playerArray.Length,GameManager.maxShipsPerClass];
 			birdOfPreyTractorBeam = new bool[playerArray.Length,GameManager.maxShipsPerClass];
 
@@ -395,12 +395,12 @@ public class FileManager : MonoBehaviour  {
 
 			//destroyer stuff
 			destroyerHexLocation = new Hex[playerArray.Length,GameManager.maxShipsPerClass];
-			destroyerHasRemainingPhasorAttack = new bool[playerArray.Length,GameManager.maxShipsPerClass];
-			destroyerPhasorSectionIsDestroyed = new bool[playerArray.Length,GameManager.maxShipsPerClass];
-			destroyerPhasorSectionShieldsCurrent = new int[playerArray.Length,GameManager.maxShipsPerClass];
-			destroyerUsedPhasorsThisTurn = new bool[playerArray.Length,GameManager.maxShipsPerClass];
-			destroyerPhasorRadarShot = new int[playerArray.Length,GameManager.maxShipsPerClass];
-			destroyerPhasorRadarArray= new bool[playerArray.Length,GameManager.maxShipsPerClass];
+			destroyerHasRemainingPhaserAttack = new bool[playerArray.Length,GameManager.maxShipsPerClass];
+			destroyerPhaserSectionIsDestroyed = new bool[playerArray.Length,GameManager.maxShipsPerClass];
+			destroyerPhaserSectionShieldsCurrent = new int[playerArray.Length,GameManager.maxShipsPerClass];
+			destroyerUsedPhasersThisTurn = new bool[playerArray.Length,GameManager.maxShipsPerClass];
+			destroyerPhaserRadarShot = new int[playerArray.Length,GameManager.maxShipsPerClass];
+			destroyerPhaserRadarArray= new bool[playerArray.Length,GameManager.maxShipsPerClass];
 			destroyerXRayKernel = new bool[playerArray.Length,GameManager.maxShipsPerClass];
 			destroyerTractorBeam = new bool[playerArray.Length,GameManager.maxShipsPerClass];
 
@@ -436,12 +436,12 @@ public class FileManager : MonoBehaviour  {
 
 			//starship stuff
 			starshipHexLocation = new Hex[playerArray.Length,GameManager.maxShipsPerClass];
-			starshipHasRemainingPhasorAttack = new bool[playerArray.Length,GameManager.maxShipsPerClass];
-			starshipPhasorSectionIsDestroyed = new bool[playerArray.Length,GameManager.maxShipsPerClass];
-			starshipPhasorSectionShieldsCurrent = new int[playerArray.Length,GameManager.maxShipsPerClass];
-			starshipUsedPhasorsThisTurn = new bool[playerArray.Length,GameManager.maxShipsPerClass];
-			starshipPhasorRadarShot = new int[playerArray.Length,GameManager.maxShipsPerClass];
-			starshipPhasorRadarArray= new bool[playerArray.Length,GameManager.maxShipsPerClass];
+			starshipHasRemainingPhaserAttack = new bool[playerArray.Length,GameManager.maxShipsPerClass];
+			starshipPhaserSectionIsDestroyed = new bool[playerArray.Length,GameManager.maxShipsPerClass];
+			starshipPhaserSectionShieldsCurrent = new int[playerArray.Length,GameManager.maxShipsPerClass];
+			starshipUsedPhasersThisTurn = new bool[playerArray.Length,GameManager.maxShipsPerClass];
+			starshipPhaserRadarShot = new int[playerArray.Length,GameManager.maxShipsPerClass];
+			starshipPhaserRadarArray= new bool[playerArray.Length,GameManager.maxShipsPerClass];
 			starshipXRayKernel = new bool[playerArray.Length,GameManager.maxShipsPerClass];
 			starshipTractorBeam = new bool[playerArray.Length,GameManager.maxShipsPerClass];
 
@@ -484,20 +484,20 @@ public class FileManager : MonoBehaviour  {
 
 			//starbase stuff
 			starbaseHexLocation = new Hex[playerArray.Length];
-			starbaseHasRemainingPhasorAttack = new bool[playerArray.Length];
+			starbaseHasRemainingPhaserAttack = new bool[playerArray.Length];
 			starbaseHasRemainingTorpedoAttack = new bool[playerArray.Length];
 			starbaseUnitName = new string[playerArray.Length];
 			starbaseHasRemainingRepairAction = new bool[playerArray.Length];
 
-			starbasePhasorSection1IsDestroyed = new bool[playerArray.Length];
-			starbasePhasorSection1ShieldsCurrent = new int[playerArray.Length];
-			starbasePhasorSection1UsedPhasorsThisTurn = new bool[playerArray.Length];
-			starbasePhasorRadarShot = new int[playerArray.Length];
-			starbasePhasorRadarArray= new bool[playerArray.Length];
+			starbasePhaserSection1IsDestroyed = new bool[playerArray.Length];
+			starbasePhaserSection1ShieldsCurrent = new int[playerArray.Length];
+			starbasePhaserSection1UsedPhasersThisTurn = new bool[playerArray.Length];
+			starbasePhaserRadarShot = new int[playerArray.Length];
+			starbasePhaserRadarArray= new bool[playerArray.Length];
 
-			starbasePhasorSection2IsDestroyed = new bool[playerArray.Length];
-			starbasePhasorSection2ShieldsCurrent = new int[playerArray.Length];
-			starbasePhasorSection2UsedPhasorsThisTurn = new bool[playerArray.Length];
+			starbasePhaserSection2IsDestroyed = new bool[playerArray.Length];
+			starbasePhaserSection2ShieldsCurrent = new int[playerArray.Length];
+			starbasePhaserSection2UsedPhasersThisTurn = new bool[playerArray.Length];
 			starbaseXRayKernel = new bool[playerArray.Length];
 
 			starbaseTorpedoSectionIsDestroyed = new bool[playerArray.Length];
@@ -645,33 +645,33 @@ public class FileManager : MonoBehaviour  {
 						//end hex location
 						writer.WriteEndElement ();
 
-						writer.WriteStartElement ("hasRemainingPhasorAttack");
-						writer.WriteValue (scoutHasRemainingPhasorAttack [i, j].ToString ().ToLowerInvariant());
+						writer.WriteStartElement ("hasRemainingPhaserAttack");
+						writer.WriteValue (scoutHasRemainingPhaserAttack [i, j].ToString ().ToLowerInvariant());
 						writer.WriteEndElement ();
 
 						//close combat unit
 						writer.WriteEndElement ();
 
-						writer.WriteStartElement ("PhasorSection");
+						writer.WriteStartElement ("PhaserSection");
 
-						writer.WriteStartElement ("phasorSectionIsDestroyed");
-						writer.WriteValue (scoutPhasorSectionIsDestroyed [i, j].ToString ().ToLowerInvariant());
+						writer.WriteStartElement ("phaserSectionIsDestroyed");
+						writer.WriteValue (scoutPhaserSectionIsDestroyed [i, j].ToString ().ToLowerInvariant());
 						writer.WriteEndElement ();
 
-						writer.WriteStartElement ("phasorSectionShieldsCurrent");
-						writer.WriteValue (scoutPhasorSectionShieldsCurrent [i, j].ToString ());
+						writer.WriteStartElement ("phaserSectionShieldsCurrent");
+						writer.WriteValue (scoutPhaserSectionShieldsCurrent [i, j].ToString ());
 						writer.WriteEndElement ();
 
-						writer.WriteStartElement ("usedPhasorsThisTurn");
-						writer.WriteValue (scoutUsedPhasorsThisTurn [i, j].ToString ().ToLowerInvariant());
+						writer.WriteStartElement ("usedPhasersThisTurn");
+						writer.WriteValue (scoutUsedPhasersThisTurn [i, j].ToString ().ToLowerInvariant());
 						writer.WriteEndElement ();
 
-						writer.WriteStartElement ("phasorRadarShot");
-						writer.WriteValue (scoutPhasorRadarShot [i, j].ToString ());
+						writer.WriteStartElement ("phaserRadarShot");
+						writer.WriteValue (scoutPhaserRadarShot [i, j].ToString ());
 						writer.WriteEndElement ();
 
-						writer.WriteStartElement ("phasorRadarArray");
-						writer.WriteValue (scoutPhasorRadarArray [i, j].ToString ().ToLowerInvariant());
+						writer.WriteStartElement ("phaserRadarArray");
+						writer.WriteValue (scoutPhaserRadarArray [i, j].ToString ().ToLowerInvariant());
 						writer.WriteEndElement ();
 
 						writer.WriteStartElement ("xRayKernel");
@@ -682,7 +682,7 @@ public class FileManager : MonoBehaviour  {
 						writer.WriteValue (scoutTractorBeam [i, j].ToString ().ToLowerInvariant());
 						writer.WriteEndElement ();
 
-						//end phasor section
+						//end phaser section
 						writer.WriteEndElement ();
 
 						writer.WriteStartElement ("StorageSection");
@@ -818,8 +818,8 @@ public class FileManager : MonoBehaviour  {
 						//end hex location
 						writer.WriteEndElement ();
 
-						writer.WriteStartElement ("hasRemainingPhasorAttack");
-						writer.WriteValue (birdOfPreyHasRemainingPhasorAttack [i, j].ToString ().ToLowerInvariant());
+						writer.WriteStartElement ("hasRemainingPhaserAttack");
+						writer.WriteValue (birdOfPreyHasRemainingPhaserAttack [i, j].ToString ().ToLowerInvariant());
 						writer.WriteEndElement ();
 
 						writer.WriteStartElement ("hasRemainingTorpedoAttack");
@@ -837,26 +837,26 @@ public class FileManager : MonoBehaviour  {
 						//close combat unit
 						writer.WriteEndElement ();
 
-						writer.WriteStartElement ("PhasorSection");
+						writer.WriteStartElement ("PhaserSection");
 
-						writer.WriteStartElement ("phasorSectionIsDestroyed");
-						writer.WriteValue (birdOfPreyPhasorSectionIsDestroyed [i, j].ToString ().ToLowerInvariant());
+						writer.WriteStartElement ("phaserSectionIsDestroyed");
+						writer.WriteValue (birdOfPreyPhaserSectionIsDestroyed [i, j].ToString ().ToLowerInvariant());
 						writer.WriteEndElement ();
 
-						writer.WriteStartElement ("phasorSectionShieldsCurrent");
-						writer.WriteValue (birdOfPreyPhasorSectionShieldsCurrent [i, j].ToString ());
+						writer.WriteStartElement ("phaserSectionShieldsCurrent");
+						writer.WriteValue (birdOfPreyPhaserSectionShieldsCurrent [i, j].ToString ());
 						writer.WriteEndElement ();
 
-						writer.WriteStartElement ("usedPhasorsThisTurn");
-						writer.WriteValue (birdOfPreyUsedPhasorsThisTurn [i, j].ToString ().ToLowerInvariant());
+						writer.WriteStartElement ("usedPhasersThisTurn");
+						writer.WriteValue (birdOfPreyUsedPhasersThisTurn [i, j].ToString ().ToLowerInvariant());
 						writer.WriteEndElement ();
 
-						writer.WriteStartElement ("phasorRadarShot");
-						writer.WriteValue (birdOfPreyPhasorRadarShot [i, j].ToString ());
+						writer.WriteStartElement ("phaserRadarShot");
+						writer.WriteValue (birdOfPreyPhaserRadarShot [i, j].ToString ());
 						writer.WriteEndElement ();
 
-						writer.WriteStartElement ("phasorRadarArray");
-						writer.WriteValue (birdOfPreyPhasorRadarArray [i, j].ToString ().ToLowerInvariant());
+						writer.WriteStartElement ("phaserRadarArray");
+						writer.WriteValue (birdOfPreyPhaserRadarArray [i, j].ToString ().ToLowerInvariant());
 						writer.WriteEndElement ();
 
 						writer.WriteStartElement ("xRayKernel");
@@ -867,7 +867,7 @@ public class FileManager : MonoBehaviour  {
 						writer.WriteValue (birdOfPreyTractorBeam [i, j].ToString ().ToLowerInvariant());
 						writer.WriteEndElement ();
 
-						//end phasor section
+						//end phaser section
 						writer.WriteEndElement ();
 
 						writer.WriteStartElement ("TorpedoSection");
@@ -1004,8 +1004,8 @@ public class FileManager : MonoBehaviour  {
 						//end hex location
 						writer.WriteEndElement ();
 
-						writer.WriteStartElement ("hasRemainingPhasorAttack");
-						writer.WriteValue (destroyerHasRemainingPhasorAttack [i, j].ToString ().ToLowerInvariant());
+						writer.WriteStartElement ("hasRemainingPhaserAttack");
+						writer.WriteValue (destroyerHasRemainingPhaserAttack [i, j].ToString ().ToLowerInvariant());
 						writer.WriteEndElement ();
 
 						writer.WriteStartElement ("hasRemainingTorpedoAttack");
@@ -1015,26 +1015,26 @@ public class FileManager : MonoBehaviour  {
 						//close combat unit
 						writer.WriteEndElement ();
 
-						writer.WriteStartElement ("PhasorSection");
+						writer.WriteStartElement ("PhaserSection");
 
-						writer.WriteStartElement ("phasorSectionIsDestroyed");
-						writer.WriteValue (destroyerPhasorSectionIsDestroyed [i, j].ToString ().ToLowerInvariant());
+						writer.WriteStartElement ("phaserSectionIsDestroyed");
+						writer.WriteValue (destroyerPhaserSectionIsDestroyed [i, j].ToString ().ToLowerInvariant());
 						writer.WriteEndElement ();
 
-						writer.WriteStartElement ("phasorSectionShieldsCurrent");
-						writer.WriteValue (destroyerPhasorSectionShieldsCurrent [i, j].ToString ());
+						writer.WriteStartElement ("phaserSectionShieldsCurrent");
+						writer.WriteValue (destroyerPhaserSectionShieldsCurrent [i, j].ToString ());
 						writer.WriteEndElement ();
 
-						writer.WriteStartElement ("usedPhasorsThisTurn");
-						writer.WriteValue (destroyerUsedPhasorsThisTurn [i, j].ToString ().ToLowerInvariant());
+						writer.WriteStartElement ("usedPhasersThisTurn");
+						writer.WriteValue (destroyerUsedPhasersThisTurn [i, j].ToString ().ToLowerInvariant());
 						writer.WriteEndElement ();
 
-						writer.WriteStartElement ("phasorRadarShot");
-						writer.WriteValue (destroyerPhasorRadarShot [i, j].ToString ());
+						writer.WriteStartElement ("phaserRadarShot");
+						writer.WriteValue (destroyerPhaserRadarShot [i, j].ToString ());
 						writer.WriteEndElement ();
 
-						writer.WriteStartElement ("phasorRadarArray");
-						writer.WriteValue (destroyerPhasorRadarArray [i, j].ToString ().ToLowerInvariant());
+						writer.WriteStartElement ("phaserRadarArray");
+						writer.WriteValue (destroyerPhaserRadarArray [i, j].ToString ().ToLowerInvariant());
 						writer.WriteEndElement ();
 
 						writer.WriteStartElement ("xRayKernel");
@@ -1045,7 +1045,7 @@ public class FileManager : MonoBehaviour  {
 						writer.WriteValue (destroyerTractorBeam [i, j].ToString ().ToLowerInvariant());
 						writer.WriteEndElement ();
 
-						//end phasor section
+						//end phaser section
 						writer.WriteEndElement ();
 
 						writer.WriteStartElement ("TorpedoSection");
@@ -1218,8 +1218,8 @@ public class FileManager : MonoBehaviour  {
 						//end hex location
 						writer.WriteEndElement ();
 
-						writer.WriteStartElement ("hasRemainingPhasorAttack");
-						writer.WriteValue (starshipHasRemainingPhasorAttack [i, j].ToString ().ToLowerInvariant());
+						writer.WriteStartElement ("hasRemainingPhaserAttack");
+						writer.WriteValue (starshipHasRemainingPhaserAttack [i, j].ToString ().ToLowerInvariant());
 						writer.WriteEndElement ();
 
 						writer.WriteStartElement ("hasRemainingTorpedoAttack");
@@ -1229,26 +1229,26 @@ public class FileManager : MonoBehaviour  {
 						//close combat unit
 						writer.WriteEndElement ();
 
-						writer.WriteStartElement ("PhasorSection");
+						writer.WriteStartElement ("PhaserSection");
 
-						writer.WriteStartElement ("phasorSectionIsDestroyed");
-						writer.WriteValue (starshipPhasorSectionIsDestroyed [i, j].ToString ().ToLowerInvariant());
+						writer.WriteStartElement ("phaserSectionIsDestroyed");
+						writer.WriteValue (starshipPhaserSectionIsDestroyed [i, j].ToString ().ToLowerInvariant());
 						writer.WriteEndElement ();
 
-						writer.WriteStartElement ("phasorSectionShieldsCurrent");
-						writer.WriteValue (starshipPhasorSectionShieldsCurrent [i, j].ToString ());
+						writer.WriteStartElement ("phaserSectionShieldsCurrent");
+						writer.WriteValue (starshipPhaserSectionShieldsCurrent [i, j].ToString ());
 						writer.WriteEndElement ();
 
-						writer.WriteStartElement ("usedPhasorsThisTurn");
-						writer.WriteValue (starshipUsedPhasorsThisTurn [i, j].ToString ().ToLowerInvariant());
+						writer.WriteStartElement ("usedPhasersThisTurn");
+						writer.WriteValue (starshipUsedPhasersThisTurn [i, j].ToString ().ToLowerInvariant());
 						writer.WriteEndElement ();
 
-						writer.WriteStartElement ("phasorRadarShot");
-						writer.WriteValue (starshipPhasorRadarShot [i, j].ToString ());
+						writer.WriteStartElement ("phaserRadarShot");
+						writer.WriteValue (starshipPhaserRadarShot [i, j].ToString ());
 						writer.WriteEndElement ();
 
-						writer.WriteStartElement ("phasorRadarArray");
-						writer.WriteValue (starshipPhasorRadarArray [i, j].ToString ().ToLowerInvariant());
+						writer.WriteStartElement ("phaserRadarArray");
+						writer.WriteValue (starshipPhaserRadarArray [i, j].ToString ().ToLowerInvariant());
 						writer.WriteEndElement ();
 
 						writer.WriteStartElement ("xRayKernel");
@@ -1259,7 +1259,7 @@ public class FileManager : MonoBehaviour  {
 						writer.WriteValue (starshipTractorBeam [i, j].ToString ().ToLowerInvariant());
 						writer.WriteEndElement ();
 
-						//end phasor section
+						//end phaser section
 						writer.WriteEndElement ();
 
 						writer.WriteStartElement ("TorpedoSection");
@@ -1452,8 +1452,8 @@ public class FileManager : MonoBehaviour  {
 					//end hex location
 					writer.WriteEndElement ();
 
-					writer.WriteStartElement ("hasRemainingPhasorAttack");
-					writer.WriteValue (starbaseHasRemainingPhasorAttack[i].ToString ().ToLowerInvariant());
+					writer.WriteStartElement ("hasRemainingPhaserAttack");
+					writer.WriteValue (starbaseHasRemainingPhaserAttack[i].ToString ().ToLowerInvariant());
 					writer.WriteEndElement ();
 
 					writer.WriteStartElement ("hasRemainingTorpedoAttack");
@@ -1467,50 +1467,50 @@ public class FileManager : MonoBehaviour  {
 					//end combatUnit
 					writer.WriteEndElement();
 
-					writer.WriteStartElement ("PhasorSection1");
+					writer.WriteStartElement ("PhaserSection1");
 
-					writer.WriteStartElement ("phasorSection1IsDestroyed");
-					writer.WriteValue (starbasePhasorSection1IsDestroyed [i].ToString ().ToLowerInvariant());
+					writer.WriteStartElement ("phaserSection1IsDestroyed");
+					writer.WriteValue (starbasePhaserSection1IsDestroyed [i].ToString ().ToLowerInvariant());
 					writer.WriteEndElement ();
 
-					writer.WriteStartElement ("phasorSection1ShieldsCurrent");
-					writer.WriteValue (starbasePhasorSection1ShieldsCurrent [i].ToString ());
+					writer.WriteStartElement ("phaserSection1ShieldsCurrent");
+					writer.WriteValue (starbasePhaserSection1ShieldsCurrent [i].ToString ());
 					writer.WriteEndElement ();
 
-					writer.WriteStartElement ("phasorSection1UsedPhasorsThisTurn");
-					writer.WriteValue (starbasePhasorSection1UsedPhasorsThisTurn [i].ToString ().ToLowerInvariant());
+					writer.WriteStartElement ("phaserSection1UsedPhasersThisTurn");
+					writer.WriteValue (starbasePhaserSection1UsedPhasersThisTurn [i].ToString ().ToLowerInvariant());
 					writer.WriteEndElement ();
 
-					writer.WriteStartElement ("phasorRadarShot");
-					writer.WriteValue (starbasePhasorRadarShot [i].ToString ());
+					writer.WriteStartElement ("phaserRadarShot");
+					writer.WriteValue (starbasePhaserRadarShot [i].ToString ());
 					writer.WriteEndElement ();
 
-					writer.WriteStartElement ("phasorRadarArray");
-					writer.WriteValue (starbasePhasorRadarArray [i].ToString ().ToLowerInvariant());
+					writer.WriteStartElement ("phaserRadarArray");
+					writer.WriteValue (starbasePhaserRadarArray [i].ToString ().ToLowerInvariant());
 					writer.WriteEndElement ();
 
-					//end PhasorSection1
+					//end PhaserSection1
 					writer.WriteEndElement();
 
-					writer.WriteStartElement ("PhasorSection2");
+					writer.WriteStartElement ("PhaserSection2");
 
-					writer.WriteStartElement ("phasorSection2IsDestroyed");
-					writer.WriteValue (starbasePhasorSection2IsDestroyed [i].ToString ().ToLowerInvariant());
+					writer.WriteStartElement ("phaserSection2IsDestroyed");
+					writer.WriteValue (starbasePhaserSection2IsDestroyed [i].ToString ().ToLowerInvariant());
 					writer.WriteEndElement ();
 
-					writer.WriteStartElement ("phasorSection2ShieldsCurrent");
-					writer.WriteValue (starbasePhasorSection2ShieldsCurrent [i].ToString ());
+					writer.WriteStartElement ("phaserSection2ShieldsCurrent");
+					writer.WriteValue (starbasePhaserSection2ShieldsCurrent [i].ToString ());
 					writer.WriteEndElement ();
 
-					writer.WriteStartElement ("phasorSection2UsedPhasorsThisTurn");
-					writer.WriteValue (starbasePhasorSection2UsedPhasorsThisTurn [i].ToString ().ToLowerInvariant());
+					writer.WriteStartElement ("phaserSection2UsedPhasersThisTurn");
+					writer.WriteValue (starbasePhaserSection2UsedPhasersThisTurn [i].ToString ().ToLowerInvariant());
 					writer.WriteEndElement ();
 
 					writer.WriteStartElement ("xRayKernel");
 					writer.WriteValue (starbaseXRayKernel [i].ToString ().ToLowerInvariant());
 					writer.WriteEndElement ();
 
-					//end PhasorSection2
+					//end PhaserSection2
 					writer.WriteEndElement();
 
 					writer.WriteStartElement ("TorpedoSection");
@@ -1888,29 +1888,29 @@ public class FileManager : MonoBehaviour  {
 							//the end element is the hexLocation
 							reader.ReadEndElement ();
 
-							//read element for scout remaining phasor attack
-							scoutHasRemainingPhasorAttack [i, j] = reader.ReadElementContentAsBoolean ();
+							//read element for scout remaining phaser attack
+							scoutHasRemainingPhaserAttack [i, j] = reader.ReadElementContentAsBoolean ();
 
 							//the end element is the CombatUnit
 							reader.ReadEndElement ();
 
-							//the start element is the PhasorSection
+							//the start element is the PhaserSection
 							reader.ReadStartElement ();
 
-							//read element for phasorSectionIsDestroyed
-							scoutPhasorSectionIsDestroyed [i, j] = reader.ReadElementContentAsBoolean ();
+							//read element for phaserSectionIsDestroyed
+							scoutPhaserSectionIsDestroyed [i, j] = reader.ReadElementContentAsBoolean ();
 
-							//read element for phasorSectionShieldsCurrent
-							scoutPhasorSectionShieldsCurrent [i, j] = reader.ReadElementContentAsInt ();
+							//read element for phaserSectionShieldsCurrent
+							scoutPhaserSectionShieldsCurrent [i, j] = reader.ReadElementContentAsInt ();
 
-							//read element for usedPhasorsThisTurn
-							scoutUsedPhasorsThisTurn [i, j] = reader.ReadElementContentAsBoolean ();
+							//read element for usedPhasersThisTurn
+							scoutUsedPhasersThisTurn [i, j] = reader.ReadElementContentAsBoolean ();
 
-							//read element for phasorRadarShot
-							scoutPhasorRadarShot [i, j] = reader.ReadElementContentAsInt ();
+							//read element for phaserRadarShot
+							scoutPhaserRadarShot [i, j] = reader.ReadElementContentAsInt ();
 
-							//read element for phasorRadarArray
-							scoutPhasorRadarArray [i, j] = reader.ReadElementContentAsBoolean ();
+							//read element for phaserRadarArray
+							scoutPhaserRadarArray [i, j] = reader.ReadElementContentAsBoolean ();
 
 							//read element for xRayKernel
 							scoutXRayKernel [i, j] = reader.ReadElementContentAsBoolean ();
@@ -1918,7 +1918,7 @@ public class FileManager : MonoBehaviour  {
 							//read element for tractorBeam
 							scoutTractorBeam [i, j] = reader.ReadElementContentAsBoolean ();
 
-							//the end element is the PhasorSection
+							//the end element is the PhaserSection
 							reader.ReadEndElement ();
 
 							//the start element is the StorageSection
@@ -2061,8 +2061,8 @@ public class FileManager : MonoBehaviour  {
 							//the end element is the hexLocation
 							reader.ReadEndElement ();
 
-							//read element for remaining phasor attack
-							birdOfPreyHasRemainingPhasorAttack [i, j] = reader.ReadElementContentAsBoolean ();
+							//read element for remaining phaser attack
+							birdOfPreyHasRemainingPhaserAttack [i, j] = reader.ReadElementContentAsBoolean ();
 
 							//read element for remaining torpedo attack
 							birdOfPreyHasRemainingTorpedoAttack [i, j] = reader.ReadElementContentAsBoolean ();
@@ -2076,23 +2076,23 @@ public class FileManager : MonoBehaviour  {
 							//the end element is the CombatUnit
 							reader.ReadEndElement ();
 
-							//the start element is the PhasorSection
+							//the start element is the PhaserSection
 							reader.ReadStartElement ();
 
-							//read element for phasorSectionIsDestroyed
-							birdOfPreyPhasorSectionIsDestroyed [i, j] = reader.ReadElementContentAsBoolean ();
+							//read element for phaserSectionIsDestroyed
+							birdOfPreyPhaserSectionIsDestroyed [i, j] = reader.ReadElementContentAsBoolean ();
 
-							//read element for phasorSectionShieldsCurrent
-							birdOfPreyPhasorSectionShieldsCurrent [i, j] = reader.ReadElementContentAsInt ();
+							//read element for phaserSectionShieldsCurrent
+							birdOfPreyPhaserSectionShieldsCurrent [i, j] = reader.ReadElementContentAsInt ();
 
-							//read element for usedPhasorsThisTurn
-							birdOfPreyUsedPhasorsThisTurn [i, j] = reader.ReadElementContentAsBoolean ();
+							//read element for usedPhasersThisTurn
+							birdOfPreyUsedPhasersThisTurn [i, j] = reader.ReadElementContentAsBoolean ();
 
-							//read element for phasorRadarShot
-							birdOfPreyPhasorRadarShot [i, j] = reader.ReadElementContentAsInt ();
+							//read element for phaserRadarShot
+							birdOfPreyPhaserRadarShot [i, j] = reader.ReadElementContentAsInt ();
 
-							//read element for phasorRadarArray
-							birdOfPreyPhasorRadarArray [i, j] = reader.ReadElementContentAsBoolean ();
+							//read element for phaserRadarArray
+							birdOfPreyPhaserRadarArray [i, j] = reader.ReadElementContentAsBoolean ();
 
 							//read element for xRayKernel
 							birdOfPreyXRayKernel [i, j] = reader.ReadElementContentAsBoolean ();
@@ -2100,7 +2100,7 @@ public class FileManager : MonoBehaviour  {
 							//read element for tractorBeam
 							birdOfPreyTractorBeam [i, j] = reader.ReadElementContentAsBoolean ();
 
-							//the end element is the PhasorSection
+							//the end element is the PhaserSection
 							reader.ReadEndElement ();
 
 							//the start element is the TorpedoSection
@@ -2226,8 +2226,8 @@ public class FileManager : MonoBehaviour  {
 							//the end element is the hexLocation
 							reader.ReadEndElement ();
 
-							//read element for remaining phasor attack
-							destroyerHasRemainingPhasorAttack [i, j] = reader.ReadElementContentAsBoolean ();
+							//read element for remaining phaser attack
+							destroyerHasRemainingPhaserAttack [i, j] = reader.ReadElementContentAsBoolean ();
 
 							//read element for remaining torpedo attack
 							destroyerHasRemainingTorpedoAttack [i, j] = reader.ReadElementContentAsBoolean ();
@@ -2235,23 +2235,23 @@ public class FileManager : MonoBehaviour  {
 							//the end element is the CombatUnit
 							reader.ReadEndElement ();
 
-							//the start element is the PhasorSection
+							//the start element is the PhaserSection
 							reader.ReadStartElement ();
 
-							//read element for phasorSectionIsDestroyed
-							destroyerPhasorSectionIsDestroyed [i, j] = reader.ReadElementContentAsBoolean ();
+							//read element for phaserSectionIsDestroyed
+							destroyerPhaserSectionIsDestroyed [i, j] = reader.ReadElementContentAsBoolean ();
 
-							//read element for phasorSectionShieldsCurrent
-							destroyerPhasorSectionShieldsCurrent [i, j] = reader.ReadElementContentAsInt ();
+							//read element for phaserSectionShieldsCurrent
+							destroyerPhaserSectionShieldsCurrent [i, j] = reader.ReadElementContentAsInt ();
 
-							//read element for usedPhasorsThisTurn
-							destroyerUsedPhasorsThisTurn [i, j] = reader.ReadElementContentAsBoolean ();
+							//read element for usedPhasersThisTurn
+							destroyerUsedPhasersThisTurn [i, j] = reader.ReadElementContentAsBoolean ();
 
-							//read element for phasorRadarShot
-							destroyerPhasorRadarShot [i, j] = reader.ReadElementContentAsInt ();
+							//read element for phaserRadarShot
+							destroyerPhaserRadarShot [i, j] = reader.ReadElementContentAsInt ();
 
-							//read element for phasorRadarArray
-							destroyerPhasorRadarArray [i, j] = reader.ReadElementContentAsBoolean ();
+							//read element for phaserRadarArray
+							destroyerPhaserRadarArray [i, j] = reader.ReadElementContentAsBoolean ();
 
 							//read element for xRayKernel
 							destroyerXRayKernel [i, j] = reader.ReadElementContentAsBoolean ();
@@ -2259,7 +2259,7 @@ public class FileManager : MonoBehaviour  {
 							//read element for tractorBeam
 							destroyerTractorBeam [i, j] = reader.ReadElementContentAsBoolean ();
 
-							//the end element is the PhasorSection
+							//the end element is the PhaserSection
 							reader.ReadEndElement ();
 
 							//the start element is the TorpedoSection
@@ -2432,8 +2432,8 @@ public class FileManager : MonoBehaviour  {
 							//the end element is the hexLocation
 							reader.ReadEndElement ();
 
-							//read element for remaining phasor attack
-							starshipHasRemainingPhasorAttack [i, j] = reader.ReadElementContentAsBoolean ();
+							//read element for remaining phaser attack
+							starshipHasRemainingPhaserAttack [i, j] = reader.ReadElementContentAsBoolean ();
 
 							//read element for remaining torpedo attack
 							starshipHasRemainingTorpedoAttack [i, j] = reader.ReadElementContentAsBoolean ();
@@ -2441,23 +2441,23 @@ public class FileManager : MonoBehaviour  {
 							//the end element is the CombatUnit
 							reader.ReadEndElement ();
 
-							//the start element is the PhasorSection
+							//the start element is the PhaserSection
 							reader.ReadStartElement ();
 
-							//read element for phasorSectionIsDestroyed
-							starshipPhasorSectionIsDestroyed [i, j] = reader.ReadElementContentAsBoolean ();
+							//read element for phaserSectionIsDestroyed
+							starshipPhaserSectionIsDestroyed [i, j] = reader.ReadElementContentAsBoolean ();
 
-							//read element for phasorSectionShieldsCurrent
-							starshipPhasorSectionShieldsCurrent [i, j] = reader.ReadElementContentAsInt ();
+							//read element for phaserSectionShieldsCurrent
+							starshipPhaserSectionShieldsCurrent [i, j] = reader.ReadElementContentAsInt ();
 
-							//read element for usedPhasorsThisTurn
-							starshipUsedPhasorsThisTurn [i, j] = reader.ReadElementContentAsBoolean ();
+							//read element for usedPhasersThisTurn
+							starshipUsedPhasersThisTurn [i, j] = reader.ReadElementContentAsBoolean ();
 
-							//read element for phasorRadarShot
-							starshipPhasorRadarShot [i, j] = reader.ReadElementContentAsInt ();
+							//read element for phaserRadarShot
+							starshipPhaserRadarShot [i, j] = reader.ReadElementContentAsInt ();
 
-							//read element for phasorRadarArray
-							starshipPhasorRadarArray [i, j] = reader.ReadElementContentAsBoolean ();
+							//read element for phaserRadarArray
+							starshipPhaserRadarArray [i, j] = reader.ReadElementContentAsBoolean ();
 
 							//read element for xRayKernel
 							starshipXRayKernel [i, j] = reader.ReadElementContentAsBoolean ();
@@ -2465,7 +2465,7 @@ public class FileManager : MonoBehaviour  {
 							//read element for tractorBeam
 							starshipTractorBeam [i, j] = reader.ReadElementContentAsBoolean ();
 
-							//the end element is the PhasorSection
+							//the end element is the PhaserSection
 							reader.ReadEndElement ();
 
 							//the start element is the TorpedoSection
@@ -2649,8 +2649,8 @@ public class FileManager : MonoBehaviour  {
 					//the end element is the hexLocation
 					reader.ReadEndElement ();
 
-					//read element for hasRemainingPhasorAttack
-					starbaseHasRemainingPhasorAttack [i] = reader.ReadElementContentAsBoolean ();
+					//read element for hasRemainingPhaserAttack
+					starbaseHasRemainingPhaserAttack [i] = reader.ReadElementContentAsBoolean ();
 
 					//read element for hasRemainingTorpedoAttack
 					starbaseHasRemainingTorpedoAttack [i] = reader.ReadElementContentAsBoolean ();
@@ -2661,43 +2661,43 @@ public class FileManager : MonoBehaviour  {
 					//the end element is the CombatUnit
 					reader.ReadEndElement ();
 
-					//the start element is PhasorSection1
+					//the start element is PhaserSection1
 					reader.ReadStartElement();
 
-					//read element for phasorSection1IsDestroyed
-					starbasePhasorSection1IsDestroyed[i] = reader.ReadElementContentAsBoolean ();
+					//read element for phaserSection1IsDestroyed
+					starbasePhaserSection1IsDestroyed[i] = reader.ReadElementContentAsBoolean ();
 
-					//read element for phasorSection1CurrentShields
-					starbasePhasorSection1ShieldsCurrent[i] = reader.ReadElementContentAsInt ();
+					//read element for phaserSection1CurrentShields
+					starbasePhaserSection1ShieldsCurrent[i] = reader.ReadElementContentAsInt ();
 
-					//read element for phasorSection1UsedPhasors
-					starbasePhasorSection1UsedPhasorsThisTurn[i] = reader.ReadElementContentAsBoolean ();
+					//read element for phaserSection1UsedPhasers
+					starbasePhaserSection1UsedPhasersThisTurn[i] = reader.ReadElementContentAsBoolean ();
 
-					//read element for phasorRadarShot
-					starbasePhasorRadarShot[i] = reader.ReadElementContentAsInt ();
+					//read element for phaserRadarShot
+					starbasePhaserRadarShot[i] = reader.ReadElementContentAsInt ();
 
-					//read element for phasorRadarArray
-					starbasePhasorRadarArray[i] = reader.ReadElementContentAsBoolean ();
+					//read element for phaserRadarArray
+					starbasePhaserRadarArray[i] = reader.ReadElementContentAsBoolean ();
 
-					//the end element is the PhasorSection1
+					//the end element is the PhaserSection1
 					reader.ReadEndElement ();
 
-					//the start element is PhasorSection2
+					//the start element is PhaserSection2
 					reader.ReadStartElement();
 
-					//read element for phasorSection2IsDestroyed
-					starbasePhasorSection2IsDestroyed[i] = reader.ReadElementContentAsBoolean ();
+					//read element for phaserSection2IsDestroyed
+					starbasePhaserSection2IsDestroyed[i] = reader.ReadElementContentAsBoolean ();
 
-					//read element for phasorSection2CurrentShields
-					starbasePhasorSection2ShieldsCurrent[i] = reader.ReadElementContentAsInt ();
+					//read element for phaserSection2CurrentShields
+					starbasePhaserSection2ShieldsCurrent[i] = reader.ReadElementContentAsInt ();
 
-					//read element for phasorSection2UsedPhasors
-					starbasePhasorSection2UsedPhasorsThisTurn[i] = reader.ReadElementContentAsBoolean ();
+					//read element for phaserSection2UsedPhasers
+					starbasePhaserSection2UsedPhasersThisTurn[i] = reader.ReadElementContentAsBoolean ();
 
 					//read element for xRayKernel
 					starbaseXRayKernel[i] = reader.ReadElementContentAsBoolean ();
 
-					//the end element is the PhasorSection2
+					//the end element is the PhaserSection2
 					reader.ReadEndElement ();
 
 					//the start element is TorpedoSection
@@ -2971,14 +2971,14 @@ public class FileManager : MonoBehaviour  {
 
 						//populate the unit attribute data
 						scoutHexLocation[i,combatUnit.serialNumber] = combatUnit.currentLocation;
-						scoutHasRemainingPhasorAttack[i,combatUnit.serialNumber] = combatUnit.hasRemainingPhasorAttack;
-						scoutPhasorSectionIsDestroyed[i,combatUnit.serialNumber] = combatUnit.GetComponent<PhasorSection>().isDestroyed;
-						scoutPhasorSectionShieldsCurrent[i,combatUnit.serialNumber] = combatUnit.GetComponent<PhasorSection>().shieldsCurrent;
-						scoutUsedPhasorsThisTurn[i,combatUnit.serialNumber] = combatUnit.GetComponent<PhasorSection>().usedPhasorsThisTurn;
-						scoutPhasorRadarShot[i,combatUnit.serialNumber] = combatUnit.GetComponent<PhasorSection>().phasorRadarShot;
-						scoutPhasorRadarArray[i,combatUnit.serialNumber]= combatUnit.GetComponent<PhasorSection>().phasorRadarArray;
-						scoutXRayKernel[i,combatUnit.serialNumber] = combatUnit.GetComponent<PhasorSection>().xRayKernalUpgrade;
-						scoutTractorBeam[i,combatUnit.serialNumber] = combatUnit.GetComponent<PhasorSection>().tractorBeam;
+						scoutHasRemainingPhaserAttack[i,combatUnit.serialNumber] = combatUnit.hasRemainingPhaserAttack;
+						scoutPhaserSectionIsDestroyed[i,combatUnit.serialNumber] = combatUnit.GetComponent<PhaserSection>().isDestroyed;
+						scoutPhaserSectionShieldsCurrent[i,combatUnit.serialNumber] = combatUnit.GetComponent<PhaserSection>().shieldsCurrent;
+						scoutUsedPhasersThisTurn[i,combatUnit.serialNumber] = combatUnit.GetComponent<PhaserSection>().usedPhasersThisTurn;
+						scoutPhaserRadarShot[i,combatUnit.serialNumber] = combatUnit.GetComponent<PhaserSection>().phaserRadarShot;
+						scoutPhaserRadarArray[i,combatUnit.serialNumber]= combatUnit.GetComponent<PhaserSection>().phaserRadarArray;
+						scoutXRayKernel[i,combatUnit.serialNumber] = combatUnit.GetComponent<PhaserSection>().xRayKernalUpgrade;
+						scoutTractorBeam[i,combatUnit.serialNumber] = combatUnit.GetComponent<PhaserSection>().tractorBeam;
 
 						scoutStorageSectionIsDestroyed[i,combatUnit.serialNumber] = combatUnit.GetComponent<StorageSection>().isDestroyed;
 						scoutStorageSectionShieldsCurrent[i,combatUnit.serialNumber] = combatUnit.GetComponent<StorageSection>().shieldsCurrent;
@@ -3005,16 +3005,16 @@ public class FileManager : MonoBehaviour  {
 
 						//populate the unit attribute data
 						birdOfPreyHexLocation [i, combatUnit.serialNumber] = combatUnit.currentLocation;
-						birdOfPreyHasRemainingPhasorAttack [i, combatUnit.serialNumber] = combatUnit.hasRemainingPhasorAttack;
+						birdOfPreyHasRemainingPhaserAttack [i, combatUnit.serialNumber] = combatUnit.hasRemainingPhaserAttack;
 						birdOfPreyIsCloaked [i, combatUnit.serialNumber] = combatUnit.GetComponent<CloakingDevice> ().isCloaked;
 						birdOfPreyUsedCloakingDeviceThisTurn [i, combatUnit.serialNumber] = combatUnit.GetComponent<CloakingDevice> ().usedCloakingDeviceThisTurn;
-						birdOfPreyPhasorSectionIsDestroyed[i,combatUnit.serialNumber] = combatUnit.GetComponent<PhasorSection>().isDestroyed;
-						birdOfPreyPhasorSectionShieldsCurrent[i,combatUnit.serialNumber] = combatUnit.GetComponent<PhasorSection>().shieldsCurrent;
-						birdOfPreyUsedPhasorsThisTurn[i,combatUnit.serialNumber] = combatUnit.GetComponent<PhasorSection>().usedPhasorsThisTurn;
-						birdOfPreyPhasorRadarShot[i,combatUnit.serialNumber] = combatUnit.GetComponent<PhasorSection>().phasorRadarShot;
-						birdOfPreyPhasorRadarArray[i,combatUnit.serialNumber]= combatUnit.GetComponent<PhasorSection>().phasorRadarArray;
-						birdOfPreyXRayKernel[i,combatUnit.serialNumber] = combatUnit.GetComponent<PhasorSection>().xRayKernalUpgrade;
-						birdOfPreyTractorBeam[i,combatUnit.serialNumber] = combatUnit.GetComponent<PhasorSection>().tractorBeam;
+						birdOfPreyPhaserSectionIsDestroyed[i,combatUnit.serialNumber] = combatUnit.GetComponent<PhaserSection>().isDestroyed;
+						birdOfPreyPhaserSectionShieldsCurrent[i,combatUnit.serialNumber] = combatUnit.GetComponent<PhaserSection>().shieldsCurrent;
+						birdOfPreyUsedPhasersThisTurn[i,combatUnit.serialNumber] = combatUnit.GetComponent<PhaserSection>().usedPhasersThisTurn;
+						birdOfPreyPhaserRadarShot[i,combatUnit.serialNumber] = combatUnit.GetComponent<PhaserSection>().phaserRadarShot;
+						birdOfPreyPhaserRadarArray[i,combatUnit.serialNumber]= combatUnit.GetComponent<PhaserSection>().phaserRadarArray;
+						birdOfPreyXRayKernel[i,combatUnit.serialNumber] = combatUnit.GetComponent<PhaserSection>().xRayKernalUpgrade;
+						birdOfPreyTractorBeam[i,combatUnit.serialNumber] = combatUnit.GetComponent<PhaserSection>().tractorBeam;
 
 						birdOfPreyHasRemainingTorpedoAttack[i,combatUnit.serialNumber] = combatUnit.hasRemainingTorpedoAttack;
 						birdOfPreyTorpedoSectionIsDestroyed[i,combatUnit.serialNumber] = combatUnit.GetComponent<TorpedoSection>().isDestroyed;
@@ -3042,14 +3042,14 @@ public class FileManager : MonoBehaviour  {
 
 						//populate the unit attribute data
 						destroyerHexLocation[i,combatUnit.serialNumber] = combatUnit.currentLocation;
-						destroyerHasRemainingPhasorAttack[i,combatUnit.serialNumber] = combatUnit.hasRemainingPhasorAttack;
-						destroyerPhasorSectionIsDestroyed[i,combatUnit.serialNumber] = combatUnit.GetComponent<PhasorSection>().isDestroyed;
-						destroyerPhasorSectionShieldsCurrent[i,combatUnit.serialNumber] = combatUnit.GetComponent<PhasorSection>().shieldsCurrent;
-						destroyerUsedPhasorsThisTurn[i,combatUnit.serialNumber] = combatUnit.GetComponent<PhasorSection>().usedPhasorsThisTurn;
-						destroyerPhasorRadarShot[i,combatUnit.serialNumber] = combatUnit.GetComponent<PhasorSection>().phasorRadarShot;
-						destroyerPhasorRadarArray[i,combatUnit.serialNumber]= combatUnit.GetComponent<PhasorSection>().phasorRadarArray;
-						destroyerXRayKernel[i,combatUnit.serialNumber] = combatUnit.GetComponent<PhasorSection>().xRayKernalUpgrade;
-						destroyerTractorBeam[i,combatUnit.serialNumber] = combatUnit.GetComponent<PhasorSection>().tractorBeam;
+						destroyerHasRemainingPhaserAttack[i,combatUnit.serialNumber] = combatUnit.hasRemainingPhaserAttack;
+						destroyerPhaserSectionIsDestroyed[i,combatUnit.serialNumber] = combatUnit.GetComponent<PhaserSection>().isDestroyed;
+						destroyerPhaserSectionShieldsCurrent[i,combatUnit.serialNumber] = combatUnit.GetComponent<PhaserSection>().shieldsCurrent;
+						destroyerUsedPhasersThisTurn[i,combatUnit.serialNumber] = combatUnit.GetComponent<PhaserSection>().usedPhasersThisTurn;
+						destroyerPhaserRadarShot[i,combatUnit.serialNumber] = combatUnit.GetComponent<PhaserSection>().phaserRadarShot;
+						destroyerPhaserRadarArray[i,combatUnit.serialNumber]= combatUnit.GetComponent<PhaserSection>().phaserRadarArray;
+						destroyerXRayKernel[i,combatUnit.serialNumber] = combatUnit.GetComponent<PhaserSection>().xRayKernalUpgrade;
+						destroyerTractorBeam[i,combatUnit.serialNumber] = combatUnit.GetComponent<PhaserSection>().tractorBeam;
 
 						destroyerHasRemainingTorpedoAttack[i,combatUnit.serialNumber] = combatUnit.hasRemainingTorpedoAttack;
 						destroyerTorpedoSectionIsDestroyed[i,combatUnit.serialNumber] = combatUnit.GetComponent<TorpedoSection>().isDestroyed;
@@ -3086,14 +3086,14 @@ public class FileManager : MonoBehaviour  {
 
 						//populate the unit attribute data
 						starshipHexLocation[i,combatUnit.serialNumber] = combatUnit.currentLocation;
-						starshipHasRemainingPhasorAttack[i,combatUnit.serialNumber] = combatUnit.hasRemainingPhasorAttack;
-						starshipPhasorSectionIsDestroyed[i,combatUnit.serialNumber] = combatUnit.GetComponent<PhasorSection>().isDestroyed;
-						starshipPhasorSectionShieldsCurrent[i,combatUnit.serialNumber] = combatUnit.GetComponent<PhasorSection>().shieldsCurrent;
-						starshipUsedPhasorsThisTurn[i,combatUnit.serialNumber] = combatUnit.GetComponent<PhasorSection>().usedPhasorsThisTurn;
-						starshipPhasorRadarShot[i,combatUnit.serialNumber] = combatUnit.GetComponent<PhasorSection>().phasorRadarShot;
-						starshipPhasorRadarArray[i,combatUnit.serialNumber]= combatUnit.GetComponent<PhasorSection>().phasorRadarArray;
-						starshipXRayKernel[i,combatUnit.serialNumber] = combatUnit.GetComponent<PhasorSection>().xRayKernalUpgrade;
-						starshipTractorBeam[i,combatUnit.serialNumber] = combatUnit.GetComponent<PhasorSection>().tractorBeam;
+						starshipHasRemainingPhaserAttack[i,combatUnit.serialNumber] = combatUnit.hasRemainingPhaserAttack;
+						starshipPhaserSectionIsDestroyed[i,combatUnit.serialNumber] = combatUnit.GetComponent<PhaserSection>().isDestroyed;
+						starshipPhaserSectionShieldsCurrent[i,combatUnit.serialNumber] = combatUnit.GetComponent<PhaserSection>().shieldsCurrent;
+						starshipUsedPhasersThisTurn[i,combatUnit.serialNumber] = combatUnit.GetComponent<PhaserSection>().usedPhasersThisTurn;
+						starshipPhaserRadarShot[i,combatUnit.serialNumber] = combatUnit.GetComponent<PhaserSection>().phaserRadarShot;
+						starshipPhaserRadarArray[i,combatUnit.serialNumber]= combatUnit.GetComponent<PhaserSection>().phaserRadarArray;
+						starshipXRayKernel[i,combatUnit.serialNumber] = combatUnit.GetComponent<PhaserSection>().xRayKernalUpgrade;
+						starshipTractorBeam[i,combatUnit.serialNumber] = combatUnit.GetComponent<PhaserSection>().tractorBeam;
 
 						starshipHasRemainingTorpedoAttack[i,combatUnit.serialNumber] = combatUnit.hasRemainingTorpedoAttack;
 						starshipTorpedoSectionIsDestroyed[i,combatUnit.serialNumber] = combatUnit.GetComponent<TorpedoSection>().isDestroyed;
@@ -3137,21 +3137,21 @@ public class FileManager : MonoBehaviour  {
 
 						//populate the attribute data
 						starbaseHexLocation[i] = combatUnit.currentLocation;
-						starbaseHasRemainingPhasorAttack[i]  = combatUnit.hasRemainingPhasorAttack;
+						starbaseHasRemainingPhaserAttack[i]  = combatUnit.hasRemainingPhaserAttack;
 						starbaseHasRemainingTorpedoAttack[i]  = combatUnit.hasRemainingTorpedoAttack;
 						starbaseUnitName[i]  = combatUnit.GetComponent<Starbase>().baseName;
 						starbaseHasRemainingRepairAction[i]  = combatUnit.GetComponent<Starbase>().hasRemainingRepairAction;
 
-						starbasePhasorSection1IsDestroyed[i]  = combatUnit.GetComponent<StarbasePhasorSection1>().isDestroyed;
-						starbasePhasorSection1ShieldsCurrent[i]  = combatUnit.GetComponent<StarbasePhasorSection1>().shieldsCurrent;
-						starbasePhasorSection1UsedPhasorsThisTurn[i]  = combatUnit.GetComponent<StarbasePhasorSection1>().usedPhasorsThisTurn;
-						starbasePhasorRadarShot[i]  = combatUnit.GetComponent<StarbasePhasorSection1>().phasorRadarShot;
-						starbasePhasorRadarArray[i] = combatUnit.GetComponent<StarbasePhasorSection1>().phasorRadarArray;
+						starbasePhaserSection1IsDestroyed[i]  = combatUnit.GetComponent<StarbasePhaserSection1>().isDestroyed;
+						starbasePhaserSection1ShieldsCurrent[i]  = combatUnit.GetComponent<StarbasePhaserSection1>().shieldsCurrent;
+						starbasePhaserSection1UsedPhasersThisTurn[i]  = combatUnit.GetComponent<StarbasePhaserSection1>().usedPhasersThisTurn;
+						starbasePhaserRadarShot[i]  = combatUnit.GetComponent<StarbasePhaserSection1>().phaserRadarShot;
+						starbasePhaserRadarArray[i] = combatUnit.GetComponent<StarbasePhaserSection1>().phaserRadarArray;
 
-						starbasePhasorSection2IsDestroyed[i]  = combatUnit.GetComponent<StarbasePhasorSection2>().isDestroyed;
-						starbasePhasorSection2ShieldsCurrent[i]  = combatUnit.GetComponent<StarbasePhasorSection2>().shieldsCurrent;
-						starbasePhasorSection2UsedPhasorsThisTurn[i]  = combatUnit.GetComponent<StarbasePhasorSection2>().usedPhasorsThisTurn;
-						starbaseXRayKernel[i]  = combatUnit.GetComponent<StarbasePhasorSection2>().xRayKernalUpgrade;;
+						starbasePhaserSection2IsDestroyed[i]  = combatUnit.GetComponent<StarbasePhaserSection2>().isDestroyed;
+						starbasePhaserSection2ShieldsCurrent[i]  = combatUnit.GetComponent<StarbasePhaserSection2>().shieldsCurrent;
+						starbasePhaserSection2UsedPhasersThisTurn[i]  = combatUnit.GetComponent<StarbasePhaserSection2>().usedPhasersThisTurn;
+						starbaseXRayKernel[i]  = combatUnit.GetComponent<StarbasePhaserSection2>().xRayKernalUpgrade;;
 
 						starbaseTorpedoSectionIsDestroyed[i]  = combatUnit.GetComponent<StarbaseTorpedoSection>().isDestroyed;
 						starbaseTorpedoSectionShieldsCurrent[i]  = combatUnit.GetComponent<StarbaseTorpedoSection>().shieldsCurrent;

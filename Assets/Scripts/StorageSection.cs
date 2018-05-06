@@ -148,7 +148,7 @@ public class StorageSection : MonoBehaviour {
 	public void Init () {
 
 		//set the actions
-		attackHitTakeDamageAction = (attackingUnit, targetedUnit, phasorDamage) => {TakeDamage(targetedUnit,phasorDamage);};
+		attackHitTakeDamageAction = (attackingUnit, targetedUnit, phaserDamage) => {TakeDamage(targetedUnit,phaserDamage);};
 		flareDataUseFlaresAction = (flareEventData) => {UseFlares(flareEventData.targetedUnit,flareEventData.numberFlaresUsed);};
 		combatUnitSetFlareModeToManualAction = (selectedUnit) => {SetFlareModeToManual(selectedUnit);};
 		combatUnitSetFlareModeToAutoAction = (selectedUnit) => {SetFlareModeToAuto (selectedUnit);};
@@ -228,9 +228,9 @@ public class StorageSection : MonoBehaviour {
 
 		}
 
-		//add listener for getting hit by phasor attack
-		//CombatManager.OnPhasorAttackHitShipStorageSection.AddListener(attackHitTakeDamageAction);
-		CutsceneManager.OnPhasorHitShipStorageSection.AddListener(attackHitTakeDamageAction);
+		//add listener for getting hit by phaser attack
+		//CombatManager.OnPhaserAttackHitShipStorageSection.AddListener(attackHitTakeDamageAction);
+		CutsceneManager.OnPhaserHitShipStorageSection.AddListener(attackHitTakeDamageAction);
 
 		//add listener for getting hit by torpedo attack
 		//CombatManager.OnLightTorpedoAttackHitShipStorageSection.AddListener(attackHitTakeDamageAction);
@@ -645,9 +645,9 @@ public class StorageSection : MonoBehaviour {
 	//this function removes all listeners
 	private void RemoveAllListeners(){
 
-		//remove listener for getting hit by phasor attack
-		//CombatManager.OnPhasorAttackHitShipStorageSection.RemoveListener (attackHitTakeDamageAction);
-		CutsceneManager.OnPhasorHitShipStorageSection.RemoveListener(attackHitTakeDamageAction);
+		//remove listener for getting hit by phaser attack
+		//CombatManager.OnPhaserAttackHitShipStorageSection.RemoveListener (attackHitTakeDamageAction);
+		CutsceneManager.OnPhaserHitShipStorageSection.RemoveListener(attackHitTakeDamageAction);
 
 		//remove listener for getting hit by torpedo attack
 		//CombatManager.OnLightTorpedoAttackHitShipStorageSection.RemoveListener (attackHitTakeDamageAction);

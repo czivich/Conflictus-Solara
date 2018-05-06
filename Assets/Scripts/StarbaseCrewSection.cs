@@ -133,7 +133,7 @@ public class StarbaseCrewSection : MonoBehaviour {
 
 		//set the actions
 		colorEndTurnAction = (color) => {EndTurn(color);};
-		attackHitTakeDamageAction = (attackingUnit, targetedUnit, phasorDamage) => {TakeDamage(targetedUnit,phasorDamage);};
+		attackHitTakeDamageAction = (attackingUnit, targetedUnit, phaserDamage) => {TakeDamage(targetedUnit,phaserDamage);};
 		crystalUsedHealDamageAction = (selectedUnit,targetedUnit,crystalType,shieldsHealed) => {HealDamage(targetedUnit,shieldsHealed);};
 		repairCrewUsedRepairSectionAction = (selectedUnit, targetedUnit, sectionTargetedString) => {UseRepairCrew (selectedUnit, targetedUnit, sectionTargetedString);};
 		earlyCalculateCrewRangeAction = () => {CalculateCrewRange(mouseManager.selectedUnit);};
@@ -144,9 +144,9 @@ public class StarbaseCrewSection : MonoBehaviour {
 		//add listener for end turn
 		gameManager.OnEndTurn.AddListener(colorEndTurnAction);
 
-		//add listener for getting hit by phasor attack
-		//CombatManager.OnPhasorAttackHitBaseCrewSection.AddListener(attackHitTakeDamageAction);
-		CutsceneManager.OnPhasorHitBaseCrewSection.AddListener(attackHitTakeDamageAction);
+		//add listener for getting hit by phaser attack
+		//CombatManager.OnPhaserAttackHitBaseCrewSection.AddListener(attackHitTakeDamageAction);
+		CutsceneManager.OnPhaserHitBaseCrewSection.AddListener(attackHitTakeDamageAction);
 
 		//add listener for getting hit by torpedo attack
 		//CombatManager.OnLightTorpedoAttackHitBaseCrewSection.AddListener(attackHitTakeDamageAction);
@@ -393,9 +393,9 @@ public class StarbaseCrewSection : MonoBehaviour {
 
 		}
 
-		//remove listener for getting hit by phasor attack
-		//CombatManager.OnPhasorAttackHitBaseCrewSection.RemoveListener (attackHitTakeDamageAction);
-		CutsceneManager.OnPhasorHitBaseCrewSection.RemoveListener(attackHitTakeDamageAction);
+		//remove listener for getting hit by phaser attack
+		//CombatManager.OnPhaserAttackHitBaseCrewSection.RemoveListener (attackHitTakeDamageAction);
+		CutsceneManager.OnPhaserHitBaseCrewSection.RemoveListener(attackHitTakeDamageAction);
 
 		//remove listener for getting hit by torpedo attack
 		//CombatManager.OnLightTorpedoAttackHitBaseCrewSection.RemoveListener (attackHitTakeDamageAction);

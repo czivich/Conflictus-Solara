@@ -485,7 +485,7 @@ public class Player : MonoBehaviour{
 		if (this.homeStarbase != null) {
 
 			//check if the individual sections are alive
-			if (this.homeStarbase.GetComponent<StarbasePhasorSection1> ().isDestroyed == false) {
+			if (this.homeStarbase.GetComponent<StarbasePhaserSection1> ().isDestroyed == false) {
 
 				//increment the turn income
 				starbaseIncome += starbaseSectionValue;
@@ -493,7 +493,7 @@ public class Player : MonoBehaviour{
 			}
 
 			//check if the individual sections are alive
-			if (this.homeStarbase.GetComponent<StarbasePhasorSection2> ().isDestroyed == false) {
+			if (this.homeStarbase.GetComponent<StarbasePhaserSection2> ().isDestroyed == false) {
 
 				//increment the turn income
 				starbaseIncome += starbaseSectionValue;

@@ -16,12 +16,12 @@ public class BirdOfPrey : Ship {
 	public static readonly bool startingTranswarpDrive = false;
 	public static readonly int engineSectionShieldsMax = 90;
 
-	//phasor section values
-	public static readonly int startingPhasorRadarShot = 0;
+	//phaser section values
+	public static readonly int startingPhaserRadarShot = 0;
 	public static readonly bool startingXRayKernelUpgrade = false;
-	public static readonly bool startingPhasorRadarArray = false;
+	public static readonly bool startingPhaserRadarArray = false;
 	public static readonly bool startingTractorBeam = false;
-	public static readonly int phasorSectionShieldsMax = 90;
+	public static readonly int phaserSectionShieldsMax = 90;
 
 	//torpedo section values
 	public static readonly int startingTorpedoLaserShot = 0;
@@ -85,7 +85,7 @@ public class BirdOfPrey : Ship {
 		gameManager.OnNewTurn.AddListener(playerUpdateCloakingStatusAction);
 
 		//intialize the sections
-		this.GetComponent<PhasorSection>().Init();
+		this.GetComponent<PhaserSection>().Init();
 		this.GetComponent<TorpedoSection>().Init();
 		this.GetComponent<EngineSection>().Init();
 

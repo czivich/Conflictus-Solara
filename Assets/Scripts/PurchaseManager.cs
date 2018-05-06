@@ -14,8 +14,8 @@ public class PurchaseManager : MonoBehaviour {
 	public const int costBirdOfPrey = 500;
 	public const int costScout = 300;
 
-	public const int costPhasorRadarShot = 125;
-	public const int costPhasorRadarArray = 750;
+	public const int costPhaserRadarShot = 125;
+	public const int costPhaserRadarArray = 750;
 	public const int costXRayKernel = 600;
 	public const int costTractorBeam = 100;
 
@@ -49,15 +49,15 @@ public class PurchaseManager : MonoBehaviour {
 	private TileMap tileMap;
 
 	//item groups
-	private GameObject phasorSectionItems;
+	private GameObject phaserSectionItems;
 	private GameObject torpedoSectionItems;
 	private GameObject storageSectionItems;
 	private GameObject crewSectionItems;
 	private GameObject engineSectionItems;
 
-	//phasor section inventory displays
-	public Toggle phasorRadarShotInventory;
-	public Toggle phasorRadarArrayInventory;
+	//phaser section inventory displays
+	public Toggle phaserRadarShotInventory;
+	public Toggle phaserRadarArrayInventory;
 	public Toggle xRayKernelInventory;
 	public Toggle tractorBeamInventory;
 
@@ -86,9 +86,9 @@ public class PurchaseManager : MonoBehaviour {
 	public Toggle warpDriveInventory;
 	public Toggle transwarpDriveInventory;
 
-	//phasor section unit prices
-	public TextMeshProUGUI phasorRadarShotUnitPrice;
-	public TextMeshProUGUI phasorRadarArrayUnitPrice;
+	//phaser section unit prices
+	public TextMeshProUGUI phaserRadarShotUnitPrice;
+	public TextMeshProUGUI phaserRadarArrayUnitPrice;
 	public TextMeshProUGUI xRayKernelUnitPrice;
 	public TextMeshProUGUI tractorBeamUnitPrice;
 
@@ -118,10 +118,10 @@ public class PurchaseManager : MonoBehaviour {
 	public TextMeshProUGUI transwarpDriveUnitPrice;
 
 	//up and down buttons
-	public Button phasorRadarShotUpButton;
-	public Button phasorRadarShotDownButton;
-	public Button phasorRadarArrayUpButton;
-	public Button phasorRadarArrayDownButton;
+	public Button phaserRadarShotUpButton;
+	public Button phaserRadarShotDownButton;
+	public Button phaserRadarArrayUpButton;
+	public Button phaserRadarArrayDownButton;
 	public Button xRayKernelUpButton;
 	public Button xRayKernelDownButton;
 	public Button tractorBeamUpButton;
@@ -165,9 +165,9 @@ public class PurchaseManager : MonoBehaviour {
 	public Button transwarpDriveUpButton;
 	public Button transwarpDriveDownButton;
 
-	//phasor section purchase qty displays
-	public Toggle phasorRadarShotQuantityToBuy;
-	public Toggle phasorRadarArrayQuantityToBuy;
+	//phaser section purchase qty displays
+	public Toggle phaserRadarShotQuantityToBuy;
+	public Toggle phaserRadarArrayQuantityToBuy;
 	public Toggle xRayKernelQuantityToBuy;
 	public Toggle tractorBeamQuantityToBuy;
 
@@ -196,9 +196,9 @@ public class PurchaseManager : MonoBehaviour {
 	public Toggle warpDriveQuantityToBuy;
 	public Toggle transwarpDriveQuantityToBuy;
 
-	//phasor section purchase value displays
-	public Toggle phasorRadarShotValueToBuy;
-	public Toggle phasorRadarArrayValueToBuy;
+	//phaser section purchase value displays
+	public Toggle phaserRadarShotValueToBuy;
+	public Toggle phaserRadarArrayValueToBuy;
 	public Toggle xRayKernelValueToBuy;
 	public Toggle tractorBeamValueToBuy;
 
@@ -267,12 +267,12 @@ public class PurchaseManager : MonoBehaviour {
 	public Button scoutSelectButton;
 	public TextMeshProUGUI scoutCostText;
 	public RawImage scoutRawImage;
-	public Transform scoutPhasorShieldRow;
+	public Transform scoutPhaserShieldRow;
 	public Transform scoutTorpedoShieldRow;
 	public Transform scoutStorageShieldRow;
 	public Transform scoutCrewShieldRow;
 	public Transform scoutEngineShieldRow;
-	public Transform scoutPhasorStartingItemsRow;
+	public Transform scoutPhaserStartingItemsRow;
 	public Transform scoutTorpedoStartingItemsRow;
 	public Transform scoutStorageStartingItemsRow;
 	public Transform scoutCrewStartingItemsRow;
@@ -284,12 +284,12 @@ public class PurchaseManager : MonoBehaviour {
 	public Button birdOfPreySelectButton;
 	public TextMeshProUGUI birdOfPreyCostText;
 	public RawImage birdOfPreyRawImage;
-	public Transform birdOfPreyPhasorShieldRow;
+	public Transform birdOfPreyPhaserShieldRow;
 	public Transform birdOfPreyTorpedoShieldRow;
 	public Transform birdOfPreyStorageShieldRow;
 	public Transform birdOfPreyCrewShieldRow;
 	public Transform birdOfPreyEngineShieldRow;
-	public Transform birdOfPreyPhasorStartingItemsRow;
+	public Transform birdOfPreyPhaserStartingItemsRow;
 	public Transform birdOfPreyTorpedoStartingItemsRow;
 	public Transform birdOfPreyStorageStartingItemsRow;
 	public Transform birdOfPreyCrewStartingItemsRow;
@@ -301,12 +301,12 @@ public class PurchaseManager : MonoBehaviour {
 	public Button destroyerSelectButton;
 	public TextMeshProUGUI destroyerCostText;
 	public RawImage destroyerRawImage;
-	public Transform destroyerPhasorShieldRow;
+	public Transform destroyerPhaserShieldRow;
 	public Transform destroyerTorpedoShieldRow;
 	public Transform destroyerStorageShieldRow;
 	public Transform destroyerCrewShieldRow;
 	public Transform destroyerEngineShieldRow;
-	public Transform destroyerPhasorStartingItemsRow;
+	public Transform destroyerPhaserStartingItemsRow;
 	public Transform destroyerTorpedoStartingItemsRow;
 	public Transform destroyerStorageStartingItemsRow;
 	public Transform destroyerCrewStartingItemsRow;
@@ -318,12 +318,12 @@ public class PurchaseManager : MonoBehaviour {
 	public Button starshipSelectButton;
 	public TextMeshProUGUI starshipCostText;
 	public RawImage starshipRawImage;
-	public Transform starshipPhasorShieldRow;
+	public Transform starshipPhaserShieldRow;
 	public Transform starshipTorpedoShieldRow;
 	public Transform starshipStorageShieldRow;
 	public Transform starshipCrewShieldRow;
 	public Transform starshipEngineShieldRow;
-	public Transform starshipPhasorStartingItemsRow;
+	public Transform starshipPhaserStartingItemsRow;
 	public Transform starshipTorpedoStartingItemsRow;
 	public Transform starshipStorageStartingItemsRow;
 	public Transform starshipCrewStartingItemsRow;
@@ -332,8 +332,6 @@ public class PurchaseManager : MonoBehaviour {
 	public Toggle shipCostToggle;
 	public Toggle itemCostToggle;
 	public Toggle totalCostToggle;
-
-	public TMP_InputField shipNameInput;
 
 	//this flag lets the purchase items know if we're outfitting a ship
 	private bool outfittingShip = false;
@@ -383,11 +381,11 @@ public class PurchaseManager : MonoBehaviour {
 	private UnityAction<Player> playerSetOpenButtonStatusAction;
 	private UnityAction<GameManager.ActionMode> actionModeSetOpenButtonStatusAction;
 	private UnityAction resolvePurchaseAction;
-	private UnityAction resolvePhasorRadarShotUpAction;
-	private UnityAction resolvePhasorRadarArrayUpAction;
+	private UnityAction resolvePhaserRadarShotUpAction;
+	private UnityAction resolvePhaserRadarArrayUpAction;
 	private UnityAction resolveXRayKernelUpAction;
 	private UnityAction resolveTractorBeamUpAction;
-	private UnityAction cancelObsoletePhasorRadarShotAction;
+	private UnityAction cancelObsoletePhaserRadarShotAction;
 	private UnityAction resolveLightTorpedoUpAction;
 	private UnityAction resolveHeavyTorpedoUpAction;
 	private UnityAction resolveTorpedoLaserShotUpAction;
@@ -408,11 +406,11 @@ public class PurchaseManager : MonoBehaviour {
 	private UnityAction resolveTranswarpDriveUpAction;
 	private UnityAction cancelObsoleteWarpBoosterAction;
 	private UnityAction cancelObsoleteTranswarpBoosterAction;
-	private UnityAction resolvePhasorRadarShotDownAction;
-	private UnityAction resolvePhasorRadarArrayDownAction;
+	private UnityAction resolvePhaserRadarShotDownAction;
+	private UnityAction resolvePhaserRadarArrayDownAction;
 	private UnityAction resolveXRayKernelDownAction;
 	private UnityAction resolveTractorBeamDownAction;
-	private UnityAction undoCancelObsoletePhasorRadarShotAction;
+	private UnityAction undoCancelObsoletePhaserRadarShotAction;
 	private UnityAction resolveLightTorpedoDownAction;
 	private UnityAction resolveHeavyTorpedoDownAction;
 	private UnityAction resolveTorpedoLaserShotDownAction;
@@ -459,7 +457,7 @@ public class PurchaseManager : MonoBehaviour {
 
 		//find the purchase items sub section groups
 		//added the getChild(0) when I added the outer panel object
-		phasorSectionItems = purchaseItemsPanel.transform.GetChild(0).Find("PhasorSectionItems").gameObject;
+		phaserSectionItems = purchaseItemsPanel.transform.GetChild(0).Find("PhaserSectionItems").gameObject;
 		torpedoSectionItems = purchaseItemsPanel.transform.GetChild(0).Find("TorpedoSectionItems").gameObject;
 		storageSectionItems = purchaseItemsPanel.transform.GetChild(0).Find("StorageSectionItems").gameObject;
 		crewSectionItems = purchaseItemsPanel.transform.GetChild(0).Find("CrewSectionItems").gameObject;
@@ -528,13 +526,13 @@ public class PurchaseManager : MonoBehaviour {
 
 		};
 
-		resolvePhasorRadarShotUpAction = () => {ResolveUpButtonPress(phasorRadarShotQuantityToBuy,costPhasorRadarShot,phasorRadarShotValueToBuy,false);};
-		resolvePhasorRadarArrayUpAction = () => {ResolveUpButtonPress(phasorRadarArrayQuantityToBuy,costPhasorRadarArray,phasorRadarArrayValueToBuy,true);};
+		resolvePhaserRadarShotUpAction = () => {ResolveUpButtonPress(phaserRadarShotQuantityToBuy,costPhaserRadarShot,phaserRadarShotValueToBuy,false);};
+		resolvePhaserRadarArrayUpAction = () => {ResolveUpButtonPress(phaserRadarArrayQuantityToBuy,costPhaserRadarArray,phaserRadarArrayValueToBuy,true);};
 		resolveXRayKernelUpAction = () => {ResolveUpButtonPress(xRayKernelQuantityToBuy,costXRayKernel,xRayKernelValueToBuy,true);};
 		resolveTractorBeamUpAction = () => {ResolveUpButtonPress(tractorBeamQuantityToBuy,costTractorBeam,tractorBeamValueToBuy,true);};
-		cancelObsoletePhasorRadarShotAction = () => {
+		cancelObsoletePhaserRadarShotAction = () => {
 
-			CancelPurchaseOfObsoletedItem(phasorRadarShotQuantityToBuy,phasorRadarShotValueToBuy);
+			CancelPurchaseOfObsoletedItem(phaserRadarShotQuantityToBuy,phaserRadarShotValueToBuy);
 
 			//update the totals
 			CalculateTotalItemCost();
@@ -601,16 +599,16 @@ public class PurchaseManager : MonoBehaviour {
 
 		};
 
-		resolvePhasorRadarShotDownAction = () => {ResolveDownButtonPress(phasorRadarShotQuantityToBuy,costPhasorRadarShot,phasorRadarShotValueToBuy);};
-		resolvePhasorRadarArrayDownAction = () => {ResolveDownButtonPress(phasorRadarArrayQuantityToBuy,costPhasorRadarArray,phasorRadarArrayValueToBuy);};
+		resolvePhaserRadarShotDownAction = () => {ResolveDownButtonPress(phaserRadarShotQuantityToBuy,costPhaserRadarShot,phaserRadarShotValueToBuy);};
+		resolvePhaserRadarArrayDownAction = () => {ResolveDownButtonPress(phaserRadarArrayQuantityToBuy,costPhaserRadarArray,phaserRadarArrayValueToBuy);};
 		resolveXRayKernelDownAction = () => {ResolveDownButtonPress(xRayKernelQuantityToBuy,costXRayKernel,xRayKernelValueToBuy);};
 		resolveTractorBeamDownAction = () => {ResolveDownButtonPress(tractorBeamQuantityToBuy,costTractorBeam,tractorBeamValueToBuy);};
-		undoCancelObsoletePhasorRadarShotAction = () => {
+		undoCancelObsoletePhaserRadarShotAction = () => {
 
 			//only want to allow the obsoleted item to be bought again if the trigger item is not in inventory
-			if(phasorRadarArrayInventory.GetComponentInChildren<TextMeshProUGUI>().text == "0"){
+			if(phaserRadarArrayInventory.GetComponentInChildren<TextMeshProUGUI>().text == "0"){
 
-				UndoCancelPurchaseOfObsoletedItem(phasorRadarShotQuantityToBuy,phasorRadarShotValueToBuy);
+				UndoCancelPurchaseOfObsoletedItem(phaserRadarShotQuantityToBuy,phaserRadarShotValueToBuy);
 
 			}};
 
@@ -663,15 +661,15 @@ public class PurchaseManager : MonoBehaviour {
 
 		clearItemCartAction = () => {
 
-			ClearPurchasedItems(phasorRadarShotQuantityToBuy,phasorRadarShotValueToBuy);
-			ClearPurchasedItems(phasorRadarArrayQuantityToBuy,phasorRadarArrayValueToBuy);
+			ClearPurchasedItems(phaserRadarShotQuantityToBuy,phaserRadarShotValueToBuy);
+			ClearPurchasedItems(phaserRadarArrayQuantityToBuy,phaserRadarArrayValueToBuy);
 			ClearPurchasedItems(xRayKernelQuantityToBuy,xRayKernelValueToBuy);
 			ClearPurchasedItems(tractorBeamQuantityToBuy,tractorBeamValueToBuy);
 
 			//only want to allow the obsoleted item to be bought again if the trigger item is not in inventory
-			if(phasorRadarArrayInventory.GetComponentInChildren<TextMeshProUGUI>().text == "0"){
+			if(phaserRadarArrayInventory.GetComponentInChildren<TextMeshProUGUI>().text == "0"){
 
-				UndoCancelPurchaseOfObsoletedItem(phasorRadarShotQuantityToBuy,phasorRadarShotValueToBuy);
+				UndoCancelPurchaseOfObsoletedItem(phaserRadarShotQuantityToBuy,phaserRadarShotValueToBuy);
 
 			}
 
@@ -883,12 +881,12 @@ public class PurchaseManager : MonoBehaviour {
 		purchaseItemsButton.onClick.AddListener(resolvePurchaseAction);
 
 		//add listeners for up button presses
-		//phasor buttons
-		phasorRadarShotUpButton.onClick.AddListener(resolvePhasorRadarShotUpAction);
-		phasorRadarArrayUpButton.onClick.AddListener(resolvePhasorRadarArrayUpAction);
+		//phaser buttons
+		phaserRadarShotUpButton.onClick.AddListener(resolvePhaserRadarShotUpAction);
+		phaserRadarArrayUpButton.onClick.AddListener(resolvePhaserRadarArrayUpAction);
 		xRayKernelUpButton.onClick.AddListener(resolveXRayKernelUpAction);
 		tractorBeamUpButton.onClick.AddListener(resolveTractorBeamUpAction);
-		phasorRadarArrayUpButton.onClick.AddListener(cancelObsoletePhasorRadarShotAction);
+		phaserRadarArrayUpButton.onClick.AddListener(cancelObsoletePhaserRadarShotAction);
 
 		//torpedo buttons
 		lightTorpedoUpButton.onClick.AddListener(resolveLightTorpedoUpAction);
@@ -919,12 +917,12 @@ public class PurchaseManager : MonoBehaviour {
 		transwarpDriveUpButton.onClick.AddListener(cancelObsoleteTranswarpBoosterAction);
 
 		//add listeners for down button presses
-		//phasor buttons
-		phasorRadarShotDownButton.onClick.AddListener(resolvePhasorRadarShotDownAction);
-		phasorRadarArrayDownButton.onClick.AddListener(resolvePhasorRadarArrayDownAction);
+		//phaser buttons
+		phaserRadarShotDownButton.onClick.AddListener(resolvePhaserRadarShotDownAction);
+		phaserRadarArrayDownButton.onClick.AddListener(resolvePhaserRadarArrayDownAction);
 		xRayKernelDownButton.onClick.AddListener(resolveXRayKernelDownAction);
 		tractorBeamDownButton.onClick.AddListener(resolveTractorBeamDownAction);
-		phasorRadarArrayDownButton.onClick.AddListener(undoCancelObsoletePhasorRadarShotAction);
+		phaserRadarArrayDownButton.onClick.AddListener(undoCancelObsoletePhaserRadarShotAction);
 
 		//torpedo buttons
 		lightTorpedoDownButton.onClick.AddListener(resolveLightTorpedoDownAction);
@@ -1121,8 +1119,8 @@ public class PurchaseManager : MonoBehaviour {
 	private void SetUnitPrices(){
 
 		//set the unit prices
-		phasorRadarShotUnitPrice.text = (costPhasorRadarShot.ToString());
-		phasorRadarArrayUnitPrice.text = (costPhasorRadarArray.ToString());
+		phaserRadarShotUnitPrice.text = (costPhaserRadarShot.ToString());
+		phaserRadarArrayUnitPrice.text = (costPhaserRadarArray.ToString());
 		xRayKernelUnitPrice.text = (costXRayKernel.ToString());
 		tractorBeamUnitPrice.text = (costTractorBeam.ToString());
 
@@ -1153,9 +1151,9 @@ public class PurchaseManager : MonoBehaviour {
 	//as needed using calls to BlockPurchaseOfObsoleteItems functions
 	private void SetDefaultInteractableStatus(){
 
-		//phasor section purchase qty displays
-		phasorRadarShotQuantityToBuy.interactable = true;
-		phasorRadarArrayQuantityToBuy.interactable = true;
+		//phaser section purchase qty displays
+		phaserRadarShotQuantityToBuy.interactable = true;
+		phaserRadarArrayQuantityToBuy.interactable = true;
 		xRayKernelQuantityToBuy.interactable = true;
 		tractorBeamQuantityToBuy.interactable = true;
 
@@ -1184,9 +1182,9 @@ public class PurchaseManager : MonoBehaviour {
 		warpDriveQuantityToBuy.interactable = true;
 		transwarpDriveQuantityToBuy.interactable = true;
 
-		//phasor section purchase value displays
-		phasorRadarShotValueToBuy.interactable = true;
-		phasorRadarArrayValueToBuy.interactable = true;
+		//phaser section purchase value displays
+		phaserRadarShotValueToBuy.interactable = true;
+		phaserRadarArrayValueToBuy.interactable = true;
 		xRayKernelValueToBuy.interactable = true;
 		tractorBeamValueToBuy.interactable = true;
 
@@ -1273,34 +1271,34 @@ public class PurchaseManager : MonoBehaviour {
 
 		}
 
-		//check if the selected unit has a phasor section
-		if (referenceUnit.GetComponent<PhasorSection> () == true) {
+		//check if the selected unit has a phaser section
+		if (referenceUnit.GetComponent<PhaserSection> () == true) {
 
-			//check if the phasor section is not destroyed
-			if (referenceUnit.GetComponent<PhasorSection> ().isDestroyed == false) {
+			//check if the phaser section is not destroyed
+			if (referenceUnit.GetComponent<PhaserSection> ().isDestroyed == false) {
 
-				//if the phasor section exists and is not destroyed, it should appear in the panel
-				phasorSectionItems.SetActive (true);
+				//if the phaser section exists and is not destroyed, it should appear in the panel
+				phaserSectionItems.SetActive (true);
 
 
 
 				//update the inventory display
-				SetPhasorSectionCurrentInventory(referenceUnit.GetComponent<CombatUnit>());
+				SetPhaserSectionCurrentInventory(referenceUnit.GetComponent<CombatUnit>());
 
 				//block any potentially obsolete inventory
-				BlockPurchaseOfObsoletePhasorItems();
+				BlockPurchaseOfObsoletePhaserItems();
 
 			} else {
 
-				//if the phasor section is destroyed, it should not appear in the panel
-				phasorSectionItems.SetActive (false);
+				//if the phaser section is destroyed, it should not appear in the panel
+				phaserSectionItems.SetActive (false);
 
 			}
 
 		} else {
 
-			//if the phasor section is not present, it should not appear in the panel
-			phasorSectionItems.SetActive (false);
+			//if the phaser section is not present, it should not appear in the panel
+			phaserSectionItems.SetActive (false);
 
 		}
 
@@ -1422,28 +1420,28 @@ public class PurchaseManager : MonoBehaviour {
 
 	}
 
-	//this function sets the current inventory of the phasor section items
-	private void SetPhasorSectionCurrentInventory(CombatUnit combatUnit){
+	//this function sets the current inventory of the phaser section items
+	private void SetPhaserSectionCurrentInventory(CombatUnit combatUnit){
 
 		//check the flag
 		if (outfittingShip == false) {
 			
 			//set the inventories to match the passed unit inventory
-			phasorRadarShotInventory.GetComponentInChildren<TextMeshProUGUI> ().text = (combatUnit.GetComponent<PhasorSection> ().phasorRadarShot.ToString ());
+			phaserRadarShotInventory.GetComponentInChildren<TextMeshProUGUI> ().text = (combatUnit.GetComponent<PhaserSection> ().phaserRadarShot.ToString ());
 
-			//check if the unit has a phasor radar array
-			if (combatUnit.GetComponent<PhasorSection> ().phasorRadarArray == true) {
+			//check if the unit has a phaser radar array
+			if (combatUnit.GetComponent<PhaserSection> ().phaserRadarArray == true) {
 
-				phasorRadarArrayInventory.GetComponentInChildren<TextMeshProUGUI> ().text = ("1");
+				phaserRadarArrayInventory.GetComponentInChildren<TextMeshProUGUI> ().text = ("1");
 
 			} else {
 
-				phasorRadarArrayInventory.GetComponentInChildren<TextMeshProUGUI> ().text = ("0");
+				phaserRadarArrayInventory.GetComponentInChildren<TextMeshProUGUI> ().text = ("0");
 
 			}
 
 			//check if the unit has an X-ray kernel
-			if (combatUnit.GetComponent<PhasorSection> ().xRayKernalUpgrade == true) {
+			if (combatUnit.GetComponent<PhaserSection> ().xRayKernalUpgrade == true) {
 
 				xRayKernelInventory.GetComponentInChildren<TextMeshProUGUI> ().text = ("1");
 
@@ -1454,7 +1452,7 @@ public class PurchaseManager : MonoBehaviour {
 			}
 
 			//check if the unit has a tractor beam
-			if (combatUnit.GetComponent<PhasorSection> ().tractorBeam == true) {
+			if (combatUnit.GetComponent<PhaserSection> ().tractorBeam == true) {
 
 				tractorBeamInventory.GetComponentInChildren<TextMeshProUGUI> ().text = ("1");
 
@@ -1472,15 +1470,15 @@ public class PurchaseManager : MonoBehaviour {
 
 			case "Scout":
 
-				phasorRadarShotInventory.GetComponentInChildren<TextMeshProUGUI> ().text = (Scout.startingPhasorRadarShot.ToString());
+				phaserRadarShotInventory.GetComponentInChildren<TextMeshProUGUI> ().text = (Scout.startingPhaserRadarShot.ToString());
 
-				if (Scout.startingPhasorRadarArray == true) {
+				if (Scout.startingPhaserRadarArray == true) {
 
-					phasorRadarArrayInventory.GetComponentInChildren<TextMeshProUGUI> ().text = ("1");
+					phaserRadarArrayInventory.GetComponentInChildren<TextMeshProUGUI> ().text = ("1");
 
 				} else {
 
-					phasorRadarArrayInventory.GetComponentInChildren<TextMeshProUGUI> ().text = ("0");
+					phaserRadarArrayInventory.GetComponentInChildren<TextMeshProUGUI> ().text = ("0");
 
 				}
 
@@ -1508,15 +1506,15 @@ public class PurchaseManager : MonoBehaviour {
 
 			case "Bird Of Prey":
 
-				phasorRadarShotInventory.GetComponentInChildren<TextMeshProUGUI> ().text = (BirdOfPrey.startingPhasorRadarShot.ToString());
+				phaserRadarShotInventory.GetComponentInChildren<TextMeshProUGUI> ().text = (BirdOfPrey.startingPhaserRadarShot.ToString());
 
-				if (BirdOfPrey.startingPhasorRadarArray == true) {
+				if (BirdOfPrey.startingPhaserRadarArray == true) {
 
-					phasorRadarArrayInventory.GetComponentInChildren<TextMeshProUGUI> ().text = ("1");
+					phaserRadarArrayInventory.GetComponentInChildren<TextMeshProUGUI> ().text = ("1");
 
 				} else {
 
-					phasorRadarArrayInventory.GetComponentInChildren<TextMeshProUGUI> ().text = ("0");
+					phaserRadarArrayInventory.GetComponentInChildren<TextMeshProUGUI> ().text = ("0");
 
 				}
 
@@ -1544,15 +1542,15 @@ public class PurchaseManager : MonoBehaviour {
 
 			case "Destroyer":
 
-				phasorRadarShotInventory.GetComponentInChildren<TextMeshProUGUI> ().text = (Destroyer.startingPhasorRadarShot.ToString());
+				phaserRadarShotInventory.GetComponentInChildren<TextMeshProUGUI> ().text = (Destroyer.startingPhaserRadarShot.ToString());
 
-				if (Destroyer.startingPhasorRadarArray == true) {
+				if (Destroyer.startingPhaserRadarArray == true) {
 
-					phasorRadarArrayInventory.GetComponentInChildren<TextMeshProUGUI> ().text = ("1");
+					phaserRadarArrayInventory.GetComponentInChildren<TextMeshProUGUI> ().text = ("1");
 
 				} else {
 
-					phasorRadarArrayInventory.GetComponentInChildren<TextMeshProUGUI> ().text = ("0");
+					phaserRadarArrayInventory.GetComponentInChildren<TextMeshProUGUI> ().text = ("0");
 
 				}
 
@@ -1580,15 +1578,15 @@ public class PurchaseManager : MonoBehaviour {
 
 			case "Starship":
 
-				phasorRadarShotInventory.GetComponentInChildren<TextMeshProUGUI> ().text = (Starship.startingPhasorRadarShot.ToString());
+				phaserRadarShotInventory.GetComponentInChildren<TextMeshProUGUI> ().text = (Starship.startingPhaserRadarShot.ToString());
 
-				if (Starship.startingPhasorRadarArray == true) {
+				if (Starship.startingPhaserRadarArray == true) {
 
-					phasorRadarArrayInventory.GetComponentInChildren<TextMeshProUGUI> ().text = ("1");
+					phaserRadarArrayInventory.GetComponentInChildren<TextMeshProUGUI> ().text = ("1");
 
 				} else {
 
-					phasorRadarArrayInventory.GetComponentInChildren<TextMeshProUGUI> ().text = ("0");
+					phaserRadarArrayInventory.GetComponentInChildren<TextMeshProUGUI> ().text = ("0");
 
 				}
 
@@ -1616,8 +1614,8 @@ public class PurchaseManager : MonoBehaviour {
 
 			default:
 
-				phasorRadarShotInventory.GetComponentInChildren<TextMeshProUGUI> ().text = ("0");
-				phasorRadarArrayInventory.GetComponentInChildren<TextMeshProUGUI> ().text = ("0");
+				phaserRadarShotInventory.GetComponentInChildren<TextMeshProUGUI> ().text = ("0");
+				phaserRadarArrayInventory.GetComponentInChildren<TextMeshProUGUI> ().text = ("0");
 				xRayKernelInventory.GetComponentInChildren<TextMeshProUGUI> ().text = ("0");
 				tractorBeamInventory.GetComponentInChildren<TextMeshProUGUI> ().text = ("0");
 
@@ -2303,15 +2301,15 @@ public class PurchaseManager : MonoBehaviour {
 
 	}
 
-	//this function prevents purchasing obsolete phasor items based on current inventory
-	private void BlockPurchaseOfObsoletePhasorItems(){
+	//this function prevents purchasing obsolete phaser items based on current inventory
+	private void BlockPurchaseOfObsoletePhaserItems(){
 
-		//check if the unit has a phasor radar array
-		if (phasorRadarArrayInventory.GetComponentInChildren<TextMeshProUGUI> ().text == "1") {
+		//check if the unit has a phaser radar array
+		if (phaserRadarArrayInventory.GetComponentInChildren<TextMeshProUGUI> ().text == "1") {
 
-			//need to block buying phasor radar shot and phasor radar array
-			CancelPurchaseOfObsoletedItem(phasorRadarShotQuantityToBuy,phasorRadarShotValueToBuy);
-			CancelPurchaseOfObsoletedItem(phasorRadarArrayQuantityToBuy,phasorRadarArrayValueToBuy);
+			//need to block buying phaser radar shot and phaser radar array
+			CancelPurchaseOfObsoletedItem(phaserRadarShotQuantityToBuy,phaserRadarShotValueToBuy);
+			CancelPurchaseOfObsoletedItem(phaserRadarArrayQuantityToBuy,phaserRadarArrayValueToBuy);
 
 		}
 
@@ -2444,8 +2442,8 @@ public class PurchaseManager : MonoBehaviour {
 
 		int totalItemCost = 0;
 
-		totalItemCost = Int32.Parse (phasorRadarShotValueToBuy.GetComponentInChildren<TextMeshProUGUI> ().text) +
-			Int32.Parse (phasorRadarArrayValueToBuy.GetComponentInChildren<TextMeshProUGUI> ().text) +
+		totalItemCost = Int32.Parse (phaserRadarShotValueToBuy.GetComponentInChildren<TextMeshProUGUI> ().text) +
+			Int32.Parse (phaserRadarArrayValueToBuy.GetComponentInChildren<TextMeshProUGUI> ().text) +
 			Int32.Parse (xRayKernelValueToBuy.GetComponentInChildren<TextMeshProUGUI> ().text) +
 			Int32.Parse (tractorBeamValueToBuy.GetComponentInChildren<TextMeshProUGUI> ().text) +
 			Int32.Parse (lightTorpedoValueToBuy.GetComponentInChildren<TextMeshProUGUI> ().text) +
@@ -2483,15 +2481,15 @@ public class PurchaseManager : MonoBehaviour {
 		Dictionary<string,int> purchasedItems = new Dictionary<string,int> ();
 
 		//check if there are any purchased items
-		if (Int32.Parse (phasorRadarShotQuantityToBuy.GetComponentInChildren<TextMeshProUGUI> ().text) > 0) {
+		if (Int32.Parse (phaserRadarShotQuantityToBuy.GetComponentInChildren<TextMeshProUGUI> ().text) > 0) {
 
-			purchasedItems.Add ("Phasor Radar Shot", Int32.Parse (phasorRadarShotQuantityToBuy.GetComponentInChildren<TextMeshProUGUI> ().text));
+			purchasedItems.Add ("Phaser Radar Shot", Int32.Parse (phaserRadarShotQuantityToBuy.GetComponentInChildren<TextMeshProUGUI> ().text));
 
 		}
 
-		if (Int32.Parse (phasorRadarArrayQuantityToBuy.GetComponentInChildren<TextMeshProUGUI> ().text) > 0) {
+		if (Int32.Parse (phaserRadarArrayQuantityToBuy.GetComponentInChildren<TextMeshProUGUI> ().text) > 0) {
 
-			purchasedItems.Add ("Phasor Radar Array", Int32.Parse (phasorRadarArrayQuantityToBuy.GetComponentInChildren<TextMeshProUGUI> ().text));
+			purchasedItems.Add ("Phaser Radar Array", Int32.Parse (phaserRadarArrayQuantityToBuy.GetComponentInChildren<TextMeshProUGUI> ().text));
 
 		}
 
@@ -2789,24 +2787,24 @@ public class PurchaseManager : MonoBehaviour {
 	//this function checks which sections a ship type has and only displays the appropriate rows
 	private void SetAvailableSectionData(){
 
-		//check if a scout has a phasor section
-		if (gameManager.prefabScout.GetComponent<PhasorSection> () == true) {
+		//check if a scout has a phaser section
+		if (gameManager.prefabScout.GetComponent<PhaserSection> () == true) {
 
 			//set to active
-			scoutPhasorShieldRow.gameObject.SetActive (true);
-			scoutPhasorStartingItemsRow.gameObject.SetActive (true);
+			scoutPhaserShieldRow.gameObject.SetActive (true);
+			scoutPhaserStartingItemsRow.gameObject.SetActive (true);
 
 			//initialize shield info
-			scoutPhasorShieldRow.GetChild (1).GetComponent<TextMeshProUGUI> ().text = (Scout.phasorSectionShieldsMax.ToString ());
+			scoutPhaserShieldRow.GetChild (1).GetComponent<TextMeshProUGUI> ().text = (Scout.phaserSectionShieldsMax.ToString ());
 
 			//set initial equipment string
-			scoutPhasorStartingItemsRow.GetComponentInChildren<TextMeshProUGUI>().text = GetInitialEquipment(CombatUnit.UnitType.Scout, "Phasor");
+			scoutPhaserStartingItemsRow.GetComponentInChildren<TextMeshProUGUI>().text = GetInitialEquipment(CombatUnit.UnitType.Scout, "Phaser");
 
 		} else {
 
 			//else set to inactive
-			scoutPhasorShieldRow.gameObject.SetActive (false);
-			scoutPhasorStartingItemsRow.gameObject.SetActive (false);
+			scoutPhaserShieldRow.gameObject.SetActive (false);
+			scoutPhaserStartingItemsRow.gameObject.SetActive (false);
 
 		}
 
@@ -2889,24 +2887,24 @@ public class PurchaseManager : MonoBehaviour {
 		}
 
 
-		//check if a bird has a phasor section
-		if (gameManager.prefabBirdOfPrey.GetComponent<PhasorSection> () == true) {
+		//check if a bird has a phaser section
+		if (gameManager.prefabBirdOfPrey.GetComponent<PhaserSection> () == true) {
 
 			//set to active
-			birdOfPreyPhasorShieldRow.gameObject.SetActive (true);
-			birdOfPreyPhasorStartingItemsRow.gameObject.SetActive (true);
+			birdOfPreyPhaserShieldRow.gameObject.SetActive (true);
+			birdOfPreyPhaserStartingItemsRow.gameObject.SetActive (true);
 
 			//initialize shield info
-			birdOfPreyPhasorShieldRow.GetChild (1).GetComponent<TextMeshProUGUI> ().text = (BirdOfPrey.phasorSectionShieldsMax.ToString ());
+			birdOfPreyPhaserShieldRow.GetChild (1).GetComponent<TextMeshProUGUI> ().text = (BirdOfPrey.phaserSectionShieldsMax.ToString ());
 
 			//set initial equipment string
-			birdOfPreyPhasorStartingItemsRow.GetComponentInChildren<TextMeshProUGUI>().text = GetInitialEquipment(CombatUnit.UnitType.BirdOfPrey, "Phasor");
+			birdOfPreyPhaserStartingItemsRow.GetComponentInChildren<TextMeshProUGUI>().text = GetInitialEquipment(CombatUnit.UnitType.BirdOfPrey, "Phaser");
 
 		} else {
 
 			//else set to inactive
-			birdOfPreyPhasorShieldRow.gameObject.SetActive (false);
-			birdOfPreyPhasorStartingItemsRow.gameObject.SetActive (false);
+			birdOfPreyPhaserShieldRow.gameObject.SetActive (false);
+			birdOfPreyPhaserStartingItemsRow.gameObject.SetActive (false);
 
 		}
 
@@ -2990,24 +2988,24 @@ public class PurchaseManager : MonoBehaviour {
 		}
 
 
-		//check if a destroyer has a phasor section
-		if (gameManager.prefabDestroyer.GetComponent<PhasorSection> () == true) {
+		//check if a destroyer has a phaser section
+		if (gameManager.prefabDestroyer.GetComponent<PhaserSection> () == true) {
 
 			//set to active
-			destroyerPhasorShieldRow.gameObject.SetActive (true);
-			destroyerPhasorStartingItemsRow.gameObject.SetActive (true);
+			destroyerPhaserShieldRow.gameObject.SetActive (true);
+			destroyerPhaserStartingItemsRow.gameObject.SetActive (true);
 
 			//initialize shield info
-			destroyerPhasorShieldRow.GetChild (1).GetComponent<TextMeshProUGUI> ().text = (Destroyer.phasorSectionShieldsMax.ToString ());
+			destroyerPhaserShieldRow.GetChild (1).GetComponent<TextMeshProUGUI> ().text = (Destroyer.phaserSectionShieldsMax.ToString ());
 
 			//set initial equipment string
-			destroyerPhasorStartingItemsRow.GetComponentInChildren<TextMeshProUGUI>().text = GetInitialEquipment(CombatUnit.UnitType.Destroyer, "Phasor");
+			destroyerPhaserStartingItemsRow.GetComponentInChildren<TextMeshProUGUI>().text = GetInitialEquipment(CombatUnit.UnitType.Destroyer, "Phaser");
 
 		} else {
 
 			//else set to inactive
-			destroyerPhasorShieldRow.gameObject.SetActive (false);
-			destroyerPhasorStartingItemsRow.gameObject.SetActive (false);
+			destroyerPhaserShieldRow.gameObject.SetActive (false);
+			destroyerPhaserStartingItemsRow.gameObject.SetActive (false);
 
 		}
 
@@ -3092,24 +3090,24 @@ public class PurchaseManager : MonoBehaviour {
 
 		}
 
-		//check if a starship has a phasor section
-		if (gameManager.prefabStarship.GetComponent<PhasorSection> () == true) {
+		//check if a starship has a phaser section
+		if (gameManager.prefabStarship.GetComponent<PhaserSection> () == true) {
 
 			//set to active
-			starshipPhasorShieldRow.gameObject.SetActive (true);
-			starshipPhasorStartingItemsRow.gameObject.SetActive (true);
+			starshipPhaserShieldRow.gameObject.SetActive (true);
+			starshipPhaserStartingItemsRow.gameObject.SetActive (true);
 
 			//initialize shield info
-			starshipPhasorShieldRow.GetChild (1).GetComponent<TextMeshProUGUI> ().text = (Starship.phasorSectionShieldsMax.ToString ());
+			starshipPhaserShieldRow.GetChild (1).GetComponent<TextMeshProUGUI> ().text = (Starship.phaserSectionShieldsMax.ToString ());
 
 			//set initial equipment string
-			starshipPhasorStartingItemsRow.GetComponentInChildren<TextMeshProUGUI>().text = GetInitialEquipment(CombatUnit.UnitType.Starship, "Phasor");
+			starshipPhaserStartingItemsRow.GetComponentInChildren<TextMeshProUGUI>().text = GetInitialEquipment(CombatUnit.UnitType.Starship, "Phaser");
 
 		} else {
 
 			//else set to inactive
-			starshipPhasorShieldRow.gameObject.SetActive (false);
-			starshipPhasorStartingItemsRow.gameObject.SetActive (false);
+			starshipPhaserShieldRow.gameObject.SetActive (false);
+			starshipPhaserStartingItemsRow.gameObject.SetActive (false);
 
 		}
 
@@ -3213,19 +3211,19 @@ public class PurchaseManager : MonoBehaviour {
 			//do a switch case on the section
 			switch (section) {
 
-			case "Phasor":
+			case "Phaser":
 
 				//check if there are radar shots
-				if (Scout.startingPhasorRadarShot > 0) {
+				if (Scout.startingPhaserRadarShot > 0) {
 
-					initialEquipment += Scout.startingPhasorRadarShot.ToString () + "X Phasor Radar Shot, ";
+					initialEquipment += Scout.startingPhaserRadarShot.ToString () + "X Phaser Radar Shot, ";
 
 				}
 
 				//check if there are radar array
-				if (Scout.startingPhasorRadarArray == true) {
+				if (Scout.startingPhaserRadarArray == true) {
 
-					initialEquipment += "Phasor Radar Array, ";
+					initialEquipment += "Phaser Radar Array, ";
 
 				}
 
@@ -3329,19 +3327,19 @@ public class PurchaseManager : MonoBehaviour {
 			//do a switch case on the section
 			switch (section) {
 
-			case "Phasor":
+			case "Phaser":
 
 				//check if there are radar shots
-				if (BirdOfPrey.startingPhasorRadarShot > 0) {
+				if (BirdOfPrey.startingPhaserRadarShot > 0) {
 
-					initialEquipment += BirdOfPrey.startingPhasorRadarShot.ToString () + "X Phasor Radar Shot, ";
+					initialEquipment += BirdOfPrey.startingPhaserRadarShot.ToString () + "X Phaser Radar Shot, ";
 
 				}
 
 				//check if there are radar array
-				if (BirdOfPrey.startingPhasorRadarArray == true) {
+				if (BirdOfPrey.startingPhaserRadarArray == true) {
 
-					initialEquipment += "Phasor Radar Array, ";
+					initialEquipment += "Phaser Radar Array, ";
 
 				}
 
@@ -3445,19 +3443,19 @@ public class PurchaseManager : MonoBehaviour {
 			//do a switch case on the section
 			switch (section) {
 
-			case "Phasor":
+			case "Phaser":
 
 				//check if there are radar shots
-				if (Destroyer.startingPhasorRadarShot > 0) {
+				if (Destroyer.startingPhaserRadarShot > 0) {
 
-					initialEquipment += Destroyer.startingPhasorRadarShot.ToString () + "X Phasor Radar Shot, ";
+					initialEquipment += Destroyer.startingPhaserRadarShot.ToString () + "X Phaser Radar Shot, ";
 
 				}
 
 				//check if there are radar array
-				if (Destroyer.startingPhasorRadarArray == true) {
+				if (Destroyer.startingPhaserRadarArray == true) {
 
-					initialEquipment += "Phasor Radar Array, ";
+					initialEquipment += "Phaser Radar Array, ";
 
 				}
 
@@ -3600,19 +3598,19 @@ public class PurchaseManager : MonoBehaviour {
 			//do a switch case on the section
 			switch (section) {
 
-			case "Phasor":
+			case "Phaser":
 
 				//check if there are radar shots
-				if (Starship.startingPhasorRadarShot > 0) {
+				if (Starship.startingPhaserRadarShot > 0) {
 
-					initialEquipment += Starship.startingPhasorRadarShot.ToString () + "X Phasor Radar Shot, ";
+					initialEquipment += Starship.startingPhaserRadarShot.ToString () + "X Phaser Radar Shot, ";
 
 				}
 
 				//check if there are radar array
-				if (Starship.startingPhasorRadarArray == true) {
+				if (Starship.startingPhaserRadarArray == true) {
 
-					initialEquipment += "Phasor Radar Array, ";
+					initialEquipment += "Phaser Radar Array, ";
 
 				}
 
@@ -4210,17 +4208,17 @@ public class PurchaseManager : MonoBehaviour {
 		}
 
 		//remove listeners for up button presses
-		//phasor buttons
+		//phaser buttons
 
-		if (phasorRadarShotUpButton != null) {
+		if (phaserRadarShotUpButton != null) {
 			
-			phasorRadarShotUpButton.onClick.RemoveListener (resolvePhasorRadarShotUpAction);
+			phaserRadarShotUpButton.onClick.RemoveListener (resolvePhaserRadarShotUpAction);
 
 		}
 
-		if (phasorRadarArrayUpButton != null) {
+		if (phaserRadarArrayUpButton != null) {
 			
-			phasorRadarArrayUpButton.onClick.RemoveListener (resolvePhasorRadarArrayUpAction);
+			phaserRadarArrayUpButton.onClick.RemoveListener (resolvePhaserRadarArrayUpAction);
 
 		}
 
@@ -4236,9 +4234,9 @@ public class PurchaseManager : MonoBehaviour {
 
 		}
 
-		if (phasorRadarArrayUpButton != null) {
+		if (phaserRadarArrayUpButton != null) {
 			
-			phasorRadarArrayUpButton.onClick.RemoveListener (cancelObsoletePhasorRadarShotAction);
+			phaserRadarArrayUpButton.onClick.RemoveListener (cancelObsoletePhaserRadarShotAction);
 
 		}
 
@@ -4372,17 +4370,17 @@ public class PurchaseManager : MonoBehaviour {
 		}
 
 		//remove listeners for down button presses
-		//phasor buttons
+		//phaser buttons
 
-		if (phasorRadarShotDownButton != null) {
+		if (phaserRadarShotDownButton != null) {
 			
-			phasorRadarShotDownButton.onClick.RemoveListener (resolvePhasorRadarShotDownAction);
+			phaserRadarShotDownButton.onClick.RemoveListener (resolvePhaserRadarShotDownAction);
 
 		}
 
-		if (phasorRadarArrayDownButton != null) {
+		if (phaserRadarArrayDownButton != null) {
 			
-			phasorRadarArrayDownButton.onClick.RemoveListener (resolvePhasorRadarArrayDownAction);
+			phaserRadarArrayDownButton.onClick.RemoveListener (resolvePhaserRadarArrayDownAction);
 
 		}
 
@@ -4398,9 +4396,9 @@ public class PurchaseManager : MonoBehaviour {
 
 		}
 
-		if (phasorRadarArrayDownButton != null) {
+		if (phaserRadarArrayDownButton != null) {
 			
-			phasorRadarArrayDownButton.onClick.RemoveListener (undoCancelObsoletePhasorRadarShotAction);
+			phaserRadarArrayDownButton.onClick.RemoveListener (undoCancelObsoletePhaserRadarShotAction);
 
 		}
 

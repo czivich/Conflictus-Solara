@@ -193,9 +193,9 @@ public class CrewSection : MonoBehaviour {
 		//add listener for end turn
 		gameManager.OnEndTurn.AddListener(playerColorEndTurnAction);
 
-		//add listener for getting hit by phasor attack
-		//CombatManager.OnPhasorAttackHitShipCrewSection.AddListener(attackHitTakeDamageAction);
-		CutsceneManager.OnPhasorHitShipCrewSection.AddListener(attackHitTakeDamageAction);
+		//add listener for getting hit by phaser attack
+		//CombatManager.OnPhaserAttackHitShipCrewSection.AddListener(attackHitTakeDamageAction);
+		CutsceneManager.OnPhaserHitShipCrewSection.AddListener(attackHitTakeDamageAction);
 
 		//add listener for getting hit by torpedo attack
 		//CombatManager.OnLightTorpedoAttackHitShipCrewSection.AddListener(attackHitTakeDamageAction);
@@ -504,9 +504,9 @@ public class CrewSection : MonoBehaviour {
 
 		}
 
-		//remove listener for getting hit by phasor attack
-		//CombatManager.OnPhasorAttackHitShipCrewSection.RemoveListener(attackHitTakeDamageAction);
-		CutsceneManager.OnPhasorHitShipCrewSection.RemoveListener(attackHitTakeDamageAction);
+		//remove listener for getting hit by phaser attack
+		//CombatManager.OnPhaserAttackHitShipCrewSection.RemoveListener(attackHitTakeDamageAction);
+		CutsceneManager.OnPhaserHitShipCrewSection.RemoveListener(attackHitTakeDamageAction);
 
 		//remove listener for getting hit by torpedo attack
 		//CombatManager.OnLightTorpedoAttackHitShipCrewSection.RemoveListener(attackHitTakeDamageAction);

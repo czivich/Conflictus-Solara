@@ -31,7 +31,7 @@ public abstract class Ship : CombatUnit {
 	//public TextMeshPros to allow the texts on the unit
 	public TextMeshPro shipNameText;
 	public TextMeshPro movementText;
-	public TextMeshPro phasorsText;
+	public TextMeshPro phasersText;
 
 
 	//event to announce the ship was destroyed
@@ -51,7 +51,7 @@ public abstract class Ship : CombatUnit {
 	//unityActions
 	private UnityAction<CombatUnit> combatUnitCheckShipDestroyedAction;
 	private UnityAction<CombatUnit,string,GameManager.ActionMode> combatUnitRenameChangeShipNameAction;
-	private UnityAction<CombatUnit> combatUnitUpdatePhasorAttackTextAction;
+	private UnityAction<CombatUnit> combatUnitUpdatePhaserAttackTextAction;
 	private UnityAction resolveAllUnitsLoadedAction;
 
 	//Use this for initialization
@@ -80,11 +80,11 @@ public abstract class Ship : CombatUnit {
 		//set the actions
 		combatUnitCheckShipDestroyedAction = (combatUnit) => {CheckShipDestroyed(combatUnit);};
 		combatUnitRenameChangeShipNameAction = (combatUnit, newName, previousActionMode) => {ChangeShipName(combatUnit, newName);};
-		combatUnitUpdatePhasorAttackTextAction = (combatUnit) => {UpdatePhasorAttackText(combatUnit);};
+		combatUnitUpdatePhaserAttackTextAction = (combatUnit) => {UpdatePhaserAttackText(combatUnit);};
 		resolveAllUnitsLoadedAction = () => {ResolveAllUnitsLoaded();};
 
 		//add listeners for various sections of the ship getting destroyed
-		PhasorSection.OnPhasorSectionDestroyed.AddListener(combatUnitCheckShipDestroyedAction);
+		PhaserSection.OnPhaserSectionDestroyed.AddListener(combatUnitCheckShipDestroyedAction);
 		TorpedoSection.OnTorpedoSectionDestroyed.AddListener(combatUnitCheckShipDestroyedAction);
 		StorageSection.OnStorageSectionDestroyed.AddListener(combatUnitCheckShipDestroyedAction);
 		CrewSection.OnCrewSectionDestroyed.AddListener(combatUnitCheckShipDestroyedAction);
@@ -94,7 +94,7 @@ public abstract class Ship : CombatUnit {
 		uiManager.GetComponent<RenameShip>().OnRenameUnit.AddListener(combatUnitRenameChangeShipNameAction);
 
 		//add listener for the update attack status event
-		CombatUnit.OnUpdateAttackStatus.AddListener(combatUnitUpdatePhasorAttackTextAction);
+		CombatUnit.OnUpdateAttackStatus.AddListener(combatUnitUpdatePhaserAttackTextAction);
 
 		//check if there is a sunburst script
 		if (this.GetComponent<Sunburst> () == true) {
@@ -208,7 +208,7 @@ public abstract class Ship : CombatUnit {
 
 			case CombatUnit.UnitType.Starship:
 				//if all sections are destroyed
-				if (combatUnit.GetComponent<PhasorSection> ().isDestroyed == true &&
+				if (combatUnit.GetComponent<PhaserSection> ().isDestroyed == true &&
 				    combatUnit.GetComponent<TorpedoSection> ().isDestroyed == true &&
 				    combatUnit.GetComponent<StorageSection> ().isDestroyed == true &&
 				    combatUnit.GetComponent<CrewSection> ().isDestroyed == true &&
@@ -230,7 +230,7 @@ public abstract class Ship : CombatUnit {
 				break;
 			case CombatUnit.UnitType.Destroyer:
 				//if all sections are destroyed
-				if (combatUnit.GetComponent<PhasorSection> ().isDestroyed == true &&
+				if (combatUnit.GetComponent<PhaserSection> ().isDestroyed == true &&
 					combatUnit.GetComponent<TorpedoSection> ().isDestroyed == true &&
 					combatUnit.GetComponent<StorageSection> ().isDestroyed == true &&
 					combatUnit.GetComponent<EngineSection> ().isDestroyed == true) {
@@ -252,7 +252,7 @@ public abstract class Ship : CombatUnit {
 
 			case CombatUnit.UnitType.BirdOfPrey:
 				//if all sections are destroyed
-				if (combatUnit.GetComponent<PhasorSection> ().isDestroyed == true &&
+				if (combatUnit.GetComponent<PhaserSection> ().isDestroyed == true &&
 					combatUnit.GetComponent<TorpedoSection> ().isDestroyed == true &&
 					combatUnit.GetComponent<EngineSection> ().isDestroyed == true) {
 
@@ -273,7 +273,7 @@ public abstract class Ship : CombatUnit {
 
 			case CombatUnit.UnitType.Scout:
 				//if all sections are destroyed
-				if (combatUnit.GetComponent<PhasorSection> ().isDestroyed == true &&
+				if (combatUnit.GetComponent<PhaserSection> ().isDestroyed == true &&
 					combatUnit.GetComponent<StorageSection> ().isDestroyed == true &&
 					combatUnit.GetComponent<EngineSection> ().isDestroyed == true) {
 
@@ -322,19 +322,19 @@ public abstract class Ship : CombatUnit {
 
 	}
 
-	//this function updates the phasor attack text
-	private void UpdatePhasorAttackText(CombatUnit combatUnit){
+	//this function updates the phaser attack text
+	private void UpdatePhaserAttackText(CombatUnit combatUnit){
 
 		//check if this is the combat unit that was passed
 		if (this.GetComponent<CombatUnit> () == combatUnit) {
 
-			//check if we have a valid phasor attack
-			if (this.GetComponent<CombatUnit> ().hasRemainingPhasorAttack == true) {
+			//check if we have a valid phaser attack
+			if (this.GetComponent<CombatUnit> ().hasRemainingPhaserAttack == true) {
 
-				phasorsText.text = "P";
-			} else if (this.GetComponent<CombatUnit> ().hasRemainingPhasorAttack == false) {
+				phasersText.text = "P";
+			} else if (this.GetComponent<CombatUnit> ().hasRemainingPhaserAttack == false) {
 
-				phasorsText.text = "";
+				phasersText.text = "";
 
 			}
 
@@ -345,7 +345,7 @@ public abstract class Ship : CombatUnit {
 	//this function resolves an all units loaded signal
 	private void ResolveAllUnitsLoaded(){
 
-		UpdatePhasorAttackText (this.GetComponent<CombatUnit> ());
+		UpdatePhaserAttackText (this.GetComponent<CombatUnit> ());
 
 	}
 
@@ -360,7 +360,7 @@ public abstract class Ship : CombatUnit {
 	private void RemoveAllListeners(){
 
 		//remove listeners for various sections of the ship getting destroyed
-		PhasorSection.OnPhasorSectionDestroyed.RemoveListener (combatUnitCheckShipDestroyedAction);
+		PhaserSection.OnPhaserSectionDestroyed.RemoveListener (combatUnitCheckShipDestroyedAction);
 		TorpedoSection.OnTorpedoSectionDestroyed.RemoveListener (combatUnitCheckShipDestroyedAction);
 		StorageSection.OnStorageSectionDestroyed.RemoveListener (combatUnitCheckShipDestroyedAction);
 		CrewSection.OnCrewSectionDestroyed.RemoveListener (combatUnitCheckShipDestroyedAction);
@@ -374,7 +374,7 @@ public abstract class Ship : CombatUnit {
 		}
 
 		//remove listener for the update attack status event
-		CombatUnit.OnUpdateAttackStatus.RemoveListener (combatUnitUpdatePhasorAttackTextAction);
+		CombatUnit.OnUpdateAttackStatus.RemoveListener (combatUnitUpdatePhaserAttackTextAction);
 
 		if (gameManager != null) {
 

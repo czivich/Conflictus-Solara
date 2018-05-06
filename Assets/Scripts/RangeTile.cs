@@ -252,8 +252,8 @@ public class RangeTile : MonoBehaviour {
 				if (mouseManager.selectedUnit.GetComponent<Ship> () == true) {
 
 					//create a rangeTile for each hex in the targetable hexes range
-					//we can safely assume there will be a phasor section if we are in movement mode
-					foreach (Hex hex in mouseManager.selectedUnit.GetComponent<PhasorSection>().TargetableTractorBeamHexes) {
+					//we can safely assume there will be a phaser section if we are in movement mode
+					foreach (Hex hex in mouseManager.selectedUnit.GetComponent<PhaserSection>().TargetableTractorBeamHexes) {
 
 						//create a movement range tile at each targetable hex
 						RangeTile.CreateRangeTile (rangeTilePrefab, tileMap.HexMap [hex], rangeParent, RangeTile.RangeTileType.TractorBeam);
@@ -264,7 +264,7 @@ public class RangeTile : MonoBehaviour {
 
 			}
 
-		} else if (currentActionMode == GameManager.ActionMode.PhasorAttack) {
+		} else if (currentActionMode == GameManager.ActionMode.PhaserAttack) {
 
 
 			//check if there is a selected unit
@@ -277,7 +277,7 @@ public class RangeTile : MonoBehaviour {
 				if (mouseManager.selectedUnit.GetComponent<Ship> () == true) {
 
 					//create a rangeTile for each hex in the targetable hexes range
-					foreach (Hex hex in mouseManager.selectedUnit.GetComponent<PhasorSection>().TargetablePhasorHexes) {
+					foreach (Hex hex in mouseManager.selectedUnit.GetComponent<PhaserSection>().TargetablePhaserHexes) {
 
 						//create a movement range tile at each targetable hex
 						RangeTile.CreateRangeTile (rangeTilePrefab, tileMap.HexMap [hex], rangeParent, RangeTile.RangeTileType.Attack);
@@ -289,8 +289,8 @@ public class RangeTile : MonoBehaviour {
 				else if (mouseManager.selectedUnit.GetComponent<Starbase> () == true) {
 
 					//create a rangeTile for each hex in the targetable hexes range
-					//we can grab from either phasor section - they will both be updating even if they are destroyed
-					foreach (Hex hex in mouseManager.selectedUnit.GetComponent<StarbasePhasorSection1>().TargetablePhasorHexes) {
+					//we can grab from either phaser section - they will both be updating even if they are destroyed
+					foreach (Hex hex in mouseManager.selectedUnit.GetComponent<StarbasePhaserSection1>().TargetablePhaserHexes) {
 
 						//create a movement range tile at each targetable hex
 						RangeTile.CreateRangeTile (rangeTilePrefab, tileMap.HexMap [hex], rangeParent, RangeTile.RangeTileType.Attack);

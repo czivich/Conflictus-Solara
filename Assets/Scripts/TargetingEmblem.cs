@@ -153,7 +153,7 @@ public class TargetingEmblem : MonoBehaviour {
 
 			}
 
-			else if (gameManager.CurrentActionMode == GameManager.ActionMode.PhasorAttack) {
+			else if (gameManager.CurrentActionMode == GameManager.ActionMode.PhaserAttack) {
 
 				//set the current tile image
 				currentTileImage = GraphicsManager.MyUnit.RedCrosshair;
@@ -181,7 +181,7 @@ public class TargetingEmblem : MonoBehaviour {
 
 			}
 
-			//TODO - when we have defined other targeting action modes like phasor attack and torpedo attack, need to add them here
+			//TODO - when we have defined other targeting action modes like phaser attack and torpedo attack, need to add them here
 
 			//invoke the onShow event
 			OnShowTargetingEmblem.Invoke(this);

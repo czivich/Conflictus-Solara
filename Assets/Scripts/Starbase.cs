@@ -7,14 +7,14 @@ using TMPro;
 
 public class Starbase : CombatUnit {
 
-	//phasor section 1 values
-	public static readonly int startingPhasorRadarShot = 3;
-	public static readonly bool startingPhasorRadarArray = false;
-	public static readonly int phasorSection1ShieldsMax = 100;
+	//phaser section 1 values
+	public static readonly int startingPhaserRadarShot = 3;
+	public static readonly bool startingPhaserRadarArray = false;
+	public static readonly int phaserSection1ShieldsMax = 100;
 
-	//phasor section 2 values
+	//phaser section 2 values
 	public static readonly bool startingXRayKernelUpgrade = true;
-	public static readonly int phasorSection2ShieldsMax = 100;
+	public static readonly int phaserSection2ShieldsMax = 100;
 
 	//torpedo section values
 	public static readonly int startingTorpedoLaserShot = 3;
@@ -59,7 +59,7 @@ public class Starbase : CombatUnit {
 
 	//public TextMeshPros to allow the texts on the unit
 	public TextMeshPro baseNameText;
-	public TextMeshPro phasorsText;
+	public TextMeshPro phasersText;
 	public TextMeshPro torpedoText;
 	public TextMeshPro repairText;
 
@@ -82,7 +82,7 @@ public class Starbase : CombatUnit {
 	//unityActions
 	private UnityAction<CombatUnit> combatUnitCheckBaseDestroyedAction;
 	private UnityAction<CombatUnit,string,GameManager.ActionMode> unitRenamedChangeBaseNameAction;
-	private UnityAction<CombatUnit> combatUnitUpdatePhasorAttackTextAction;
+	private UnityAction<CombatUnit> combatUnitUpdatePhaserAttackTextAction;
 	private UnityAction<CombatUnit> combatUnitUpdateTorpedoAttackTextAction;
 	private UnityAction<CombatUnit,CombatUnit,string> unitRepairedUseRepairCrewAction;
 	private UnityAction<CombatUnit> combatUnitUpdateRepairStatusAction;
@@ -101,7 +101,7 @@ public class Starbase : CombatUnit {
 		//set the actions
 		combatUnitCheckBaseDestroyedAction = (combatUnit) => {CheckBaseDestroyed(combatUnit);};
 		unitRenamedChangeBaseNameAction = (combatUnit, newName, previousActionMode) => {ChangeBaseName(combatUnit, newName);};
-		combatUnitUpdatePhasorAttackTextAction = (combatUnit) => {UpdatePhasorAttackText(combatUnit);};
+		combatUnitUpdatePhaserAttackTextAction = (combatUnit) => {UpdatePhaserAttackText(combatUnit);};
 		combatUnitUpdateTorpedoAttackTextAction = (combatUnit) => {UpdateTorpedoAttackText(combatUnit);};
 		unitRepairedUseRepairCrewAction = (selectedUnit,targetedUnit,sectionTargetedString) => {UpdateRepairStatus(selectedUnit);};
 		combatUnitUpdateRepairStatusAction = (combatUnit) => {UpdateRepairStatus(combatUnit);};
@@ -115,8 +115,8 @@ public class Starbase : CombatUnit {
 		};
 
 		//add listeners for various sections of the base getting destroyed
-		StarbasePhasorSection1.OnPhasorSection1Destroyed.AddListener(combatUnitCheckBaseDestroyedAction);
-		StarbasePhasorSection2.OnPhasorSection2Destroyed.AddListener(combatUnitCheckBaseDestroyedAction);
+		StarbasePhaserSection1.OnPhaserSection1Destroyed.AddListener(combatUnitCheckBaseDestroyedAction);
+		StarbasePhaserSection2.OnPhaserSection2Destroyed.AddListener(combatUnitCheckBaseDestroyedAction);
 		StarbaseTorpedoSection.OnTorpedoSectionDestroyed.AddListener(combatUnitCheckBaseDestroyedAction);
 		StarbaseStorageSection1.OnStorageSection1Destroyed.AddListener(combatUnitCheckBaseDestroyedAction);
 		StarbaseStorageSection2.OnStorageSection2Destroyed.AddListener(combatUnitCheckBaseDestroyedAction);
@@ -126,7 +126,7 @@ public class Starbase : CombatUnit {
 		uiManager.GetComponent<RenameShip>().OnRenameUnit.AddListener(unitRenamedChangeBaseNameAction);
 
 		//add listener for the update attack status event
-		CombatUnit.OnUpdateAttackStatus.AddListener(combatUnitUpdatePhasorAttackTextAction);
+		CombatUnit.OnUpdateAttackStatus.AddListener(combatUnitUpdatePhaserAttackTextAction);
 
 		//add listener for the update attack status event
 		CombatUnit.OnUpdateAttackStatus.AddListener(combatUnitUpdateTorpedoAttackTextAction);
@@ -146,8 +146,8 @@ public class Starbase : CombatUnit {
 
 
 		//intialize the sections
-		this.GetComponent<StarbasePhasorSection1>().Init();
-		this.GetComponent<StarbasePhasorSection2>().Init();
+		this.GetComponent<StarbasePhaserSection1>().Init();
+		this.GetComponent<StarbasePhaserSection2>().Init();
 		this.GetComponent<StarbaseTorpedoSection>().Init();
 		this.GetComponent<StarbaseCrewSection>().Init();
 		this.GetComponent<StarbaseStorageSection1>().Init();
@@ -165,8 +165,8 @@ public class Starbase : CombatUnit {
 		if (this.GetComponent<CombatUnit> () == combatUnit) {
 
 			//if all sections are destroyed
-			if (combatUnit.GetComponent<StarbasePhasorSection1> ().isDestroyed == true &&
-				combatUnit.GetComponent<StarbasePhasorSection2> ().isDestroyed == true &&
+			if (combatUnit.GetComponent<StarbasePhaserSection1> ().isDestroyed == true &&
+				combatUnit.GetComponent<StarbasePhaserSection2> ().isDestroyed == true &&
 			    combatUnit.GetComponent<StarbaseTorpedoSection> ().isDestroyed == true &&
 			    combatUnit.GetComponent<StarbaseStorageSection1> ().isDestroyed == true &&
 				combatUnit.GetComponent<StarbaseStorageSection2> ().isDestroyed == true && 
@@ -174,8 +174,8 @@ public class Starbase : CombatUnit {
 
 				//remove all listeners
 				//remove listeners for various sections of the base getting destroyed
-				StarbasePhasorSection1.OnPhasorSection1Destroyed.RemoveListener((combatUnitDelegate) => {CheckBaseDestroyed(combatUnitDelegate);});
-				StarbasePhasorSection2.OnPhasorSection2Destroyed.RemoveListener((combatUnitDelegate) => {CheckBaseDestroyed(combatUnitDelegate);});
+				StarbasePhaserSection1.OnPhaserSection1Destroyed.RemoveListener((combatUnitDelegate) => {CheckBaseDestroyed(combatUnitDelegate);});
+				StarbasePhaserSection2.OnPhaserSection2Destroyed.RemoveListener((combatUnitDelegate) => {CheckBaseDestroyed(combatUnitDelegate);});
 				StarbaseTorpedoSection.OnTorpedoSectionDestroyed.RemoveListener((combatUnitDelegate) => {CheckBaseDestroyed(combatUnitDelegate);});
 				StarbaseStorageSection1.OnStorageSection1Destroyed.RemoveListener((combatUnitDelegate) => {CheckBaseDestroyed(combatUnitDelegate);});
 				StarbaseStorageSection2.OnStorageSection2Destroyed.RemoveListener((combatUnitDelegate) => {CheckBaseDestroyed(combatUnitDelegate);});
@@ -185,7 +185,7 @@ public class Starbase : CombatUnit {
 				uiManager.GetComponent<RenameShip>().OnRenameUnit.RemoveListener((combatUnitDelegate, newName, previousActionMode) => {ChangeBaseName(combatUnitDelegate, newName);});
 
 				//remove listener for the update attack status event
-				CombatUnit.OnUpdateAttackStatus.RemoveListener((combatUnitDelegate) => {UpdatePhasorAttackText(combatUnitDelegate);});
+				CombatUnit.OnUpdateAttackStatus.RemoveListener((combatUnitDelegate) => {UpdatePhaserAttackText(combatUnitDelegate);});
 
 				//remove listener for the update attack status event
 				CombatUnit.OnUpdateAttackStatus.RemoveListener((combatUnitDelegate) => {UpdateTorpedoAttackText(combatUnitDelegate);});
@@ -237,19 +237,19 @@ public class Starbase : CombatUnit {
 
 	}
 
-	//this function updates the phasor attack text
-	private void UpdatePhasorAttackText(CombatUnit combatUnit){
+	//this function updates the phaser attack text
+	private void UpdatePhaserAttackText(CombatUnit combatUnit){
 
 		//check if this is the combat unit that was passed
 		if (this.GetComponent<CombatUnit> () == combatUnit) {
 
-			//check if we have a valid phasor attack
-			if (this.GetComponent<CombatUnit> ().hasRemainingPhasorAttack == true) {
+			//check if we have a valid phaser attack
+			if (this.GetComponent<CombatUnit> ().hasRemainingPhaserAttack == true) {
 
-				phasorsText.text = "P";
-			} else if (this.GetComponent<CombatUnit> ().hasRemainingPhasorAttack == false) {
+				phasersText.text = "P";
+			} else if (this.GetComponent<CombatUnit> ().hasRemainingPhaserAttack == false) {
 
-				phasorsText.text = "";
+				phasersText.text = "";
 
 			}
 
@@ -359,7 +359,7 @@ public class Starbase : CombatUnit {
 
 		UpdateRepairStatus(this.GetComponent<CombatUnit> ());
 
-		UpdatePhasorAttackText (this.GetComponent<CombatUnit> ());
+		UpdatePhaserAttackText (this.GetComponent<CombatUnit> ());
 
 		UpdateTorpedoAttackText (this.GetComponent<CombatUnit> ());
 
@@ -376,8 +376,8 @@ public class Starbase : CombatUnit {
 	private void RemoveAllListeners(){
 
 		//remove listeners for various sections of the base getting destroyed
-		StarbasePhasorSection1.OnPhasorSection1Destroyed.RemoveListener (combatUnitCheckBaseDestroyedAction);
-		StarbasePhasorSection2.OnPhasorSection2Destroyed.RemoveListener (combatUnitCheckBaseDestroyedAction);
+		StarbasePhaserSection1.OnPhaserSection1Destroyed.RemoveListener (combatUnitCheckBaseDestroyedAction);
+		StarbasePhaserSection2.OnPhaserSection2Destroyed.RemoveListener (combatUnitCheckBaseDestroyedAction);
 		StarbaseTorpedoSection.OnTorpedoSectionDestroyed.RemoveListener (combatUnitCheckBaseDestroyedAction);
 		StarbaseStorageSection1.OnStorageSection1Destroyed.RemoveListener (combatUnitCheckBaseDestroyedAction);
 		StarbaseStorageSection2.OnStorageSection2Destroyed.RemoveListener (combatUnitCheckBaseDestroyedAction);
@@ -391,7 +391,7 @@ public class Starbase : CombatUnit {
 		}
 
 		//remove listener for the update attack status event
-		CombatUnit.OnUpdateAttackStatus.RemoveListener (combatUnitUpdatePhasorAttackTextAction);
+		CombatUnit.OnUpdateAttackStatus.RemoveListener (combatUnitUpdatePhaserAttackTextAction);
 
 		//remove listener for the update attack status event
 		CombatUnit.OnUpdateAttackStatus.RemoveListener (combatUnitUpdateTorpedoAttackTextAction);

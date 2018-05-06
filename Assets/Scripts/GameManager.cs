@@ -212,7 +212,7 @@ public class GameManager : MonoBehaviour {
 		Selection,
 		Movement,
 		TractorBeam,
-		PhasorAttack,
+		PhaserAttack,
 		TorpedoAttack,
 		FlareMode,
 		ItemUse,
@@ -353,8 +353,8 @@ public class GameManager : MonoBehaviour {
 	private UnityAction tractorBeamSetActionModeToSelectionAction;
 	private UnityAction<Toggle> toggleSetActionModeToMovementAction;
 	private UnityAction movementSetActionModeToSelectionAction;
-	private UnityAction<Toggle> toggleSetActionModeToPhasorAttackAction;
-	private UnityAction phasorSetActionModeToSelectionAction;
+	private UnityAction<Toggle> toggleSetActionModeToPhaserAttackAction;
+	private UnityAction phaserSetActionModeToSelectionAction;
 	private UnityAction<Toggle> toggleSetActionModeToTorpedoAttackAction;
 	private UnityAction torpedoSetActionModeToSelectionAction;
 	private UnityAction<Toggle> toggleSetActionModeToItemUseAction;
@@ -1861,8 +1861,8 @@ public class GameManager : MonoBehaviour {
 		uiManager.GetComponent<TextInput>().Init();
 		uiManager.GetComponent<TractorBeamToggle>().Init();
 		uiManager.GetComponent<TractorBeamMenu>().Init();
-		uiManager.GetComponent<PhasorToggle>().Init();
-		uiManager.GetComponent<PhasorMenu>().Init();
+		uiManager.GetComponent<PhaserToggle>().Init();
+		uiManager.GetComponent<PhaserMenu>().Init();
 		uiManager.GetComponent<TorpedoToggle>().Init();
 		uiManager.GetComponent<TorpedoMenu>().Init();
 		uiManager.GetComponent<FlareManager>().Init();
@@ -1969,11 +1969,11 @@ public class GameManager : MonoBehaviour {
 
 	}
 
-	//this function is used to set the ActionMode to PhasorAttack
-	private void SetActionModeToPhasorAttack(){
+	//this function is used to set the ActionMode to PhaserAttack
+	private void SetActionModeToPhaserAttack(){
 
-		CurrentActionMode = ActionMode.PhasorAttack;
-		//Debug.Log ("Action Mode is PhasorAttack");
+		CurrentActionMode = ActionMode.PhaserAttack;
+		//Debug.Log ("Action Mode is PhaserAttack");
 
 	}
 
@@ -2083,10 +2083,10 @@ public class GameManager : MonoBehaviour {
 			}
 		};
 
-		toggleSetActionModeToPhasorAttackAction = (toggle) => {SetActionModeToPhasorAttack();};
-		phasorSetActionModeToSelectionAction = () => {
-			//we only want to set the current action mode to selection if we are still on phasor attack
-			if(currentActionMode == ActionMode.PhasorAttack){
+		toggleSetActionModeToPhaserAttackAction = (toggle) => {SetActionModeToPhaserAttack();};
+		phaserSetActionModeToSelectionAction = () => {
+			//we only want to set the current action mode to selection if we are still on phaser attack
+			if(currentActionMode == ActionMode.PhaserAttack){
 
 				SetActionModeToSelection();
 
@@ -2238,9 +2238,9 @@ public class GameManager : MonoBehaviour {
 		uiManager.GetComponent<MoveToggle> ().OnTurnedOnMoveToggle.AddListener (toggleSetActionModeToMovementAction);
 		uiManager.GetComponent<MoveToggle> ().OnTurnedOffMoveToggle.AddListener(movementSetActionModeToSelectionAction);
 
-		//add listeners to the PhasorAttack events
-		uiManager.GetComponent<PhasorToggle>().OnTurnedOnPhasorToggle.AddListener(toggleSetActionModeToPhasorAttackAction);
-		uiManager.GetComponent<PhasorToggle>().OnTurnedOffPhasorToggle.AddListener(phasorSetActionModeToSelectionAction);
+		//add listeners to the PhaserAttack events
+		uiManager.GetComponent<PhaserToggle>().OnTurnedOnPhaserToggle.AddListener(toggleSetActionModeToPhaserAttackAction);
+		uiManager.GetComponent<PhaserToggle>().OnTurnedOffPhaserToggle.AddListener(phaserSetActionModeToSelectionAction);
 
 		//add listeners to the TorpedoAttack events
 		uiManager.GetComponent<TorpedoToggle>().OnTurnedOnTorpedoToggle.AddListener(toggleSetActionModeToTorpedoAttackAction);
@@ -2814,9 +2814,9 @@ public class GameManager : MonoBehaviour {
 			uiManager.GetComponent<MoveToggle> ().OnTurnedOnMoveToggle.RemoveListener (toggleSetActionModeToMovementAction);
 			uiManager.GetComponent<MoveToggle> ().OnTurnedOffMoveToggle.RemoveListener (movementSetActionModeToSelectionAction);
 
-			//remove listeners to the PhasorAttack events
-			uiManager.GetComponent<PhasorToggle> ().OnTurnedOnPhasorToggle.RemoveListener (toggleSetActionModeToPhasorAttackAction);
-			uiManager.GetComponent<PhasorToggle> ().OnTurnedOffPhasorToggle.RemoveListener (phasorSetActionModeToSelectionAction);
+			//remove listeners to the PhaserAttack events
+			uiManager.GetComponent<PhaserToggle> ().OnTurnedOnPhaserToggle.RemoveListener (toggleSetActionModeToPhaserAttackAction);
+			uiManager.GetComponent<PhaserToggle> ().OnTurnedOffPhaserToggle.RemoveListener (phaserSetActionModeToSelectionAction);
 
 			//remove listeners to the TorpedoAttack events
 			uiManager.GetComponent<TorpedoToggle> ().OnTurnedOnTorpedoToggle.RemoveListener (toggleSetActionModeToTorpedoAttackAction);

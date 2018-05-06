@@ -43,7 +43,7 @@ GameObject:
   - component: {fileID: 222550432506785092}
   - component: {fileID: 114589557175822620}
   m_Layer: 9
-  m_Name: phasorText
+  m_Name: phaserText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -939,7 +939,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   baseNameText: {fileID: 114941480332028148}
-  phasorsText: {fileID: 114589557175822620}
+  phasersText: {fileID: 114589557175822620}
   torpedoText: {fileID: 114562410467107804}
   repairText: {fileID: 114462245544561586}
 --- !u!114 &114941480332028148

@@ -25,7 +25,7 @@ public class UINavigationMain : MonoBehaviour {
 
 		Selection,
 		MoveMenu,
-		PhasorMenu,
+		PhaserMenu,
 		TorpedoMenu,
 		TractorBeamMenu,
 		UseItem,
@@ -100,7 +100,7 @@ public class UINavigationMain : MonoBehaviour {
 	//these public arrays are groups of selectables arrays that make up each UI state
 	private Selectable[][] SelectionGroup;
 	private Selectable[][] MoveMenuGroup;
-	private Selectable[][] PhasorMenuGroup;
+	private Selectable[][] PhaserMenuGroup;
 	private Selectable[][] TorpedoMenuGroup;
 	private Selectable[][] TractorBeamMenuGroup;
 	private Selectable[][] UseItemMenuGroup;
@@ -132,9 +132,9 @@ public class UINavigationMain : MonoBehaviour {
 
 	public Selectable[] MoveMenuButtons;
 
-	public Selectable[] PhasorRadarShotButton;
-	public Selectable[] PhasorTargetingDropdown;
-	public Selectable[] PhasorFireButton;
+	public Selectable[] PhaserRadarShotButton;
+	public Selectable[] PhaserTargetingDropdown;
+	public Selectable[] PhaserFireButton;
 
 	public Selectable[] TorpedoLaserShotButton;
 	public Selectable[] TorpedoTargetingDropdown;
@@ -151,8 +151,8 @@ public class UINavigationMain : MonoBehaviour {
 
 	public Selectable[] CloakingDeviceEngageButton;
 
-	public Selectable[] BuyPhasorRadarShotButton;
-	public Selectable[] BuyPhasorRadarArrayButton;
+	public Selectable[] BuyPhaserRadarShotButton;
+	public Selectable[] BuyPhaserRadarArrayButton;
 	public Selectable[] BuyXRayKernelButton;
 	public Selectable[] BuyTractorBeamButton;
 	public Selectable[] BuyLightTorpedoButton;
@@ -303,7 +303,7 @@ public class UINavigationMain : MonoBehaviour {
 	//unityActions
 	private UnityAction<Player> NewTurnSetInitialSelectablesAction;
 	private UnityAction<bool> MoveToggleSetUIStateAction;
-	private UnityAction<bool> PhasorToggleSetUIStateAction;
+	private UnityAction<bool> PhaserToggleSetUIStateAction;
 	private UnityAction<bool> TorpedoToggleSetUIStateAction;
 	private UnityAction<bool> TractorBeamToggleSetUIStateAction;
 	private UnityAction<bool> UseItemToggleSetUIStateAction;
@@ -371,7 +371,7 @@ public class UINavigationMain : MonoBehaviour {
 	private UnityAction<Selectable> PointerClickResolveBlockAction;
 
 	//these set the combat states
-	private UnityAction<CombatUnit,CombatUnit,string> PhasorAttackSetCombatStateToPhasorAction;
+	private UnityAction<CombatUnit,CombatUnit,string> PhaserAttackSetCombatStateToPhaserAction;
 	private UnityAction<CombatUnit,CombatUnit,string> TorpedoAttackSetCombatStateToTorpedoAction;
 	private UnityAction ReturnToSelectablesFromCombatAction;
 
@@ -572,10 +572,10 @@ public class UINavigationMain : MonoBehaviour {
 
 				}
 
-			} else if(CurrentUIState == UIState.PhasorMenu && CurrentSelectables == PhasorTargetingDropdown){
+			} else if(CurrentUIState == UIState.PhaserMenu && CurrentSelectables == PhaserTargetingDropdown){
 
 				//adjust the dropdown value
-				AdjustDropdownValueDown(PhasorTargetingDropdown[0].GetComponent<TMP_Dropdown>());
+				AdjustDropdownValueDown(PhaserTargetingDropdown[0].GetComponent<TMP_Dropdown>());
 
 			} else if(CurrentUIState == UIState.TorpedoMenu && CurrentSelectables == TorpedoTargetingDropdown){
 
@@ -592,15 +592,15 @@ public class UINavigationMain : MonoBehaviour {
 				//adjust the dropdown value
 				AdjustDropdownValueDown(CrewTargetingDropdown[0].GetComponent<TMP_Dropdown>());
 
-			} else if(CurrentUIState == UIState.BuyItem && CurrentSelectables == BuyPhasorRadarShotButton){
+			} else if(CurrentUIState == UIState.BuyItem && CurrentSelectables == BuyPhaserRadarShotButton){
 
 				//click the button
-				uiManager.GetComponent<PurchaseManager> ().phasorRadarShotDownButton.onClick.Invoke();
+				uiManager.GetComponent<PurchaseManager> ().phaserRadarShotDownButton.onClick.Invoke();
 
-			} else if(CurrentUIState == UIState.BuyItem && CurrentSelectables == BuyPhasorRadarArrayButton){
+			} else if(CurrentUIState == UIState.BuyItem && CurrentSelectables == BuyPhaserRadarArrayButton){
 
 				//click the button
-				uiManager.GetComponent<PurchaseManager> ().phasorRadarArrayDownButton.onClick.Invoke();
+				uiManager.GetComponent<PurchaseManager> ().phaserRadarArrayDownButton.onClick.Invoke();
 
 			} else if(CurrentUIState == UIState.BuyItem && CurrentSelectables == BuyXRayKernelButton){
 
@@ -697,15 +697,15 @@ public class UINavigationMain : MonoBehaviour {
 				//click the button
 				uiManager.GetComponent<PurchaseManager> ().transwarpDriveDownButton.onClick.Invoke();
 
-			} else if(CurrentUIState == UIState.OutfitShip && CurrentSelectables == BuyPhasorRadarShotButton){
+			} else if(CurrentUIState == UIState.OutfitShip && CurrentSelectables == BuyPhaserRadarShotButton){
 
 				//click the button
-				uiManager.GetComponent<PurchaseManager> ().phasorRadarShotDownButton.onClick.Invoke();
+				uiManager.GetComponent<PurchaseManager> ().phaserRadarShotDownButton.onClick.Invoke();
 
-			} else if(CurrentUIState == UIState.OutfitShip && CurrentSelectables == BuyPhasorRadarArrayButton){
+			} else if(CurrentUIState == UIState.OutfitShip && CurrentSelectables == BuyPhaserRadarArrayButton){
 
 				//click the button
-				uiManager.GetComponent<PurchaseManager> ().phasorRadarArrayDownButton.onClick.Invoke();
+				uiManager.GetComponent<PurchaseManager> ().phaserRadarArrayDownButton.onClick.Invoke();
 
 			} else if(CurrentUIState == UIState.OutfitShip && CurrentSelectables == BuyXRayKernelButton){
 
@@ -915,10 +915,10 @@ public class UINavigationMain : MonoBehaviour {
 
 				}
 
-			} else if(CurrentUIState == UIState.PhasorMenu && CurrentSelectables == PhasorTargetingDropdown){
+			} else if(CurrentUIState == UIState.PhaserMenu && CurrentSelectables == PhaserTargetingDropdown){
 
 				//adjust the dropdown value
-				AdjustDropdownValueUp(PhasorTargetingDropdown[0].GetComponent<TMP_Dropdown>());
+				AdjustDropdownValueUp(PhaserTargetingDropdown[0].GetComponent<TMP_Dropdown>());
 
 			} else if(CurrentUIState == UIState.TorpedoMenu && CurrentSelectables == TorpedoTargetingDropdown){
 
@@ -935,15 +935,15 @@ public class UINavigationMain : MonoBehaviour {
 				//adjust the dropdown value
 				AdjustDropdownValueUp(CrewTargetingDropdown[0].GetComponent<TMP_Dropdown>());
 
-			} else if(CurrentUIState == UIState.BuyItem && CurrentSelectables == BuyPhasorRadarShotButton){
+			} else if(CurrentUIState == UIState.BuyItem && CurrentSelectables == BuyPhaserRadarShotButton){
 
 				//click the button
-				uiManager.GetComponent<PurchaseManager> ().phasorRadarShotUpButton.onClick.Invoke();
+				uiManager.GetComponent<PurchaseManager> ().phaserRadarShotUpButton.onClick.Invoke();
 
-			} else if(CurrentUIState == UIState.BuyItem && CurrentSelectables == BuyPhasorRadarArrayButton){
+			} else if(CurrentUIState == UIState.BuyItem && CurrentSelectables == BuyPhaserRadarArrayButton){
 
 				//click the button
-				uiManager.GetComponent<PurchaseManager> ().phasorRadarArrayUpButton.onClick.Invoke();
+				uiManager.GetComponent<PurchaseManager> ().phaserRadarArrayUpButton.onClick.Invoke();
 
 			} else if(CurrentUIState == UIState.BuyItem && CurrentSelectables == BuyXRayKernelButton){
 
@@ -1040,15 +1040,15 @@ public class UINavigationMain : MonoBehaviour {
 				//click the button
 				uiManager.GetComponent<PurchaseManager> ().transwarpDriveUpButton.onClick.Invoke();
 
-			} else if(CurrentUIState == UIState.OutfitShip && CurrentSelectables == BuyPhasorRadarShotButton){
+			} else if(CurrentUIState == UIState.OutfitShip && CurrentSelectables == BuyPhaserRadarShotButton){
 
 				//click the button
-				uiManager.GetComponent<PurchaseManager> ().phasorRadarShotUpButton.onClick.Invoke();
+				uiManager.GetComponent<PurchaseManager> ().phaserRadarShotUpButton.onClick.Invoke();
 
-			} else if(CurrentUIState == UIState.OutfitShip && CurrentSelectables == BuyPhasorRadarArrayButton){
+			} else if(CurrentUIState == UIState.OutfitShip && CurrentSelectables == BuyPhaserRadarArrayButton){
 
 				//click the button
-				uiManager.GetComponent<PurchaseManager> ().phasorRadarArrayUpButton.onClick.Invoke();
+				uiManager.GetComponent<PurchaseManager> ().phaserRadarArrayUpButton.onClick.Invoke();
 
 			} else if(CurrentUIState == UIState.OutfitShip && CurrentSelectables == BuyXRayKernelButton){
 
@@ -1691,7 +1691,7 @@ public class UINavigationMain : MonoBehaviour {
 
 			} 
 
-			else if (CurrentUIState == UIState.PhasorMenu && gameManager.CurrentActionMode != GameManager.ActionMode.Animation && 
+			else if (CurrentUIState == UIState.PhaserMenu && gameManager.CurrentActionMode != GameManager.ActionMode.Animation && 
 				uiManager.GetComponent<CutsceneManager>().cutscenePanel.activeInHierarchy == false) {
 
 				//check if we have a targeted unit
@@ -1708,7 +1708,7 @@ public class UINavigationMain : MonoBehaviour {
 				} else {
 
 					//else we want to cancel out of the menu by clicking the toggle
-					uiManager.GetComponent<PhasorToggle> ().phasorToggle.isOn = false;
+					uiManager.GetComponent<PhaserToggle> ().phaserToggle.isOn = false;
 
 					//invoke the event to trigger sound
 					OnCloseWindowWithCancel.Invoke();
@@ -2043,11 +2043,11 @@ public class UINavigationMain : MonoBehaviour {
 
 		};
 
-		PhasorToggleSetUIStateAction = (toggleState) => {
+		PhaserToggleSetUIStateAction = (toggleState) => {
 
 			if (toggleState == true) {
 
-				CurrentUIState = UIState.PhasorMenu;
+				CurrentUIState = UIState.PhaserMenu;
 
 			} else {
 
@@ -2519,7 +2519,7 @@ public class UINavigationMain : MonoBehaviour {
 
 		PointerClickResolveBlockAction = (selectable) => {ResolvePointerClickBlock (selectable);};
 
-		PhasorAttackSetCombatStateToPhasorAction = (attackingUnit, targetedUnit, text) => {combatType = UIState.PhasorMenu;};
+		PhaserAttackSetCombatStateToPhaserAction = (attackingUnit, targetedUnit, text) => {combatType = UIState.PhaserMenu;};
 		TorpedoAttackSetCombatStateToTorpedoAction = (attackingUnit, targetedUnit, text) => {combatType = UIState.TorpedoMenu;};
 
 		ReturnToSelectablesFromCombatAction = () => {
@@ -2571,8 +2571,8 @@ public class UINavigationMain : MonoBehaviour {
 		//add listener for move toggle
 		uiManager.GetComponent<MoveToggle>().moveToggle.onValueChanged.AddListener(MoveToggleSetUIStateAction);
 
-		//add listener for phasor toggle
-		uiManager.GetComponent<PhasorToggle>().phasorToggle.onValueChanged.AddListener(PhasorToggleSetUIStateAction);
+		//add listener for phaser toggle
+		uiManager.GetComponent<PhaserToggle>().phaserToggle.onValueChanged.AddListener(PhaserToggleSetUIStateAction);
 
 		//add listener for torpedo toggle
 		uiManager.GetComponent<TorpedoToggle>().torpedoToggle.onValueChanged.AddListener(TorpedoToggleSetUIStateAction);
@@ -2693,9 +2693,9 @@ public class UINavigationMain : MonoBehaviour {
 		gameManager.OnLoadedTurn.AddListener (NewTurnSetInitialSelectablesAction);
 
 		//add listeners for attacks starting
-		PhasorSection.OnFirePhasors.AddListener(PhasorAttackSetCombatStateToPhasorAction);
-		StarbasePhasorSection1.OnFirePhasors.AddListener(PhasorAttackSetCombatStateToPhasorAction);
-		StarbasePhasorSection2.OnFirePhasors.AddListener(PhasorAttackSetCombatStateToPhasorAction);
+		PhaserSection.OnFirePhasers.AddListener(PhaserAttackSetCombatStateToPhaserAction);
+		StarbasePhaserSection1.OnFirePhasers.AddListener(PhaserAttackSetCombatStateToPhaserAction);
+		StarbasePhaserSection2.OnFirePhasers.AddListener(PhaserAttackSetCombatStateToPhaserAction);
 		TorpedoSection.OnFireLightTorpedo.AddListener (TorpedoAttackSetCombatStateToTorpedoAction);
 		TorpedoSection.OnFireHeavyTorpedo.AddListener (TorpedoAttackSetCombatStateToTorpedoAction);
 		StarbaseTorpedoSection.OnFireLightTorpedo.AddListener (TorpedoAttackSetCombatStateToTorpedoAction);
@@ -2757,15 +2757,15 @@ public class UINavigationMain : MonoBehaviour {
 		MoveMenuGroup [4] = NextUnitButtons;
 		MoveMenuGroup [5] = StatusButton;
 
-		PhasorMenuGroup = new Selectable[8][];
-		PhasorMenuGroup [0] = PhasorRadarShotButton;
-		PhasorMenuGroup [1] = PhasorTargetingDropdown;
-		PhasorMenuGroup [2] = PhasorFireButton;
-		PhasorMenuGroup [3] = ActionMenuButtons;
-		PhasorMenuGroup [4] = ChatInputField;
-		PhasorMenuGroup [5] = FileMenuButtons;
-		PhasorMenuGroup [6] = NextUnitButtons;
-		PhasorMenuGroup [7] = StatusButton;
+		PhaserMenuGroup = new Selectable[8][];
+		PhaserMenuGroup [0] = PhaserRadarShotButton;
+		PhaserMenuGroup [1] = PhaserTargetingDropdown;
+		PhaserMenuGroup [2] = PhaserFireButton;
+		PhaserMenuGroup [3] = ActionMenuButtons;
+		PhaserMenuGroup [4] = ChatInputField;
+		PhaserMenuGroup [5] = FileMenuButtons;
+		PhaserMenuGroup [6] = NextUnitButtons;
+		PhaserMenuGroup [7] = StatusButton;
 
 		TorpedoMenuGroup = new Selectable[8][];
 		TorpedoMenuGroup [0] = TorpedoLaserShotButton;
@@ -2813,8 +2813,8 @@ public class UINavigationMain : MonoBehaviour {
 		CloakingMenuGroup [5] = StatusButton;
 
 		BuyItemGroup = new Selectable[22][];
-		BuyItemGroup [0] = BuyPhasorRadarShotButton;
-		BuyItemGroup [1] = BuyPhasorRadarArrayButton;
+		BuyItemGroup [0] = BuyPhaserRadarShotButton;
+		BuyItemGroup [1] = BuyPhaserRadarArrayButton;
 		BuyItemGroup [2] = BuyXRayKernelButton;
 		BuyItemGroup [3] = BuyTractorBeamButton;
 		BuyItemGroup [4] = BuyLightTorpedoButton;
@@ -2841,8 +2841,8 @@ public class UINavigationMain : MonoBehaviour {
 		BuyShipGroup [1] = BuyShipButtonRow;
 
 		OutfitShipGroup = new Selectable[22][];
-		OutfitShipGroup [0] = BuyPhasorRadarShotButton;
-		OutfitShipGroup [1] = BuyPhasorRadarArrayButton;
+		OutfitShipGroup [0] = BuyPhaserRadarShotButton;
+		OutfitShipGroup [1] = BuyPhaserRadarArrayButton;
 		OutfitShipGroup [2] = BuyXRayKernelButton;
 		OutfitShipGroup [3] = BuyTractorBeamButton;
 		OutfitShipGroup [4] = BuyLightTorpedoButton;
@@ -2963,19 +2963,19 @@ public class UINavigationMain : MonoBehaviour {
 			selectablesWrap = false;
 
 
-		} else if (CurrentSelectables == PhasorRadarShotButton) {
+		} else if (CurrentSelectables == PhaserRadarShotButton) {
 
 			horizontalCycling = false;
 			verticalCycling = true;
 			selectablesWrap = false;
 
-		} else if (CurrentSelectables == PhasorTargetingDropdown) {
+		} else if (CurrentSelectables == PhaserTargetingDropdown) {
 
 			horizontalCycling = false;
 			verticalCycling = false;
 			selectablesWrap = false;
 
-		} else if (CurrentSelectables == PhasorFireButton) {
+		} else if (CurrentSelectables == PhaserFireButton) {
 
 			horizontalCycling = false;
 			verticalCycling = false;
@@ -3047,13 +3047,13 @@ public class UINavigationMain : MonoBehaviour {
 			verticalCycling = false;
 			selectablesWrap = false;
 
-		} else if (CurrentSelectables == BuyPhasorRadarShotButton) {
+		} else if (CurrentSelectables == BuyPhaserRadarShotButton) {
 
 			horizontalCycling = false;
 			verticalCycling = false;
 			selectablesWrap = false;
 
-		} else if (CurrentSelectables == BuyPhasorRadarArrayButton) {
+		} else if (CurrentSelectables == BuyPhaserRadarArrayButton) {
 
 			horizontalCycling = false;
 			verticalCycling = false;
@@ -3670,24 +3670,24 @@ public class UINavigationMain : MonoBehaviour {
 
 			break;
 
-		case UIState.PhasorMenu:
+		case UIState.PhaserMenu:
 
-			//Debug.Log ("case phasor");
+			//Debug.Log ("case phaser");
 
-			//reset the phasor targeting dropdown value - this prevents a bug where if a radar array system is equipped,
+			//reset the phaser targeting dropdown value - this prevents a bug where if a radar array system is equipped,
 			//the dropdown remembers the previous selected section, but it doesn't count it and doesn't allow firing
-			PhasorTargetingDropdown[0].GetComponent<TMP_Dropdown>().value = 0;
+			PhaserTargetingDropdown[0].GetComponent<TMP_Dropdown>().value = 0;
 
 			//set the current selectables group to match the UI state
-			currentSelectablesGroup = PhasorMenuGroup;
+			currentSelectablesGroup = PhaserMenuGroup;
 
 			//find the first array in the group that has an interactable selectable
 			potentialCurrentSelectionGroupIndex = FindFirstInteractableArrayIndex (currentSelectablesGroup);
 
-			//Debug.Log ("phasor potentialCurrentSelectionGroupIndex = " + potentialCurrentSelectionGroupIndex);
+			//Debug.Log ("phaser potentialCurrentSelectionGroupIndex = " + potentialCurrentSelectionGroupIndex);
 
 
-			//check if the potential group index is 0, which would indicate the phasor dropdown
+			//check if the potential group index is 0, which would indicate the phaser dropdown
 			if (potentialCurrentSelectionGroupIndex != 0) {
 
 				//if the index is not zero, that means we can't be on the dropdown, because there are no interactable selectables in the dropdown
@@ -3760,7 +3760,7 @@ public class UINavigationMain : MonoBehaviour {
 									//set the index
 									currentSelectionIndex = 1;
 
-									//set the current selectable to the phasor toggle
+									//set the current selectable to the phaser toggle
 									eventSystem.SetSelectedGameObject (CurrentSelectables [currentSelectionIndex].gameObject);
 
 									//return from the funcction
@@ -3797,7 +3797,7 @@ public class UINavigationMain : MonoBehaviour {
 								//set the index
 								currentSelectionIndex = 1;
 
-								//set the current selectable to the phasor toggle
+								//set the current selectable to the phaser toggle
 								eventSystem.SetSelectedGameObject (CurrentSelectables [currentSelectionIndex].gameObject);
 
 								//return from the funcction
@@ -5860,9 +5860,9 @@ public class UINavigationMain : MonoBehaviour {
 
 			CurrentUIState = UIState.MoveMenu;
 
-		} else if (uiManager.GetComponent<PhasorToggle> ().phasorToggle.isOn == true) {
+		} else if (uiManager.GetComponent<PhaserToggle> ().phaserToggle.isOn == true) {
 
-			CurrentUIState = UIState.PhasorMenu;
+			CurrentUIState = UIState.PhaserMenu;
 
 		} else if (uiManager.GetComponent<TorpedoToggle> ().torpedoToggle.isOn == true) {
 
@@ -5986,10 +5986,10 @@ public class UINavigationMain : MonoBehaviour {
 			//remove listener for move toggle
 			uiManager.GetComponent<MoveToggle>().moveToggle.onValueChanged.RemoveListener(MoveToggleSetUIStateAction);
 
-			//remove listener for phasor toggle
-			uiManager.GetComponent<PhasorToggle>().phasorToggle.onValueChanged.RemoveListener(PhasorToggleSetUIStateAction);
+			//remove listener for phaser toggle
+			uiManager.GetComponent<PhaserToggle>().phaserToggle.onValueChanged.RemoveListener(PhaserToggleSetUIStateAction);
 
-			//remove listener for phasor toggle
+			//remove listener for phaser toggle
 			uiManager.GetComponent<TorpedoToggle>().torpedoToggle.onValueChanged.RemoveListener(TorpedoToggleSetUIStateAction);
 
 			//remove listener for tractor beam toggle
@@ -6137,9 +6137,9 @@ public class UINavigationMain : MonoBehaviour {
 		UISelection.OnClickedSelectable.RemoveListener(PointerClickResolveBlockAction);
 
 		//remove listeners for attacks starting
-		PhasorSection.OnFirePhasors.RemoveListener(PhasorAttackSetCombatStateToPhasorAction);
-		StarbasePhasorSection1.OnFirePhasors.RemoveListener(PhasorAttackSetCombatStateToPhasorAction);
-		StarbasePhasorSection2.OnFirePhasors.RemoveListener(PhasorAttackSetCombatStateToPhasorAction);
+		PhaserSection.OnFirePhasers.RemoveListener(PhaserAttackSetCombatStateToPhaserAction);
+		StarbasePhaserSection1.OnFirePhasers.RemoveListener(PhaserAttackSetCombatStateToPhaserAction);
+		StarbasePhaserSection2.OnFirePhasers.RemoveListener(PhaserAttackSetCombatStateToPhaserAction);
 		TorpedoSection.OnFireLightTorpedo.RemoveListener (TorpedoAttackSetCombatStateToTorpedoAction);
 		TorpedoSection.OnFireHeavyTorpedo.RemoveListener (TorpedoAttackSetCombatStateToTorpedoAction);
 		StarbaseTorpedoSection.OnFireLightTorpedo.RemoveListener (TorpedoAttackSetCombatStateToTorpedoAction);

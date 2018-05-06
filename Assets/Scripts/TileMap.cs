@@ -1009,7 +1009,7 @@ public class TileMap : MonoBehaviour {
 	}
 
 	//create a slightly modified reachableTiles list for targeting
-	//this is public so it can be accessed by phasor and torpedo sections
+	//this is public so it can be accessed by phaser and torpedo sections
 	//this is public because it is not changing the tileMap - it is just returning information based on the tileMap geometry
 	public List<Hex> TargetableTiles(Hex startingHex, int targetingRange, bool includeStartingHex){
 

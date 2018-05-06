@@ -173,8 +173,8 @@ public class DefaultUnitNames : MonoBehaviour {
 		blueStarshipNames [0] = "Exemplar";
 		blueStarshipNames [1] = "Paragon";
 		blueStarshipNames [2] = "Dreadnought";
-		blueStarshipNames [3] = "Excalibur";
-		blueStarshipNames [4] = "Dominion";
+		blueStarshipNames [3] = "Dominion";
+		blueStarshipNames [4] = "Excalibur";
 
 		blueStarbaseName = "Citadel";
 

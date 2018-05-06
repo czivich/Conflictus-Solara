@@ -117,7 +117,7 @@ public class StarbaseStorageSection2 : MonoBehaviour {
 	private UnityAction earlyCalculateItemRangeAction;
 	private UnityAction<CombatUnit,CombatUnit> repairCrewUsedOnThisRepairSectionAction;
 	private UnityAction<CombatUnit> combatUnitCombatUnitDestroyedAction;
-	private UnityAction<CombatUnit> combatUnitCalculatePhasorangeAction;
+	private UnityAction<CombatUnit> combatUnitCalculatePhaserangeAction;
 	private UnityAction<CombatUnit,FileManager.SaveGameData> saveDataResolveLoadedUnitAction;
 
 	// Use this for initialization
@@ -155,9 +155,9 @@ public class StarbaseStorageSection2 : MonoBehaviour {
 		combatUnitCombatUnitDestroyedAction = (combatUnit) => {CombatUnitDestroyed(combatUnit);};
 		saveDataResolveLoadedUnitAction = (combatUnit,saveGameData) => {ResolveLoadedUnit(combatUnit,saveGameData);};
 
-		//add listener for getting hit by phasor attack
-		//CombatManager.OnPhasorAttackHitBaseStorageSection2.AddListener(attackHitTakeDamageAction);
-		CutsceneManager.OnPhasorHitBaseStorageSection2.AddListener(attackHitTakeDamageAction);
+		//add listener for getting hit by phaser attack
+		//CombatManager.OnPhaserAttackHitBaseStorageSection2.AddListener(attackHitTakeDamageAction);
+		CutsceneManager.OnPhaserHitBaseStorageSection2.AddListener(attackHitTakeDamageAction);
 
 		//add listener for getting hit by torpedo attack
 		//CombatManager.OnLightTorpedoAttackHitBaseStorageSection2.AddListener(attackHitTakeDamageAction);
@@ -442,9 +442,9 @@ public class StarbaseStorageSection2 : MonoBehaviour {
 	//this function removes all listeners
 	private void RemoveAllListeners(){
 
-		//remove listener for getting hit by phasor attack
-		//CombatManager.OnPhasorAttackHitBaseStorageSection2.RemoveListener(attackHitTakeDamageAction);
-		CutsceneManager.OnPhasorHitBaseStorageSection2.RemoveListener(attackHitTakeDamageAction);
+		//remove listener for getting hit by phaser attack
+		//CombatManager.OnPhaserAttackHitBaseStorageSection2.RemoveListener(attackHitTakeDamageAction);
+		CutsceneManager.OnPhaserHitBaseStorageSection2.RemoveListener(attackHitTakeDamageAction);
 
 		//remove listener for getting hit by torpedo attack
 		//CombatManager.OnLightTorpedoAttackHitBaseStorageSection2.RemoveListener(attackHitTakeDamageAction);

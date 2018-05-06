@@ -98,8 +98,8 @@ public class TractorBeamMenu : MonoBehaviour {
 				//the else condition is that we do have a ship, so we want to allow toggles based on the ship inventory
 				else {
 
-					//check to see if the ship has a phasor section.  If not, it can't use tractor beams
-					if (mouseMananger.selectedUnit.GetComponentInChildren<PhasorSection> () == null) {
+					//check to see if the ship has a phaser section.  If not, it can't use tractor beams
+					if (mouseMananger.selectedUnit.GetComponentInChildren<PhaserSection> () == null) {
 
 						useTractorBeamToggle.interactable = false;
 
@@ -108,11 +108,11 @@ public class TractorBeamMenu : MonoBehaviour {
 
 					}
 
-					//the else condition is that there is a phasor section in the selected unit
+					//the else condition is that there is a phaser section in the selected unit
 					else {
 
-						//now we need to make sure the phasor section hasn't been destroyed
-						if (mouseMananger.selectedUnit.GetComponentInChildren<PhasorSection> ().isDestroyed == true) {
+						//now we need to make sure the phaser section hasn't been destroyed
+						if (mouseMananger.selectedUnit.GetComponentInChildren<PhaserSection> ().isDestroyed == true) {
 
 							//if it is destroyed, we can't use tractor beam
 							useTractorBeamToggle.interactable = false;
@@ -122,11 +122,11 @@ public class TractorBeamMenu : MonoBehaviour {
 
 						}
 
-						//the else condition is that the phasor section is not destroyed.  
+						//the else condition is that the phaser section is not destroyed.  
 						else {
 
 							//Now we need to check if it has a tractor beam item.
-							if (mouseMananger.selectedUnit.GetComponentInChildren<PhasorSection> ().tractorBeam == false) {
+							if (mouseMananger.selectedUnit.GetComponentInChildren<PhaserSection> ().tractorBeam == false) {
 
 								//if it doesn't have a tractor beam, it can's use it
 								useTractorBeamToggle.interactable = false;
@@ -143,12 +143,12 @@ public class TractorBeamMenu : MonoBehaviour {
 								tractorBeamUpgradeToggle.isOn = true;
 								tractorBeamUpgradeToggle.interactable = false;
 
-								//now we need to check to see if we've already used phasors this turn
-								if (mouseMananger.selectedUnit.GetComponentInChildren<PhasorSection> ().usedPhasorsThisTurn == true) {
+								//now we need to check to see if we've already used phasers this turn
+								if (mouseMananger.selectedUnit.GetComponentInChildren<PhaserSection> ().usedPhasersThisTurn == true) {
 
-									//if we've already used phasors, but the tractor beam is still engaged, that means we're in the middle of using the tractor beam
+									//if we've already used phasers, but the tractor beam is still engaged, that means we're in the middle of using the tractor beam
 									//this means that we should still allow the tractor beam to be turned off
-									if (mouseMananger.selectedUnit.GetComponentInChildren<PhasorSection> ().tractorBeamIsEngaged == true) {
+									if (mouseMananger.selectedUnit.GetComponentInChildren<PhaserSection> ().tractorBeamIsEngaged == true) {
 
 										//now we need to check to see if we have a unit targeted
 										if (mouseMananger.targetedUnit == null) {
@@ -173,14 +173,14 @@ public class TractorBeamMenu : MonoBehaviour {
 									//the else condition is that the tractor beam is not currently engaged
 									else {
 										
-										//if we've already used phasors, we can't use the tractor beam
+										//if we've already used phasers, we can't use the tractor beam
 										useTractorBeamToggle.interactable = false;
 
 									}
 
 								}
 
-								//the else condition is that we have not used phasors yet
+								//the else condition is that we have not used phasers yet
 								else {
 
 									//now we need to check to see if we have a unit targeted

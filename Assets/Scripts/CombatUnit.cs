@@ -62,7 +62,7 @@ public class CombatUnit : MonoBehaviour {
 	}
 
 	//variables to keep track of valid attacks
-	public bool hasRemainingPhasorAttack {
+	public bool hasRemainingPhaserAttack {
 
 		get;
 		private set;
@@ -318,7 +318,7 @@ public class CombatUnit : MonoBehaviour {
 					newUnit.unitName = saveGameData.playerStarshipNamesPurchased[i,newUnit.serialNumber];
 
 					//set the hasRemaining flags
-					newUnit.hasRemainingPhasorAttack = saveGameData.starshipHasRemainingPhasorAttack[i,newUnit.serialNumber];
+					newUnit.hasRemainingPhaserAttack = saveGameData.starshipHasRemainingPhaserAttack[i,newUnit.serialNumber];
 					newUnit.hasRemainingTorpedoAttack = saveGameData.starshipHasRemainingTorpedoAttack[i,newUnit.serialNumber];
 
 				}
@@ -348,7 +348,7 @@ public class CombatUnit : MonoBehaviour {
 					newUnit.unitName = saveGameData.playerDestroyerNamesPurchased [i, newUnit.serialNumber];
 
 					//set the hasRemaining flags
-					newUnit.hasRemainingPhasorAttack = saveGameData.destroyerHasRemainingPhasorAttack[i,newUnit.serialNumber];
+					newUnit.hasRemainingPhaserAttack = saveGameData.destroyerHasRemainingPhaserAttack[i,newUnit.serialNumber];
 					newUnit.hasRemainingTorpedoAttack = saveGameData.destroyerHasRemainingTorpedoAttack[i,newUnit.serialNumber];
 
 				}
@@ -378,7 +378,7 @@ public class CombatUnit : MonoBehaviour {
 					newUnit.unitName = saveGameData.playerBirdOfPreyNamesPurchased [i, newUnit.serialNumber];
 
 					//set the hasRemaining flags
-					newUnit.hasRemainingPhasorAttack = saveGameData.birdOfPreyHasRemainingPhasorAttack[i,newUnit.serialNumber];
+					newUnit.hasRemainingPhaserAttack = saveGameData.birdOfPreyHasRemainingPhaserAttack[i,newUnit.serialNumber];
 					newUnit.hasRemainingTorpedoAttack = saveGameData.birdOfPreyHasRemainingTorpedoAttack[i,newUnit.serialNumber];
 
 				}
@@ -409,7 +409,7 @@ public class CombatUnit : MonoBehaviour {
 					newUnit.unitName = saveGameData.playerScoutNamesPurchased [i, newUnit.serialNumber];
 
 					//set the hasRemaining flags
-					newUnit.hasRemainingPhasorAttack = saveGameData.scoutHasRemainingPhasorAttack[i,newUnit.serialNumber];
+					newUnit.hasRemainingPhaserAttack = saveGameData.scoutHasRemainingPhaserAttack[i,newUnit.serialNumber];
 
 				}
 
@@ -439,7 +439,7 @@ public class CombatUnit : MonoBehaviour {
 					newUnit.unitName = saveGameData.starbaseUnitName [i];
 
 					//set the hasRemaining flags
-					newUnit.hasRemainingPhasorAttack = saveGameData.starbaseHasRemainingPhasorAttack[i];
+					newUnit.hasRemainingPhaserAttack = saveGameData.starbaseHasRemainingPhaserAttack[i];
 					newUnit.hasRemainingTorpedoAttack = saveGameData.starbaseHasRemainingTorpedoAttack[i];
 
 				}
@@ -499,26 +499,26 @@ public class CombatUnit : MonoBehaviour {
 
 
 		//add listeners for attack events
-		PhasorSection.OnFirePhasors.AddListener(attackSectionUpdateAttackStatusAction);
-		PhasorSection.OnEngageTractorBeam.AddListener(shipUpdateAttackStatusAction);
+		PhaserSection.OnFirePhasers.AddListener(attackSectionUpdateAttackStatusAction);
+		PhaserSection.OnEngageTractorBeam.AddListener(shipUpdateAttackStatusAction);
 		TorpedoSection.OnFireLightTorpedo.AddListener(attackSectionUpdateAttackStatusAction);
 		TorpedoSection.OnFireHeavyTorpedo.AddListener(attackSectionUpdateAttackStatusAction);
-		StarbasePhasorSection1.OnFirePhasors.AddListener(attackSectionUpdateAttackStatusAction);
-		StarbasePhasorSection2.OnFirePhasors.AddListener(attackSectionUpdateAttackStatusAction);
+		StarbasePhaserSection1.OnFirePhasers.AddListener(attackSectionUpdateAttackStatusAction);
+		StarbasePhaserSection2.OnFirePhasers.AddListener(attackSectionUpdateAttackStatusAction);
 		StarbaseTorpedoSection.OnFireLightTorpedo.AddListener(attackSectionUpdateAttackStatusAction);
 		StarbaseTorpedoSection.OnFireHeavyTorpedo.AddListener(attackSectionUpdateAttackStatusAction);
 
 		//add listeners for sections destroyed/healed
-		PhasorSection.OnPhasorSectionDestroyed.AddListener(combatUnitUpdateAttackStatusAction);
+		PhaserSection.OnPhaserSectionDestroyed.AddListener(combatUnitUpdateAttackStatusAction);
 		TorpedoSection.OnTorpedoSectionDestroyed.AddListener(combatUnitUpdateAttackStatusAction);
-		StarbasePhasorSection1.OnPhasorSection1Destroyed.AddListener(combatUnitUpdateAttackStatusAction);
-		StarbasePhasorSection2.OnPhasorSection2Destroyed.AddListener(combatUnitUpdateAttackStatusAction);
+		StarbasePhaserSection1.OnPhaserSection1Destroyed.AddListener(combatUnitUpdateAttackStatusAction);
+		StarbasePhaserSection2.OnPhaserSection2Destroyed.AddListener(combatUnitUpdateAttackStatusAction);
 		StarbaseTorpedoSection.OnTorpedoSectionDestroyed.AddListener(combatUnitUpdateAttackStatusAction);
 
-		PhasorSection.OnPhasorSectionRepaired.AddListener(combatUnitUpdateAttackStatusAction);
+		PhaserSection.OnPhaserSectionRepaired.AddListener(combatUnitUpdateAttackStatusAction);
 		TorpedoSection.OnTorpedoSectionRepaired.AddListener(combatUnitUpdateAttackStatusAction);
-		StarbasePhasorSection1.OnPhasorSection1Repaired.AddListener(combatUnitUpdateAttackStatusAction);
-		StarbasePhasorSection2.OnPhasorSection2Repaired.AddListener(combatUnitUpdateAttackStatusAction);
+		StarbasePhaserSection1.OnPhaserSection1Repaired.AddListener(combatUnitUpdateAttackStatusAction);
+		StarbasePhaserSection2.OnPhaserSection2Repaired.AddListener(combatUnitUpdateAttackStatusAction);
 		StarbaseTorpedoSection.OnTorpedoSectionRepaired.AddListener(combatUnitUpdateAttackStatusAction);
 
 		//add listener for purchasing an additional battle crew
@@ -568,16 +568,16 @@ public class CombatUnit : MonoBehaviour {
 
 			case CombatUnit.UnitType.Starship:
 
-				//check if the phasor section is alive
-				if (combatUnit.GetComponent<PhasorSection> ().isDestroyed == false) {
+				//check if the phaser section is alive
+				if (combatUnit.GetComponent<PhaserSection> ().isDestroyed == false) {
 
-					//check if phasors have been used already
-					if (combatUnit.GetComponent<PhasorSection> ().usedPhasorsThisTurn == false) {
+					//check if phasers have been used already
+					if (combatUnit.GetComponent<PhaserSection> ().usedPhasersThisTurn == false) {
 
 						//check if torpedos have been used already
 						if (combatUnit.GetComponent<TorpedoSection> ().usedTorpedosThisTurn == false) {
 
-							hasRemainingPhasorAttack = true;
+							hasRemainingPhaserAttack = true;
 
 						}
 						//the else condition is that we have used torpedos already
@@ -586,31 +586,31 @@ public class CombatUnit : MonoBehaviour {
 							//check if there is an additional battle crew
 							if (combatUnit.GetComponent<CrewSection> ().battleCrew == true) {
 
-								hasRemainingPhasorAttack = true;
+								hasRemainingPhaserAttack = true;
 
 							}
 							//the else condition is that there is no additional battle crew
 							else {
 
-								hasRemainingPhasorAttack = false;
+								hasRemainingPhaserAttack = false;
 
 							}
 
 						}
 
 					}
-					//the else condition is that we have used phasors already
+					//the else condition is that we have used phasers already
 					else {
 
-						hasRemainingPhasorAttack = false;
+						hasRemainingPhaserAttack = false;
 
 					}
 
 				}
-				//the else condition is that the phasor section is destroyed
+				//the else condition is that the phaser section is destroyed
 				else {
 
-					hasRemainingPhasorAttack = false;
+					hasRemainingPhaserAttack = false;
 
 				}
 
@@ -621,13 +621,13 @@ public class CombatUnit : MonoBehaviour {
 					//check if torpedos have been used already
 					if (combatUnit.GetComponent<TorpedoSection> ().usedTorpedosThisTurn == false) {
 
-						//check if phasors have been used already
-						if (combatUnit.GetComponent<PhasorSection> ().usedPhasorsThisTurn == false) {
+						//check if phasers have been used already
+						if (combatUnit.GetComponent<PhaserSection> ().usedPhasersThisTurn == false) {
 
 							hasRemainingTorpedoAttack = true;
 
 						}
-						//the else condition is that we have used phasors already
+						//the else condition is that we have used phasers already
 						else {
 
 							//check if there is an additional battle crew
@@ -666,38 +666,38 @@ public class CombatUnit : MonoBehaviour {
 
 			case CombatUnit.UnitType.Destroyer:
 
-				//check if the phasor section is alive
-				if (combatUnit.GetComponent<PhasorSection> ().isDestroyed == false) {
+				//check if the phaser section is alive
+				if (combatUnit.GetComponent<PhaserSection> ().isDestroyed == false) {
 
-					//check if phasors have been used already
-					if (combatUnit.GetComponent<PhasorSection> ().usedPhasorsThisTurn == false) {
+					//check if phasers have been used already
+					if (combatUnit.GetComponent<PhaserSection> ().usedPhasersThisTurn == false) {
 
 						//check if torpedos have been used already
 						if (combatUnit.GetComponent<TorpedoSection> ().usedTorpedosThisTurn == false) {
 
-							hasRemainingPhasorAttack = true;
+							hasRemainingPhaserAttack = true;
 
 						}
 						//the else condition is that we have used torpedos already
 						else {
 
-							hasRemainingPhasorAttack = false;
+							hasRemainingPhaserAttack = false;
 
 						}
 
 					}
-					//the else condition is that we have used phasors already
+					//the else condition is that we have used phasers already
 					else {
 
-						hasRemainingPhasorAttack = false;
+						hasRemainingPhaserAttack = false;
 
 					}
 
 				}
-				//the else condition is that the phasor section is destroyed
+				//the else condition is that the phaser section is destroyed
 				else {
 
-					hasRemainingPhasorAttack = false;
+					hasRemainingPhaserAttack = false;
 
 				}
 
@@ -708,13 +708,13 @@ public class CombatUnit : MonoBehaviour {
 					//check if torpedos have been used already
 					if (combatUnit.GetComponent<TorpedoSection> ().usedTorpedosThisTurn == false) {
 
-						//check if phasors have been used already
-						if (combatUnit.GetComponent<PhasorSection> ().usedPhasorsThisTurn == false) {
+						//check if phasers have been used already
+						if (combatUnit.GetComponent<PhaserSection> ().usedPhasersThisTurn == false) {
 
 							hasRemainingTorpedoAttack = true;
 
 						}
-						//the else condition is that we have used phasors already
+						//the else condition is that we have used phasers already
 						else {
 
 							hasRemainingTorpedoAttack = false;
@@ -741,38 +741,38 @@ public class CombatUnit : MonoBehaviour {
 
 			case CombatUnit.UnitType.BirdOfPrey:
 
-				//check if the phasor section is alive
-				if (combatUnit.GetComponent<PhasorSection> ().isDestroyed == false) {
+				//check if the phaser section is alive
+				if (combatUnit.GetComponent<PhaserSection> ().isDestroyed == false) {
 
-					//check if phasors have been used already
-					if (combatUnit.GetComponent<PhasorSection> ().usedPhasorsThisTurn == false) {
+					//check if phasers have been used already
+					if (combatUnit.GetComponent<PhaserSection> ().usedPhasersThisTurn == false) {
 
 						//check if torpedos have been used already
 						if (combatUnit.GetComponent<TorpedoSection> ().usedTorpedosThisTurn == false) {
 
-							hasRemainingPhasorAttack = true;
+							hasRemainingPhaserAttack = true;
 
 						}
 						//the else condition is that we have used torpedos already
 						else {
 
-							hasRemainingPhasorAttack = false;
+							hasRemainingPhaserAttack = false;
 
 						}
 
 					}
-					//the else condition is that we have used phasors already
+					//the else condition is that we have used phasers already
 					else {
 
-						hasRemainingPhasorAttack = false;
+						hasRemainingPhaserAttack = false;
 
 					}
 
 				}
-				//the else condition is that the phasor section is destroyed
+				//the else condition is that the phaser section is destroyed
 				else {
 
-					hasRemainingPhasorAttack = false;
+					hasRemainingPhaserAttack = false;
 
 				}
 
@@ -783,13 +783,13 @@ public class CombatUnit : MonoBehaviour {
 					//check if torpedos have been used already
 					if (combatUnit.GetComponent<TorpedoSection> ().usedTorpedosThisTurn == false) {
 
-						//check if phasors have been used already
-						if (combatUnit.GetComponent<PhasorSection> ().usedPhasorsThisTurn == false) {
+						//check if phasers have been used already
+						if (combatUnit.GetComponent<PhaserSection> ().usedPhasersThisTurn == false) {
 
 							hasRemainingTorpedoAttack = true;
 
 						}
-						//the else condition is that we have used phasors already
+						//the else condition is that we have used phasers already
 						else {
 
 							hasRemainingTorpedoAttack = false;
@@ -816,27 +816,27 @@ public class CombatUnit : MonoBehaviour {
 
 			case CombatUnit.UnitType.Scout:
 
-				//check if the phasor section is alive
-				if (combatUnit.GetComponent<PhasorSection> ().isDestroyed == false) {
+				//check if the phaser section is alive
+				if (combatUnit.GetComponent<PhaserSection> ().isDestroyed == false) {
 
-					//check if phasors have been used already
-					if (combatUnit.GetComponent<PhasorSection> ().usedPhasorsThisTurn == false) {
+					//check if phasers have been used already
+					if (combatUnit.GetComponent<PhaserSection> ().usedPhasersThisTurn == false) {
 
-						hasRemainingPhasorAttack = true;
+						hasRemainingPhaserAttack = true;
 
 					}
-					//the else condition is that we have used phasors already
+					//the else condition is that we have used phasers already
 					else {
 
-						hasRemainingPhasorAttack = false;
+						hasRemainingPhaserAttack = false;
 
 					}
 
 				}
-				//the else condition is that the phasor section is destroyed
+				//the else condition is that the phaser section is destroyed
 				else {
 
-					hasRemainingPhasorAttack = false;
+					hasRemainingPhaserAttack = false;
 
 				}
 
@@ -848,18 +848,18 @@ public class CombatUnit : MonoBehaviour {
 
 			case CombatUnit.UnitType.Starbase:
 
-				//check if the phasor section is alive
-				if (combatUnit.GetComponent<StarbasePhasorSection1> ().isDestroyed == false ||
-					combatUnit.GetComponent<StarbasePhasorSection2> ().isDestroyed == false) {
+				//check if the phaser section is alive
+				if (combatUnit.GetComponent<StarbasePhaserSection1> ().isDestroyed == false ||
+					combatUnit.GetComponent<StarbasePhaserSection2> ().isDestroyed == false) {
 
-					//check if phasors have been used already
-					if (combatUnit.GetComponent<StarbasePhasorSection1> ().usedPhasorsThisTurn == false &&
-						combatUnit.GetComponent<StarbasePhasorSection2> ().usedPhasorsThisTurn == false) {
+					//check if phasers have been used already
+					if (combatUnit.GetComponent<StarbasePhaserSection1> ().usedPhasersThisTurn == false &&
+						combatUnit.GetComponent<StarbasePhaserSection2> ().usedPhasersThisTurn == false) {
 
 						//check if torpedos have been used already
 						if (combatUnit.GetComponent<StarbaseTorpedoSection> ().usedTorpedosThisTurn == false) {
 
-							hasRemainingPhasorAttack = true;
+							hasRemainingPhaserAttack = true;
 
 						}
 						//the else condition is that we have used torpedos already
@@ -868,31 +868,31 @@ public class CombatUnit : MonoBehaviour {
 							//check if there is an additional battle crew
 							if (combatUnit.GetComponent<StarbaseCrewSection> ().battleCrew == true) {
 
-								hasRemainingPhasorAttack = true;
+								hasRemainingPhaserAttack = true;
 
 							}
 							//the else condition is that there is no additional battle crew
 							else {
 
-								hasRemainingPhasorAttack = false;
+								hasRemainingPhaserAttack = false;
 
 							}
 
 						}
 
 					}
-					//the else condition is that we have used phasors already
+					//the else condition is that we have used phasers already
 					else {
 
-						hasRemainingPhasorAttack = false;
+						hasRemainingPhaserAttack = false;
 
 					}
 
 				}
-				//the else condition is that the phasor section is destroyed
+				//the else condition is that the phaser section is destroyed
 				else {
 
-					hasRemainingPhasorAttack = false;
+					hasRemainingPhaserAttack = false;
 
 				}
 
@@ -903,14 +903,14 @@ public class CombatUnit : MonoBehaviour {
 					//check if torpedos have been used already
 					if (combatUnit.GetComponent<StarbaseTorpedoSection> ().usedTorpedosThisTurn == false) {
 
-						//check if phasors have been used already
-						if (combatUnit.GetComponent<StarbasePhasorSection1> ().usedPhasorsThisTurn == false &&
-							combatUnit.GetComponent<StarbasePhasorSection2> ().usedPhasorsThisTurn == false) {
+						//check if phasers have been used already
+						if (combatUnit.GetComponent<StarbasePhaserSection1> ().usedPhasersThisTurn == false &&
+							combatUnit.GetComponent<StarbasePhaserSection2> ().usedPhasersThisTurn == false) {
 
 							hasRemainingTorpedoAttack = true;
 
 						}
-						//the else condition is that we have used phasors already
+						//the else condition is that we have used phasers already
 						else {
 
 							//check if there is an additional battle crew
@@ -978,26 +978,26 @@ public class CombatUnit : MonoBehaviour {
 	private void RemoveAllListeners(){
 
 		//listeners for attack events
-		PhasorSection.OnFirePhasors.RemoveListener(attackSectionUpdateAttackStatusAction);
-		PhasorSection.OnEngageTractorBeam.RemoveListener(shipUpdateAttackStatusAction);
+		PhaserSection.OnFirePhasers.RemoveListener(attackSectionUpdateAttackStatusAction);
+		PhaserSection.OnEngageTractorBeam.RemoveListener(shipUpdateAttackStatusAction);
 		TorpedoSection.OnFireLightTorpedo.RemoveListener(attackSectionUpdateAttackStatusAction);
 		TorpedoSection.OnFireHeavyTorpedo.RemoveListener(attackSectionUpdateAttackStatusAction);
-		StarbasePhasorSection1.OnFirePhasors.RemoveListener(attackSectionUpdateAttackStatusAction);
-		StarbasePhasorSection2.OnFirePhasors.RemoveListener(attackSectionUpdateAttackStatusAction);
+		StarbasePhaserSection1.OnFirePhasers.RemoveListener(attackSectionUpdateAttackStatusAction);
+		StarbasePhaserSection2.OnFirePhasers.RemoveListener(attackSectionUpdateAttackStatusAction);
 		StarbaseTorpedoSection.OnFireLightTorpedo.RemoveListener(attackSectionUpdateAttackStatusAction);
 		StarbaseTorpedoSection.OnFireHeavyTorpedo.RemoveListener(attackSectionUpdateAttackStatusAction);
 
 		//remove listeners for sections destroyed/healed
-		PhasorSection.OnPhasorSectionDestroyed.RemoveListener(combatUnitUpdateAttackStatusAction);
+		PhaserSection.OnPhaserSectionDestroyed.RemoveListener(combatUnitUpdateAttackStatusAction);
 		TorpedoSection.OnTorpedoSectionDestroyed.RemoveListener(combatUnitUpdateAttackStatusAction);
-		StarbasePhasorSection1.OnPhasorSection1Destroyed.RemoveListener(combatUnitUpdateAttackStatusAction);
-		StarbasePhasorSection2.OnPhasorSection2Destroyed.RemoveListener(combatUnitUpdateAttackStatusAction);
+		StarbasePhaserSection1.OnPhaserSection1Destroyed.RemoveListener(combatUnitUpdateAttackStatusAction);
+		StarbasePhaserSection2.OnPhaserSection2Destroyed.RemoveListener(combatUnitUpdateAttackStatusAction);
 		StarbaseTorpedoSection.OnTorpedoSectionDestroyed.RemoveListener(combatUnitUpdateAttackStatusAction);
 
-		PhasorSection.OnPhasorSectionRepaired.RemoveListener(combatUnitUpdateAttackStatusAction);
+		PhaserSection.OnPhaserSectionRepaired.RemoveListener(combatUnitUpdateAttackStatusAction);
 		TorpedoSection.OnTorpedoSectionRepaired.RemoveListener(combatUnitUpdateAttackStatusAction);
-		StarbasePhasorSection1.OnPhasorSection1Repaired.RemoveListener(combatUnitUpdateAttackStatusAction);
-		StarbasePhasorSection2.OnPhasorSection2Repaired.RemoveListener(combatUnitUpdateAttackStatusAction);
+		StarbasePhaserSection1.OnPhaserSection1Repaired.RemoveListener(combatUnitUpdateAttackStatusAction);
+		StarbasePhaserSection2.OnPhaserSection2Repaired.RemoveListener(combatUnitUpdateAttackStatusAction);
 		StarbaseTorpedoSection.OnTorpedoSectionRepaired.RemoveListener(combatUnitUpdateAttackStatusAction);
 
 		if (uiManager != null) {

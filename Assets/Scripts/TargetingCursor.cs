@@ -103,7 +103,7 @@ public class TargetingCursor : MonoBehaviour {
 			cursorGraphics = GraphicsManager.MyUnit.YellowCrosshair;
 			break;
 
-		case GameManager.ActionMode.PhasorAttack:
+		case GameManager.ActionMode.PhaserAttack:
 			cursorGraphics = GraphicsManager.MyUnit.RedCrosshair;
 			break;
 

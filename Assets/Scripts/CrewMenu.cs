@@ -553,14 +553,14 @@ public class CrewMenu : MonoBehaviour {
 
 				}
 
-				//check if the targeted ship has a phasor section
-				if (mouseMananger.targetedUnit.GetComponent<PhasorSection> () == true) {
+				//check if the targeted ship has a phaser section
+				if (mouseMananger.targetedUnit.GetComponent<PhaserSection> () == true) {
 
-					//check if the phasor section is destroyed
-					if (mouseMananger.targetedUnit.GetComponent<PhasorSection> ().isDestroyed == true) {
+					//check if the phaser section is destroyed
+					if (mouseMananger.targetedUnit.GetComponent<PhaserSection> ().isDestroyed == true) {
 
-						//add a dropdown option for the phasor section
-						dropDownOptions.Add (new TMP_Dropdown.OptionData ("Phasor Section"));
+						//add a dropdown option for the phaser section
+						dropDownOptions.Add (new TMP_Dropdown.OptionData ("Phaser Section"));
 	
 					}
 
@@ -609,19 +609,19 @@ public class CrewMenu : MonoBehaviour {
 			//the else condition is that the targeted unit is not a ship, so it's a base
 			else if (mouseMananger.targetedUnit.GetComponent<Starbase> () == true){
 
-				//check if the phasor 1 section is destroyed
-				if (mouseMananger.targetedUnit.GetComponent<StarbasePhasorSection1> ().isDestroyed == true) {
+				//check if the phaser 1 section is destroyed
+				if (mouseMananger.targetedUnit.GetComponent<StarbasePhaserSection1> ().isDestroyed == true) {
 
-					//add a dropdown option for the phasor 1 section
-					dropDownOptions.Add (new TMP_Dropdown.OptionData ("Phasor Section 1"));
+					//add a dropdown option for the phaser 1 section
+					dropDownOptions.Add (new TMP_Dropdown.OptionData ("Phaser Section 1"));
 
 				}
 
-				//check if the phasor 2 section is destroyed
-				if (mouseMananger.targetedUnit.GetComponent<StarbasePhasorSection2> ().isDestroyed == true) {
+				//check if the phaser 2 section is destroyed
+				if (mouseMananger.targetedUnit.GetComponent<StarbasePhaserSection2> ().isDestroyed == true) {
 
-					//add a dropdown option for the phasor 2 section
-					dropDownOptions.Add (new TMP_Dropdown.OptionData ("Phasor Section 2"));
+					//add a dropdown option for the phaser 2 section
+					dropDownOptions.Add (new TMP_Dropdown.OptionData ("Phaser Section 2"));
 
 				}
 

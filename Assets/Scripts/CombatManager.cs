@@ -14,7 +14,7 @@ public class CombatManager : MonoBehaviour {
 	//define enum for attack type
 	public enum AttackType{
 
-		Phasor,
+		Phaser,
 		LightTorpedo,
 		HeavyTorpedo,
 
@@ -22,7 +22,7 @@ public class CombatManager : MonoBehaviour {
 
 	public enum ShipSectionTargeted{
 
-		PhasorSection,
+		PhaserSection,
 		TorpedoSection,
 		StorageSection,
 		CrewSection,
@@ -34,8 +34,8 @@ public class CombatManager : MonoBehaviour {
 
 	public enum BaseSectionTargeted{
 
-		PhasorSection1,
-		PhasorSection2,
+		PhaserSection1,
+		PhaserSection2,
 		TorpedoSection,
 		CrewSection,
 		StorageSection1,
@@ -58,8 +58,8 @@ public class CombatManager : MonoBehaviour {
 	private const int numberSidedFlareDice = 6;
 
 	//variables to hold number of 20-sided attack dice for various attacks
-	private const int numberDicePhasorPrimaryCone = 3;
-	private const int numberDicePhasorSecondaryCone = 2;
+	private const int numberDicePhaserPrimaryCone = 3;
+	private const int numberDicePhaserSecondaryCone = 2;
 
 	private const int numberDiceXRayPrimaryCone = 4;
 	private const int numberDiceXRaySecondaryCone = 3;
@@ -90,25 +90,25 @@ public class CombatManager : MonoBehaviour {
 	//simple class derived from unityEvent to pass Ship Object
 	public class TargetPathEvent : UnityEvent<CombatUnit>{};
 
-	//ship phasor hits
-	public static AttackHitResolutionEvent OnPhasorAttackHitShipPhasorSection = new AttackHitResolutionEvent();
-	public static AttackHitResolutionEvent OnPhasorAttackHitShipTorpedoSection = new AttackHitResolutionEvent();
-	public static AttackHitResolutionEvent OnPhasorAttackHitShipStorageSection = new AttackHitResolutionEvent();
-	public static AttackHitResolutionEvent OnPhasorAttackHitShipCrewSection = new AttackHitResolutionEvent();
-	public static AttackHitResolutionEvent OnPhasorAttackHitShipEngineSection = new AttackHitResolutionEvent();
-	public static AttackMissResolutionEvent OnPhasorAttackMissShip = new AttackMissResolutionEvent();
+	//ship phaser hits
+	public static AttackHitResolutionEvent OnPhaserAttackHitShipPhaserSection = new AttackHitResolutionEvent();
+	public static AttackHitResolutionEvent OnPhaserAttackHitShipTorpedoSection = new AttackHitResolutionEvent();
+	public static AttackHitResolutionEvent OnPhaserAttackHitShipStorageSection = new AttackHitResolutionEvent();
+	public static AttackHitResolutionEvent OnPhaserAttackHitShipCrewSection = new AttackHitResolutionEvent();
+	public static AttackHitResolutionEvent OnPhaserAttackHitShipEngineSection = new AttackHitResolutionEvent();
+	public static AttackMissResolutionEvent OnPhaserAttackMissShip = new AttackMissResolutionEvent();
 
-	//base phasor hits
-	public static AttackHitResolutionEvent OnPhasorAttackHitBasePhasorSection1 = new AttackHitResolutionEvent();
-	public static AttackHitResolutionEvent OnPhasorAttackHitBasePhasorSection2 = new AttackHitResolutionEvent();
-	public static AttackHitResolutionEvent OnPhasorAttackHitBaseTorpedoSection = new AttackHitResolutionEvent();
-	public static AttackHitResolutionEvent OnPhasorAttackHitBaseCrewSection = new AttackHitResolutionEvent();
-	public static AttackHitResolutionEvent OnPhasorAttackHitBaseStorageSection1 = new AttackHitResolutionEvent();
-	public static AttackHitResolutionEvent OnPhasorAttackHitBaseStorageSection2 = new AttackHitResolutionEvent();
-	public static AttackMissResolutionEvent OnPhasorAttackMissBase = new AttackMissResolutionEvent();
+	//base phaser hits
+	public static AttackHitResolutionEvent OnPhaserAttackHitBasePhaserSection1 = new AttackHitResolutionEvent();
+	public static AttackHitResolutionEvent OnPhaserAttackHitBasePhaserSection2 = new AttackHitResolutionEvent();
+	public static AttackHitResolutionEvent OnPhaserAttackHitBaseTorpedoSection = new AttackHitResolutionEvent();
+	public static AttackHitResolutionEvent OnPhaserAttackHitBaseCrewSection = new AttackHitResolutionEvent();
+	public static AttackHitResolutionEvent OnPhaserAttackHitBaseStorageSection1 = new AttackHitResolutionEvent();
+	public static AttackHitResolutionEvent OnPhaserAttackHitBaseStorageSection2 = new AttackHitResolutionEvent();
+	public static AttackMissResolutionEvent OnPhaserAttackMissBase = new AttackMissResolutionEvent();
 
 	//ship light torpedo hits
-	public static AttackHitResolutionEvent OnLightTorpedoAttackHitShipPhasorSection = new AttackHitResolutionEvent();
+	public static AttackHitResolutionEvent OnLightTorpedoAttackHitShipPhaserSection = new AttackHitResolutionEvent();
 	public static AttackHitResolutionEvent OnLightTorpedoAttackHitShipTorpedoSection = new AttackHitResolutionEvent();
 	public static AttackHitResolutionEvent OnLightTorpedoAttackHitShipStorageSection = new AttackHitResolutionEvent();
 	public static AttackHitResolutionEvent OnLightTorpedoAttackHitShipCrewSection = new AttackHitResolutionEvent();
@@ -116,8 +116,8 @@ public class CombatManager : MonoBehaviour {
 	public static AttackMissResolutionEvent OnLightTorpedoAttackMissShip = new AttackMissResolutionEvent();
 
 	//base light torpedo hits
-	public static AttackHitResolutionEvent OnLightTorpedoAttackHitBasePhasorSection1 = new AttackHitResolutionEvent();
-	public static AttackHitResolutionEvent OnLightTorpedoAttackHitBasePhasorSection2 = new AttackHitResolutionEvent();
+	public static AttackHitResolutionEvent OnLightTorpedoAttackHitBasePhaserSection1 = new AttackHitResolutionEvent();
+	public static AttackHitResolutionEvent OnLightTorpedoAttackHitBasePhaserSection2 = new AttackHitResolutionEvent();
 	public static AttackHitResolutionEvent OnLightTorpedoAttackHitBaseTorpedoSection = new AttackHitResolutionEvent();
 	public static AttackHitResolutionEvent OnLightTorpedoAttackHitBaseCrewSection = new AttackHitResolutionEvent();
 	public static AttackHitResolutionEvent OnLightTorpedoAttackHitBaseStorageSection1 = new AttackHitResolutionEvent();
@@ -131,7 +131,7 @@ public class CombatManager : MonoBehaviour {
 	public static AttackHitResolutionEvent OnHeavyTorpedoAttackFlaresFailed = new AttackHitResolutionEvent();
 
 	//ship heavy torpedo hits
-	public static AttackHitResolutionEvent OnHeavyTorpedoAttackHitShipPhasorSection = new AttackHitResolutionEvent();
+	public static AttackHitResolutionEvent OnHeavyTorpedoAttackHitShipPhaserSection = new AttackHitResolutionEvent();
 	public static AttackHitResolutionEvent OnHeavyTorpedoAttackHitShipTorpedoSection = new AttackHitResolutionEvent();
 	public static AttackHitResolutionEvent OnHeavyTorpedoAttackHitShipStorageSection = new AttackHitResolutionEvent();
 	public static AttackHitResolutionEvent OnHeavyTorpedoAttackHitShipCrewSection = new AttackHitResolutionEvent();
@@ -139,8 +139,8 @@ public class CombatManager : MonoBehaviour {
 	public static AttackMissResolutionEvent OnHeavyTorpedoAttackMissShip = new AttackMissResolutionEvent();
 
 	//base heavy torpedo hits
-	public static AttackHitResolutionEvent OnHeavyTorpedoAttackHitBasePhasorSection1 = new AttackHitResolutionEvent();
-	public static AttackHitResolutionEvent OnHeavyTorpedoAttackHitBasePhasorSection2 = new AttackHitResolutionEvent();
+	public static AttackHitResolutionEvent OnHeavyTorpedoAttackHitBasePhaserSection1 = new AttackHitResolutionEvent();
+	public static AttackHitResolutionEvent OnHeavyTorpedoAttackHitBasePhaserSection2 = new AttackHitResolutionEvent();
 	public static AttackHitResolutionEvent OnHeavyTorpedoAttackHitBaseTorpedoSection = new AttackHitResolutionEvent();
 	public static AttackHitResolutionEvent OnHeavyTorpedoAttackHitBaseCrewSection = new AttackHitResolutionEvent();
 	public static AttackHitResolutionEvent OnHeavyTorpedoAttackHitBaseStorageSection1 = new AttackHitResolutionEvent();
@@ -160,30 +160,30 @@ public class CombatManager : MonoBehaviour {
 	public static AttackBaseFlareResolutionEvent OnHeavyTorpedoTargetedAttackBaseWithFlares = new AttackBaseFlareResolutionEvent();
 
 	//crystal used on ship events
-	public static CrystalResolutionEvent OnCrystalUsedOnShipPhasorSection = new CrystalResolutionEvent();
+	public static CrystalResolutionEvent OnCrystalUsedOnShipPhaserSection = new CrystalResolutionEvent();
 	public static CrystalResolutionEvent OnCrystalUsedOnShipTorpedoSection = new CrystalResolutionEvent();
 	public static CrystalResolutionEvent OnCrystalUsedOnShipStorageSection = new CrystalResolutionEvent();
 	public static CrystalResolutionEvent OnCrystalUsedOnShipCrewSection = new CrystalResolutionEvent();
 	public static CrystalResolutionEvent OnCrystalUsedOnShipEngineSection = new CrystalResolutionEvent();
 
 	//repair crew used on ship events
-	public static RepairResolutionEvent OnRepairCrewUsedOnShipPhasorSection = new RepairResolutionEvent();
+	public static RepairResolutionEvent OnRepairCrewUsedOnShipPhaserSection = new RepairResolutionEvent();
 	public static RepairResolutionEvent OnRepairCrewUsedOnShipTorpedoSection = new RepairResolutionEvent();
 	public static RepairResolutionEvent OnRepairCrewUsedOnShipStorageSection = new RepairResolutionEvent();
 	public static RepairResolutionEvent OnRepairCrewUsedOnShipCrewSection = new RepairResolutionEvent();
 	public static RepairResolutionEvent OnRepairCrewUsedOnShipEngineSection = new RepairResolutionEvent();
 
 	//crystal used on base events
-	public static CrystalResolutionEvent OnCrystalUsedOnBasePhasorSection1 = new CrystalResolutionEvent();
-	public static CrystalResolutionEvent OnCrystalUsedOnBasePhasorSection2 = new CrystalResolutionEvent();
+	public static CrystalResolutionEvent OnCrystalUsedOnBasePhaserSection1 = new CrystalResolutionEvent();
+	public static CrystalResolutionEvent OnCrystalUsedOnBasePhaserSection2 = new CrystalResolutionEvent();
 	public static CrystalResolutionEvent OnCrystalUsedOnBaseTorpedoSection = new CrystalResolutionEvent();
 	public static CrystalResolutionEvent OnCrystalUsedOnBaseCrewSection = new CrystalResolutionEvent();
 	public static CrystalResolutionEvent OnCrystalUsedOnBaseStorageSection1 = new CrystalResolutionEvent();
 	public static CrystalResolutionEvent OnCrystalUsedOnBaseStorageSection2 = new CrystalResolutionEvent();
 
 	//repair crew used on ship events
-	public static RepairResolutionEvent OnRepairCrewUsedOnBasePhasorSection1 = new RepairResolutionEvent();
-	public static RepairResolutionEvent OnRepairCrewUsedOnBasePhasorSection2 = new RepairResolutionEvent();
+	public static RepairResolutionEvent OnRepairCrewUsedOnBasePhaserSection1 = new RepairResolutionEvent();
+	public static RepairResolutionEvent OnRepairCrewUsedOnBasePhaserSection2 = new RepairResolutionEvent();
 	public static RepairResolutionEvent OnRepairCrewUsedOnBaseTorpedoSection = new RepairResolutionEvent();
 	public static RepairResolutionEvent OnRepairCrewUsedOnBaseCrewSection = new RepairResolutionEvent();
 	public static RepairResolutionEvent OnRepairCrewUsedOnBaseStorageSection1 = new RepairResolutionEvent();
@@ -201,7 +201,7 @@ public class CombatManager : MonoBehaviour {
 	public class RepairResolutionEvent : UnityEvent<CombatUnit,CombatUnit>{};
 
 	//unityActions
-	private UnityAction<CombatUnit,CombatUnit,string> firePhasorsResolvePhasorAttackAction;
+	private UnityAction<CombatUnit,CombatUnit,string> firePhasersResolvePhaserAttackAction;
 	private UnityAction<CombatUnit,CombatUnit,string> fireTorpedoResolveLightTorpedoAttackAction;
 	private UnityAction<CombatUnit,CombatUnit,string> fireTorpedoResolveHeavyTorpedoAttackAction;
 	private UnityAction<FlareManager.FlareEventData> flareMenuResolveTorpedoAttackTrueAction;
@@ -215,7 +215,7 @@ public class CombatManager : MonoBehaviour {
 	public void Init () {
 
 		//set the actions
-		firePhasorsResolvePhasorAttackAction = (attackingUnit,targetedUnit,sectionTargeted) => {ResolvePhasorAttack(attackingUnit,targetedUnit,sectionTargeted);};
+		firePhasersResolvePhaserAttackAction = (attackingUnit,targetedUnit,sectionTargeted) => {ResolvePhaserAttack(attackingUnit,targetedUnit,sectionTargeted);};
 		fireTorpedoResolveLightTorpedoAttackAction = (attackingUnit,targetedUnit,sectionTargeted) => {ResolveTorpedoAttack(attackingUnit,targetedUnit,sectionTargeted,AttackType.LightTorpedo);};
 		fireTorpedoResolveHeavyTorpedoAttackAction = (attackingUnit,targetedUnit,sectionTargeted) => {ResolveTorpedoAttack(attackingUnit,targetedUnit,sectionTargeted,AttackType.HeavyTorpedo);};
 		flareMenuResolveTorpedoAttackTrueAction = (flareMenuData) => {ResolveTorpedoAttackAfterFlares(flareMenuData, true);};
@@ -231,8 +231,8 @@ public class CombatManager : MonoBehaviour {
 		//find tileMap in the game
 		tileMap = GameObject.FindGameObjectWithTag ("TileMap").GetComponent<TileMap> ();
 
-		//add a listener to the Phasor Section static combat event
-		PhasorSection.OnFirePhasors.AddListener(firePhasorsResolvePhasorAttackAction);
+		//add a listener to the Phaser Section static combat event
+		PhaserSection.OnFirePhasers.AddListener(firePhasersResolvePhaserAttackAction);
 
 		//add a listener to the Torpedo Section static combat event
 		TorpedoSection.OnFireLightTorpedo.AddListener(fireTorpedoResolveLightTorpedoAttackAction);
@@ -249,9 +249,9 @@ public class CombatManager : MonoBehaviour {
 		//add listeners for the repair crew event
 		CrewSection.OnUseRepairCrew.AddListener(useRepairResolveRepairAction);
 
-		//add listener to the starbase phasor section static combat event
-		StarbasePhasorSection1.OnFirePhasors.AddListener(firePhasorsResolvePhasorAttackAction);
-		StarbasePhasorSection2.OnFirePhasors.AddListener(firePhasorsResolvePhasorAttackAction);
+		//add listener to the starbase phaser section static combat event
+		StarbasePhaserSection1.OnFirePhasers.AddListener(firePhasersResolvePhaserAttackAction);
+		StarbasePhaserSection2.OnFirePhasers.AddListener(firePhasersResolvePhaserAttackAction);
 
 		//add a listener to the starbase Torpedo Section static combat event
 		StarbaseTorpedoSection.OnFireLightTorpedo.AddListener(fireTorpedoResolveLightTorpedoAttackAction);
@@ -266,8 +266,8 @@ public class CombatManager : MonoBehaviour {
 
 	}
 
-	//this function will resolve a phasor attack when one unit attacks another
-	private void ResolvePhasorAttack(CombatUnit attackingUnit, CombatUnit targetedUnit, string sectionTargeted){
+	//this function will resolve a phaser attack when one unit attacks another
+	private void ResolvePhaserAttack(CombatUnit attackingUnit, CombatUnit targetedUnit, string sectionTargeted){
 			
 		//next, check if the targeted unit is a ship or a starbase
 		if (targetedUnit.GetComponent<Ship> () == true) {
@@ -285,32 +285,32 @@ public class CombatManager : MonoBehaviour {
 				//we need to check if the random section targeted is valid, or if it is a miss
 				switch (shipSectionTargeted) {
 
-				case ShipSectionTargeted.PhasorSection:
+				case ShipSectionTargeted.PhaserSection:
 
-					//check if the targeted unit has a phasor section
-					if (targetedUnit.GetComponent<PhasorSection> () == true) {
+					//check if the targeted unit has a phaser section
+					if (targetedUnit.GetComponent<PhaserSection> () == true) {
 
-						//check if the targeted unit's phasor section is not destroyed
-						if (targetedUnit.GetComponent<PhasorSection> ().isDestroyed == false) {
+						//check if the targeted unit's phaser section is not destroyed
+						if (targetedUnit.GetComponent<PhaserSection> ().isDestroyed == false) {
 
-							//resolve a hit to the phasor section
-							PhasorAttackHitOnShip(attackingUnit, targetedUnit,shipSectionTargeted);
+							//resolve a hit to the phaser section
+							PhaserAttackHitOnShip(attackingUnit, targetedUnit,shipSectionTargeted);
 
 						}
-						//the else condition is that the phasor section is already destroyed
+						//the else condition is that the phaser section is already destroyed
 						else {
 
 							//resolve a miss
-							PhasorAttackMissOnShip(attackingUnit,targetedUnit);
+							PhaserAttackMissOnShip(attackingUnit,targetedUnit);
 
 						}
 
 					}
-					//the else condition is that the targeted unit does not have a phasor section
+					//the else condition is that the targeted unit does not have a phaser section
 					else {
 
 						//resolve a miss
-						PhasorAttackMissOnShip(attackingUnit,targetedUnit);
+						PhaserAttackMissOnShip(attackingUnit,targetedUnit);
 
 					}
 
@@ -325,14 +325,14 @@ public class CombatManager : MonoBehaviour {
 						if (targetedUnit.GetComponent<TorpedoSection> ().isDestroyed == false) {
 
 							//resolve a hit to the torpedo section
-							PhasorAttackHitOnShip(attackingUnit, targetedUnit,shipSectionTargeted);
+							PhaserAttackHitOnShip(attackingUnit, targetedUnit,shipSectionTargeted);
 
 						}
 						//the else condition is that the torpedo section is already destroyed
 						else {
 
 							//resolve a miss
-							PhasorAttackMissOnShip(attackingUnit,targetedUnit);
+							PhaserAttackMissOnShip(attackingUnit,targetedUnit);
 
 						}
 
@@ -341,7 +341,7 @@ public class CombatManager : MonoBehaviour {
 					else {
 
 						//resolve a miss
-						PhasorAttackMissOnShip(attackingUnit,targetedUnit);
+						PhaserAttackMissOnShip(attackingUnit,targetedUnit);
 
 					}
 
@@ -356,14 +356,14 @@ public class CombatManager : MonoBehaviour {
 						if (targetedUnit.GetComponent<StorageSection> ().isDestroyed == false) {
 
 							//resolve a hit to the storage section
-							PhasorAttackHitOnShip(attackingUnit, targetedUnit,shipSectionTargeted);
+							PhaserAttackHitOnShip(attackingUnit, targetedUnit,shipSectionTargeted);
 
 						}
 						//the else condition is that the storage section is already destroyed
 						else {
 
 							//resolve a miss
-							PhasorAttackMissOnShip(attackingUnit,targetedUnit);
+							PhaserAttackMissOnShip(attackingUnit,targetedUnit);
 
 						}
 
@@ -372,7 +372,7 @@ public class CombatManager : MonoBehaviour {
 					else {
 
 						//resolve a miss
-						PhasorAttackMissOnShip(attackingUnit,targetedUnit);
+						PhaserAttackMissOnShip(attackingUnit,targetedUnit);
 
 					}
 
@@ -387,14 +387,14 @@ public class CombatManager : MonoBehaviour {
 						if (targetedUnit.GetComponent<CrewSection> ().isDestroyed == false) {
 
 							//resolve a hit to the crew section
-							PhasorAttackHitOnShip(attackingUnit, targetedUnit,shipSectionTargeted);
+							PhaserAttackHitOnShip(attackingUnit, targetedUnit,shipSectionTargeted);
 
 						}
 						//the else condition is that the crew section is already destroyed
 						else {
 
 							//resolve a miss
-							PhasorAttackMissOnShip(attackingUnit,targetedUnit);
+							PhaserAttackMissOnShip(attackingUnit,targetedUnit);
 
 						}
 
@@ -403,7 +403,7 @@ public class CombatManager : MonoBehaviour {
 					else {
 
 						//resolve a miss
-						PhasorAttackMissOnShip(attackingUnit,targetedUnit);
+						PhaserAttackMissOnShip(attackingUnit,targetedUnit);
 
 					}
 
@@ -418,14 +418,14 @@ public class CombatManager : MonoBehaviour {
 						if (targetedUnit.GetComponent<EngineSection> ().isDestroyed == false) {
 
 							//resolve a hit to the engine section
-							PhasorAttackHitOnShip(attackingUnit, targetedUnit,shipSectionTargeted);
+							PhaserAttackHitOnShip(attackingUnit, targetedUnit,shipSectionTargeted);
 
 						}
 						//the else condition is that the engine section is already destroyed
 						else {
 
 							//resolve a miss
-							PhasorAttackMissOnShip(attackingUnit,targetedUnit);
+							PhaserAttackMissOnShip(attackingUnit,targetedUnit);
 
 						}
 
@@ -434,7 +434,7 @@ public class CombatManager : MonoBehaviour {
 					else {
 
 						//resolve a miss
-						PhasorAttackMissOnShip(attackingUnit,targetedUnit);
+						PhaserAttackMissOnShip(attackingUnit,targetedUnit);
 
 					}
 
@@ -443,14 +443,14 @@ public class CombatManager : MonoBehaviour {
 				case ShipSectionTargeted.Miss:
 
 					//resolve a miss
-					PhasorAttackMissOnShip(attackingUnit,targetedUnit);
+					PhaserAttackMissOnShip(attackingUnit,targetedUnit);
 
 					break;
 
 				default:
 
 					//resolve a miss
-					PhasorAttackMissOnShip(attackingUnit,targetedUnit);
+					PhaserAttackMissOnShip(attackingUnit,targetedUnit);
 
 					break;
 
@@ -464,8 +464,8 @@ public class CombatManager : MonoBehaviour {
 				//we need to convert the section targeted string to our enum
 				switch (sectionTargeted){
 
-				case "Phasor Section":
-					shipSectionTargeted = ShipSectionTargeted.PhasorSection;
+				case "Phaser Section":
+					shipSectionTargeted = ShipSectionTargeted.PhaserSection;
 					break;
 				case "Torpedo Section":
 					shipSectionTargeted = ShipSectionTargeted.TorpedoSection;
@@ -487,7 +487,7 @@ public class CombatManager : MonoBehaviour {
 				}
 
 				//we can call the resolve function immediately, since we know the targeted section is valid
-				PhasorAttackHitOnShip(attackingUnit, targetedUnit,shipSectionTargeted);
+				PhaserAttackHitOnShip(attackingUnit, targetedUnit,shipSectionTargeted);
 
 			}
 
@@ -509,39 +509,39 @@ public class CombatManager : MonoBehaviour {
 				//we need to check if the random section targeted is valid, or if it is a miss
 				switch (baseSectionTargeted) {
 
-				case BaseSectionTargeted.PhasorSection1:
+				case BaseSectionTargeted.PhaserSection1:
 
-					//check if the targeted unit's phasor section 1 is not destroyed
-					if (targetedUnit.GetComponent<StarbasePhasorSection1> ().isDestroyed == false) {
+					//check if the targeted unit's phaser section 1 is not destroyed
+					if (targetedUnit.GetComponent<StarbasePhaserSection1> ().isDestroyed == false) {
 
-						//resolve a hit to the phasor section
-						PhasorAttackHitOnBase (attackingUnit, targetedUnit, baseSectionTargeted);
+						//resolve a hit to the phaser section
+						PhaserAttackHitOnBase (attackingUnit, targetedUnit, baseSectionTargeted);
 
 					}
-					//the else condition is that the phasor section 1 is already destroyed
+					//the else condition is that the phaser section 1 is already destroyed
 					else {
 
 						//resolve a miss
-						PhasorAttackMissOnBase (attackingUnit, targetedUnit);
+						PhaserAttackMissOnBase (attackingUnit, targetedUnit);
 
 					}
 		
 					break;
 
-				case BaseSectionTargeted.PhasorSection2:
+				case BaseSectionTargeted.PhaserSection2:
 
-					//check if the targeted unit's phasor section 2 is not destroyed
-					if (targetedUnit.GetComponent<StarbasePhasorSection2> ().isDestroyed == false) {
+					//check if the targeted unit's phaser section 2 is not destroyed
+					if (targetedUnit.GetComponent<StarbasePhaserSection2> ().isDestroyed == false) {
 
-						//resolve a hit to the phasor section
-						PhasorAttackHitOnBase (attackingUnit, targetedUnit, baseSectionTargeted);
+						//resolve a hit to the phaser section
+						PhaserAttackHitOnBase (attackingUnit, targetedUnit, baseSectionTargeted);
 
 					}
-					//the else condition is that the phasor section 2 is already destroyed
+					//the else condition is that the phaser section 2 is already destroyed
 					else {
 
 						//resolve a miss
-						PhasorAttackMissOnBase (attackingUnit, targetedUnit);
+						PhaserAttackMissOnBase (attackingUnit, targetedUnit);
 
 					}
 
@@ -553,14 +553,14 @@ public class CombatManager : MonoBehaviour {
 					if (targetedUnit.GetComponent<StarbaseTorpedoSection> ().isDestroyed == false) {
 
 						//resolve a hit to the torpedo section
-						PhasorAttackHitOnBase (attackingUnit, targetedUnit, baseSectionTargeted);
+						PhaserAttackHitOnBase (attackingUnit, targetedUnit, baseSectionTargeted);
 
 					}
 					//the else condition is that the torpedo section is already destroyed
 					else {
 
 						//resolve a miss
-						PhasorAttackMissOnBase (attackingUnit, targetedUnit);
+						PhaserAttackMissOnBase (attackingUnit, targetedUnit);
 
 					}
 
@@ -572,14 +572,14 @@ public class CombatManager : MonoBehaviour {
 					if (targetedUnit.GetComponent<StarbaseCrewSection> ().isDestroyed == false) {
 
 						//resolve a hit to the crew section
-						PhasorAttackHitOnBase (attackingUnit, targetedUnit, baseSectionTargeted);
+						PhaserAttackHitOnBase (attackingUnit, targetedUnit, baseSectionTargeted);
 
 					}
 					//the else condition is that the crew section is already destroyed
 					else {
 
 						//resolve a miss
-						PhasorAttackMissOnBase (attackingUnit, targetedUnit);
+						PhaserAttackMissOnBase (attackingUnit, targetedUnit);
 
 					}
 
@@ -591,14 +591,14 @@ public class CombatManager : MonoBehaviour {
 					if (targetedUnit.GetComponent<StarbaseStorageSection1> ().isDestroyed == false) {
 
 						//resolve a hit to the storage section 1
-						PhasorAttackHitOnBase (attackingUnit, targetedUnit, baseSectionTargeted);
+						PhaserAttackHitOnBase (attackingUnit, targetedUnit, baseSectionTargeted);
 
 					}
 					//the else condition is that the storage section 1 is already destroyed
 					else {
 
 						//resolve a miss
-						PhasorAttackMissOnBase (attackingUnit, targetedUnit);
+						PhaserAttackMissOnBase (attackingUnit, targetedUnit);
 
 					}
 
@@ -610,14 +610,14 @@ public class CombatManager : MonoBehaviour {
 					if (targetedUnit.GetComponent<StarbaseStorageSection2> ().isDestroyed == false) {
 
 						//resolve a hit to the storage section 2
-						PhasorAttackHitOnBase (attackingUnit, targetedUnit, baseSectionTargeted);
+						PhaserAttackHitOnBase (attackingUnit, targetedUnit, baseSectionTargeted);
 
 					}
 					//the else condition is that the storage section 2 is already destroyed
 					else {
 
 						//resolve a miss
-						PhasorAttackMissOnBase (attackingUnit, targetedUnit);
+						PhaserAttackMissOnBase (attackingUnit, targetedUnit);
 
 					}
 
@@ -628,14 +628,14 @@ public class CombatManager : MonoBehaviour {
 				case BaseSectionTargeted.Untargeted:
 
 					//resolve a miss
-					PhasorAttackMissOnBase (attackingUnit, targetedUnit);
+					PhaserAttackMissOnBase (attackingUnit, targetedUnit);
 
 					break;
 
 				default:
 
 					//resolve a miss
-					PhasorAttackMissOnBase (attackingUnit, targetedUnit);
+					PhaserAttackMissOnBase (attackingUnit, targetedUnit);
 
 					break;
 
@@ -648,11 +648,11 @@ public class CombatManager : MonoBehaviour {
 				//we need to convert the section targeted string to our enum
 				switch (sectionTargeted){
 
-				case "Phasor Section 1":
-					baseSectionTargeted = BaseSectionTargeted.PhasorSection1;
+				case "Phaser Section 1":
+					baseSectionTargeted = BaseSectionTargeted.PhaserSection1;
 					break;
-				case "Phasor Section 2":
-					baseSectionTargeted = BaseSectionTargeted.PhasorSection2;
+				case "Phaser Section 2":
+					baseSectionTargeted = BaseSectionTargeted.PhaserSection2;
 					break;
 				case "Torpedo Section":
 					baseSectionTargeted = BaseSectionTargeted.TorpedoSection;
@@ -674,7 +674,7 @@ public class CombatManager : MonoBehaviour {
 				}
 
 				//we can call the resolve function immediately, since we know the targeted section is valid
-				PhasorAttackHitOnBase(attackingUnit, targetedUnit,baseSectionTargeted);
+				PhaserAttackHitOnBase(attackingUnit, targetedUnit,baseSectionTargeted);
 
 			}
 
@@ -746,8 +746,8 @@ public class CombatManager : MonoBehaviour {
 				//we need to convert the section targeted string to our enum
 				switch (sectionTargeted){
 
-				case "Phasor Section":
-					shipSectionTargeted = ShipSectionTargeted.PhasorSection;
+				case "Phaser Section":
+					shipSectionTargeted = ShipSectionTargeted.PhaserSection;
 					break;
 				case "Torpedo Section":
 					shipSectionTargeted = ShipSectionTargeted.TorpedoSection;
@@ -878,11 +878,11 @@ public class CombatManager : MonoBehaviour {
 				//we need to convert the section targeted string to our enum
 				switch (sectionTargeted){
 
-				case "Phasor Section 1":
-					baseSectionTargeted = BaseSectionTargeted.PhasorSection1;
+				case "Phaser Section 1":
+					baseSectionTargeted = BaseSectionTargeted.PhaserSection1;
 					break;
-				case "Phasor Section 2":
-					baseSectionTargeted = BaseSectionTargeted.PhasorSection2;
+				case "Phaser Section 2":
+					baseSectionTargeted = BaseSectionTargeted.PhaserSection2;
 					break;
 				case "Torpedo Section":
 					baseSectionTargeted = BaseSectionTargeted.TorpedoSection;
@@ -970,15 +970,15 @@ public class CombatManager : MonoBehaviour {
 			//we need to check if the random section targeted is valid, or if it is a miss
 			switch (shipSectionTargeted) {
 
-			case ShipSectionTargeted.PhasorSection:
+			case ShipSectionTargeted.PhaserSection:
 
-			//check if the targeted unit has a phasor section
-				if (targetedUnit.GetComponent<PhasorSection> () == true) {
+			//check if the targeted unit has a phaser section
+				if (targetedUnit.GetComponent<PhaserSection> () == true) {
 
-					//check if the targeted unit's phasor section is not destroyed
-					if (targetedUnit.GetComponent<PhasorSection> ().isDestroyed == false) {
+					//check if the targeted unit's phaser section is not destroyed
+					if (targetedUnit.GetComponent<PhaserSection> ().isDestroyed == false) {
 
-						//resolve a hit to the phasor section
+						//resolve a hit to the phaser section
 						if (attackType == AttackType.LightTorpedo) {
 						
 							LightTorpedoAttackHitOnShip (attackingUnit, targetedUnit, shipSectionTargeted);
@@ -990,7 +990,7 @@ public class CombatManager : MonoBehaviour {
 						}
 
 					}
-				//the else condition is that the phasor section is already destroyed
+				//the else condition is that the phaser section is already destroyed
 				else {
 
 						//resolve a miss
@@ -1007,7 +1007,7 @@ public class CombatManager : MonoBehaviour {
 					}
 
 				}
-			//the else condition is that the targeted unit does not have a phasor section
+			//the else condition is that the targeted unit does not have a phaser section
 			else {
 
 					//resolve a miss
@@ -1290,12 +1290,12 @@ public class CombatManager : MonoBehaviour {
 			//we need to check if the random section targeted is valid, or if it is a miss
 			switch (baseSectionTargeted) {
 
-			case BaseSectionTargeted.PhasorSection1:
+			case BaseSectionTargeted.PhaserSection1:
 
-				//check if the targeted unit's phasor section is not destroyed
-				if (targetedUnit.GetComponent<StarbasePhasorSection1> ().isDestroyed == false) {
+				//check if the targeted unit's phaser section is not destroyed
+				if (targetedUnit.GetComponent<StarbasePhaserSection1> ().isDestroyed == false) {
 
-					//resolve a hit to the phasor section
+					//resolve a hit to the phaser section
 					if (attackType == AttackType.LightTorpedo) {
 
 						LightTorpedoAttackHitOnBase (attackingUnit, targetedUnit, baseSectionTargeted);
@@ -1307,7 +1307,7 @@ public class CombatManager : MonoBehaviour {
 					}
 
 				}
-				//the else condition is that the phasor section is already destroyed
+				//the else condition is that the phaser section is already destroyed
 				else {
 
 					//resolve a miss
@@ -1326,12 +1326,12 @@ public class CombatManager : MonoBehaviour {
 				break;
 
 
-			case BaseSectionTargeted.PhasorSection2:
+			case BaseSectionTargeted.PhaserSection2:
 
-				//check if the targeted unit's phasor section is not destroyed
-				if (targetedUnit.GetComponent<StarbasePhasorSection2> ().isDestroyed == false) {
+				//check if the targeted unit's phaser section is not destroyed
+				if (targetedUnit.GetComponent<StarbasePhaserSection2> ().isDestroyed == false) {
 
-					//resolve a hit to the phasor section
+					//resolve a hit to the phaser section
 					if (attackType == AttackType.LightTorpedo) {
 
 						LightTorpedoAttackHitOnBase (attackingUnit, targetedUnit, baseSectionTargeted);
@@ -1343,7 +1343,7 @@ public class CombatManager : MonoBehaviour {
 					}
 
 				}
-				//the else condition is that the phasor section is already destroyed
+				//the else condition is that the phaser section is already destroyed
 				else {
 
 					//resolve a miss
@@ -1522,44 +1522,44 @@ public class CombatManager : MonoBehaviour {
 
 	}
 		
-	//this function resolves a phasor attack hit on a ship
-	private void PhasorAttackHitOnShip(CombatUnit attackingUnit, CombatUnit targetedUnit, ShipSectionTargeted shipSectionTargeted){
+	//this function resolves a phaser attack hit on a ship
+	private void PhaserAttackHitOnShip(CombatUnit attackingUnit, CombatUnit targetedUnit, ShipSectionTargeted shipSectionTargeted){
 		
 		//get the range between the attacking and targeted units
 		int attackRange = 0;
 		if (attackingUnit.GetComponent<Ship> () == true) {
 			
-			attackRange = GetAttackRange (attackingUnit, targetedUnit, attackingUnit.GetComponent<PhasorSection> ().TargetablePhasorHexes);
+			attackRange = GetAttackRange (attackingUnit, targetedUnit, attackingUnit.GetComponent<PhaserSection> ().TargetablePhaserHexes);
 
 		} else if (attackingUnit.GetComponent<Starbase> () == true) {
 
-			attackRange = GetAttackRange (attackingUnit, targetedUnit, attackingUnit.GetComponent<StarbasePhasorSection1> ().TargetablePhasorHexes);
+			attackRange = GetAttackRange (attackingUnit, targetedUnit, attackingUnit.GetComponent<StarbasePhaserSection1> ().TargetablePhaserHexes);
 
 		}
 
 		//determine how many dice should be rolled for attack
-		int numberDice = DetermineDice (AttackType.Phasor, attackingUnit, targetedUnit, attackRange);
+		int numberDice = DetermineDice (AttackType.Phaser, attackingUnit, targetedUnit, attackRange);
 
 		//roll the dice and get a damage total
-		int phasorDamage = Dice.DiceRollSum(numberDice,numberSidedDice);
+		int phaserDamage = Dice.DiceRollSum(numberDice,numberSidedDice);
 
 		//invoke the appropriate event based on the section targeted
 		switch (shipSectionTargeted) {
 
-		case ShipSectionTargeted.PhasorSection:
-			OnPhasorAttackHitShipPhasorSection.Invoke (attackingUnit, targetedUnit, phasorDamage);
+		case ShipSectionTargeted.PhaserSection:
+			OnPhaserAttackHitShipPhaserSection.Invoke (attackingUnit, targetedUnit, phaserDamage);
 			break;
 		case ShipSectionTargeted.TorpedoSection:
-			OnPhasorAttackHitShipTorpedoSection.Invoke (attackingUnit, targetedUnit, phasorDamage);
+			OnPhaserAttackHitShipTorpedoSection.Invoke (attackingUnit, targetedUnit, phaserDamage);
 			break;
 		case ShipSectionTargeted.StorageSection:
-			OnPhasorAttackHitShipStorageSection.Invoke (attackingUnit, targetedUnit, phasorDamage);
+			OnPhaserAttackHitShipStorageSection.Invoke (attackingUnit, targetedUnit, phaserDamage);
 			break;
 		case ShipSectionTargeted.CrewSection:
-			OnPhasorAttackHitShipCrewSection.Invoke (attackingUnit, targetedUnit, phasorDamage);
+			OnPhaserAttackHitShipCrewSection.Invoke (attackingUnit, targetedUnit, phaserDamage);
 			break;
 		case ShipSectionTargeted.EngineSection:
-			OnPhasorAttackHitShipEngineSection.Invoke (attackingUnit, targetedUnit, phasorDamage);
+			OnPhaserAttackHitShipEngineSection.Invoke (attackingUnit, targetedUnit, phaserDamage);
 			break;
 		default:
 			break;
@@ -1568,47 +1568,47 @@ public class CombatManager : MonoBehaviour {
 
 	}
 
-	//this function resolves a phasor attack hit on a base
-	private void PhasorAttackHitOnBase(CombatUnit attackingUnit, CombatUnit targetedUnit, BaseSectionTargeted baseSectionTargeted){
+	//this function resolves a phaser attack hit on a base
+	private void PhaserAttackHitOnBase(CombatUnit attackingUnit, CombatUnit targetedUnit, BaseSectionTargeted baseSectionTargeted){
 
 		//get the range between the attacking and targeted units
 		int attackRange = 0;
 		if (attackingUnit.GetComponent<Ship> () == true) {
 
-			attackRange = GetAttackRange (attackingUnit, targetedUnit, attackingUnit.GetComponent<PhasorSection> ().TargetablePhasorHexes);
+			attackRange = GetAttackRange (attackingUnit, targetedUnit, attackingUnit.GetComponent<PhaserSection> ().TargetablePhaserHexes);
 
 		} else if (attackingUnit.GetComponent<Starbase> () == true) {
 
-			attackRange = GetAttackRange (attackingUnit, targetedUnit, attackingUnit.GetComponent<StarbasePhasorSection1> ().TargetablePhasorHexes);
+			attackRange = GetAttackRange (attackingUnit, targetedUnit, attackingUnit.GetComponent<StarbasePhaserSection1> ().TargetablePhaserHexes);
 
 		}
 
 		//determine how many dice should be rolled for attack
-		int numberDice = DetermineDice (AttackType.Phasor, attackingUnit, targetedUnit, attackRange);
+		int numberDice = DetermineDice (AttackType.Phaser, attackingUnit, targetedUnit, attackRange);
 
 		//roll the dice and get a damage total
-		int phasorDamage = Dice.DiceRollSum(numberDice,numberSidedDice);
+		int phaserDamage = Dice.DiceRollSum(numberDice,numberSidedDice);
 
 		//invoke the appropriate event based on the section targeted
 		switch (baseSectionTargeted) {
 
-		case BaseSectionTargeted.PhasorSection1:
-			OnPhasorAttackHitBasePhasorSection1.Invoke (attackingUnit, targetedUnit, phasorDamage);
+		case BaseSectionTargeted.PhaserSection1:
+			OnPhaserAttackHitBasePhaserSection1.Invoke (attackingUnit, targetedUnit, phaserDamage);
 			break;
-		case BaseSectionTargeted.PhasorSection2:
-			OnPhasorAttackHitBasePhasorSection2.Invoke (attackingUnit, targetedUnit, phasorDamage);
+		case BaseSectionTargeted.PhaserSection2:
+			OnPhaserAttackHitBasePhaserSection2.Invoke (attackingUnit, targetedUnit, phaserDamage);
 			break;
 		case BaseSectionTargeted.TorpedoSection:
-			OnPhasorAttackHitBaseTorpedoSection.Invoke (attackingUnit, targetedUnit, phasorDamage);
+			OnPhaserAttackHitBaseTorpedoSection.Invoke (attackingUnit, targetedUnit, phaserDamage);
 			break;
 		case BaseSectionTargeted.CrewSection:
-			OnPhasorAttackHitBaseCrewSection.Invoke (attackingUnit, targetedUnit, phasorDamage);
+			OnPhaserAttackHitBaseCrewSection.Invoke (attackingUnit, targetedUnit, phaserDamage);
 			break;
 		case BaseSectionTargeted.StorageSection1:
-			OnPhasorAttackHitBaseStorageSection1.Invoke (attackingUnit, targetedUnit, phasorDamage);
+			OnPhaserAttackHitBaseStorageSection1.Invoke (attackingUnit, targetedUnit, phaserDamage);
 			break;
 		case BaseSectionTargeted.StorageSection2:
-			OnPhasorAttackHitBaseStorageSection2.Invoke (attackingUnit, targetedUnit, phasorDamage);
+			OnPhaserAttackHitBaseStorageSection2.Invoke (attackingUnit, targetedUnit, phaserDamage);
 			break;
 		default:
 			break;
@@ -1617,19 +1617,19 @@ public class CombatManager : MonoBehaviour {
 
 	}
 
-	//this function resolves a phasor attack miss on a ship
-	private void PhasorAttackMissOnShip(CombatUnit attackingUnit, CombatUnit targetedUnit){
+	//this function resolves a phaser attack miss on a ship
+	private void PhaserAttackMissOnShip(CombatUnit attackingUnit, CombatUnit targetedUnit){
 
 		//on a miss, we just need to fire off a miss event
-		OnPhasorAttackMissShip.Invoke(attackingUnit,targetedUnit);
+		OnPhaserAttackMissShip.Invoke(attackingUnit,targetedUnit);
 
 	}
 
-	//this function resolves a phasor attack miss on a base
-	private void PhasorAttackMissOnBase(CombatUnit attackingUnit, CombatUnit targetedUnit){
+	//this function resolves a phaser attack miss on a base
+	private void PhaserAttackMissOnBase(CombatUnit attackingUnit, CombatUnit targetedUnit){
 
 		//on a miss, we just need to fire off a miss event
-		OnPhasorAttackMissBase.Invoke(attackingUnit,targetedUnit);
+		OnPhaserAttackMissBase.Invoke(attackingUnit,targetedUnit);
 
 	}
 
@@ -1660,8 +1660,8 @@ public class CombatManager : MonoBehaviour {
 		//invoke the appropriate event based on the section targeted
 		switch (shipSectionTargeted) {
 
-		case ShipSectionTargeted.PhasorSection:
-			OnLightTorpedoAttackHitShipPhasorSection.Invoke (attackingUnit, targetedUnit, torpedoDamage);
+		case ShipSectionTargeted.PhaserSection:
+			OnLightTorpedoAttackHitShipPhaserSection.Invoke (attackingUnit, targetedUnit, torpedoDamage);
 			break;
 		case ShipSectionTargeted.TorpedoSection:
 			OnLightTorpedoAttackHitShipTorpedoSection.Invoke (attackingUnit, targetedUnit, torpedoDamage);
@@ -1708,11 +1708,11 @@ public class CombatManager : MonoBehaviour {
 		//invoke the appropriate event based on the section targeted
 		switch (baseSectionTargeted) {
 
-		case BaseSectionTargeted.PhasorSection1:
-			OnLightTorpedoAttackHitBasePhasorSection1.Invoke (attackingUnit, targetedUnit, torpedoDamage);
+		case BaseSectionTargeted.PhaserSection1:
+			OnLightTorpedoAttackHitBasePhaserSection1.Invoke (attackingUnit, targetedUnit, torpedoDamage);
 			break;
-		case BaseSectionTargeted.PhasorSection2:
-			OnLightTorpedoAttackHitBasePhasorSection2.Invoke (attackingUnit, targetedUnit, torpedoDamage);
+		case BaseSectionTargeted.PhaserSection2:
+			OnLightTorpedoAttackHitBasePhaserSection2.Invoke (attackingUnit, targetedUnit, torpedoDamage);
 			break;
 		case BaseSectionTargeted.TorpedoSection:
 			OnLightTorpedoAttackHitBaseTorpedoSection.Invoke (attackingUnit, targetedUnit, torpedoDamage);
@@ -1775,8 +1775,8 @@ public class CombatManager : MonoBehaviour {
 		//invoke the appropriate event based on the section targeted
 		switch (shipSectionTargeted) {
 
-		case ShipSectionTargeted.PhasorSection:
-			OnHeavyTorpedoAttackHitShipPhasorSection.Invoke (attackingUnit, targetedUnit, torpedoDamage);
+		case ShipSectionTargeted.PhaserSection:
+			OnHeavyTorpedoAttackHitShipPhaserSection.Invoke (attackingUnit, targetedUnit, torpedoDamage);
 			break;
 		case ShipSectionTargeted.TorpedoSection:
 			OnHeavyTorpedoAttackHitShipTorpedoSection.Invoke (attackingUnit, targetedUnit, torpedoDamage);
@@ -1822,11 +1822,11 @@ public class CombatManager : MonoBehaviour {
 		//invoke the appropriate event based on the section targeted
 		switch (baseSectionTargeted) {
 
-		case BaseSectionTargeted.PhasorSection1:
-			OnHeavyTorpedoAttackHitBasePhasorSection1.Invoke (attackingUnit, targetedUnit, torpedoDamage);
+		case BaseSectionTargeted.PhaserSection1:
+			OnHeavyTorpedoAttackHitBasePhaserSection1.Invoke (attackingUnit, targetedUnit, torpedoDamage);
 			break;
-		case BaseSectionTargeted.PhasorSection2:
-			OnHeavyTorpedoAttackHitBasePhasorSection2.Invoke (attackingUnit, targetedUnit, torpedoDamage);
+		case BaseSectionTargeted.PhaserSection2:
+			OnHeavyTorpedoAttackHitBasePhaserSection2.Invoke (attackingUnit, targetedUnit, torpedoDamage);
 			break;
 		case BaseSectionTargeted.TorpedoSection:
 			OnHeavyTorpedoAttackHitBaseTorpedoSection.Invoke (attackingUnit, targetedUnit, torpedoDamage);
@@ -2071,8 +2071,8 @@ public class CombatManager : MonoBehaviour {
 
 		int numberDice = 0;
 
-		//check if it is a torpedo attack or a phasor attack
-		if (attackType == AttackType.Phasor) {
+		//check if it is a torpedo attack or a phaser attack
+		if (attackType == AttackType.Phaser) {
 
 			//check if the attacking unit is a ship or a starbase
 			if (attackingUnit.GetComponent<Ship> () == true) {
@@ -2081,17 +2081,17 @@ public class CombatManager : MonoBehaviour {
 				if (attackRange == 1) {
 
 					//check if the attacking unit has the X-ray upgrade
-					if (attackingUnit.GetComponent<PhasorSection> ().xRayKernalUpgrade == true) {
+					if (attackingUnit.GetComponent<PhaserSection> ().xRayKernalUpgrade == true) {
 
 						//this is an attack with x-Ray upgrade in the primary cone
 						numberDice = numberDiceXRayPrimaryCone;
 
 					}
-					//the else condition is that it is regular phasors
+					//the else condition is that it is regular phasers
 					else {
 
-						//this is an attack with standard phasors in the primary cone
-						numberDice = numberDicePhasorPrimaryCone;
+						//this is an attack with standard phasers in the primary cone
+						numberDice = numberDicePhaserPrimaryCone;
 
 					}
 
@@ -2100,17 +2100,17 @@ public class CombatManager : MonoBehaviour {
 				else if (attackRange == 2) {
 
 					//check if the attacking unit has the X-ray upgrade
-					if (attackingUnit.GetComponent<PhasorSection> ().xRayKernalUpgrade == true) {
+					if (attackingUnit.GetComponent<PhaserSection> ().xRayKernalUpgrade == true) {
 
 						//this is an attack with x-Ray upgrade in the secondary cone
 						numberDice = numberDiceXRaySecondaryCone;
 
 					}
-					//the else condition is that it is regular phasors
+					//the else condition is that it is regular phasers
 					else {
 
-						//this is an attack with standard phasors in the secondary cone
-						numberDice = numberDicePhasorSecondaryCone;
+						//this is an attack with standard phasers in the secondary cone
+						numberDice = numberDicePhaserSecondaryCone;
 
 					}
 
@@ -2118,7 +2118,7 @@ public class CombatManager : MonoBehaviour {
 				//it should not be possible to be here with a range besides 1 or 2
 				else {
 
-					Debug.LogError ("Phasor Attack has a range besides 1 or 2");
+					Debug.LogError ("Phaser Attack has a range besides 1 or 2");
 					numberDice = 0;
 
 				}
@@ -2132,17 +2132,17 @@ public class CombatManager : MonoBehaviour {
 				if (attackRange == 1) {
 
 					//check if the attacking unit has the X-ray upgrade
-					if (attackingUnit.GetComponent<StarbasePhasorSection2> ().xRayKernalUpgrade == true) {
+					if (attackingUnit.GetComponent<StarbasePhaserSection2> ().xRayKernalUpgrade == true) {
 
 						//this is an attack with x-Ray upgrade in the primary cone
 						numberDice = numberDiceXRayPrimaryCone;
 
 					}
-					//the else condition is that it is regular phasors
+					//the else condition is that it is regular phasers
 					else {
 
-						//this is an attack with standard phasors in the primary cone
-						numberDice = numberDicePhasorPrimaryCone;
+						//this is an attack with standard phasers in the primary cone
+						numberDice = numberDicePhaserPrimaryCone;
 
 					}
 
@@ -2151,17 +2151,17 @@ public class CombatManager : MonoBehaviour {
 				else if (attackRange == 2) {
 
 					//check if the attacking unit has the X-ray upgrade
-					if (attackingUnit.GetComponent<StarbasePhasorSection2> ().xRayKernalUpgrade == true) {
+					if (attackingUnit.GetComponent<StarbasePhaserSection2> ().xRayKernalUpgrade == true) {
 
 						//this is an attack with x-Ray upgrade in the secondary cone
 						numberDice = numberDiceXRaySecondaryCone;
 
 					}
-					//the else condition is that it is regular phasors
+					//the else condition is that it is regular phasers
 					else {
 
-						//this is an attack with standard phasors in the secondary cone
-						numberDice = numberDicePhasorSecondaryCone;
+						//this is an attack with standard phasers in the secondary cone
+						numberDice = numberDicePhaserSecondaryCone;
 
 					}
 
@@ -2169,7 +2169,7 @@ public class CombatManager : MonoBehaviour {
 				//it should not be possible to be here with a range besides 1 or 2
 				else {
 
-					Debug.LogError ("Phasor Attack has a range besides 1 or 2");
+					Debug.LogError ("Phaser Attack has a range besides 1 or 2");
 					numberDice = 0;
 
 				}
@@ -2508,8 +2508,8 @@ public class CombatManager : MonoBehaviour {
 			//we need to convert the section targeted string to our enum
 			switch (shipSectionTargetedString){
 
-			case "Phasor Section":
-				shipSectionTargeted = ShipSectionTargeted.PhasorSection;
+			case "Phaser Section":
+				shipSectionTargeted = ShipSectionTargeted.PhaserSection;
 				break;
 			case "Torpedo Section":
 				shipSectionTargeted = ShipSectionTargeted.TorpedoSection;
@@ -2543,11 +2543,11 @@ public class CombatManager : MonoBehaviour {
 			//we need to convert the section targeted string to our enum
 			switch (shipSectionTargetedString){
 
-			case "Phasor Section 1":
-				baseSectionTargeted = BaseSectionTargeted.PhasorSection1;
+			case "Phaser Section 1":
+				baseSectionTargeted = BaseSectionTargeted.PhaserSection1;
 				break;
-			case "Phasor Section 2":
-				baseSectionTargeted = BaseSectionTargeted.PhasorSection2;
+			case "Phaser Section 2":
+				baseSectionTargeted = BaseSectionTargeted.PhaserSection2;
 				break;
 			case "Torpedo Section":
 				baseSectionTargeted = BaseSectionTargeted.TorpedoSection;
@@ -2584,13 +2584,13 @@ public class CombatManager : MonoBehaviour {
 		//invoke the appropriate event based on the section targeted
 		switch (shipSectionTargeted) {
 
-		case ShipSectionTargeted.PhasorSection:
+		case ShipSectionTargeted.PhaserSection:
 
 			//calculate the shields healed
 			if (crystalType == CrystalType.Dilithium) {
 
 				//check if the targeted section has taken more damage than the crystal can heal
-				if (targetedUnit.GetComponent<PhasorSection> ().shieldsMax - targetedUnit.GetComponent<PhasorSection> ().shieldsCurrent > dilithiumHealing) {
+				if (targetedUnit.GetComponent<PhaserSection> ().shieldsMax - targetedUnit.GetComponent<PhaserSection> ().shieldsCurrent > dilithiumHealing) {
 
 					shieldsHealed = dilithiumHealing;
 
@@ -2598,7 +2598,7 @@ public class CombatManager : MonoBehaviour {
 				//the else condition is that the section has taken less damage than a full crystal's worth.  In this case, the crystal fills the section up
 				else {
 
-					shieldsHealed = targetedUnit.GetComponent<PhasorSection> ().shieldsMax - targetedUnit.GetComponent<PhasorSection> ().shieldsCurrent;
+					shieldsHealed = targetedUnit.GetComponent<PhaserSection> ().shieldsMax - targetedUnit.GetComponent<PhaserSection> ().shieldsCurrent;
 
 				}
 			
@@ -2607,11 +2607,11 @@ public class CombatManager : MonoBehaviour {
 			else {
 
 				//for a trilithium crystal, it always heals to full
-				shieldsHealed = targetedUnit.GetComponent<PhasorSection> ().shieldsMax - targetedUnit.GetComponent<PhasorSection> ().shieldsCurrent;
+				shieldsHealed = targetedUnit.GetComponent<PhaserSection> ().shieldsMax - targetedUnit.GetComponent<PhaserSection> ().shieldsCurrent;
 
 			}
 
-			OnCrystalUsedOnShipPhasorSection.Invoke (selectedUnit, targetedUnit, crystalType, shieldsHealed);
+			OnCrystalUsedOnShipPhaserSection.Invoke (selectedUnit, targetedUnit, crystalType, shieldsHealed);
 
 			break;
 
@@ -2755,13 +2755,13 @@ public class CombatManager : MonoBehaviour {
 		//invoke the appropriate event based on the section targeted
 		switch (baseSectionTargeted) {
 
-		case BaseSectionTargeted.PhasorSection1:
+		case BaseSectionTargeted.PhaserSection1:
 
 			//calculate the shields healed
 			if (crystalType == CrystalType.Dilithium) {
 
 				//check if the targeted section has taken more damage than the crystal can heal
-				if (targetedUnit.GetComponent<StarbasePhasorSection1> ().shieldsMax - targetedUnit.GetComponent<StarbasePhasorSection1> ().shieldsCurrent > dilithiumHealing) {
+				if (targetedUnit.GetComponent<StarbasePhaserSection1> ().shieldsMax - targetedUnit.GetComponent<StarbasePhaserSection1> ().shieldsCurrent > dilithiumHealing) {
 
 					shieldsHealed = dilithiumHealing;
 
@@ -2769,7 +2769,7 @@ public class CombatManager : MonoBehaviour {
 				//the else condition is that the section has taken less damage than a full crystal's worth.  In this case, the crystal fills the section up
 				else {
 
-					shieldsHealed = targetedUnit.GetComponent<StarbasePhasorSection1> ().shieldsMax - targetedUnit.GetComponent<StarbasePhasorSection1> ().shieldsCurrent;
+					shieldsHealed = targetedUnit.GetComponent<StarbasePhaserSection1> ().shieldsMax - targetedUnit.GetComponent<StarbasePhaserSection1> ().shieldsCurrent;
 
 				}
 
@@ -2778,21 +2778,21 @@ public class CombatManager : MonoBehaviour {
 			else {
 
 				//for a trilithium crystal, it always heals to full
-				shieldsHealed = targetedUnit.GetComponent<StarbasePhasorSection1> ().shieldsMax - targetedUnit.GetComponent<StarbasePhasorSection1> ().shieldsCurrent;
+				shieldsHealed = targetedUnit.GetComponent<StarbasePhaserSection1> ().shieldsMax - targetedUnit.GetComponent<StarbasePhaserSection1> ().shieldsCurrent;
 
 			}
 
-			OnCrystalUsedOnBasePhasorSection1.Invoke (selectedUnit, targetedUnit, crystalType, shieldsHealed);
+			OnCrystalUsedOnBasePhaserSection1.Invoke (selectedUnit, targetedUnit, crystalType, shieldsHealed);
 
 			break;
 
-		case BaseSectionTargeted.PhasorSection2:
+		case BaseSectionTargeted.PhaserSection2:
 
 			//calculate the shields healed
 			if (crystalType == CrystalType.Dilithium) {
 
 				//check if the targeted section has taken more damage than the crystal can heal
-				if (targetedUnit.GetComponent<StarbasePhasorSection2> ().shieldsMax - targetedUnit.GetComponent<StarbasePhasorSection2> ().shieldsCurrent > dilithiumHealing) {
+				if (targetedUnit.GetComponent<StarbasePhaserSection2> ().shieldsMax - targetedUnit.GetComponent<StarbasePhaserSection2> ().shieldsCurrent > dilithiumHealing) {
 
 					shieldsHealed = dilithiumHealing;
 
@@ -2800,7 +2800,7 @@ public class CombatManager : MonoBehaviour {
 				//the else condition is that the section has taken less damage than a full crystal's worth.  In this case, the crystal fills the section up
 				else {
 
-					shieldsHealed = targetedUnit.GetComponent<StarbasePhasorSection2> ().shieldsMax - targetedUnit.GetComponent<StarbasePhasorSection2> ().shieldsCurrent;
+					shieldsHealed = targetedUnit.GetComponent<StarbasePhaserSection2> ().shieldsMax - targetedUnit.GetComponent<StarbasePhaserSection2> ().shieldsCurrent;
 
 				}
 
@@ -2809,11 +2809,11 @@ public class CombatManager : MonoBehaviour {
 			else {
 
 				//for a trilithium crystal, it always heals to full
-				shieldsHealed = targetedUnit.GetComponent<StarbasePhasorSection2> ().shieldsMax - targetedUnit.GetComponent<StarbasePhasorSection2> ().shieldsCurrent;
+				shieldsHealed = targetedUnit.GetComponent<StarbasePhaserSection2> ().shieldsMax - targetedUnit.GetComponent<StarbasePhaserSection2> ().shieldsCurrent;
 
 			}
 
-			OnCrystalUsedOnBasePhasorSection2.Invoke (selectedUnit, targetedUnit, crystalType, shieldsHealed);
+			OnCrystalUsedOnBasePhaserSection2.Invoke (selectedUnit, targetedUnit, crystalType, shieldsHealed);
 
 			break;
 
@@ -2960,8 +2960,8 @@ public class CombatManager : MonoBehaviour {
 			//we need to convert the section targeted string to our enum
 			switch (shipSectionTargetedString){
 
-			case "Phasor Section":
-				shipSectionTargeted = ShipSectionTargeted.PhasorSection;
+			case "Phaser Section":
+				shipSectionTargeted = ShipSectionTargeted.PhaserSection;
 				break;
 			case "Torpedo Section":
 				shipSectionTargeted = ShipSectionTargeted.TorpedoSection;
@@ -2995,11 +2995,11 @@ public class CombatManager : MonoBehaviour {
 			//we need to convert the section targeted string to our enum
 			switch (shipSectionTargetedString) {
 
-			case "Phasor Section 1":
-				baseSectionTargeted = BaseSectionTargeted.PhasorSection1;
+			case "Phaser Section 1":
+				baseSectionTargeted = BaseSectionTargeted.PhaserSection1;
 				break;
-			case "Phasor Section 2":
-				baseSectionTargeted = BaseSectionTargeted.PhasorSection2;
+			case "Phaser Section 2":
+				baseSectionTargeted = BaseSectionTargeted.PhaserSection2;
 				break;
 			case "Torpedo Section":
 				baseSectionTargeted = BaseSectionTargeted.TorpedoSection;
@@ -3034,9 +3034,9 @@ public class CombatManager : MonoBehaviour {
 		//invoke the appropriate event based on the section targeted
 		switch (shipSectionTargeted) {
 
-		case ShipSectionTargeted.PhasorSection:
+		case ShipSectionTargeted.PhaserSection:
 
-			OnRepairCrewUsedOnShipPhasorSection.Invoke (selectedUnit, targetedUnit);
+			OnRepairCrewUsedOnShipPhaserSection.Invoke (selectedUnit, targetedUnit);
 
 			break;
 
@@ -3078,15 +3078,15 @@ public class CombatManager : MonoBehaviour {
 		//invoke the appropriate event based on the section targeted
 		switch (baseSectionTargeted) {
 
-		case BaseSectionTargeted.PhasorSection1:
+		case BaseSectionTargeted.PhaserSection1:
 
-			OnRepairCrewUsedOnBasePhasorSection1.Invoke (selectedUnit, targetedUnit);
+			OnRepairCrewUsedOnBasePhaserSection1.Invoke (selectedUnit, targetedUnit);
 
 			break;
 
-		case BaseSectionTargeted.PhasorSection2:
+		case BaseSectionTargeted.PhaserSection2:
 
-			OnRepairCrewUsedOnBasePhasorSection2.Invoke (selectedUnit, targetedUnit);
+			OnRepairCrewUsedOnBasePhaserSection2.Invoke (selectedUnit, targetedUnit);
 
 			break;
 
@@ -3130,14 +3130,14 @@ public class CombatManager : MonoBehaviour {
 		//switch case on baseSection
 		switch (baseSectionTargeted) {
 
-		case BaseSectionTargeted.PhasorSection1:
+		case BaseSectionTargeted.PhaserSection1:
 
-			sectionString = "Phasor Section 1";
+			sectionString = "Phaser Section 1";
 			break;
 
-		case BaseSectionTargeted.PhasorSection2:
+		case BaseSectionTargeted.PhaserSection2:
 
-			sectionString = "Phasor Section 2";
+			sectionString = "Phaser Section 2";
 			break;
 
 		case BaseSectionTargeted.TorpedoSection:
@@ -3179,9 +3179,9 @@ public class CombatManager : MonoBehaviour {
 		//switch case on baseSection
 		switch (shipSectionTargeted) {
 
-		case ShipSectionTargeted.PhasorSection:
+		case ShipSectionTargeted.PhaserSection:
 
-			sectionString = "Phasor Section";
+			sectionString = "Phaser Section";
 			break;
 
 		case ShipSectionTargeted.TorpedoSection:
@@ -3225,8 +3225,8 @@ public class CombatManager : MonoBehaviour {
 	//this function removes all listeners
 	private void RemoveAllListeners(){
 
-		//remove a listener to the Phasor Section static combat event
-		PhasorSection.OnFirePhasors.RemoveListener(firePhasorsResolvePhasorAttackAction);
+		//remove a listener to the Phaser Section static combat event
+		PhaserSection.OnFirePhasers.RemoveListener(firePhasersResolvePhaserAttackAction);
 
 		//remove a listener to the Torpedo Section static combat event
 		TorpedoSection.OnFireLightTorpedo.RemoveListener(fireTorpedoResolveLightTorpedoAttackAction);
@@ -3247,9 +3247,9 @@ public class CombatManager : MonoBehaviour {
 		//remove listeners for the repair crew event
 		CrewSection.OnUseRepairCrew.RemoveListener(useRepairResolveRepairAction);
 
-		//remove listener to the starbase phasor section static combat event
-		StarbasePhasorSection1.OnFirePhasors.RemoveListener(firePhasorsResolvePhasorAttackAction);
-		StarbasePhasorSection2.OnFirePhasors.RemoveListener(firePhasorsResolvePhasorAttackAction);
+		//remove listener to the starbase phaser section static combat event
+		StarbasePhaserSection1.OnFirePhasers.RemoveListener(firePhasersResolvePhaserAttackAction);
+		StarbasePhaserSection2.OnFirePhasers.RemoveListener(firePhasersResolvePhaserAttackAction);
 
 		//remove a listener to the starbase Torpedo Section static combat event
 		StarbaseTorpedoSection.OnFireLightTorpedo.RemoveListener(fireTorpedoResolveLightTorpedoAttackAction);

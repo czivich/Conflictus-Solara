@@ -113,7 +113,7 @@ public class TorpedoToggle : MonoBehaviour {
 			//if the selectedUnit is null (has been cleared)
 			if (mouseManager.selectedUnit == null) {
 
-				//enable the phasor toggle if we are in selection mode
+				//enable the phaser toggle if we are in selection mode
 				torpedoToggle.interactable = true;
 
 			}

@@ -207,11 +207,11 @@ public class FlareManager : MonoBehaviour {
 						" is being attacked with untargeted " + flareTorpedoType.ToString () + " Torpedo. " + targetedUnit.GetComponent<Ship> ().shipType + " " + targetedUnit.GetComponent<Ship> ().shipName +
 					" has " + targetedUnit.GetComponent<StorageSection> ().flares + " flares";
 
-				} else if (flareSectionTargeted == CombatManager.ShipSectionTargeted.PhasorSection) {
+				} else if (flareSectionTargeted == CombatManager.ShipSectionTargeted.PhaserSection) {
 
 					flareText.text = targetedUnit.GetComponent<Ship> ().shipType + " " + targetedUnit.GetComponent<Ship> ().shipName +
-						" is being attacked with targeted " + flareTorpedoType.ToString () + " Torpedo, targeting Phasor Section.  Phasor Section has " +
-					targetedUnit.GetComponent<PhasorSection> ().shieldsCurrent.ToString () + " shields.  " + targetedUnit.GetComponent<Ship> ().shipType +
+						" is being attacked with targeted " + flareTorpedoType.ToString () + " Torpedo, targeting Phaser Section.  Phaser Section has " +
+					targetedUnit.GetComponent<PhaserSection> ().shieldsCurrent.ToString () + " shields.  " + targetedUnit.GetComponent<Ship> ().shipType +
 					" " + targetedUnit.GetComponent<Ship> ().shipName +	" has " + targetedUnit.GetComponent<StorageSection> ().flares + " flares";
 				
 				} else if (flareSectionTargeted == CombatManager.ShipSectionTargeted.TorpedoSection) {
@@ -404,21 +404,21 @@ public class FlareManager : MonoBehaviour {
 						" has " + targetedUnit.GetComponent<StarbaseStorageSection2> ().flares + " flares";
 
 				} 
-				//ShipSectionTargeted.PhasorSection maps to BaseSectionTargeted.PhasorSection1
-				else if (flareSectionTargeted == CombatManager.ShipSectionTargeted.PhasorSection) {
+				//ShipSectionTargeted.PhaserSection maps to BaseSectionTargeted.PhaserSection1
+				else if (flareSectionTargeted == CombatManager.ShipSectionTargeted.PhaserSection) {
 
 					flareText.text = "Starbase " + targetedUnit.GetComponent<Starbase> ().baseName +
-						" is being attacked with targeted " + flareTorpedoType.ToString () + " Torpedo, targeting Phasor Section 1.  Phasor Section 1 has " +
-						targetedUnit.GetComponent<StarbasePhasorSection1> ().shieldsCurrent.ToString () + " shields.  Starbase " +
+						" is being attacked with targeted " + flareTorpedoType.ToString () + " Torpedo, targeting Phaser Section 1.  Phaser Section 1 has " +
+						targetedUnit.GetComponent<StarbasePhaserSection1> ().shieldsCurrent.ToString () + " shields.  Starbase " +
 						targetedUnit.GetComponent<Starbase> ().baseName +	" has " + targetedUnit.GetComponent<StarbaseStorageSection2> ().flares + " flares";
 
 				} 
-				//ShipSectionTargeted.TorpedoSection maps to BaseSectionTargeted.PhasorSection2
+				//ShipSectionTargeted.TorpedoSection maps to BaseSectionTargeted.PhaserSection2
 				else if (flareSectionTargeted == CombatManager.ShipSectionTargeted.TorpedoSection) {
 
 					flareText.text = "Starbase " + targetedUnit.GetComponent<Starbase> ().baseName +
-						" is being attacked with targeted " + flareTorpedoType.ToString () + " Torpedo, targeting Phasor Section 2.  Phasor Section 2 has " +
-						targetedUnit.GetComponent<StarbasePhasorSection2> ().shieldsCurrent.ToString () + " shields.  Starbase " +
+						" is being attacked with targeted " + flareTorpedoType.ToString () + " Torpedo, targeting Phaser Section 2.  Phaser Section 2 has " +
+						targetedUnit.GetComponent<StarbasePhaserSection2> ().shieldsCurrent.ToString () + " shields.  Starbase " +
 						targetedUnit.GetComponent<Starbase> ().baseName +	" has " + targetedUnit.GetComponent<StarbaseStorageSection2> ().flares + " flares";
 
 				} 
@@ -1003,7 +1003,7 @@ public class FlareManager : MonoBehaviour {
 		case CombatUnit.UnitType.Starship:
 
 			//get the section destroyed EVs:
-			expectedDestroyedValue += (1.0f/6.0f) * GetPhasorSectionDestroyedEV (targetedUnit, CombatUnit.UnitType.Starship, numberDice);
+			expectedDestroyedValue += (1.0f/6.0f) * GetPhaserSectionDestroyedEV (targetedUnit, CombatUnit.UnitType.Starship, numberDice);
 			expectedDestroyedValue += (1.0f/6.0f) * GetTorpedoSectionDestroyedEV (targetedUnit, CombatUnit.UnitType.Starship, numberDice);
 			expectedDestroyedValue += (1.0f/6.0f) * GetStorageSectionDestroyedEV (targetedUnit, CombatUnit.UnitType.Starship, numberDice, numberFlaresUsed);
 			expectedDestroyedValue += (1.0f/6.0f) * GetCrewSectionDestroyedEV (targetedUnit, CombatUnit.UnitType.Starship, numberDice);
@@ -1013,7 +1013,7 @@ public class FlareManager : MonoBehaviour {
 		case CombatUnit.UnitType.Destroyer:
 
 			//get the section destroyed EVs:
-			expectedDestroyedValue += (1.0f/6.0f) * GetPhasorSectionDestroyedEV (targetedUnit, CombatUnit.UnitType.Destroyer, numberDice);
+			expectedDestroyedValue += (1.0f/6.0f) * GetPhaserSectionDestroyedEV (targetedUnit, CombatUnit.UnitType.Destroyer, numberDice);
 			expectedDestroyedValue += (1.0f/6.0f) * GetTorpedoSectionDestroyedEV (targetedUnit, CombatUnit.UnitType.Destroyer, numberDice);
 			expectedDestroyedValue += (1.0f/6.0f) * GetStorageSectionDestroyedEV (targetedUnit, CombatUnit.UnitType.Destroyer, numberDice, numberFlaresUsed);
 			expectedDestroyedValue += (1.0f/6.0f) * GetEngineSectionDestroyedEV (targetedUnit, CombatUnit.UnitType.Destroyer, numberDice);
@@ -1022,7 +1022,7 @@ public class FlareManager : MonoBehaviour {
 		case CombatUnit.UnitType.BirdOfPrey:
 
 			//get the section destroyed EVs:
-			expectedDestroyedValue += (1.0f/6.0f) * GetPhasorSectionDestroyedEV (targetedUnit, CombatUnit.UnitType.BirdOfPrey, numberDice);
+			expectedDestroyedValue += (1.0f/6.0f) * GetPhaserSectionDestroyedEV (targetedUnit, CombatUnit.UnitType.BirdOfPrey, numberDice);
 			expectedDestroyedValue += (1.0f/6.0f) * GetTorpedoSectionDestroyedEV (targetedUnit, CombatUnit.UnitType.BirdOfPrey, numberDice);
 			expectedDestroyedValue += (1.0f/6.0f) * GetEngineSectionDestroyedEV (targetedUnit, CombatUnit.UnitType.BirdOfPrey, numberDice);
 			break;
@@ -1031,7 +1031,7 @@ public class FlareManager : MonoBehaviour {
 		case CombatUnit.UnitType.Scout:
 
 			//get the section destroyed EVs:
-			expectedDestroyedValue += (1.0f/6.0f) * GetPhasorSectionDestroyedEV (targetedUnit, CombatUnit.UnitType.Scout, numberDice);
+			expectedDestroyedValue += (1.0f/6.0f) * GetPhaserSectionDestroyedEV (targetedUnit, CombatUnit.UnitType.Scout, numberDice);
 			expectedDestroyedValue += (1.0f/6.0f) * GetStorageSectionDestroyedEV (targetedUnit, CombatUnit.UnitType.Scout, numberDice, numberFlaresUsed);
 			expectedDestroyedValue += (1.0f/6.0f) * GetEngineSectionDestroyedEV (targetedUnit, CombatUnit.UnitType.Scout, numberDice);
 			break;
@@ -1039,8 +1039,8 @@ public class FlareManager : MonoBehaviour {
 		case CombatUnit.UnitType.Starbase:
 
 			//get the section destroyed EVs:
-			expectedDestroyedValue += (1.0f/6.0f) * GetBasePhasorSection1DestroyedEV (targetedUnit, CombatUnit.UnitType.Starbase, numberDice);
-			expectedDestroyedValue += (1.0f/6.0f) * GetBasePhasorSection2DestroyedEV (targetedUnit, CombatUnit.UnitType.Starbase, numberDice);
+			expectedDestroyedValue += (1.0f/6.0f) * GetBasePhaserSection1DestroyedEV (targetedUnit, CombatUnit.UnitType.Starbase, numberDice);
+			expectedDestroyedValue += (1.0f/6.0f) * GetBasePhaserSection2DestroyedEV (targetedUnit, CombatUnit.UnitType.Starbase, numberDice);
 			expectedDestroyedValue += (1.0f/6.0f) * GetBaseTorpedoSectionDestroyedEV (targetedUnit, CombatUnit.UnitType.Starbase, numberDice);
 			expectedDestroyedValue += (1.0f/6.0f) * GetBaseCrewSectionDestroyedEV (targetedUnit, CombatUnit.UnitType.Starbase, numberDice);
 			expectedDestroyedValue += (1.0f/6.0f) * GetBaseStorageSection1DestroyedEV (targetedUnit, CombatUnit.UnitType.Starbase, numberDice);
@@ -1081,9 +1081,9 @@ public class FlareManager : MonoBehaviour {
 			//the function calls will dynamically read the unit type
 			switch (shipSectionTargeted) {
 
-			case CombatManager.ShipSectionTargeted.PhasorSection:
+			case CombatManager.ShipSectionTargeted.PhaserSection:
 
-				expectedDestroyedValue = GetPhasorSectionDestroyedEV (targetedUnit, targetedUnit.GetComponent<CombatUnit> ().unitType, numberDice);
+				expectedDestroyedValue = GetPhaserSectionDestroyedEV (targetedUnit, targetedUnit.GetComponent<CombatUnit> ().unitType, numberDice);
 				break;
 
 			case CombatManager.ShipSectionTargeted.TorpedoSection:
@@ -1133,16 +1133,16 @@ public class FlareManager : MonoBehaviour {
 			//the function calls will dynamically read the unit type
 			switch (shipSectionTargeted) {
 
-			//ShipSectionTargeted.PhasorSection maps to BaseSectionTargeted.PhasorSection1
-			case CombatManager.ShipSectionTargeted.PhasorSection:
+			//ShipSectionTargeted.PhaserSection maps to BaseSectionTargeted.PhaserSection1
+			case CombatManager.ShipSectionTargeted.PhaserSection:
 
-				expectedDestroyedValue = GetBasePhasorSection1DestroyedEV (targetedUnit, targetedUnit.GetComponent<CombatUnit> ().unitType, numberDice);
+				expectedDestroyedValue = GetBasePhaserSection1DestroyedEV (targetedUnit, targetedUnit.GetComponent<CombatUnit> ().unitType, numberDice);
 				break;
 			
-			//ShipSectionTargeted.TorpedoSection maps to BaseSectionTargeted.PhasorSection2
+			//ShipSectionTargeted.TorpedoSection maps to BaseSectionTargeted.PhaserSection2
 			case CombatManager.ShipSectionTargeted.TorpedoSection:
 
-				expectedDestroyedValue = GetBasePhasorSection2DestroyedEV (targetedUnit, targetedUnit.GetComponent<CombatUnit> ().unitType, numberDice);
+				expectedDestroyedValue = GetBasePhaserSection2DestroyedEV (targetedUnit, targetedUnit.GetComponent<CombatUnit> ().unitType, numberDice);
 				break;
 
 			//ShipSectionTargeted.StorageSection maps to BaseSectionTargeted.TorpedoSection
@@ -1193,30 +1193,30 @@ public class FlareManager : MonoBehaviour {
 	}
 
 
-	//this function returns the total value of a phasor section
-	private int GetPhasorSectionValue(CombatUnit targetedUnit){
+	//this function returns the total value of a phaser section
+	private int GetPhaserSectionValue(CombatUnit targetedUnit){
 
 		int sectionValue = 0;
 
-		if (targetedUnit.GetComponent<PhasorSection> ().phasorRadarShot > 0) {
+		if (targetedUnit.GetComponent<PhaserSection> ().phaserRadarShot > 0) {
 
-			sectionValue += targetedUnit.GetComponent<PhasorSection> ().phasorRadarShot * PurchaseManager.costPhasorRadarShot;
+			sectionValue += targetedUnit.GetComponent<PhaserSection> ().phaserRadarShot * PurchaseManager.costPhaserRadarShot;
 
 		}
 
-		if (targetedUnit.GetComponent<PhasorSection> ().phasorRadarArray == true) {
+		if (targetedUnit.GetComponent<PhaserSection> ().phaserRadarArray == true) {
 
-			sectionValue += PurchaseManager.costPhasorRadarArray;
+			sectionValue += PurchaseManager.costPhaserRadarArray;
 
 			}
 
-		if (targetedUnit.GetComponent<PhasorSection> ().xRayKernalUpgrade == true) {
+		if (targetedUnit.GetComponent<PhaserSection> ().xRayKernalUpgrade == true) {
 
 			sectionValue +=  PurchaseManager.costXRayKernel;
 
 			}
 
-		if (targetedUnit.GetComponent<PhasorSection> ().tractorBeam == true) {
+		if (targetedUnit.GetComponent<PhaserSection> ().tractorBeam == true) {
 
 			sectionValue +=  PurchaseManager.costTractorBeam;
 
@@ -1372,20 +1372,20 @@ public class FlareManager : MonoBehaviour {
 
 	}
 
-	//this function returns the total value of a base phasor section 1
-	private int GetBasePhasorSection1Value(CombatUnit targetedUnit){
+	//this function returns the total value of a base phaser section 1
+	private int GetBasePhaserSection1Value(CombatUnit targetedUnit){
 
 		int sectionValue = 0;
 
-		if (targetedUnit.GetComponent<StarbasePhasorSection1> ().phasorRadarShot > 0) {
+		if (targetedUnit.GetComponent<StarbasePhaserSection1> ().phaserRadarShot > 0) {
 
-			sectionValue += targetedUnit.GetComponent<StarbasePhasorSection1> ().phasorRadarShot * PurchaseManager.costPhasorRadarShot;
+			sectionValue += targetedUnit.GetComponent<StarbasePhaserSection1> ().phaserRadarShot * PurchaseManager.costPhaserRadarShot;
 
 		}
 
-		if (targetedUnit.GetComponent<StarbasePhasorSection1> ().phasorRadarArray == true) {
+		if (targetedUnit.GetComponent<StarbasePhaserSection1> ().phaserRadarArray == true) {
 
-			sectionValue += PurchaseManager.costPhasorRadarArray;
+			sectionValue += PurchaseManager.costPhaserRadarArray;
 
 		}
 
@@ -1393,12 +1393,12 @@ public class FlareManager : MonoBehaviour {
 
 	}
 
-	//this function returns the total value of a base phasor section 2
-	private int GetBasePhasorSection2Value(CombatUnit targetedUnit){
+	//this function returns the total value of a base phaser section 2
+	private int GetBasePhaserSection2Value(CombatUnit targetedUnit){
 
 		int sectionValue = 0;
 
-		if (targetedUnit.GetComponent<StarbasePhasorSection2> ().xRayKernalUpgrade == true) {
+		if (targetedUnit.GetComponent<StarbasePhaserSection2> ().xRayKernalUpgrade == true) {
 
 			sectionValue +=  PurchaseManager.costXRayKernel;
 
@@ -1588,20 +1588,20 @@ public class FlareManager : MonoBehaviour {
 
 	}
 
-	//this function gets the expected value destroyed of a phasor section
-	private float GetPhasorSectionDestroyedEV(CombatUnit targetedUnit, CombatUnit.UnitType unitType, int numberDice){
+	//this function gets the expected value destroyed of a phaser section
+	private float GetPhaserSectionDestroyedEV(CombatUnit targetedUnit, CombatUnit.UnitType unitType, int numberDice){
 
 		float expectedDestroyedValue = 0.0f;
 
 		//we need to check each section to see if it's destroyed, or how much value is at risk
-		if (targetedUnit.GetComponent<PhasorSection> ().isDestroyed == false) {
+		if (targetedUnit.GetComponent<PhaserSection> ().isDestroyed == false) {
 
 			//there is only value at risk if the section is not destroyed already
 			//define variable for section total value
-			int sectionValue = GetPhasorSectionValue (targetedUnit);
+			int sectionValue = GetPhaserSectionValue (targetedUnit);
 
 			//get the current shields level of the section
-			int sectionShields = targetedUnit.GetComponent<PhasorSection> ().shieldsCurrent;
+			int sectionShields = targetedUnit.GetComponent<PhaserSection> ().shieldsCurrent;
 
 			//get the probability that the attack would destroy the section if it hit
 			float probabilitySectionDestruction = GetDestroyedProbability(numberDice, sectionShields);
@@ -1858,20 +1858,20 @@ public class FlareManager : MonoBehaviour {
 
 	}
 
-	//this function gets the expected value destroyed of a base phasor section 1
-	private float GetBasePhasorSection1DestroyedEV(CombatUnit targetedUnit, CombatUnit.UnitType unitType, int numberDice){
+	//this function gets the expected value destroyed of a base phaser section 1
+	private float GetBasePhaserSection1DestroyedEV(CombatUnit targetedUnit, CombatUnit.UnitType unitType, int numberDice){
 
 		float expectedDestroyedValue = 0.0f;
 
 		//we need to check each section to see if it's destroyed, or how much value is at risk
-		if (targetedUnit.GetComponent<StarbasePhasorSection1> ().isDestroyed == false) {
+		if (targetedUnit.GetComponent<StarbasePhaserSection1> ().isDestroyed == false) {
 
 			//there is only value at risk if the section is not destroyed already
 			//define variable for section total value
-			int sectionValue = GetBasePhasorSection1Value (targetedUnit);
+			int sectionValue = GetBasePhaserSection1Value (targetedUnit);
 
 			//get the current shields level of the section
-			int sectionShields = targetedUnit.GetComponent<StarbasePhasorSection1> ().shieldsCurrent;
+			int sectionShields = targetedUnit.GetComponent<StarbasePhaserSection1> ().shieldsCurrent;
 
 			//get the probability that the attack would destroy the section if it hit
 			float probabilitySectionDestruction = GetDestroyedProbability(numberDice, sectionShields);
@@ -1887,20 +1887,20 @@ public class FlareManager : MonoBehaviour {
 
 	}
 
-	//this function gets the expected value destroyed of a base phasor section 2
-	private float GetBasePhasorSection2DestroyedEV(CombatUnit targetedUnit, CombatUnit.UnitType unitType, int numberDice){
+	//this function gets the expected value destroyed of a base phaser section 2
+	private float GetBasePhaserSection2DestroyedEV(CombatUnit targetedUnit, CombatUnit.UnitType unitType, int numberDice){
 
 		float expectedDestroyedValue = 0.0f;
 
 		//we need to check each section to see if it's destroyed, or how much value is at risk
-		if (targetedUnit.GetComponent<StarbasePhasorSection2> ().isDestroyed == false) {
+		if (targetedUnit.GetComponent<StarbasePhaserSection2> ().isDestroyed == false) {
 
 			//there is only value at risk if the section is not destroyed already
 			//define variable for section total value
-			int sectionValue = GetBasePhasorSection2Value (targetedUnit);
+			int sectionValue = GetBasePhaserSection2Value (targetedUnit);
 
 			//get the current shields level of the section
-			int sectionShields = targetedUnit.GetComponent<StarbasePhasorSection1> ().shieldsCurrent;
+			int sectionShields = targetedUnit.GetComponent<StarbasePhaserSection1> ().shieldsCurrent;
 
 			//get the probability that the attack would destroy the section if it hit
 			float probabilitySectionDestruction = GetDestroyedProbability(numberDice, sectionShields);

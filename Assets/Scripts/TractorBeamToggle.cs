@@ -49,9 +49,9 @@ public class TractorBeamToggle : MonoBehaviour {
 		mouseManager.OnClearSelectedUnit.AddListener(SetTractorBeamToggle);
 
 		//add a listener to the repair section event
-		PhasorSection.OnPhasorSectionRepaired.AddListener(combatUnitSetTractorBeamToggleAction);
-		StarbasePhasorSection1.OnPhasorSection1Repaired.AddListener(combatUnitSetTractorBeamToggleAction);
-		StarbasePhasorSection2.OnPhasorSection2Repaired.AddListener(combatUnitSetTractorBeamToggleAction);
+		PhaserSection.OnPhaserSectionRepaired.AddListener(combatUnitSetTractorBeamToggleAction);
+		StarbasePhaserSection1.OnPhaserSection1Repaired.AddListener(combatUnitSetTractorBeamToggleAction);
+		StarbasePhaserSection2.OnPhaserSection2Repaired.AddListener(combatUnitSetTractorBeamToggleAction);
 
 		//add listener for the action mode changing
 		gameManager.OnActionModeChange.AddListener(actionModeUnitSetTractorBeamToggleAction);
@@ -85,7 +85,7 @@ public class TractorBeamToggle : MonoBehaviour {
 				if (mouseManager.selectedUnit.GetComponent<Ship> () == true) {
 
 					//check if the tractor beam is primed
-					if (mouseManager.selectedUnit.GetComponent<PhasorSection> ().tractorBeamIsPrimed == true) {
+					if (mouseManager.selectedUnit.GetComponent<PhaserSection> ().tractorBeamIsPrimed == true) {
 
 						//invoke the event
 						OnTurnedOffTractorBeamToggleWhileEngaged.Invoke ();
@@ -165,14 +165,14 @@ public class TractorBeamToggle : MonoBehaviour {
 					//check if the selected unit is a ship
 					if (mouseManager.selectedUnit.GetComponent<Ship> () == true) {
 
-						//check if the ship has a phasor section
-						if (mouseManager.selectedUnit.GetComponentInChildren<PhasorSection> () == true) {
+						//check if the ship has a phaser section
+						if (mouseManager.selectedUnit.GetComponentInChildren<PhaserSection> () == true) {
 
 							//check if the section is not destroyed
-							if (mouseManager.selectedUnit.GetComponentInChildren<PhasorSection> ().isDestroyed == false) {
+							if (mouseManager.selectedUnit.GetComponentInChildren<PhaserSection> ().isDestroyed == false) {
 
 								//if the section is not destroyed, check if the ship has a tractor beam
-								if (mouseManager.selectedUnit.GetComponentInChildren<PhasorSection> ().tractorBeam == true) {
+								if (mouseManager.selectedUnit.GetComponentInChildren<PhaserSection> ().tractorBeam == true) {
 
 									//we have a tractor beam, so we can allow the toggle to be interacted with
 									tractorBeamToggle.interactable = true;
@@ -213,7 +213,7 @@ public class TractorBeamToggle : MonoBehaviour {
 
 						}
 
-						//the else condition is that we don't have a phasor section
+						//the else condition is that we don't have a phaser section
 						else {
 
 							//if the toggle is currently on, turn it off
@@ -286,9 +286,9 @@ public class TractorBeamToggle : MonoBehaviour {
 		}
 
 		//remove a listener to the repair section event
-		PhasorSection.OnPhasorSectionRepaired.RemoveListener(combatUnitSetTractorBeamToggleAction);
-		StarbasePhasorSection1.OnPhasorSection1Repaired.RemoveListener(combatUnitSetTractorBeamToggleAction);
-		StarbasePhasorSection2.OnPhasorSection2Repaired.RemoveListener(combatUnitSetTractorBeamToggleAction);
+		PhaserSection.OnPhaserSectionRepaired.RemoveListener(combatUnitSetTractorBeamToggleAction);
+		StarbasePhaserSection1.OnPhaserSection1Repaired.RemoveListener(combatUnitSetTractorBeamToggleAction);
+		StarbasePhaserSection2.OnPhaserSection2Repaired.RemoveListener(combatUnitSetTractorBeamToggleAction);
 
 		if (gameManager != null) {
 			

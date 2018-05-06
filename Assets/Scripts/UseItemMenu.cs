@@ -14,7 +14,7 @@ public class UseItemMenu : MonoBehaviour {
 	public Toggle useItemToggle;
 
 	//variable for the system upgrades
-	public Toggle phasorRadarJammimgToggle;
+	public Toggle phaserRadarJammimgToggle;
 	public Toggle torpedoLaserScatteringToggle;
 
 	//variables for the flareModes
@@ -40,6 +40,9 @@ public class UseItemMenu : MonoBehaviour {
 
 	//color for selected button tab
 	private Color selectedButtonColor = new Color (240.0f / 255.0f, 240.0f / 255.0f, 20.0f / 255.0f, 255.0f / 255.0f); 
+	private Color normalButtonColor = new Color (255.0f / 255.0f, 255.0f / 255.0f, 255.0f / 255.0f, 255.0f / 255.0f); 
+	private Color normalSelectedButtonColor = new Color (245.0f / 255.0f, 245.0f / 255.0f, 245.0f / 255.0f, 255.0f / 255.0f); 
+
 
 	//these events are for when the crystals are used
 	public CrystalEvent OnUseDilithiumCrystal = new CrystalEvent();
@@ -124,8 +127,8 @@ public class UseItemMenu : MonoBehaviour {
 			//if there is no unit selected, set toggles to not interactable and turn them off
 			if (mouseMananger.selectedUnit == null) {
 
-				phasorRadarJammimgToggle.isOn = false;
-				phasorRadarJammimgToggle.interactable = false;
+				phaserRadarJammimgToggle.isOn = false;
+				phaserRadarJammimgToggle.interactable = false;
 
 				torpedoLaserScatteringToggle.isOn = false;
 				torpedoLaserScatteringToggle.interactable = false;
@@ -162,8 +165,8 @@ public class UseItemMenu : MonoBehaviour {
 					if (mouseMananger.selectedUnit.GetComponentInChildren<StarbaseStorageSection1> ().isDestroyed == true) {
 
 						//if it is destroyed, we can't use useItem commands
-						phasorRadarJammimgToggle.isOn = false;
-						phasorRadarJammimgToggle.interactable = false;
+						phaserRadarJammimgToggle.isOn = false;
+						phaserRadarJammimgToggle.interactable = false;
 
 						useDilithiumCrystalButton.interactable = false;
 						dilithiumCrystalCountToggle.isOn = false;
@@ -180,8 +183,8 @@ public class UseItemMenu : MonoBehaviour {
 						//if the ship has the radar jamming upgrade, set that toggle to on
 						if (mouseMananger.selectedUnit.GetComponentInChildren<StarbaseStorageSection1> ().radarJammingSystem == true) {
 
-							phasorRadarJammimgToggle.isOn = true;
-							phasorRadarJammimgToggle.interactable = false;
+							phaserRadarJammimgToggle.isOn = true;
+							phaserRadarJammimgToggle.interactable = false;
 
 						}
 
@@ -447,8 +450,8 @@ public class UseItemMenu : MonoBehaviour {
 					//check to see if the ship has a storage section.  If not, it can't use the useItem menu
 					if (mouseMananger.selectedUnit.GetComponentInChildren<StorageSection> () == null) {
 
-						phasorRadarJammimgToggle.isOn = false;
-						phasorRadarJammimgToggle.interactable = false;
+						phaserRadarJammimgToggle.isOn = false;
+						phaserRadarJammimgToggle.interactable = false;
 
 						torpedoLaserScatteringToggle.isOn = false;
 						torpedoLaserScatteringToggle.interactable = false;
@@ -480,8 +483,8 @@ public class UseItemMenu : MonoBehaviour {
 						if (mouseMananger.selectedUnit.GetComponentInChildren<StorageSection> ().isDestroyed == true) {
 
 							//if it is destroyed, we can't use useItem commands
-							phasorRadarJammimgToggle.isOn = false;
-							phasorRadarJammimgToggle.interactable = false;
+							phaserRadarJammimgToggle.isOn = false;
+							phaserRadarJammimgToggle.interactable = false;
 
 							torpedoLaserScatteringToggle.isOn = false;
 							torpedoLaserScatteringToggle.interactable = false;
@@ -520,8 +523,8 @@ public class UseItemMenu : MonoBehaviour {
 							//if the ship has the radar jamming upgrade, set that toggle to on
 							if (mouseMananger.selectedUnit.GetComponentInChildren<StorageSection> ().radarJammingSystem == true) {
 
-								phasorRadarJammimgToggle.isOn = true;
-								phasorRadarJammimgToggle.interactable = false;
+								phaserRadarJammimgToggle.isOn = true;
+								phaserRadarJammimgToggle.interactable = false;
 
 							}
 
@@ -717,8 +720,8 @@ public class UseItemMenu : MonoBehaviour {
 			//if we have don't have a selected unit, we can turn the toggles off and make them not interactable
 			if (mouseMananger.selectedUnit == null) {
 
-				phasorRadarJammimgToggle.isOn = false;
-				phasorRadarJammimgToggle.interactable = false;
+				phaserRadarJammimgToggle.isOn = false;
+				phaserRadarJammimgToggle.interactable = false;
 
 				torpedoLaserScatteringToggle.isOn = false;
 				torpedoLaserScatteringToggle.interactable = false;
@@ -748,8 +751,8 @@ public class UseItemMenu : MonoBehaviour {
 			if (mouseMananger.targetedUnit == null) {
 
 				//if there is no targeted unit anymore, we can set the toggles off and make them not interactable
-				phasorRadarJammimgToggle.isOn = false;
-				phasorRadarJammimgToggle.interactable = false;
+				phaserRadarJammimgToggle.isOn = false;
+				phaserRadarJammimgToggle.interactable = false;
 
 				torpedoLaserScatteringToggle.isOn = false;
 				torpedoLaserScatteringToggle.interactable = false;
@@ -855,7 +858,7 @@ public class UseItemMenu : MonoBehaviour {
 					//check if the engine section is not destroyed
 					if (mouseMananger.targetedUnit.GetComponent<EngineSection> ().isDestroyed == false) {
 
-						//check that the phasor section is not at maximum shields already
+						//check that the phaser section is not at maximum shields already
 						if (mouseMananger.targetedUnit.GetComponent<EngineSection> ().shieldsCurrent < mouseMananger.targetedUnit.GetComponent<EngineSection> ().shieldsMax) {
 
 							//add a dropdown option for the engine section
@@ -867,17 +870,17 @@ public class UseItemMenu : MonoBehaviour {
 
 				}
 
-				//check if the targeted ship has a phasor section
-				if (mouseMananger.targetedUnit.GetComponent<PhasorSection> () == true) {
+				//check if the targeted ship has a phaser section
+				if (mouseMananger.targetedUnit.GetComponent<PhaserSection> () == true) {
 
-					//check if the phasor section is not destroyed
-					if (mouseMananger.targetedUnit.GetComponent<PhasorSection> ().isDestroyed == false) {
+					//check if the phaser section is not destroyed
+					if (mouseMananger.targetedUnit.GetComponent<PhaserSection> ().isDestroyed == false) {
 
-						//check that the phasor section is not at maximum shields already
-						if (mouseMananger.targetedUnit.GetComponent<PhasorSection> ().shieldsCurrent < mouseMananger.targetedUnit.GetComponent<PhasorSection> ().shieldsMax) {
+						//check that the phaser section is not at maximum shields already
+						if (mouseMananger.targetedUnit.GetComponent<PhaserSection> ().shieldsCurrent < mouseMananger.targetedUnit.GetComponent<PhaserSection> ().shieldsMax) {
 
-							//add a dropdown option for the phasor section
-							dropDownOptions.Add (new TMP_Dropdown.OptionData ("Phasor Section"));
+							//add a dropdown option for the phaser section
+							dropDownOptions.Add (new TMP_Dropdown.OptionData ("Phaser Section"));
 
 						}
 
@@ -891,7 +894,7 @@ public class UseItemMenu : MonoBehaviour {
 					//check if the torpedo section is not destroyed
 					if (mouseMananger.targetedUnit.GetComponent<TorpedoSection> ().isDestroyed == false) {
 
-						//check that the phasor section is not at maximum shields already
+						//check that the phaser section is not at maximum shields already
 						if (mouseMananger.targetedUnit.GetComponent<TorpedoSection> ().shieldsCurrent < mouseMananger.targetedUnit.GetComponent<TorpedoSection> ().shieldsMax) {
 							
 							//add a dropdown option for the torpedo section
@@ -909,7 +912,7 @@ public class UseItemMenu : MonoBehaviour {
 					//check if the crew section is not destroyed
 					if (mouseMananger.targetedUnit.GetComponent<CrewSection> ().isDestroyed == false) {
 
-						//check that the phasor section is not at maximum shields already
+						//check that the phaser section is not at maximum shields already
 						if (mouseMananger.targetedUnit.GetComponent<CrewSection> ().shieldsCurrent < mouseMananger.targetedUnit.GetComponent<CrewSection> ().shieldsMax) {
 
 							//add a dropdown option for the crew section
@@ -927,7 +930,7 @@ public class UseItemMenu : MonoBehaviour {
 					//check if the storage section is not destroyed
 					if (mouseMananger.targetedUnit.GetComponent<StorageSection> ().isDestroyed == false) {
 
-						//check that the phasor section is not at maximum shields already
+						//check that the phaser section is not at maximum shields already
 						if (mouseMananger.targetedUnit.GetComponent<StorageSection> ().shieldsCurrent < mouseMananger.targetedUnit.GetComponent<StorageSection> ().shieldsMax) {
 							
 							//add a dropdown option for the storage section
@@ -943,27 +946,27 @@ public class UseItemMenu : MonoBehaviour {
 			//the else condition is that the targeted unit is not a ship, so it's a base
 			else if (mouseMananger.targetedUnit.GetComponent<Starbase> () == true){
 
-				//check if the phasor section 1 is not destroyed
-				if (mouseMananger.targetedUnit.GetComponent<StarbasePhasorSection1> ().isDestroyed == false) {
+				//check if the phaser section 1 is not destroyed
+				if (mouseMananger.targetedUnit.GetComponent<StarbasePhaserSection1> ().isDestroyed == false) {
 
-					//check that the phasor section 1 is not at maximum shields already
-					if (mouseMananger.targetedUnit.GetComponent<StarbasePhasorSection1> ().shieldsCurrent < mouseMananger.targetedUnit.GetComponent<StarbasePhasorSection1> ().shieldsMax) {
+					//check that the phaser section 1 is not at maximum shields already
+					if (mouseMananger.targetedUnit.GetComponent<StarbasePhaserSection1> ().shieldsCurrent < mouseMananger.targetedUnit.GetComponent<StarbasePhaserSection1> ().shieldsMax) {
 
-						//add a dropdown option for the phasor section 1
-						dropDownOptions.Add (new TMP_Dropdown.OptionData ("Phasor Section 1"));
+						//add a dropdown option for the phaser section 1
+						dropDownOptions.Add (new TMP_Dropdown.OptionData ("Phaser Section 1"));
 
 					}
 
 				}
 
-				//check if the phasor section 2 is not destroyed
-				if (mouseMananger.targetedUnit.GetComponent<StarbasePhasorSection2> ().isDestroyed == false) {
+				//check if the phaser section 2 is not destroyed
+				if (mouseMananger.targetedUnit.GetComponent<StarbasePhaserSection2> ().isDestroyed == false) {
 
-					//check that the phasor section 2 is not at maximum shields already
-					if (mouseMananger.targetedUnit.GetComponent<StarbasePhasorSection2> ().shieldsCurrent < mouseMananger.targetedUnit.GetComponent<StarbasePhasorSection2> ().shieldsMax) {
+					//check that the phaser section 2 is not at maximum shields already
+					if (mouseMananger.targetedUnit.GetComponent<StarbasePhaserSection2> ().shieldsCurrent < mouseMananger.targetedUnit.GetComponent<StarbasePhaserSection2> ().shieldsMax) {
 
-						//add a dropdown option for the phasor section 2
-						dropDownOptions.Add (new TMP_Dropdown.OptionData ("Phasor Section 2"));
+						//add a dropdown option for the phaser section 2
+						dropDownOptions.Add (new TMP_Dropdown.OptionData ("Phaser Section 2"));
 
 					}
 
@@ -1113,7 +1116,9 @@ public class UseItemMenu : MonoBehaviour {
 	private void UnhighlightButton(Button unhighlightedButton){
 
 		ColorBlock colorBlock = unhighlightedButton.colors;
-		colorBlock = ColorBlock.defaultColorBlock;
+		colorBlock.normalColor = normalButtonColor;
+		colorBlock.highlightedColor = normalSelectedButtonColor;
+		//colorBlock = ColorBlock.defaultColorBlock;
 		unhighlightedButton.colors = colorBlock;
 
 	}

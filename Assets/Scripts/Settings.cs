@@ -96,10 +96,11 @@ public class Settings : MonoBehaviour {
 
 	//this variable holds the supported screen resolutions
 	private	Resolution[] dropdownResolutions;
+	private	string[] dropdownResolutionStrings;
 
 	//this variable holds the current resolution
 	private	Resolution currentResolution = new Resolution();
-
+	private string currentResolutionString;
 
 	//variables for mouse settings
 	private const bool mouseZoomInvertedDefault = false;
@@ -323,6 +324,7 @@ public class Settings : MonoBehaviour {
 		currentResolution.width = Screen.width;
 		currentResolution.height = Screen.height;
 		currentResolution.refreshRate = Screen.currentResolution.refreshRate;
+		//currentResolution = Screen.currentResolution;
 
 		//set the resolution options, passing the screen current resolution
 		SetResolutionDropdownOptions(currentResolution);
@@ -362,6 +364,11 @@ public class Settings : MonoBehaviour {
 
 	//this function populates the dropdown options for resolution
 	private void SetResolutionDropdownOptions(Resolution firstResolution){
+		
+		//set the current resolution string
+		currentResolutionString = firstResolution.width.ToString() + " X " + firstResolution.height.ToString();
+
+		//Debug.Log (currentResolutionString);
 
 		//start by clearing the existing dropdown options
 		resolutionDropdown.ClearOptions();
@@ -371,13 +378,19 @@ public class Settings : MonoBehaviour {
 
 		//create array of dropdown resolutions that are supported by the monitor
 		dropdownResolutions = Screen.resolutions;
+		dropdownResolutionStrings = new string[dropdownResolutions.Length];
 
 		//loop through the availale supported resolutions
 		for (int i = 0; i < dropdownResolutions.Length; i++) {
 
+			//store the resolution as the string that appears in the dropdown list
+			dropdownResolutionStrings [i] = dropdownResolutions [i].width.ToString () + " X "
+				+ dropdownResolutions [i].height.ToString ();
+
 			//add a dropdown option for each supported resolution
-			dropDownOptions.Add(new TMP_Dropdown.OptionData(dropdownResolutions[i].width.ToString() + " X " 
-				+ dropdownResolutions[i].height.ToString()));
+			dropDownOptions.Add(new TMP_Dropdown.OptionData(dropdownResolutionStrings [i]));
+
+			//Debug.Log (dropdownResolutionStrings [i]);
 
 		}
 
@@ -385,7 +398,9 @@ public class Settings : MonoBehaviour {
 		resolutionDropdown.AddOptions (dropDownOptions);
 
 		//find the current resolution in the list of options
-		int currentResolutionIndex = System.Array.IndexOf(dropdownResolutions,firstResolution);
+		int currentResolutionIndex = System.Array.IndexOf(dropdownResolutionStrings,currentResolutionString);
+
+		//Debug.Log (currentResolutionIndex);
 
 		//set the dropdown default to the current resolution
 		resolutionDropdown.value = currentResolutionIndex;

@@ -16,13 +16,20 @@ public class MessageManager : MonoBehaviour {
 	public ScrollRect chatLog;
 
 	//define colors for message builders
-	private static string greenPlayerColor = "00ff00ff";
-	private static string purplePlayerColor = "9933ffff";
-	private static string redPlayerColor = "ff0000ff";
-	private static string bluePlayerColor = "0080ffff";
+	//private static string greenPlayerColor = "00ff00ff";
+    private static string greenPlayerColor = "008200ff";
 
-	//variables to hold the managers
-	private GameManager gameManager;
+    //private static string purplePlayerColor = "9933ffff";
+    private static string purplePlayerColor = "6300C8ff";
+
+    //private static string redPlayerColor = "ff0000ff";
+    private static string redPlayerColor = "f00000ff";
+
+    //private static string bluePlayerColor = "0080ffff";
+    private static string bluePlayerColor = "005BB5ff";
+
+    //variables to hold the managers
+    private GameManager gameManager;
 	private UIManager uiManager;
 	private MouseManager mouseManager;
 
@@ -608,8 +615,21 @@ public class MessageManager : MonoBehaviour {
 
 	}
 
-	//this helper function retuns a rich text formatted player color inside brackets
-	private string InsertColoredPlayerName(Player player){
+    //this function is a helper function to build rich-text strings for the chat log
+    //it takes a string input, and inserts the player name at the front of the string in brackets and in the color
+    private string AddPlayerNameToMessage(Player player, string message)
+    {
+
+        //build the output message
+        string outputMessage = InsertColoredNamePlayer(player) + " " + message;
+
+        //return the output message
+        return outputMessage;
+
+    }
+
+    //this helper function retuns a rich text formatted player color inside brackets
+    private string InsertColoredPlayerName(Player player){
 
 		//convert playerColor to the associated rich text color
 		string playerTextColor;
@@ -640,8 +660,41 @@ public class MessageManager : MonoBehaviour {
 
 	}
 
+    //this helper function retuns a rich text formatted player name inside brackets
+    private string InsertColoredNamePlayer(Player player)
+    {
 
-	private void SendTurnPhaseMessage(){
+        //convert playerColor to the associated rich text color
+        string playerTextColor;
+
+        switch (player.color)
+        {
+
+            case Player.Color.Blue:
+                playerTextColor = MessageManager.bluePlayerColor;
+                break;
+            case Player.Color.Green:
+                playerTextColor = MessageManager.greenPlayerColor;
+                break;
+            case Player.Color.Purple:
+                playerTextColor = MessageManager.purplePlayerColor;
+                break;
+            case Player.Color.Red:
+                playerTextColor = MessageManager.redPlayerColor;
+                break;
+            default:
+                playerTextColor = "000000ff";
+                break;
+
+        }
+
+        string formattedPlayerName = "<color=#" + playerTextColor + ">[" + player.playerName + "]</color>";
+
+        return formattedPlayerName;
+
+    }
+
+    private void SendTurnPhaseMessage(){
 
 		//create variable for message log input
 		string newMessage;
@@ -673,7 +726,7 @@ public class MessageManager : MonoBehaviour {
 	private void SendNewChatMessage(string userInput){
 
 		//add the player color prefix to the string
-		userInput = AddPlayerColorToMessage(gameManager.currentTurnPlayer,userInput);
+		userInput = AddPlayerNameToMessage(gameManager.currentTurnPlayer,userInput);
 
 		//upload the completed string to the log
 		AddMessageToLog(userInput);

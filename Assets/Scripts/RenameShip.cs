@@ -94,9 +94,10 @@ public class RenameShip : MonoBehaviour {
 	private void SetRenameActionButton(){
 		
 		//the rename action button should not be interactable in certain gameManager actionModes
-		if (UIManager.lockMenuActionModes.Contains(gameManager.CurrentActionMode)|| gameManager.currentTurnPhase != GameManager.TurnPhase.MainPhase) {
+		//if (UIManager.lockMenuActionModes.Contains(gameManager.CurrentActionMode)|| gameManager.currentTurnPhase != GameManager.TurnPhase.MainPhase) {
+        if (UIManager.lockMenuActionModes.Contains(gameManager.CurrentActionMode)){
 
-			renameActionButton.interactable = false;
+            renameActionButton.interactable = false;
 
 		}
 		//the else condition is that we are in a mode where the button is allowed to be interactable

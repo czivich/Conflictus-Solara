@@ -274,6 +274,8 @@ public class Dice {
 
 		}
 
+        //Debug.Log("DiceRollSum numberOfDice = " + numberOfDice + ", sidesOfDice = " + sidesOfDice + ", diceSum = " + diceSum);
+
 		return diceSum;
 	}
 

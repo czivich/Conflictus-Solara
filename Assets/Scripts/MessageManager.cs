@@ -608,7 +608,7 @@ public class MessageManager : MonoBehaviour {
 	private string AddPlayerColorToMessage(Player player, string message){
 
 		//build the output message
-		string outputMessage = InsertColoredPlayerName(player) + " " + message;
+		string outputMessage = InsertColoredPlayerColor(player) + " " + message;
 
 		//return the output message
 		return outputMessage;
@@ -621,7 +621,7 @@ public class MessageManager : MonoBehaviour {
     {
 
         //build the output message
-        string outputMessage = InsertColoredNamePlayer(player) + " " + message;
+        string outputMessage = InsertColoredPlayerName(player) + " " + message;
 
         //return the output message
         return outputMessage;
@@ -629,7 +629,7 @@ public class MessageManager : MonoBehaviour {
     }
 
     //this helper function retuns a rich text formatted player color inside brackets
-    private string InsertColoredPlayerName(Player player){
+    private string InsertColoredPlayerColor(Player player){
 
 		//convert playerColor to the associated rich text color
 		string playerTextColor;
@@ -661,7 +661,7 @@ public class MessageManager : MonoBehaviour {
 	}
 
     //this helper function retuns a rich text formatted player name inside brackets
-    private string InsertColoredNamePlayer(Player player)
+    private string InsertColoredPlayerName(Player player)
     {
 
         //convert playerColor to the associated rich text color
@@ -766,7 +766,7 @@ public class MessageManager : MonoBehaviour {
 	//this function will send a message when the tractor beam is primed
 	private void SendTractorBeamPrimedMessage(Ship ship){
 
-		string newMessage = ship.shipType + " " + ship.shipName + " targets " + InsertColoredPlayerName(mouseManager.targetedUnit.GetComponent<CombatUnit>().owner) + 
+		string newMessage = ship.shipType + " " + ship.shipName + " targets " + InsertColoredPlayerColor(mouseManager.targetedUnit.GetComponent<CombatUnit>().owner) + 
 			" " + mouseManager.targetedUnit.GetComponent<Ship> ().shipType + " " + mouseManager.targetedUnit.GetComponent<Ship> ().shipName 
 			+ " with Tractor Beam";
 
@@ -781,7 +781,7 @@ public class MessageManager : MonoBehaviour {
 	//this function will send a message when the tractor beam is engaged and used
 	private void SendTractorBeamEngagedMessage(Ship ship){
 
-		string newMessage = ship.shipType + " " + ship.shipName + " engages Tractor Beam on " + InsertColoredPlayerName(mouseManager.targetedUnit.GetComponent<CombatUnit>().owner) + 
+		string newMessage = ship.shipType + " " + ship.shipName + " engages Tractor Beam on " + InsertColoredPlayerColor(mouseManager.targetedUnit.GetComponent<CombatUnit>().owner) + 
 			" " + mouseManager.targetedUnit.GetComponent<Ship> ().shipType + " " + mouseManager.targetedUnit.GetComponent<Ship> ().shipName;
 
 		//add the player color prefix to the string
@@ -843,7 +843,7 @@ public class MessageManager : MonoBehaviour {
 			if (targetedUnit.GetComponent <Ship> () == true) {
 				
 				newMessage = attackingUnit.GetComponent<Ship> ().shipType + " " + attackingUnit.GetComponent<Ship> ().shipName + " fires phasers at " +
-				InsertColoredPlayerName (targetedUnit.GetComponent<CombatUnit> ().owner) +
+				InsertColoredPlayerColor (targetedUnit.GetComponent<CombatUnit> ().owner) +
 				" " + targetedUnit.GetComponent<Ship> ().shipType + " " + targetedUnit.GetComponent<Ship> ().shipName;
 
 			}
@@ -851,7 +851,7 @@ public class MessageManager : MonoBehaviour {
 			else {
 				
 				newMessage = attackingUnit.GetComponent<Ship> ().shipType + " " + attackingUnit.GetComponent<Ship> ().shipName + " fires phasers at " +
-				InsertColoredPlayerName (targetedUnit.GetComponent<CombatUnit> ().owner) +
+				InsertColoredPlayerColor (targetedUnit.GetComponent<CombatUnit> ().owner) +
 				" Starbase " + targetedUnit.GetComponent<Starbase> ().baseName;
 
 			}
@@ -864,7 +864,7 @@ public class MessageManager : MonoBehaviour {
 			if (targetedUnit.GetComponent <Ship> () == true) {
 
 				newMessage = "Starbase " + attackingUnit.GetComponent<Starbase> ().baseName + " fires phasers at " +
-					InsertColoredPlayerName (targetedUnit.GetComponent<CombatUnit> ().owner) +
+					InsertColoredPlayerColor (targetedUnit.GetComponent<CombatUnit> ().owner) +
 					" " + targetedUnit.GetComponent<Ship> ().shipType + " " + targetedUnit.GetComponent<Ship> ().shipName;
 
 			}
@@ -872,7 +872,7 @@ public class MessageManager : MonoBehaviour {
 			else {
 
 				newMessage = "Starbase " + attackingUnit.GetComponent<Starbase> ().baseName + " fires phasers at " +
-					InsertColoredPlayerName (targetedUnit.GetComponent<CombatUnit> ().owner) +
+					InsertColoredPlayerColor (targetedUnit.GetComponent<CombatUnit> ().owner) +
 					" Starbase " + targetedUnit.GetComponent<Starbase> ().baseName;
 
 			}
@@ -896,7 +896,7 @@ public class MessageManager : MonoBehaviour {
 		if (attackingUnit.GetComponent<Ship> () == true) {
 
 			newMessage = attackingUnit.GetComponent<Ship> ().shipType + " " + attackingUnit.GetComponent<Ship> ().shipName + " hits " +
-				InsertColoredPlayerName (targetedUnit.GetComponent<CombatUnit> ().owner) +
+				InsertColoredPlayerColor (targetedUnit.GetComponent<CombatUnit> ().owner) +
 				" " + targetedUnit.GetComponent<Ship> ().shipType + " " + targetedUnit.GetComponent<Ship> ().shipName
 				+ " Phaser Section and deals " + damage + " damage!";
 
@@ -911,7 +911,7 @@ public class MessageManager : MonoBehaviour {
 		else if(attackingUnit.GetComponent<Starbase> () == true) {
 
 			newMessage = "Starbase " + attackingUnit.GetComponent<Starbase> ().baseName + " hits " +
-				InsertColoredPlayerName (targetedUnit.GetComponent<CombatUnit> ().owner) +
+				InsertColoredPlayerColor (targetedUnit.GetComponent<CombatUnit> ().owner) +
 				" " + targetedUnit.GetComponent<Ship> ().shipType + " " + targetedUnit.GetComponent<Ship> ().shipName
 				+ " Phaser Section and deals " + damage + " damage!";
 
@@ -934,7 +934,7 @@ public class MessageManager : MonoBehaviour {
 		if (attackingUnit.GetComponent<Ship> () == true) {
 
 			newMessage = attackingUnit.GetComponent<Ship> ().shipType + " " + attackingUnit.GetComponent<Ship> ().shipName + " hits " +
-				InsertColoredPlayerName (targetedUnit.GetComponent<CombatUnit> ().owner) +
+				InsertColoredPlayerColor (targetedUnit.GetComponent<CombatUnit> ().owner) +
 				" " + targetedUnit.GetComponent<Ship> ().shipType + " " + targetedUnit.GetComponent<Ship> ().shipName
 				+ " Torpedo Section and deals " + damage + " damage!";
 
@@ -949,7 +949,7 @@ public class MessageManager : MonoBehaviour {
 		else if(attackingUnit.GetComponent<Starbase> () == true) {
 
 			newMessage = "Starbase " + attackingUnit.GetComponent<Starbase> ().baseName + " hits " +
-				InsertColoredPlayerName (targetedUnit.GetComponent<CombatUnit> ().owner) +
+				InsertColoredPlayerColor (targetedUnit.GetComponent<CombatUnit> ().owner) +
 				" " + targetedUnit.GetComponent<Ship> ().shipType + " " + targetedUnit.GetComponent<Ship> ().shipName
 				+ " Torpedo Section and deals " + damage + " damage!";
 
@@ -972,7 +972,7 @@ public class MessageManager : MonoBehaviour {
 		if (attackingUnit.GetComponent<Ship> () == true) {
 
 			newMessage = attackingUnit.GetComponent<Ship> ().shipType + " " + attackingUnit.GetComponent<Ship> ().shipName + " hits " +
-				InsertColoredPlayerName (targetedUnit.GetComponent<CombatUnit> ().owner) +
+				InsertColoredPlayerColor (targetedUnit.GetComponent<CombatUnit> ().owner) +
 				" " + targetedUnit.GetComponent<Ship> ().shipType + " " + targetedUnit.GetComponent<Ship> ().shipName
 				+ " Storage Section and deals " + damage + " damage!";
 
@@ -987,7 +987,7 @@ public class MessageManager : MonoBehaviour {
 		else if(attackingUnit.GetComponent<Starbase> () == true) {
 
 			newMessage = "Starbase " + attackingUnit.GetComponent<Starbase> ().baseName + " hits " +
-				InsertColoredPlayerName (targetedUnit.GetComponent<CombatUnit> ().owner) +
+				InsertColoredPlayerColor (targetedUnit.GetComponent<CombatUnit> ().owner) +
 				" " + targetedUnit.GetComponent<Ship> ().shipType + " " + targetedUnit.GetComponent<Ship> ().shipName
 				+ " Storage Section and deals " + damage + " damage!";
 
@@ -1010,7 +1010,7 @@ public class MessageManager : MonoBehaviour {
 		if (attackingUnit.GetComponent<Ship> () == true) {
 
 			newMessage = attackingUnit.GetComponent<Ship> ().shipType + " " + attackingUnit.GetComponent<Ship> ().shipName + " hits " +
-				InsertColoredPlayerName (targetedUnit.GetComponent<CombatUnit> ().owner) +
+				InsertColoredPlayerColor (targetedUnit.GetComponent<CombatUnit> ().owner) +
 				" " + targetedUnit.GetComponent<Ship> ().shipType + " " + targetedUnit.GetComponent<Ship> ().shipName
 				+ " Crew Section and deals " + damage + " damage!";
 
@@ -1025,7 +1025,7 @@ public class MessageManager : MonoBehaviour {
 		else if(attackingUnit.GetComponent<Starbase> () == true) {
 
 			newMessage = "Starbase " + attackingUnit.GetComponent<Starbase> ().baseName + " hits " +
-				InsertColoredPlayerName (targetedUnit.GetComponent<CombatUnit> ().owner) +
+				InsertColoredPlayerColor (targetedUnit.GetComponent<CombatUnit> ().owner) +
 				" " + targetedUnit.GetComponent<Ship> ().shipType + " " + targetedUnit.GetComponent<Ship> ().shipName
 				+ " Crew Section and deals " + damage + " damage!";
 
@@ -1048,7 +1048,7 @@ public class MessageManager : MonoBehaviour {
 		if (attackingUnit.GetComponent<Ship> () == true) {
 
 			newMessage = attackingUnit.GetComponent<Ship> ().shipType + " " + attackingUnit.GetComponent<Ship> ().shipName + " hits " +
-				InsertColoredPlayerName (targetedUnit.GetComponent<CombatUnit> ().owner) +
+				InsertColoredPlayerColor (targetedUnit.GetComponent<CombatUnit> ().owner) +
 				" " + targetedUnit.GetComponent<Ship> ().shipType + " " + targetedUnit.GetComponent<Ship> ().shipName
 				+ " Engine Section and deals " + damage + " damage!";
 
@@ -1063,7 +1063,7 @@ public class MessageManager : MonoBehaviour {
 		else if(attackingUnit.GetComponent<Starbase> () == true) {
 
 			newMessage = "Starbase " + attackingUnit.GetComponent<Starbase> ().baseName + " hits " +
-				InsertColoredPlayerName (targetedUnit.GetComponent<CombatUnit> ().owner) +
+				InsertColoredPlayerColor (targetedUnit.GetComponent<CombatUnit> ().owner) +
 				" " + targetedUnit.GetComponent<Ship> ().shipType + " " + targetedUnit.GetComponent<Ship> ().shipName
 				+ " Engine Section and deals " + damage + " damage!";
 
@@ -1099,7 +1099,7 @@ public class MessageManager : MonoBehaviour {
 		if (attackingUnit.GetComponent<Ship> () == true) {
 
 			newMessage = attackingUnit.GetComponent<Ship> ().shipType + " " + attackingUnit.GetComponent<Ship> ().shipName + " hits " +
-			                   InsertColoredPlayerName (targetedUnit.GetComponent<CombatUnit> ().owner) +
+			                   InsertColoredPlayerColor (targetedUnit.GetComponent<CombatUnit> ().owner) +
 			                   " Starbase " + targetedUnit.GetComponent<Starbase> ().baseName
 			                   + " Phaser Section 1 and deals " + damage + " damage!";
 
@@ -1114,7 +1114,7 @@ public class MessageManager : MonoBehaviour {
 		else if(attackingUnit.GetComponent<Starbase> () == true) {
 
 			newMessage = "Starbase " + attackingUnit.GetComponent<Starbase> ().baseName + " hits " +
-				InsertColoredPlayerName (targetedUnit.GetComponent<CombatUnit> ().owner) +
+				InsertColoredPlayerColor (targetedUnit.GetComponent<CombatUnit> ().owner) +
 				" Starbase " + targetedUnit.GetComponent<Starbase> ().baseName
 				+ " Phaser Section 1 and deals " + damage + " damage!";
 
@@ -1137,7 +1137,7 @@ public class MessageManager : MonoBehaviour {
 		if (attackingUnit.GetComponent<Ship> () == true) {
 
 			newMessage = attackingUnit.GetComponent<Ship> ().shipType + " " + attackingUnit.GetComponent<Ship> ().shipName + " hits " +
-				InsertColoredPlayerName (targetedUnit.GetComponent<CombatUnit> ().owner) +
+				InsertColoredPlayerColor (targetedUnit.GetComponent<CombatUnit> ().owner) +
 				" Starbase " + targetedUnit.GetComponent<Starbase> ().baseName
 				+ " Phaser Section 2 and deals " + damage + " damage!";
 
@@ -1152,7 +1152,7 @@ public class MessageManager : MonoBehaviour {
 		else if(attackingUnit.GetComponent<Starbase> () == true) {
 
 			newMessage = "Starbase " + attackingUnit.GetComponent<Starbase> ().baseName + " hits " +
-				InsertColoredPlayerName (targetedUnit.GetComponent<CombatUnit> ().owner) +
+				InsertColoredPlayerColor (targetedUnit.GetComponent<CombatUnit> ().owner) +
 				" Starbase " + targetedUnit.GetComponent<Starbase> ().baseName
 				+ " Phaser Section 2 and deals " + damage + " damage!";
 
@@ -1175,7 +1175,7 @@ public class MessageManager : MonoBehaviour {
 		if (attackingUnit.GetComponent<Ship> () == true) {
 
 			newMessage = attackingUnit.GetComponent<Ship> ().shipType + " " + attackingUnit.GetComponent<Ship> ().shipName + " hits " +
-				InsertColoredPlayerName (targetedUnit.GetComponent<CombatUnit> ().owner) +
+				InsertColoredPlayerColor (targetedUnit.GetComponent<CombatUnit> ().owner) +
 				" Starbase " + targetedUnit.GetComponent<Starbase> ().baseName
 				+ " Torpedo Section and deals " + damage + " damage!";
 
@@ -1190,7 +1190,7 @@ public class MessageManager : MonoBehaviour {
 		else if(attackingUnit.GetComponent<Starbase> () == true) {
 
 			newMessage = "Starbase " + attackingUnit.GetComponent<Starbase> ().baseName + " hits " +
-				InsertColoredPlayerName (targetedUnit.GetComponent<CombatUnit> ().owner) +
+				InsertColoredPlayerColor (targetedUnit.GetComponent<CombatUnit> ().owner) +
 				" Starbase " + targetedUnit.GetComponent<Starbase> ().baseName
 				+ " Torpedo Section and deals " + damage + " damage!";
 
@@ -1213,7 +1213,7 @@ public class MessageManager : MonoBehaviour {
 		if (attackingUnit.GetComponent<Ship> () == true) {
 
 			newMessage = attackingUnit.GetComponent<Ship> ().shipType + " " + attackingUnit.GetComponent<Ship> ().shipName + " hits " +
-				InsertColoredPlayerName (targetedUnit.GetComponent<CombatUnit> ().owner) +
+				InsertColoredPlayerColor (targetedUnit.GetComponent<CombatUnit> ().owner) +
 				" Starbase " + targetedUnit.GetComponent<Starbase> ().baseName
 				+ " Crew Section and deals " + damage + " damage!";
 
@@ -1228,7 +1228,7 @@ public class MessageManager : MonoBehaviour {
 		else if(attackingUnit.GetComponent<Starbase> () == true) {
 
 			newMessage = "Starbase " + attackingUnit.GetComponent<Starbase> ().baseName + " hits " +
-				InsertColoredPlayerName (targetedUnit.GetComponent<CombatUnit> ().owner) +
+				InsertColoredPlayerColor (targetedUnit.GetComponent<CombatUnit> ().owner) +
 				" Starbase " + targetedUnit.GetComponent<Starbase> ().baseName
 				+ " Crew Section and deals " + damage + " damage!";
 
@@ -1251,7 +1251,7 @@ public class MessageManager : MonoBehaviour {
 		if (attackingUnit.GetComponent<Ship> () == true) {
 
 			newMessage = attackingUnit.GetComponent<Ship> ().shipType + " " + attackingUnit.GetComponent<Ship> ().shipName + " hits " +
-				InsertColoredPlayerName (targetedUnit.GetComponent<CombatUnit> ().owner) +
+				InsertColoredPlayerColor (targetedUnit.GetComponent<CombatUnit> ().owner) +
 				" Starbase " + targetedUnit.GetComponent<Starbase> ().baseName
 				+ " Storage Section 1 and deals " + damage + " damage!";
 
@@ -1266,7 +1266,7 @@ public class MessageManager : MonoBehaviour {
 		else if(attackingUnit.GetComponent<Starbase> () == true) {
 
 			newMessage = "Starbase " + attackingUnit.GetComponent<Starbase> ().baseName + " hits " +
-				InsertColoredPlayerName (targetedUnit.GetComponent<CombatUnit> ().owner) +
+				InsertColoredPlayerColor (targetedUnit.GetComponent<CombatUnit> ().owner) +
 				" Starbase " + targetedUnit.GetComponent<Starbase> ().baseName
 				+ " Storage Section 1 and deals " + damage + " damage!";
 
@@ -1289,7 +1289,7 @@ public class MessageManager : MonoBehaviour {
 		if (attackingUnit.GetComponent<Ship> () == true) {
 
 			newMessage = attackingUnit.GetComponent<Ship> ().shipType + " " + attackingUnit.GetComponent<Ship> ().shipName + " hits " +
-				InsertColoredPlayerName (targetedUnit.GetComponent<CombatUnit> ().owner) +
+				InsertColoredPlayerColor (targetedUnit.GetComponent<CombatUnit> ().owner) +
 				" Starbase " + targetedUnit.GetComponent<Starbase> ().baseName
 				+ " Storage Section 2 and deals " + damage + " damage!";
 
@@ -1304,7 +1304,7 @@ public class MessageManager : MonoBehaviour {
 		else if(attackingUnit.GetComponent<Starbase> () == true) {
 
 			newMessage = "Starbase " + attackingUnit.GetComponent<Starbase> ().baseName + " hits " +
-				InsertColoredPlayerName (targetedUnit.GetComponent<CombatUnit> ().owner) +
+				InsertColoredPlayerColor (targetedUnit.GetComponent<CombatUnit> ().owner) +
 				" Starbase " + targetedUnit.GetComponent<Starbase> ().baseName
 				+ " Storage Section 2 and deals " + damage + " damage!";
 
@@ -1330,7 +1330,7 @@ public class MessageManager : MonoBehaviour {
 			if (targetedUnit.GetComponent<Ship>() == true) {
 
 				newMessage = attackingUnit.GetComponent<Ship> ().shipType + " " + attackingUnit.GetComponent<Ship> ().shipName + " fires " + torpedoType +
-				" Torpedo at " + InsertColoredPlayerName (targetedUnit.GetComponent<CombatUnit> ().owner) +
+				" Torpedo at " + InsertColoredPlayerColor (targetedUnit.GetComponent<CombatUnit> ().owner) +
 				" " + targetedUnit.GetComponent<Ship> ().shipType + " " + targetedUnit.GetComponent<Ship> ().shipName;
 
 			}
@@ -1338,7 +1338,7 @@ public class MessageManager : MonoBehaviour {
 			else {
 
 				newMessage = attackingUnit.GetComponent<Ship> ().shipType + " " + attackingUnit.GetComponent<Ship> ().shipName + " fires " + torpedoType +
-				" Torpedo at " + InsertColoredPlayerName (targetedUnit.GetComponent<CombatUnit> ().owner) +
+				" Torpedo at " + InsertColoredPlayerColor (targetedUnit.GetComponent<CombatUnit> ().owner) +
 				" Starbase " + targetedUnit.GetComponent<Starbase> ().baseName;
 
 			}
@@ -1351,7 +1351,7 @@ public class MessageManager : MonoBehaviour {
 			if (targetedUnit.GetComponent<Ship>() == true) {
 
 				newMessage = "Starbase " + attackingUnit.GetComponent<Starbase> ().baseName + " fires " + torpedoType +
-					" Torpedo at " + InsertColoredPlayerName (targetedUnit.GetComponent<CombatUnit> ().owner) +
+					" Torpedo at " + InsertColoredPlayerColor (targetedUnit.GetComponent<CombatUnit> ().owner) +
 					" " + targetedUnit.GetComponent<Ship> ().shipType + " " + targetedUnit.GetComponent<Ship> ().shipName;
 
 			}
@@ -1359,7 +1359,7 @@ public class MessageManager : MonoBehaviour {
 			else {
 
 				newMessage = "Starbase " + attackingUnit.GetComponent<Starbase> ().baseName + " fires " + torpedoType +
-					" Torpedo at " + InsertColoredPlayerName (targetedUnit.GetComponent<CombatUnit> ().owner) +
+					" Torpedo at " + InsertColoredPlayerColor (targetedUnit.GetComponent<CombatUnit> ().owner) +
 					" Starbase " + targetedUnit.GetComponent<Starbase> ().baseName;
 
 			}
@@ -1385,12 +1385,12 @@ public class MessageManager : MonoBehaviour {
 			//the grammar is slightly different if we have 1 flare vs >1 flares
 			if (numberFlares == 1) {
 			
-				newMessage = InsertColoredPlayerName (targetedUnit.GetComponent<CombatUnit> ().owner) + " " + targetedUnit.GetComponent<Ship> ().shipType +
+				newMessage = InsertColoredPlayerColor (targetedUnit.GetComponent<CombatUnit> ().owner) + " " + targetedUnit.GetComponent<Ship> ().shipType +
 				" " + targetedUnit.GetComponent<Ship> ().shipName + " uses " + numberFlares.ToString () + " Flare";
 
 			} else {
 
-				newMessage = InsertColoredPlayerName (targetedUnit.GetComponent<CombatUnit> ().owner) + " " + targetedUnit.GetComponent<Ship> ().shipType +
+				newMessage = InsertColoredPlayerColor (targetedUnit.GetComponent<CombatUnit> ().owner) + " " + targetedUnit.GetComponent<Ship> ().shipType +
 				" " + targetedUnit.GetComponent<Ship> ().shipName + " uses " + numberFlares.ToString () + " Flares";
 
 			}
@@ -1402,12 +1402,12 @@ public class MessageManager : MonoBehaviour {
 			//the grammar is slightly different if we have 1 flare vs >1 flares
 			if (numberFlares == 1) {
 
-				newMessage = InsertColoredPlayerName (targetedUnit.GetComponent<CombatUnit> ().owner) + " Starbase " +
+				newMessage = InsertColoredPlayerColor (targetedUnit.GetComponent<CombatUnit> ().owner) + " Starbase " +
 					targetedUnit.GetComponent<Starbase> ().baseName + " uses " + numberFlares.ToString () + " Flare";
 
 			} else {
 
-				newMessage = InsertColoredPlayerName (targetedUnit.GetComponent<CombatUnit> ().owner) + " Starbase " +
+				newMessage = InsertColoredPlayerColor (targetedUnit.GetComponent<CombatUnit> ().owner) + " Starbase " +
 					targetedUnit.GetComponent<Starbase> ().baseName + " uses " + numberFlares.ToString () + " Flares";
 
 			}
@@ -1427,14 +1427,14 @@ public class MessageManager : MonoBehaviour {
 		//check if targeted unit is a ship
 		if (targetedUnit.GetComponent<Ship> () == true) {
 
-			newMessage = InsertColoredPlayerName (targetedUnit.GetComponent<CombatUnit> ().owner) + " " + targetedUnit.GetComponent<Ship> ().shipType +
+			newMessage = InsertColoredPlayerColor (targetedUnit.GetComponent<CombatUnit> ().owner) + " " + targetedUnit.GetComponent<Ship> ().shipType +
 			" " + targetedUnit.GetComponent<Ship> ().shipName + " does not use any flares";
 
 		}
 		//the else condition is that the targeted unit is a base
 		else {
 
-			newMessage = InsertColoredPlayerName (targetedUnit.GetComponent<CombatUnit> ().owner) + " Starbase " +
+			newMessage = InsertColoredPlayerColor (targetedUnit.GetComponent<CombatUnit> ().owner) + " Starbase " +
 				targetedUnit.GetComponent<Starbase> ().baseName + " does not use any flares";
 
 		}
@@ -1473,7 +1473,7 @@ public class MessageManager : MonoBehaviour {
 		if (attackingUnit.GetComponent<Ship> () == true) {
 
 			newMessage = attackingUnit.GetComponent<Ship> ().shipType + " " + attackingUnit.GetComponent<Ship> ().shipName + " hits " +
-			InsertColoredPlayerName (targetedUnit.GetComponent<CombatUnit> ().owner) +
+			InsertColoredPlayerColor (targetedUnit.GetComponent<CombatUnit> ().owner) +
 			" " + targetedUnit.GetComponent<Ship> ().shipType + " " + targetedUnit.GetComponent<Ship> ().shipName
 			+ " Phaser Section with " + torpedoType + " Torpedo and deals " + damage + " damage!";
 
@@ -1482,7 +1482,7 @@ public class MessageManager : MonoBehaviour {
 		else {
 
 			newMessage = "Starbase " + attackingUnit.GetComponent<Starbase> ().baseName + " hits " +
-				InsertColoredPlayerName (targetedUnit.GetComponent<CombatUnit> ().owner) +
+				InsertColoredPlayerColor (targetedUnit.GetComponent<CombatUnit> ().owner) +
 				" " + targetedUnit.GetComponent<Ship> ().shipType + " " + targetedUnit.GetComponent<Ship> ().shipName
 				+ " Phaser Section with " + torpedoType + " Torpedo and deals " + damage + " damage!";
 
@@ -1505,7 +1505,7 @@ public class MessageManager : MonoBehaviour {
 		if (attackingUnit.GetComponent<Ship> () == true) {
 
 			newMessage = attackingUnit.GetComponent<Ship> ().shipType + " " + attackingUnit.GetComponent<Ship> ().shipName + " hits " +
-				InsertColoredPlayerName (targetedUnit.GetComponent<CombatUnit> ().owner) +
+				InsertColoredPlayerColor (targetedUnit.GetComponent<CombatUnit> ().owner) +
 				" " + targetedUnit.GetComponent<Ship> ().shipType + " " + targetedUnit.GetComponent<Ship> ().shipName
 				+ " Torpedo Section with " + torpedoType + " Torpedo and deals " + damage + " damage!";
 
@@ -1514,7 +1514,7 @@ public class MessageManager : MonoBehaviour {
 		else {
 
 			newMessage = "Starbase " + attackingUnit.GetComponent<Starbase> ().baseName + " hits " +
-				InsertColoredPlayerName (targetedUnit.GetComponent<CombatUnit> ().owner) +
+				InsertColoredPlayerColor (targetedUnit.GetComponent<CombatUnit> ().owner) +
 				" " + targetedUnit.GetComponent<Ship> ().shipType + " " + targetedUnit.GetComponent<Ship> ().shipName
 				+ " Torpedo Section with " + torpedoType + " Torpedo and deals " + damage + " damage!";
 
@@ -1538,7 +1538,7 @@ public class MessageManager : MonoBehaviour {
 		if (attackingUnit.GetComponent<Ship> () == true) {
 
 			newMessage = attackingUnit.GetComponent<Ship> ().shipType + " " + attackingUnit.GetComponent<Ship> ().shipName + " hits " +
-				InsertColoredPlayerName (targetedUnit.GetComponent<CombatUnit> ().owner) +
+				InsertColoredPlayerColor (targetedUnit.GetComponent<CombatUnit> ().owner) +
 				" " + targetedUnit.GetComponent<Ship> ().shipType + " " + targetedUnit.GetComponent<Ship> ().shipName
 				+ " Storage Section with " + torpedoType + " Torpedo and deals " + damage + " damage!";
 
@@ -1547,7 +1547,7 @@ public class MessageManager : MonoBehaviour {
 		else {
 
 			newMessage = "Starbase " + attackingUnit.GetComponent<Starbase> ().baseName + " hits " +
-				InsertColoredPlayerName (targetedUnit.GetComponent<CombatUnit> ().owner) +
+				InsertColoredPlayerColor (targetedUnit.GetComponent<CombatUnit> ().owner) +
 				" " + targetedUnit.GetComponent<Ship> ().shipType + " " + targetedUnit.GetComponent<Ship> ().shipName
 				+ " Storage Section with " + torpedoType + " Torpedo and deals " + damage + " damage!";
 
@@ -1571,7 +1571,7 @@ public class MessageManager : MonoBehaviour {
 		if (attackingUnit.GetComponent<Ship> () == true) {
 
 			newMessage = attackingUnit.GetComponent<Ship> ().shipType + " " + attackingUnit.GetComponent<Ship> ().shipName + " hits " +
-				InsertColoredPlayerName (targetedUnit.GetComponent<CombatUnit> ().owner) +
+				InsertColoredPlayerColor (targetedUnit.GetComponent<CombatUnit> ().owner) +
 				" " + targetedUnit.GetComponent<Ship> ().shipType + " " + targetedUnit.GetComponent<Ship> ().shipName
 				+ " Crew Section with " + torpedoType + " Torpedo and deals " + damage + " damage!";
 
@@ -1580,7 +1580,7 @@ public class MessageManager : MonoBehaviour {
 		else {
 
 			newMessage = "Starbase " + attackingUnit.GetComponent<Starbase> ().baseName + " hits " +
-				InsertColoredPlayerName (targetedUnit.GetComponent<CombatUnit> ().owner) +
+				InsertColoredPlayerColor (targetedUnit.GetComponent<CombatUnit> ().owner) +
 				" " + targetedUnit.GetComponent<Ship> ().shipType + " " + targetedUnit.GetComponent<Ship> ().shipName
 				+ " Crew Section with " + torpedoType + " Torpedo and deals " + damage + " damage!";
 
@@ -1604,7 +1604,7 @@ public class MessageManager : MonoBehaviour {
 		if (attackingUnit.GetComponent<Ship> () == true) {
 
 			newMessage = attackingUnit.GetComponent<Ship> ().shipType + " " + attackingUnit.GetComponent<Ship> ().shipName + " hits " +
-				InsertColoredPlayerName (targetedUnit.GetComponent<CombatUnit> ().owner) +
+				InsertColoredPlayerColor (targetedUnit.GetComponent<CombatUnit> ().owner) +
 				" " + targetedUnit.GetComponent<Ship> ().shipType + " " + targetedUnit.GetComponent<Ship> ().shipName
 				+ " Engine Section with " + torpedoType + " Torpedo and deals " + damage + " damage!";
 
@@ -1613,7 +1613,7 @@ public class MessageManager : MonoBehaviour {
 		else {
 
 			newMessage = "Starbase " + attackingUnit.GetComponent<Starbase> ().baseName + " hits " +
-				InsertColoredPlayerName (targetedUnit.GetComponent<CombatUnit> ().owner) +
+				InsertColoredPlayerColor (targetedUnit.GetComponent<CombatUnit> ().owner) +
 				" " + targetedUnit.GetComponent<Ship> ().shipType + " " + targetedUnit.GetComponent<Ship> ().shipName
 				+ " Engine Section with " + torpedoType + " Torpedo and deals " + damage + " damage!";
 
@@ -1637,7 +1637,7 @@ public class MessageManager : MonoBehaviour {
 		if (attackingUnit.GetComponent<Ship> () == true) {
 
 			newMessage = attackingUnit.GetComponent<Ship> ().shipType + " " + attackingUnit.GetComponent<Ship> ().shipName + " hits " +
-				InsertColoredPlayerName (targetedUnit.GetComponent<CombatUnit> ().owner) +
+				InsertColoredPlayerColor (targetedUnit.GetComponent<CombatUnit> ().owner) +
 				" Starbase " + targetedUnit.GetComponent<Starbase> ().baseName
 				+ " Phaser Section 1 with " + torpedoType + " Torpedo and deals " + damage + " damage!";
 
@@ -1646,7 +1646,7 @@ public class MessageManager : MonoBehaviour {
 		else {
 
 			newMessage = "Starbase " + attackingUnit.GetComponent<Starbase> ().baseName + " hits " +
-				InsertColoredPlayerName (targetedUnit.GetComponent<CombatUnit> ().owner) +
+				InsertColoredPlayerColor (targetedUnit.GetComponent<CombatUnit> ().owner) +
 				" Starbase " + targetedUnit.GetComponent<Starbase> ().baseName
 				+ " Phaser Section 1 with " + torpedoType + " Torpedo and deals " + damage + " damage!";
 
@@ -1669,7 +1669,7 @@ public class MessageManager : MonoBehaviour {
 		if (attackingUnit.GetComponent<Ship> () == true) {
 
 			newMessage = attackingUnit.GetComponent<Ship> ().shipType + " " + attackingUnit.GetComponent<Ship> ().shipName + " hits " +
-				InsertColoredPlayerName (targetedUnit.GetComponent<CombatUnit> ().owner) +
+				InsertColoredPlayerColor (targetedUnit.GetComponent<CombatUnit> ().owner) +
 				" Starbase " + targetedUnit.GetComponent<Starbase> ().baseName
 				+ " Phaser Section 2 with " + torpedoType + " Torpedo and deals " + damage + " damage!";
 
@@ -1678,7 +1678,7 @@ public class MessageManager : MonoBehaviour {
 		else {
 
 			newMessage = "Starbase " + attackingUnit.GetComponent<Starbase> ().baseName + " hits " +
-				InsertColoredPlayerName (targetedUnit.GetComponent<CombatUnit> ().owner) +
+				InsertColoredPlayerColor (targetedUnit.GetComponent<CombatUnit> ().owner) +
 				" Starbase " + targetedUnit.GetComponent<Starbase> ().baseName
 				+ " Phaser Section 2 with " + torpedoType + " Torpedo and deals " + damage + " damage!";
 
@@ -1714,7 +1714,7 @@ public class MessageManager : MonoBehaviour {
 		if (attackingUnit.GetComponent<Ship> () == true) {
 
 			newMessage = attackingUnit.GetComponent<Ship> ().shipType + " " + attackingUnit.GetComponent<Ship> ().shipName + " hits " +
-				InsertColoredPlayerName (targetedUnit.GetComponent<CombatUnit> ().owner) +
+				InsertColoredPlayerColor (targetedUnit.GetComponent<CombatUnit> ().owner) +
 				" Starbase " + targetedUnit.GetComponent<Starbase> ().baseName
 				+ " Torpedo Section with " + torpedoType + " Torpedo and deals " + damage + " damage!";
 
@@ -1723,7 +1723,7 @@ public class MessageManager : MonoBehaviour {
 		else {
 
 			newMessage = "Starbase " + attackingUnit.GetComponent<Starbase> ().baseName + " hits " +
-				InsertColoredPlayerName (targetedUnit.GetComponent<CombatUnit> ().owner) +
+				InsertColoredPlayerColor (targetedUnit.GetComponent<CombatUnit> ().owner) +
 				" Starbase " + targetedUnit.GetComponent<Starbase> ().baseName
 				+ " Torpedo Section with " + torpedoType + " Torpedo and deals " + damage + " damage!";
 
@@ -1746,7 +1746,7 @@ public class MessageManager : MonoBehaviour {
 		if (attackingUnit.GetComponent<Ship> () == true) {
 
 			newMessage = attackingUnit.GetComponent<Ship> ().shipType + " " + attackingUnit.GetComponent<Ship> ().shipName + " hits " +
-				InsertColoredPlayerName (targetedUnit.GetComponent<CombatUnit> ().owner) +
+				InsertColoredPlayerColor (targetedUnit.GetComponent<CombatUnit> ().owner) +
 				" Starbase " + targetedUnit.GetComponent<Starbase> ().baseName
 				+ " Creq Section with " + torpedoType + " Torpedo and deals " + damage + " damage!";
 
@@ -1755,7 +1755,7 @@ public class MessageManager : MonoBehaviour {
 		else {
 
 			newMessage = "Starbase " + attackingUnit.GetComponent<Starbase> ().baseName + " hits " +
-				InsertColoredPlayerName (targetedUnit.GetComponent<CombatUnit> ().owner) +
+				InsertColoredPlayerColor (targetedUnit.GetComponent<CombatUnit> ().owner) +
 				" Starbase " + targetedUnit.GetComponent<Starbase> ().baseName
 				+ " Crew Section with " + torpedoType + " Torpedo and deals " + damage + " damage!";
 
@@ -1778,7 +1778,7 @@ public class MessageManager : MonoBehaviour {
 		if (attackingUnit.GetComponent<Ship> () == true) {
 
 			newMessage = attackingUnit.GetComponent<Ship> ().shipType + " " + attackingUnit.GetComponent<Ship> ().shipName + " hits " +
-				InsertColoredPlayerName (targetedUnit.GetComponent<CombatUnit> ().owner) +
+				InsertColoredPlayerColor (targetedUnit.GetComponent<CombatUnit> ().owner) +
 				" Starbase " + targetedUnit.GetComponent<Starbase> ().baseName
 				+ " Storage Section 1 with " + torpedoType + " Torpedo and deals " + damage + " damage!";
 
@@ -1787,7 +1787,7 @@ public class MessageManager : MonoBehaviour {
 		else {
 
 			newMessage = "Starbase " + attackingUnit.GetComponent<Starbase> ().baseName + " hits " +
-				InsertColoredPlayerName (targetedUnit.GetComponent<CombatUnit> ().owner) +
+				InsertColoredPlayerColor (targetedUnit.GetComponent<CombatUnit> ().owner) +
 				" Starbase " + targetedUnit.GetComponent<Starbase> ().baseName
 				+ " Storage Section 1 with " + torpedoType + " Torpedo and deals " + damage + " damage!";
 
@@ -1810,7 +1810,7 @@ public class MessageManager : MonoBehaviour {
 		if (attackingUnit.GetComponent<Ship> () == true) {
 
 			newMessage = attackingUnit.GetComponent<Ship> ().shipType + " " + attackingUnit.GetComponent<Ship> ().shipName + " hits " +
-				InsertColoredPlayerName (targetedUnit.GetComponent<CombatUnit> ().owner) +
+				InsertColoredPlayerColor (targetedUnit.GetComponent<CombatUnit> ().owner) +
 				" Starbase " + targetedUnit.GetComponent<Starbase> ().baseName
 				+ " Storage Section 2 with " + torpedoType + " Torpedo and deals " + damage + " damage!";
 
@@ -1819,7 +1819,7 @@ public class MessageManager : MonoBehaviour {
 		else {
 
 			newMessage = "Starbase " + attackingUnit.GetComponent<Starbase> ().baseName + " hits " +
-				InsertColoredPlayerName (targetedUnit.GetComponent<CombatUnit> ().owner) +
+				InsertColoredPlayerColor (targetedUnit.GetComponent<CombatUnit> ().owner) +
 				" Starbase " + targetedUnit.GetComponent<Starbase> ().baseName
 				+ " Storage Section 2 with " + torpedoType + " Torpedo and deals " + damage + " damage!";
 
@@ -1836,7 +1836,7 @@ public class MessageManager : MonoBehaviour {
 	//this function will send a message when a ship phaser section is destroyed
 	private void SendShipPhaserSectionDestroyedMessage(CombatUnit combatUnit){
 
-		string newMessage = InsertColoredPlayerName(combatUnit.GetComponent<CombatUnit>().owner)+ " " + 
+		string newMessage = InsertColoredPlayerColor(combatUnit.GetComponent<CombatUnit>().owner)+ " " + 
 			combatUnit.GetComponent<Ship> ().shipType + " " + combatUnit.GetComponent<Ship> ().shipName + 
 			" Phaser Section was Destroyed!!";
 
@@ -1849,7 +1849,7 @@ public class MessageManager : MonoBehaviour {
 	//this function will send a message when a ship torpedo section is destroyed
 	private void SendShipTorpedoSectionDestroyedMessage(CombatUnit combatUnit){
 
-		string newMessage = InsertColoredPlayerName(combatUnit.GetComponent<CombatUnit>().owner)+ " " + 
+		string newMessage = InsertColoredPlayerColor(combatUnit.GetComponent<CombatUnit>().owner)+ " " + 
 			combatUnit.GetComponent<Ship> ().shipType + " " + combatUnit.GetComponent<Ship> ().shipName + 
 			" Torpedo Section was Destroyed!!";
 
@@ -1861,7 +1861,7 @@ public class MessageManager : MonoBehaviour {
 	//this function will send a message when a ship storage section is destroyed
 	private void SendShipStorageSectionDestroyedMessage(CombatUnit combatUnit){
 
-		string newMessage = InsertColoredPlayerName(combatUnit.GetComponent<CombatUnit>().owner)+ " " + 
+		string newMessage = InsertColoredPlayerColor(combatUnit.GetComponent<CombatUnit>().owner)+ " " + 
 			combatUnit.GetComponent<Ship> ().shipType + " " + combatUnit.GetComponent<Ship> ().shipName + 
 			" Storage Section was Destroyed!!";
 
@@ -1873,7 +1873,7 @@ public class MessageManager : MonoBehaviour {
 	//this function will send a message when a ship crew section is destroyed
 	private void SendShipCrewSectionDestroyedMessage(CombatUnit combatUnit){
 
-		string newMessage = InsertColoredPlayerName(combatUnit.GetComponent<CombatUnit>().owner)+ " " + 
+		string newMessage = InsertColoredPlayerColor(combatUnit.GetComponent<CombatUnit>().owner)+ " " + 
 			combatUnit.GetComponent<Ship> ().shipType + " " + combatUnit.GetComponent<Ship> ().shipName + 
 			" Crew Section was Destroyed!!";
 
@@ -1885,7 +1885,7 @@ public class MessageManager : MonoBehaviour {
 	//this function will send a message when a ship engine section is destroyed
 	private void SendShipEngineSectionDestroyedMessage(CombatUnit combatUnit){
 
-		string newMessage = InsertColoredPlayerName(combatUnit.GetComponent<CombatUnit>().owner)+ " " + 
+		string newMessage = InsertColoredPlayerColor(combatUnit.GetComponent<CombatUnit>().owner)+ " " + 
 			combatUnit.GetComponent<Ship> ().shipType + " " + combatUnit.GetComponent<Ship> ().shipName + 
 			" Engine Section was Destroyed!!";
 
@@ -1897,7 +1897,7 @@ public class MessageManager : MonoBehaviour {
 	//this function will send a message when a ship is destroyed
 	private void SendShipDestroyedMessage(CombatUnit combatUnit){
 
-		string newMessage = InsertColoredPlayerName(combatUnit.GetComponent<CombatUnit>().owner)+ " " + 
+		string newMessage = InsertColoredPlayerColor(combatUnit.GetComponent<CombatUnit>().owner)+ " " + 
 			combatUnit.GetComponent<Ship> ().shipType + " " + combatUnit.GetComponent<Ship> ().shipName + 
 			" was Completely Destroyed!!!";
 
@@ -1909,7 +1909,7 @@ public class MessageManager : MonoBehaviour {
 	//this function will send a message when a base phaser section 1 is destroyed
 	private void SendBasePhaserSection1DestroyedMessage(CombatUnit combatUnit){
 
-		string newMessage = InsertColoredPlayerName(combatUnit.GetComponent<CombatUnit>().owner) + 
+		string newMessage = InsertColoredPlayerColor(combatUnit.GetComponent<CombatUnit>().owner) + 
 		" Starbase " + combatUnit.GetComponent<Starbase> ().baseName + 
 			" Phaser Section 1 was Destroyed!!";
 
@@ -1921,7 +1921,7 @@ public class MessageManager : MonoBehaviour {
 	//this function will send a message when a base phaser section 2 is destroyed
 	private void SendBasePhaserSection2DestroyedMessage(CombatUnit combatUnit){
 
-		string newMessage = InsertColoredPlayerName(combatUnit.GetComponent<CombatUnit>().owner) + 
+		string newMessage = InsertColoredPlayerColor(combatUnit.GetComponent<CombatUnit>().owner) + 
 			" Starbase " + combatUnit.GetComponent<Starbase> ().baseName + 
 			" Phaser Section 2 was Destroyed!!";
 
@@ -1933,7 +1933,7 @@ public class MessageManager : MonoBehaviour {
 	//this function will send a message when a base torpedo section is destroyed
 	private void SendBaseTorpedoSectionDestroyedMessage(CombatUnit combatUnit){
 
-		string newMessage = InsertColoredPlayerName(combatUnit.GetComponent<CombatUnit>().owner) + 
+		string newMessage = InsertColoredPlayerColor(combatUnit.GetComponent<CombatUnit>().owner) + 
 			" Starbase " + combatUnit.GetComponent<Starbase> ().baseName + 
 			" Torpedo Section was Destroyed!!";
 
@@ -1945,7 +1945,7 @@ public class MessageManager : MonoBehaviour {
 	//this function will send a message when a base crew section is destroyed
 	private void SendBaseCrewSectionDestroyedMessage(CombatUnit combatUnit){
 
-		string newMessage = InsertColoredPlayerName(combatUnit.GetComponent<CombatUnit>().owner) + 
+		string newMessage = InsertColoredPlayerColor(combatUnit.GetComponent<CombatUnit>().owner) + 
 			" Starbase " + combatUnit.GetComponent<Starbase> ().baseName + 
 			" Crew Section was Destroyed!!";
 
@@ -1957,7 +1957,7 @@ public class MessageManager : MonoBehaviour {
 	//this function will send a message when a base storage section 1 is destroyed
 	private void SendBaseStorageSection1DestroyedMessage(CombatUnit combatUnit){
 
-		string newMessage = InsertColoredPlayerName(combatUnit.GetComponent<CombatUnit>().owner) + 
+		string newMessage = InsertColoredPlayerColor(combatUnit.GetComponent<CombatUnit>().owner) + 
 			" Starbase " + combatUnit.GetComponent<Starbase> ().baseName + 
 			" Storage Section 1 was Destroyed!!";
 
@@ -1969,7 +1969,7 @@ public class MessageManager : MonoBehaviour {
 	//this function will send a message when a base storage section 2 is destroyed
 	private void SendBaseStorageSection2DestroyedMessage(CombatUnit combatUnit){
 
-		string newMessage = InsertColoredPlayerName(combatUnit.GetComponent<CombatUnit>().owner) + 
+		string newMessage = InsertColoredPlayerColor(combatUnit.GetComponent<CombatUnit>().owner) + 
 			" Starbase " + combatUnit.GetComponent<Starbase> ().baseName + 
 			" Storage Section 2 was Destroyed!!";
 
@@ -1981,7 +1981,7 @@ public class MessageManager : MonoBehaviour {
 	//this function will send a message when a base is destroyed
 	private void SendBaseDestroyedMessage(CombatUnit combatUnit){
 
-		string newMessage = InsertColoredPlayerName(combatUnit.GetComponent<CombatUnit>().owner) + 
+		string newMessage = InsertColoredPlayerColor(combatUnit.GetComponent<CombatUnit>().owner) + 
 			" Starbase " + combatUnit.GetComponent<Starbase> ().baseName + 
 			" was Completely Destroyed!!!";
 
@@ -2017,7 +2017,7 @@ public class MessageManager : MonoBehaviour {
 			if (targetedUnit.GetComponent<Ship> () == true) {
 				
 				newMessage = selectedUnit.GetComponent<Ship> ().shipType + " " + selectedUnit.GetComponent<Ship> ().shipName + " uses " +
-				crystalString + " on " + InsertColoredPlayerName (targetedUnit.GetComponent<CombatUnit> ().owner) +
+				crystalString + " on " + InsertColoredPlayerColor (targetedUnit.GetComponent<CombatUnit> ().owner) +
 				" " + targetedUnit.GetComponent<Ship> ().shipType + " " + targetedUnit.GetComponent<Ship> ().shipName
 				+ " " + shipSectionString + ".  Crystal heals shields by " + shieldsHealed.ToString () + "!";
 
@@ -2026,7 +2026,7 @@ public class MessageManager : MonoBehaviour {
 			else {
 				
 				newMessage = selectedUnit.GetComponent<Ship> ().shipType + " " + selectedUnit.GetComponent<Ship> ().shipName + " uses " +
-				crystalString + " on " + InsertColoredPlayerName (targetedUnit.GetComponent<CombatUnit> ().owner) +
+				crystalString + " on " + InsertColoredPlayerColor (targetedUnit.GetComponent<CombatUnit> ().owner) +
 				" Starbase " + targetedUnit.GetComponent<Starbase> ().baseName
 				+ " " + shipSectionString + ".  Crystal heals shields by " + shieldsHealed.ToString () + "!";
 
@@ -2040,7 +2040,7 @@ public class MessageManager : MonoBehaviour {
 			if (targetedUnit.GetComponent<Ship> () == true) {
 
 				newMessage = "Starbase " + selectedUnit.GetComponent<Starbase> ().baseName + " uses " +
-					crystalString + " on " + InsertColoredPlayerName (targetedUnit.GetComponent<CombatUnit> ().owner) +
+					crystalString + " on " + InsertColoredPlayerColor (targetedUnit.GetComponent<CombatUnit> ().owner) +
 					" " + targetedUnit.GetComponent<Ship> ().shipType + " " + targetedUnit.GetComponent<Ship> ().shipName
 					+ " " + shipSectionString + ".  Crystal heals shields by " + shieldsHealed.ToString () + "!";
 
@@ -2049,7 +2049,7 @@ public class MessageManager : MonoBehaviour {
 			else {
 
 				newMessage = "Starbase " + selectedUnit.GetComponent<Starbase> ().baseName + " uses " +
-					crystalString + " on " + InsertColoredPlayerName (targetedUnit.GetComponent<CombatUnit> ().owner) +
+					crystalString + " on " + InsertColoredPlayerColor (targetedUnit.GetComponent<CombatUnit> ().owner) +
 					" Starbase " + targetedUnit.GetComponent<Starbase> ().baseName
 					+ " " + shipSectionString + ".  Crystal heals shields by " + shieldsHealed.ToString () + "!";
 
@@ -2078,7 +2078,7 @@ public class MessageManager : MonoBehaviour {
 			if (targetedUnit.GetComponent<Ship> () == true) {
 				
 				newMessage = selectedUnit.GetComponent<Ship> ().shipType + " " + selectedUnit.GetComponent<Ship> ().shipName +
-				" uses Repair Crew on " + InsertColoredPlayerName (targetedUnit.GetComponent<CombatUnit> ().owner) +
+				" uses Repair Crew on " + InsertColoredPlayerColor (targetedUnit.GetComponent<CombatUnit> ().owner) +
 				" " + targetedUnit.GetComponent<Ship> ().shipType + " " + targetedUnit.GetComponent<Ship> ().shipName
 				+ " " + shipSectionString;
 
@@ -2087,7 +2087,7 @@ public class MessageManager : MonoBehaviour {
 			else {
 
 				newMessage = selectedUnit.GetComponent<Ship> ().shipType + " " + selectedUnit.GetComponent<Ship> ().shipName +
-				" uses Repair Crew on " + InsertColoredPlayerName (targetedUnit.GetComponent<CombatUnit> ().owner) +
+				" uses Repair Crew on " + InsertColoredPlayerColor (targetedUnit.GetComponent<CombatUnit> ().owner) +
 				" Starbase " + targetedUnit.GetComponent<Starbase> ().baseName
 				+ " " + shipSectionString;
 
@@ -2101,7 +2101,7 @@ public class MessageManager : MonoBehaviour {
 			if (targetedUnit.GetComponent<Ship> () == true) {
 
 				newMessage = "Starbase " + selectedUnit.GetComponent<Starbase> ().baseName +
-					" uses Repair Crew on " + InsertColoredPlayerName (targetedUnit.GetComponent<CombatUnit> ().owner) +
+					" uses Repair Crew on " + InsertColoredPlayerColor (targetedUnit.GetComponent<CombatUnit> ().owner) +
 					" " + targetedUnit.GetComponent<Ship> ().shipType + " " + targetedUnit.GetComponent<Ship> ().shipName
 					+ " " + shipSectionString;
 
@@ -2110,7 +2110,7 @@ public class MessageManager : MonoBehaviour {
 			else {
 
 				newMessage = "Starbase " + selectedUnit.GetComponent<Starbase> ().baseName +
-					" uses Repair Crew on " + InsertColoredPlayerName (targetedUnit.GetComponent<CombatUnit> ().owner) +
+					" uses Repair Crew on " + InsertColoredPlayerColor (targetedUnit.GetComponent<CombatUnit> ().owner) +
 					" Starbase " + targetedUnit.GetComponent<Starbase> ().baseName
 					+ " " + shipSectionString;
 
@@ -2163,7 +2163,7 @@ public class MessageManager : MonoBehaviour {
 		newMessage = "Collects income of " + turnIncome + " and now has " + currentTurnPlayer.playerMoney + " total";
 
 		//build the rich text string to pass to the message log
-		newMessage = AddPlayerColorToMessage(gameManager.currentTurnPlayer,newMessage);
+		newMessage = AddPlayerNameToMessage(gameManager.currentTurnPlayer,newMessage);
 
 		//pass the message to the message log
 		AddMessageToLog(newMessage);
@@ -2241,7 +2241,7 @@ public class MessageManager : MonoBehaviour {
 		newMessage += "for a total cost of " + newUnitData.newUnitTotalPrice.ToString ();
 
 		//build the rich text string to pass to the message log
-		newMessage = AddPlayerColorToMessage(gameManager.currentTurnPlayer,newMessage);
+		newMessage = AddPlayerNameToMessage(gameManager.currentTurnPlayer,newMessage);
 
 		//pass the message to the message log
 		AddMessageToLog(newMessage);

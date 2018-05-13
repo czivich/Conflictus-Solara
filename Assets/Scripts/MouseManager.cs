@@ -2310,15 +2310,15 @@ public class MouseManager : MonoBehaviour {
 		float newCameraWorldPositionX = (oldCameraWorldPositionX - currentMouseWorldCoordinates.x) * Camera.main.orthographicSize / oldOrthographicSize + currentMouseWorldCoordinates.x;
 
 		//I only want to move towards the target on zooming in - therefore scrollwheel has to be positive
-		if (Input.GetAxis ("Mouse ScrollWheel") > .01f && Camera.main.orthographicSize > minMainCameraSize) {
+		//if (Input.GetAxis ("Mouse ScrollWheel") > .01f && Camera.main.orthographicSize > minMainCameraSize) {
 
-			//what I want is that whatever point my mouse is over, when I zoom in, my mouse is still in that same world coordinate spot
-			Vector3 cameraMoveTowardsPosition = new Vector3 (newCameraWorldPositionX, Camera.main.transform.position.y, newCameraWorldPositionZ);
+		//what I want is that whatever point my mouse is over, when I zoom in, my mouse is still in that same world coordinate spot
+		Vector3 cameraMoveTowardsPosition = new Vector3 (newCameraWorldPositionX, Camera.main.transform.position.y, newCameraWorldPositionZ);
 
-			//Camera.main.transform.position = Vector3.MoveTowards (Camera.main.transform.position, cameraMoveTowardsPosition, dragSpeed * Time.deltaTime);
-			Camera.main.transform.position = cameraMoveTowardsPosition;
+		//Camera.main.transform.position = Vector3.MoveTowards (Camera.main.transform.position, cameraMoveTowardsPosition, dragSpeed * Time.deltaTime);
+		Camera.main.transform.position = cameraMoveTowardsPosition;
 
-		}
+		//}
 			
 		//now we need to pull the camera back towards the center as it zooms out, so we don't see too much of the off-map area
 		//check if the camera is at the top border limit

@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Networking;
 
-public class Player : MonoBehaviour{
+public class Player : NetworkBehaviour{
 
 	//the Player class will keep track of the money each player has, and whether the player is still alive in the game
 
@@ -196,8 +197,8 @@ public class Player : MonoBehaviour{
 		//create a new player instance
 		Player newPlayer = Instantiate(prefabPlayer, Vector3.zero, Quaternion.identity);
 
-		//assign default values
-		newPlayer.color = newPlayerColor;
+        //assign default values
+        newPlayer.color = newPlayerColor;
 		newPlayer.isAlive = true;
 		newPlayer.playerMoney = startingMoney;
 		newPlayer.playerPlanets = startingPlanets;
@@ -240,6 +241,7 @@ public class Player : MonoBehaviour{
 
 		//call the start function
 		newPlayer.Init();
+
 
 		return newPlayer;
 

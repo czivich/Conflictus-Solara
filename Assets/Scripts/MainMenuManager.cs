@@ -144,12 +144,13 @@ public class MainMenuManager : MonoBehaviour {
 		uiManagerMainMenu.GetComponent<Settings> ().Init ();
 		uiManagerMainMenu.GetComponent<UINavigationMainMenu> ().Init ();
 		uiManagerMainMenu.GetComponent<About> ().Init ();
+        uiManagerMainMenu.GetComponent<NewLANGameWindow>().Init();
 
 
-	}
+    }
 
-	//this function sets actions
-	private void SetActions(){
+    //this function sets actions
+    private void SetActions(){
 
 		stringDeleteFileAction = (fileName) => {DeleteSaveFile(fileName);};
 		exitGameAction = () => {ExitGame ();};

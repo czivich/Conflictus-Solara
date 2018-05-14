@@ -5,8 +5,9 @@ using System.Linq;
 using UnityEngine.UI;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
+using UnityEngine.Networking;
 
-public class GameManager : MonoBehaviour {
+public class GameManager : NetworkBehaviour {
 
 	//variable to control whether game is being created from load
 	public static bool loadedGame {
@@ -933,6 +934,7 @@ public class GameManager : MonoBehaviour {
 		purplePlayer = Player.createPlayer  (prefabPlayer, Player.Color.Purple, purplePlayerName);
 		redPlayer = Player.createPlayer  (prefabPlayer, Player.Color.Red, redPlayerName);
 		bluePlayer = Player.createPlayer  (prefabPlayer, Player.Color.Blue, bluePlayerName);
+
 
 
 	}

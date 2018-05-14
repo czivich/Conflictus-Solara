@@ -23,6 +23,7 @@ public class UINavigationMainMenu : MonoBehaviour {
 		MainMenu,
 		NewLocalGame,
 		LoadLocalGame,
+        NewLANGame,
 		FileDeletePrompt,
 		Settings,
 		About,
@@ -70,7 +71,8 @@ public class UINavigationMainMenu : MonoBehaviour {
 	private Selectable[][] MainMenuGroup;
 	private Selectable[][] NewLocalGameGroup;
 	private Selectable[][] LoadLocalGameGroup;
-	private Selectable[][] FileDeletePromptGroup;
+    private Selectable[][] NewLANGameGroup;
+    private Selectable[][] FileDeletePromptGroup;
 	private Selectable[][] SettingsGroup;
 	private Selectable[][] AboutGroup;
 	private Selectable[][] ExitGamePromptGroup;
@@ -89,7 +91,21 @@ public class UINavigationMainMenu : MonoBehaviour {
 	public Selectable[] LoadLocalGameFiles;
 	public Selectable[] LoadLocalGameButtonsRow;
 
-	public Selectable[] FileDeleteButtons;
+    public Selectable[] NewLANGameTeams;
+    public Selectable[] NewLANGamePlanets;
+    public Selectable[] NewLANGameServerButtons;
+    public Selectable[] NewLANGameRoomName;
+    public Selectable[] NewLANGameGreenPlayerLocalButton;
+    public Selectable[] NewLANGameGreenPlayer;
+    public Selectable[] NewLANGameRedPlayerLocalButton;
+    public Selectable[] NewLANGameRedPlayer;
+    public Selectable[] NewLANGamePurplePlayerLocalButton;
+    public Selectable[] NewLANGamePurplePlayer;
+    public Selectable[] NewLANGameBluePlayerLocalButton;
+    public Selectable[] NewLANGameBluePlayer;
+    public Selectable[] NewLANGameButtonsRow;
+
+    public Selectable[] FileDeleteButtons;
 
 	public Selectable[] SettingsResolutionDropdown;
 	public Selectable[] SettingsResolutionApply;
@@ -187,7 +203,10 @@ public class UINavigationMainMenu : MonoBehaviour {
 	private UnityAction<string> OpenFileDeletePromptAction;
 	private UnityAction<string> StringReturnToFileLoadWindowAction;
 
-	private UnityAction OpenSettingsWindowAction;
+    private UnityAction OpenNewLANGameWindowAction;
+    private UnityAction CloseNewLANGameWindowAction;
+
+    private UnityAction OpenSettingsWindowAction;
 	private UnityAction CloseSettingsWindowAction;
 
 	private UnityAction OpenAboutPanelAction;
@@ -343,7 +362,15 @@ public class UINavigationMainMenu : MonoBehaviour {
 				uiManager.GetComponent<ConfigureLocalGameWindow> ().decreasePlanetsButton.onClick.Invoke();
 
 
-			} else if(CurrentUIState == UIState.Settings && CurrentSelectables == SettingsResolutionDropdown){
+			}
+            else if (CurrentUIState == UIState.NewLANGame && CurrentSelectables == NewLANGamePlanets)
+            {
+
+                uiManager.GetComponent<NewLANGameWindow>().decreasePlanetsButton.onClick.Invoke();
+
+
+            }
+            else if(CurrentUIState == UIState.Settings && CurrentSelectables == SettingsResolutionDropdown){
 
 				//adjust the dropdown value
 				AdjustDropdownValueDown(SettingsResolutionDropdown[0].GetComponent<TMP_Dropdown>());
@@ -447,7 +474,14 @@ public class UINavigationMainMenu : MonoBehaviour {
 
 				uiManager.GetComponent<ConfigureLocalGameWindow> ().increasePlanetsButton.onClick.Invoke();
 
-			} else if(CurrentUIState == UIState.Settings && CurrentSelectables == SettingsResolutionDropdown){
+			}
+            else if (CurrentUIState == UIState.NewLANGame && CurrentSelectables == NewLANGamePlanets)
+            {
+
+                uiManager.GetComponent<NewLANGameWindow>().increasePlanetsButton.onClick.Invoke();
+
+            }
+            else if (CurrentUIState == UIState.Settings && CurrentSelectables == SettingsResolutionDropdown){
 
 				//adjust the dropdown value
 				AdjustDropdownValueUp(SettingsResolutionDropdown[0].GetComponent<TMP_Dropdown>());
@@ -800,7 +834,12 @@ public class UINavigationMainMenu : MonoBehaviour {
 				//cancel out of the menu
 				uiManager.GetComponent<FileDeletePrompt> ().fileDeleteCancelButton.onClick.Invoke ();
 
-			} else if (CurrentUIState == UIState.Settings) {
+			} else if (CurrentUIState == UIState.NewLANGame && ignoreEscape == false) {
+
+                //cancel out of the menu
+                uiManager.GetComponent<NewLANGameWindow>().cancelButton.onClick.Invoke();
+
+            } else if (CurrentUIState == UIState.Settings) {
 
 				//cancel out of the menu
 				uiManager.GetComponent<Settings> ().exitButton.onClick.Invoke ();
@@ -961,7 +1000,21 @@ public class UINavigationMainMenu : MonoBehaviour {
 		StringReturnToFileLoadWindowAction = (fileName) => {delayLoadFilesWindowCount = 2;};
 
 
-		OpenSettingsWindowAction = () => {CurrentUIState = UIState.Settings;}; 
+        OpenNewLANGameWindowAction = () => { CurrentUIState = UIState.NewLANGame; };
+
+        CloseNewLANGameWindowAction = () => {
+
+            CurrentUIState = UIState.MainMenu;
+
+            //returnUIState = UIState.Selection;
+            returnSelectable = MainMenuButtons[2];
+
+            //returnSelectable = null;
+            delayReturnToSelectableCount = 2;
+
+        };
+
+        OpenSettingsWindowAction = () => {CurrentUIState = UIState.Settings;}; 
 
 		CloseSettingsWindowAction = () => {
 
@@ -1069,8 +1122,18 @@ public class UINavigationMainMenu : MonoBehaviour {
 		uiManager.GetComponent<FileDeletePrompt>().OnFileDeleteYesClicked.AddListener(StringReturnToFileLoadWindowAction);
 		uiManager.GetComponent<FileDeletePrompt>().OnFileDeleteCancelClicked.AddListener(OpenLoadLocalGameWindowAction);
 
-		//add listeners for entering the settings menu
-		uiManager.GetComponent<Settings>().OnSettingsWindowOpened.AddListener(OpenSettingsWindowAction);
+        //add listener for new LAN game
+        uiManager.GetComponent<NewLANGameWindow>().OnOpenPanel.AddListener(OpenNewLANGameWindowAction);
+
+        //add listeners for exiting the new LAN game window to the main menu
+        uiManager.GetComponent<NewLANGameWindow>().cancelButton.onClick.AddListener(CloseNewLANGameWindowAction);
+        uiManager.GetComponent<NewLANGameWindow>().exitWindowButton.onClick.AddListener(CloseNewLANGameWindowAction);
+
+        //change this once the LAN window goes to a lobby
+        uiManager.GetComponent<NewLANGameWindow>().createGameButton.onClick.AddListener(CloseNewLANGameWindowAction);
+
+        //add listeners for entering the settings menu
+        uiManager.GetComponent<Settings>().OnSettingsWindowOpened.AddListener(OpenSettingsWindowAction);
 
 		//add listeners for exiting the settings menu
 		uiManager.GetComponent<Settings>().acceptButton.onClick.AddListener(CloseSettingsWindowAction);
@@ -1138,7 +1201,22 @@ public class UINavigationMainMenu : MonoBehaviour {
 		FileDeletePromptGroup = new Selectable[1][];
 		FileDeletePromptGroup [0] = FileDeleteButtons;
 
-		SettingsGroup = new Selectable[9][];
+        NewLANGameGroup = new Selectable[13][];
+        NewLANGameGroup[0] = NewLANGameTeams;
+        NewLANGameGroup[1] = NewLANGamePlanets;
+        NewLANGameGroup[2] = NewLANGameServerButtons;
+        NewLANGameGroup[3] = NewLANGameRoomName;
+        NewLANGameGroup[4] = NewLANGameGreenPlayerLocalButton;
+        NewLANGameGroup[5] = NewLANGameGreenPlayer;
+        NewLANGameGroup[6] = NewLANGameRedPlayerLocalButton;
+        NewLANGameGroup[7] = NewLANGameRedPlayer;
+        NewLANGameGroup[8] = NewLANGamePurplePlayerLocalButton;
+        NewLANGameGroup[9] = NewLANGamePurplePlayer;
+        NewLANGameGroup[10] = NewLANGameBluePlayerLocalButton;
+        NewLANGameGroup[11] = NewLANGameBluePlayer;
+        NewLANGameGroup[12] = NewLANGameButtonsRow;
+
+        SettingsGroup = new Selectable[9][];
 		SettingsGroup[0] = SettingsResolutionDropdown;
 		SettingsGroup[1] = SettingsResolutionApply;
 		SettingsGroup[2] = SettingsFullScreenToggle;
@@ -1229,7 +1307,112 @@ public class UINavigationMainMenu : MonoBehaviour {
 			verticalCycling = false;
 			selectablesWrap = true;
 
-		} else if (CurrentSelectables == SettingsResolutionDropdown){
+		}
+        else if (CurrentSelectables == NewLANGameTeams)
+        {
+
+            horizontalCycling = true;
+            verticalCycling = false;
+            selectablesWrap = true;
+
+        }
+        else if (CurrentSelectables == NewLANGamePlanets)
+        {
+
+            horizontalCycling = false;
+            verticalCycling = false;
+            selectablesWrap = true;
+
+        }
+        else if (CurrentSelectables == NewLANGameServerButtons)
+        {
+
+            horizontalCycling = true;
+            verticalCycling = false;
+            selectablesWrap = true;
+
+        }
+        else if (CurrentSelectables == NewLANGameRoomName)
+        {
+
+            horizontalCycling = false;
+            verticalCycling = false;
+            selectablesWrap = true;
+
+        }
+        else if (CurrentSelectables == NewLANGameGreenPlayerLocalButton)
+        {
+
+            horizontalCycling = false;
+            verticalCycling = false;
+            selectablesWrap = false;
+
+        }
+        else if (CurrentSelectables == NewLANGameGreenPlayer)
+        {
+
+            horizontalCycling = false;
+            verticalCycling = false;
+            selectablesWrap = true;
+
+        }
+        else if (CurrentSelectables == NewLANGameRedPlayerLocalButton)
+        {
+
+            horizontalCycling = false;
+            verticalCycling = false;
+            selectablesWrap = false;
+
+        }
+        else if (CurrentSelectables == NewLANGameRedPlayer)
+        {
+
+            horizontalCycling = false;
+            verticalCycling = false;
+            selectablesWrap = true;
+
+        }
+        else if (CurrentSelectables == NewLANGamePurplePlayerLocalButton)
+        {
+
+            horizontalCycling = false;
+            verticalCycling = false;
+            selectablesWrap = false;
+
+        }
+        else if (CurrentSelectables == NewLANGamePurplePlayer)
+        {
+
+            horizontalCycling = false;
+            verticalCycling = false;
+            selectablesWrap = true;
+
+        }
+        else if (CurrentSelectables == NewLANGameBluePlayerLocalButton)
+        {
+
+            horizontalCycling = false;
+            verticalCycling = false;
+            selectablesWrap = false;
+
+        }
+        else if (CurrentSelectables == NewLANGameBluePlayer)
+        {
+
+            horizontalCycling = false;
+            verticalCycling = false;
+            selectablesWrap = true;
+
+        }
+        else if (CurrentSelectables == NewLANGameButtonsRow)
+        {
+
+            horizontalCycling = true;
+            verticalCycling = false;
+            selectablesWrap = true;
+
+        }
+        else if (CurrentSelectables == SettingsResolutionDropdown){
 
 			horizontalCycling = false;
 			verticalCycling = false;
@@ -1555,7 +1738,29 @@ public class UINavigationMainMenu : MonoBehaviour {
 
 			break;
 
-		case UIState.Settings:
+            case UIState.NewLANGame:
+
+                //set the current selectables group to match the UI state
+                currentSelectablesGroup = NewLANGameGroup;
+
+                //find the first array in the group that has an interactable selectable
+                potentialCurrentSelectionGroupIndex = FindFirstInteractableArrayIndex(currentSelectablesGroup);
+
+                //set the selectable array that contains an interactable
+                if (potentialCurrentSelectionGroupIndex != -1)
+                {
+
+                    //set the currentSelectionGroupIndex
+                    currentSelectionGroupIndex = potentialCurrentSelectionGroupIndex;
+
+                    //set the currentSelectables based on the index returned
+                    CurrentSelectables = currentSelectablesGroup[currentSelectionGroupIndex];
+
+                }
+
+                break;
+
+            case UIState.Settings:
 
 			//set the current selectables group to match the UI state
 			currentSelectablesGroup = SettingsGroup;
@@ -2349,8 +2554,18 @@ public class UINavigationMainMenu : MonoBehaviour {
 			uiManager.GetComponent<FileDeletePrompt>().OnFileDeleteYesClicked.RemoveListener(StringReturnToFileLoadWindowAction);
 			uiManager.GetComponent<FileDeletePrompt>().OnFileDeleteCancelClicked.RemoveListener(OpenLoadLocalGameWindowAction);
 
-			//remove listeners for entering the settings menu
-			uiManager.GetComponent<Settings>().OnSettingsWindowOpened.RemoveListener(OpenSettingsWindowAction);
+            //remove listener for new LAN game
+            uiManager.GetComponent<NewLANGameWindow>().OnOpenPanel.RemoveListener(OpenNewLANGameWindowAction);
+
+            //remove listeners for exiting the new LAN game window to the main menu
+            uiManager.GetComponent<NewLANGameWindow>().cancelButton.onClick.RemoveListener(CloseNewLANGameWindowAction);
+            uiManager.GetComponent<NewLANGameWindow>().exitWindowButton.onClick.RemoveListener(CloseNewLANGameWindowAction);
+
+            //remove this once the LAN window goes to a lobby
+            uiManager.GetComponent<NewLANGameWindow>().createGameButton.onClick.RemoveListener(CloseNewLANGameWindowAction);
+
+            //remove listeners for entering the settings menu
+            uiManager.GetComponent<Settings>().OnSettingsWindowOpened.RemoveListener(OpenSettingsWindowAction);
 
 			//remove listeners for exiting the settings menu
 			uiManager.GetComponent<Settings>().acceptButton.onClick.RemoveListener(CloseSettingsWindowAction);

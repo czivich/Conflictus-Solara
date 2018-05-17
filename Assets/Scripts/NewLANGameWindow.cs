@@ -767,14 +767,14 @@ public class NewLANGameWindow : MonoBehaviour {
         if (redPlayerInputField.text == "")
         {
 
-            //set the green player name to the placeholder
+            //set the red player name to the placeholder
             redPlayerName = redPlayerPlaceholder.text;
 
         }
         else
         {
 
-            //set the green player name to the input text
+            //set the red player name to the input text
             redPlayerName = redPlayerInputField.text;
 
         }
@@ -783,14 +783,14 @@ public class NewLANGameWindow : MonoBehaviour {
         if (purplePlayerInputField.text == "")
         {
 
-            //set the green player name to the placeholder
+            //set the purple player name to the placeholder
             purplePlayerName = purplePlayerPlaceholder.text;
 
         }
         else
         {
 
-            //set the green player name to the input text
+            //set the purple player name to the input text
             purplePlayerName = purplePlayerInputField.text;
 
         }
@@ -799,17 +799,33 @@ public class NewLANGameWindow : MonoBehaviour {
         if (bluePlayerInputField.text == "")
         {
 
-            //set the green player name to the placeholder
+            //set the blue player name to the placeholder
             bluePlayerName = bluePlayerPlaceholder.text;
 
         }
         else
         {
 
-            //set the green player name to the input text
+            //set the blue player name to the input text
             bluePlayerName = bluePlayerInputField.text;
 
         }
+
+        if (roomNameInputField.text == "")
+        {
+
+            //set the room name to the placeholder
+            roomName = roomNamePlaceholder.text;
+
+        }
+        else
+        {
+
+            //set the room name to the input text
+            roomName = roomNameInputField.text;
+
+        }
+    
 
         //close the window
         CloseWindow();

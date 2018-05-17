@@ -145,7 +145,7 @@ public class MainMenuManager : MonoBehaviour {
 		uiManagerMainMenu.GetComponent<UINavigationMainMenu> ().Init ();
 		uiManagerMainMenu.GetComponent<About> ().Init ();
         uiManagerMainMenu.GetComponent<NewLANGameWindow>().Init();
-
+        uiManagerMainMenu.GetComponent<NetworkInterface>().Init();
 
     }
 

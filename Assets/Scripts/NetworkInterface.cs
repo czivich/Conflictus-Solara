@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
+using UnityEngine.Events;
 
 public class NetworkInterface : MonoBehaviour {
 
@@ -12,8 +13,13 @@ public class NetworkInterface : MonoBehaviour {
     //manager
     private GameObject uiManager;
 
-	// Use this for initialization
-	public void Init () {
+    //events
+    public UnityEvent OnCreateLANGameAsHost = new UnityEvent();
+    public UnityEvent OnCreateLANGameAsServer = new UnityEvent();
+
+
+    // Use this for initialization
+    public void Init () {
 
         //get the manager
         uiManager = GameObject.FindGameObjectWithTag("UIManager");
@@ -37,7 +43,7 @@ public class NetworkInterface : MonoBehaviour {
     {
 
         //set the network address
-        networkManager.networkAddress = uiManager.GetComponent<NewLANGameWindow>().roomName;
+        //networkManager.networkAddress = uiManager.GetComponent<NewLANGameWindow>().roomName;
 
         Debug.Log(networkManager.networkAddress.ToString());
 
@@ -48,11 +54,17 @@ public class NetworkInterface : MonoBehaviour {
             //we are configured to host
             CreateLANGameAsHost();
 
+            //invoke the event
+            OnCreateLANGameAsHost.Invoke();
+
         }
         else
         {
             //the else condition is that localHost is false, so we are a dedicated server
             CreateLANGameAsServer();
+
+            //invoke the event
+            OnCreateLANGameAsServer.Invoke();
 
         }
         

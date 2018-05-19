@@ -16,7 +16,7 @@ public class ParticleManager : MonoBehaviour {
 	public GameObject prefabNeutralStarbaseLightsEffect;
 
 	//create a vector3 offset so that combat units can exist just above the tilemap
-	public static Vector3 mapOffset = new Vector3(0.0f, 0.1f, 0.0f);
+	public static Vector3 mapOffset = new Vector3(0.0f, 0.2f, 0.0f);
 
 	//unityActions
 	private UnityAction<HexMapTile> createHexMapTileAction;
@@ -94,7 +94,7 @@ public class ParticleManager : MonoBehaviour {
 			(tileMap.transform.localToWorldMatrix * (unitLocalCoordinatesV3)).z + tileMap.transform.position.z);
 
 		//instantiate a prefab
-		GameObject newParticleObject = Instantiate(prefabParticleEffect,unitWorldCoordinatesV3,Quaternion.identity);
+		GameObject newParticleObject = Instantiate(prefabParticleEffect,unitWorldCoordinatesV3 + mapOffset,Quaternion.identity);
 
 		//set the parent
 		newParticleObject.transform.SetParent(parentObject.transform);

@@ -12,6 +12,9 @@ public class MainMenuManager : MonoBehaviour {
 	//gameObject for UIManagerMainMenu
 	public GameObject uiManagerMainMenu;
 
+    //networkManager
+    private GameObject networkManager;
+
 	//game object to hold the event system
 	public GameObject eventSystem;
 
@@ -108,9 +111,11 @@ public class MainMenuManager : MonoBehaviour {
 
 		//get the manager
 		uiManagerMainMenu = GameObject.FindGameObjectWithTag("UIManager");
+        networkManager = GameObject.FindGameObjectWithTag("NetworkManager");
 
-		//initialize scripts
-		InitializeScripts();
+
+        //initialize scripts
+        InitializeScripts();
 
 		//set actions
 		SetActions();
@@ -145,7 +150,10 @@ public class MainMenuManager : MonoBehaviour {
 		uiManagerMainMenu.GetComponent<UINavigationMainMenu> ().Init ();
 		uiManagerMainMenu.GetComponent<About> ().Init ();
         uiManagerMainMenu.GetComponent<NewLANGameWindow>().Init();
-        uiManagerMainMenu.GetComponent<NetworkInterface>().Init();
+        uiManagerMainMenu.GetComponent<LANGameList>().Init();
+
+        networkManager.GetComponent<NetworkInterface>().Init();
+        networkManager.GetComponent<LocalNetworkDiscovery>().Init();
 
     }
 

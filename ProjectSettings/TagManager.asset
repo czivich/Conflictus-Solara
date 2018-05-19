@@ -33,6 +33,7 @@ TagManager:
   - SelectedUI
   - SoundManager
   - ParticleEffects
+  - NetworkManager
   layers:
   - Default
   - TransparentFX

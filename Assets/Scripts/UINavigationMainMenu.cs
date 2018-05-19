@@ -24,6 +24,7 @@ public class UINavigationMainMenu : MonoBehaviour {
 		NewLocalGame,
 		LoadLocalGame,
         NewLANGame,
+        JoinLANGame,
 		FileDeletePrompt,
 		Settings,
 		About,
@@ -72,6 +73,7 @@ public class UINavigationMainMenu : MonoBehaviour {
 	private Selectable[][] NewLocalGameGroup;
 	private Selectable[][] LoadLocalGameGroup;
     private Selectable[][] NewLANGameGroup;
+    private Selectable[][] JoinLANGameGroup;
     private Selectable[][] FileDeletePromptGroup;
 	private Selectable[][] SettingsGroup;
 	private Selectable[][] AboutGroup;
@@ -104,6 +106,9 @@ public class UINavigationMainMenu : MonoBehaviour {
     public Selectable[] NewLANGameBluePlayerLocalButton;
     public Selectable[] NewLANGameBluePlayer;
     public Selectable[] NewLANGameButtonsRow;
+
+    public Selectable[] JoinLANGameGameSelectButtons;
+    public Selectable[] JoinLANGameButtonsRow;
 
     public Selectable[] FileDeleteButtons;
 
@@ -205,6 +210,9 @@ public class UINavigationMainMenu : MonoBehaviour {
 
     private UnityAction OpenNewLANGameWindowAction;
     private UnityAction CloseNewLANGameWindowAction;
+
+    private UnityAction OpenLANGameListWindowAction;
+    private UnityAction CloseLANGameListWindowAction;
 
     private UnityAction OpenSettingsWindowAction;
 	private UnityAction CloseSettingsWindowAction;
@@ -839,7 +847,15 @@ public class UINavigationMainMenu : MonoBehaviour {
                 //cancel out of the menu
                 uiManager.GetComponent<NewLANGameWindow>().cancelButton.onClick.Invoke();
 
-            } else if (CurrentUIState == UIState.Settings) {
+            }
+            else if (CurrentUIState == UIState.JoinLANGame && ignoreEscape == false)
+            {
+
+                //cancel out of the menu
+                uiManager.GetComponent<LANGameList>().cancelButton.onClick.Invoke();
+
+            }
+            else if (CurrentUIState == UIState.Settings) {
 
 				//cancel out of the menu
 				uiManager.GetComponent<Settings> ().exitButton.onClick.Invoke ();
@@ -1014,6 +1030,20 @@ public class UINavigationMainMenu : MonoBehaviour {
 
         };
 
+        OpenLANGameListWindowAction = () => { CurrentUIState = UIState.JoinLANGame; };
+
+        CloseLANGameListWindowAction = () => {
+
+            CurrentUIState = UIState.MainMenu;
+
+            //returnUIState = UIState.Selection;
+            returnSelectable = MainMenuButtons[4];
+
+            //returnSelectable = null;
+            delayReturnToSelectableCount = 2;
+
+        };
+
         OpenSettingsWindowAction = () => {CurrentUIState = UIState.Settings;}; 
 
 		CloseSettingsWindowAction = () => {
@@ -1129,6 +1159,14 @@ public class UINavigationMainMenu : MonoBehaviour {
         uiManager.GetComponent<NewLANGameWindow>().cancelButton.onClick.AddListener(CloseNewLANGameWindowAction);
         uiManager.GetComponent<NewLANGameWindow>().exitWindowButton.onClick.AddListener(CloseNewLANGameWindowAction);
 
+        //add listeners for join LAN Game
+        uiManager.GetComponent<LANGameList>().OnOpenPanel.AddListener(OpenLANGameListWindowAction);
+        uiManager.GetComponent<LANGameList>().cancelButton.onClick.AddListener(CloseLANGameListWindowAction);
+        uiManager.GetComponent<LANGameList>().closeButton.onClick.AddListener(CloseLANGameListWindowAction);
+
+        //add listener for adding a LAN game to list
+        uiManager.GetComponent<LANGameList>().OnAddedLANGameListItem.AddListener(SetLANGameListSelectables);
+
         //change this once the LAN window goes to a lobby
         uiManager.GetComponent<NewLANGameWindow>().createGameButton.onClick.AddListener(CloseNewLANGameWindowAction);
 
@@ -1215,6 +1253,11 @@ public class UINavigationMainMenu : MonoBehaviour {
         NewLANGameGroup[10] = NewLANGameBluePlayerLocalButton;
         NewLANGameGroup[11] = NewLANGameBluePlayer;
         NewLANGameGroup[12] = NewLANGameButtonsRow;
+
+        JoinLANGameGroup = new Selectable[2][];
+        JoinLANGameGroup[0] = JoinLANGameGameSelectButtons;
+        JoinLANGameGroup[1] = JoinLANGameButtonsRow;
+
 
         SettingsGroup = new Selectable[9][];
 		SettingsGroup[0] = SettingsResolutionDropdown;
@@ -1405,6 +1448,22 @@ public class UINavigationMainMenu : MonoBehaviour {
 
         }
         else if (CurrentSelectables == NewLANGameButtonsRow)
+        {
+
+            horizontalCycling = true;
+            verticalCycling = false;
+            selectablesWrap = true;
+
+        }
+        else if (CurrentSelectables == JoinLANGameGameSelectButtons)
+        {
+
+            horizontalCycling = false;
+            verticalCycling = true;
+            selectablesWrap = true;
+
+        }
+        else if (CurrentSelectables == JoinLANGameButtonsRow)
         {
 
             horizontalCycling = true;
@@ -1760,6 +1819,29 @@ public class UINavigationMainMenu : MonoBehaviour {
 
                 break;
 
+            case UIState.JoinLANGame:
+
+                //need to get the game files after the window opens
+                SetLANGameListSelectables();
+
+
+                //find the first array in the group that has an interactable selectable
+                potentialCurrentSelectionGroupIndex = FindFirstInteractableArrayIndex(currentSelectablesGroup);
+
+                //set the selectable array that contains an interactable
+                if (potentialCurrentSelectionGroupIndex != -1)
+                {
+
+                    //set the currentSelectionGroupIndex
+                    currentSelectionGroupIndex = potentialCurrentSelectionGroupIndex;
+
+                    //set the currentSelectables based on the index returned
+                    CurrentSelectables = currentSelectablesGroup[currentSelectionGroupIndex];
+
+                }
+
+                break;
+
             case UIState.Settings:
 
 			//set the current selectables group to match the UI state
@@ -1846,6 +1928,30 @@ public class UINavigationMainMenu : MonoBehaviour {
 		}
 
 	}
+
+    //this function sets the selectables in the LAN game list
+    private void SetLANGameListSelectables()
+    {
+
+        //set the size of the JoinLANGameGameSelectButtons array
+        JoinLANGameGameSelectButtons = new Selectable[uiManager.GetComponent<LANGameList>().gameListItemParent.transform.childCount];
+
+        //loop through the list
+        for (int i = 0; i < uiManager.GetComponent<LANGameList>().gameListItemParent.transform.childCount; i++)
+        {
+
+            JoinLANGameGameSelectButtons[i] = uiManager.GetComponent<LANGameList>().gameListItemParent.transform.GetChild(i).GetComponentInChildren<Selectable>();
+
+        }
+
+        //redefine Selectable Groups since we have dynamically changed the LoadLocalGameFiles
+        DefineSelectablesGroups();
+
+
+        //set the current selectables group to match the UI state
+        currentSelectablesGroup = JoinLANGameGroup;
+
+    }
 
 	//this function finds the index of the first selectable array within a group which contains a valid interactable selectable
 	private int FindFirstInteractableArrayIndex(Selectable[][] selectableGroup){
@@ -2560,6 +2666,14 @@ public class UINavigationMainMenu : MonoBehaviour {
             //remove listeners for exiting the new LAN game window to the main menu
             uiManager.GetComponent<NewLANGameWindow>().cancelButton.onClick.RemoveListener(CloseNewLANGameWindowAction);
             uiManager.GetComponent<NewLANGameWindow>().exitWindowButton.onClick.RemoveListener(CloseNewLANGameWindowAction);
+
+            //remove listeners for join LAN Game
+            uiManager.GetComponent<LANGameList>().OnOpenPanel.RemoveListener(OpenLANGameListWindowAction);
+            uiManager.GetComponent<LANGameList>().cancelButton.onClick.RemoveListener(CloseLANGameListWindowAction);
+            uiManager.GetComponent<LANGameList>().closeButton.onClick.RemoveListener(CloseLANGameListWindowAction);
+
+            //remove listener for adding a LAN game to list
+            uiManager.GetComponent<LANGameList>().OnAddedLANGameListItem.RemoveListener(SetLANGameListSelectables);
 
             //remove this once the LAN window goes to a lobby
             uiManager.GetComponent<NewLANGameWindow>().createGameButton.onClick.RemoveListener(CloseNewLANGameWindowAction);

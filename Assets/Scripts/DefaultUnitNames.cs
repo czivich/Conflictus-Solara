@@ -189,8 +189,8 @@ public class DefaultUnitNames : MonoBehaviour {
 		redBirdOfPreyNames [0] = "Bandit";
 		redBirdOfPreyNames [1] = "Corsair";
 		redBirdOfPreyNames [2] = "Rogue";
-		redBirdOfPreyNames [3] = "Vigilant";
-		redBirdOfPreyNames [4] = "Patience";
+		redBirdOfPreyNames [3] = "Barbosa";
+		redBirdOfPreyNames [4] = "Sparrow";
 
 		redDestroyerNames = new string[GameManager.maxShipsPerClass];
 		redDestroyerNames [0] = "Independence";
@@ -200,7 +200,7 @@ public class DefaultUnitNames : MonoBehaviour {
 		redDestroyerNames [4] = "Titan";
 
 		redStarshipNames = new string[GameManager.maxShipsPerClass];
-		redStarshipNames [0] = "Constitution";
+		redStarshipNames [0] = "Gallant";
 		redStarshipNames [1] = "Resolute";
 		redStarshipNames [2] = "Endeavour";
 		redStarshipNames [3] = "Intrepid";
@@ -209,41 +209,41 @@ public class DefaultUnitNames : MonoBehaviour {
 		redStarbaseName = "Bastille";
 
 		purpleScoutNames = new string[GameManager.maxShipsPerClass];
-		purpleScoutNames [0] = "Prometheus";
+		purpleScoutNames [0] = "Odyssey";
 		purpleScoutNames [1] = "Argonaut";
-		purpleScoutNames [2] = "Pegasus";
-		purpleScoutNames [3] = "Chimera";
-		purpleScoutNames [4] = "Voyager";
+		purpleScoutNames [2] = "Minerva";
+		purpleScoutNames [3] = "Prometheus";
+		purpleScoutNames [4] = "Hermes";
 
 		purpleBirdOfPreyNames = new string[GameManager.maxShipsPerClass];
-		purpleBirdOfPreyNames [0] = "Chronos";
-		purpleBirdOfPreyNames [1] = "Andromeda";
-		purpleBirdOfPreyNames [2] = "Poseidon";
-		purpleBirdOfPreyNames [3] = "Aurora";
-		purpleBirdOfPreyNames [4] = "Javelin";
+		purpleBirdOfPreyNames [0] = "Orion";
+		purpleBirdOfPreyNames [1] = "Artemis";
+		purpleBirdOfPreyNames [2] = "Ares";
+		purpleBirdOfPreyNames [3] = "Phobos";
+		purpleBirdOfPreyNames [4] = "Deimos";
 
 		purpleDestroyerNames = new string[GameManager.maxShipsPerClass];
-		purpleDestroyerNames [0] = "Agincourt";
-		purpleDestroyerNames [1] = "Colossus";
-		purpleDestroyerNames [2] = "Vindicator";
-		purpleDestroyerNames [3] = "Revenge";
-		purpleDestroyerNames [4] = "Imperial";
+		purpleDestroyerNames [0] = "Minotaur";
+		purpleDestroyerNames [1] = "Chimera";
+		purpleDestroyerNames [2] = "Cerberus";
+		purpleDestroyerNames [3] = "Manticore";
+		purpleDestroyerNames [4] = "Hydra";
 
 		purpleStarshipNames = new string[GameManager.maxShipsPerClass];
-		purpleStarshipNames [0] = "Bismarck";
-		purpleStarshipNames [1] = "Tirpitz";
-		purpleStarshipNames [2] = "Constellation";
-		purpleStarshipNames [3] = "Devastation";
-		purpleStarshipNames [4] = "Conqueror";
+		purpleStarshipNames [0] = "Maximus";
+		purpleStarshipNames [1] = "Colossus";
+		purpleStarshipNames [2] = "Achilles";
+		purpleStarshipNames [3] = "Agamemnon";
+		purpleStarshipNames [4] = "Perseus";
 
 		purpleStarbaseName = "Acropolis";
 
 		greenScoutNames = new string[GameManager.maxShipsPerClass];
-		greenScoutNames [0] = "Orion";
+		greenScoutNames [0] = "Voyager";
 		greenScoutNames [1] = "Discovery";
 		greenScoutNames [2] = "Horizon";
-		greenScoutNames [3] = "New Dawn";
-		greenScoutNames [4] = "Lumen";
+		greenScoutNames [3] = "Magellan";
+		greenScoutNames [4] = "New Dawn";
 
 		greenBirdOfPreyNames = new string[GameManager.maxShipsPerClass];
 		greenBirdOfPreyNames [0] = "Wraith";

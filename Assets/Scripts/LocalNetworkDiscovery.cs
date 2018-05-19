@@ -24,16 +24,26 @@ public class LocalNetworkDiscovery : NetworkDiscovery {
     //example "7777,Y,Y,Y,N,Y,N,Y,N,2,3,2,2,2208"
     //private string gameData;
 
-    //event to announce finding a lan game
-    public UnityEvent OnDiscoveredLANGame = new UnityEvent();
+    //event for announcing discovery of a network game
+    public LANGameDiscoveryEvent OnDiscoveredLANGame = new LANGameDiscoveryEvent();
 
-    //event to announce a game timed out
-    public UnityEvent OnLANGameTimedOut = new UnityEvent();
+    //event for updating a previously discovered LAN game
+
+    //event for announcin time out of a LAN game
+    public LANGameDiscoveryEvent OnLANGameTimedOut = new LANGameDiscoveryEvent();
+
+
+    //event class for announcing a new game discovery
+    public class LANGameDiscoveryEvent : UnityEvent<LANConnectionInfo> { };
+
 
     //unityActions
     private UnityAction dedicatedServerAction;
     private UnityAction localHostAction;
     private UnityAction localClientAction;
+
+    //coroutine for checking for games
+    private Coroutine discoveryCoroutine;
 
 	// Use this for initialization
 	public void Init () {
@@ -86,6 +96,9 @@ public class LocalNetworkDiscovery : NetworkDiscovery {
 
         //add listener for looking to join a lan game
         uiManager.GetComponent<LANGameList>().OnOpenPanel.AddListener(localClientAction);
+
+        //add listener for closing the LANGameList window
+        uiManager.GetComponent<LANGameList>().OnClosePanel.AddListener(StopDiscovery);
 
     }
 
@@ -150,7 +163,7 @@ public class LocalNetworkDiscovery : NetworkDiscovery {
             StartAsClient();
 
             //start the coroutine
-            StartCoroutine(CLeanUpExpiredEntires());
+            discoveryCoroutine = StartCoroutine(CLeanUpExpiredEntires());
 
         }
 
@@ -177,6 +190,21 @@ public class LocalNetworkDiscovery : NetworkDiscovery {
         
     }
 
+    //this function stops discovery activities
+    private void StopDiscovery()
+    {
+
+        //stop the coroutine
+        StopCoroutine(discoveryCoroutine);
+
+        //call the NetworkDiscovery StopBroadcast()
+        StopBroadcast();
+
+        //clear the lan games
+        lanGames.Clear();
+
+    }
+
     //this is a coroutine to check for expired entries in the game list
     //i can't do this in update because I can't override Update() because it isn't virtual
     private IEnumerator CLeanUpExpiredEntires()
@@ -193,7 +221,7 @@ public class LocalNetworkDiscovery : NetworkDiscovery {
             foreach (LANConnectionInfo key in keys)
             {
 
-                Debug.Log(key.ipAddress + ", " + key.port);
+                Debug.Log("Coroutine LAN Connection info = " + key.ipAddress + ", " + key.port);
 
                 //check if the value for the key is less than the current time
                 if (lanGames[key] <= Time.time)
@@ -201,13 +229,14 @@ public class LocalNetworkDiscovery : NetworkDiscovery {
                     //this key has timed out and should be removed from the dictionary
                     lanGames.Remove(key);
 
+                    //invoke the timed out event
+                    OnLANGameTimedOut.Invoke(key);
+
                 }
                                 
             }
 
-            Debug.Log("Test Coroutine");
-            Debug.Log(broadcastData.ToString());
-
+            //Debug.Log("Coroutine BroadcastData = " + broadcastData.ToString());
 
             //wait for another timout cycle to run the coroutine again
             yield return new WaitForSeconds(timeout);
@@ -230,8 +259,14 @@ public class LocalNetworkDiscovery : NetworkDiscovery {
         //check if the receivedInfo is in the dictionary
         if(lanGames.ContainsKey(receivedInfo) == false)
         {
+            Debug.Log("received info = " + receivedInfo.ipAddress + ", " + receivedInfo.port);
+
             //the key is not in the dictionary.  We need to add it
             lanGames.Add(receivedInfo, Time.time + timeout);
+
+            //invoke the discovered game event
+            OnDiscoveredLANGame.Invoke(receivedInfo);
+
         }
         else
         {
@@ -263,6 +298,10 @@ public class LocalNetworkDiscovery : NetworkDiscovery {
 
             //remove listener for looking to join a lan game
             uiManager.GetComponent<LANGameList>().OnOpenPanel.RemoveListener(localClientAction);
+
+            //remove listener for closing the LANGameList window
+            uiManager.GetComponent<LANGameList>().OnClosePanel.RemoveListener(StopDiscovery);
+
         }
 
     }

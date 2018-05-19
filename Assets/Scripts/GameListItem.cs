@@ -56,7 +56,7 @@ public class GameListItem : MonoBehaviour {
     private Color32 playerIsDead = new Color32(0, 0, 0, 255);
 
     // Use this for initialization
-    public void Init(LANConnectionInfo connectionInfo, GameListItemGameData gameData)
+    public void Init(LANConnectionInfo connectionInfo)
     {
         //get the manager
         uiManager = GameObject.FindGameObjectWithTag("UIManager");
@@ -65,7 +65,7 @@ public class GameListItem : MonoBehaviour {
         SetConnectionInfo(connectionInfo);
 
         //set the gameData
-        SetGameData(gameData);
+        //SetGameData(gameData);
 
         //set the player connection status
         SetPlayerConnectionStatus();

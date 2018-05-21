@@ -14,9 +14,14 @@ public class NetworkInterface : MonoBehaviour {
     private GameObject uiManager;
 
     //events
-    public UnityEvent OnCreateLANGameAsHost = new UnityEvent();
-    public UnityEvent OnCreateLANGameAsServer = new UnityEvent();
+    public ConnectionEvent OnCreateLANGameAsHost = new ConnectionEvent();
+    public ConnectionEvent OnCreateLANGameAsServer = new ConnectionEvent();
 
+    //class for passing connections
+    public class ConnectionEvent : UnityEvent<LANConnectionInfo> { };
+
+    //unityActions
+    private UnityAction<LANConnectionInfo> newLANGameCreatedAction;
 
     // Use this for initialization
     public void Init () {
@@ -24,26 +29,31 @@ public class NetworkInterface : MonoBehaviour {
         //get the manager
         uiManager = GameObject.FindGameObjectWithTag("UIManager");
 
+        //set actions
+        SetActions();
+
         //add event listeners
         AddEventListeners();
 		
 	}
 
+    //this function sets the unityActions
+    private void SetActions()
+    {
+        newLANGameCreatedAction = (connectionInfo) => { ResolveCreateLANGame(connectionInfo); };
+    }
+
     //this function adds event listeners
     private void AddEventListeners()
     {
-
         //add listener for creating LAN game as host
-        uiManager.GetComponent<NewLANGameWindow>().OnCreateNewLANGame.AddListener(ResolveCreateLANGame);
+        uiManager.GetComponent<NewLANGameWindow>().OnCreateNewLANGame.AddListener(newLANGameCreatedAction);
 
     }
 
     //this function resolves the create LAN game click
-    private void ResolveCreateLANGame()
+    private void ResolveCreateLANGame(LANConnectionInfo connectionInfo)
     {
-
-        //set the network address
-        //networkManager.networkAddress = uiManager.GetComponent<NewLANGameWindow>().roomName;
 
         Debug.Log(networkManager.networkAddress.ToString());
 
@@ -55,7 +65,7 @@ public class NetworkInterface : MonoBehaviour {
             CreateLANGameAsHost();
 
             //invoke the event
-            OnCreateLANGameAsHost.Invoke();
+            OnCreateLANGameAsHost.Invoke(connectionInfo);
 
         }
         else
@@ -64,7 +74,7 @@ public class NetworkInterface : MonoBehaviour {
             CreateLANGameAsServer();
 
             //invoke the event
-            OnCreateLANGameAsServer.Invoke();
+            OnCreateLANGameAsServer.Invoke(connectionInfo);
 
         }
         
@@ -76,9 +86,6 @@ public class NetworkInterface : MonoBehaviour {
 
         //call the startHost function
         networkManager.StartHost();
-
-        //set the network address
-        networkManager.networkAddress = uiManager.GetComponent<NewLANGameWindow>().roomName;
 
     }
 
@@ -103,7 +110,7 @@ public class NetworkInterface : MonoBehaviour {
         if (uiManager != null)
         {
             //remove listener for creating LAN game as host
-            uiManager.GetComponent<NewLANGameWindow>().OnCreateNewLANGame.RemoveListener(ResolveCreateLANGame);
+            uiManager.GetComponent<NewLANGameWindow>().OnCreateNewLANGame.RemoveListener(newLANGameCreatedAction);
 
         }
 

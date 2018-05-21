@@ -5,6 +5,7 @@ using UnityEngine.Events;
 using UnityEngine.UI;
 using TMPro;
 using System.IO;
+using UnityEngine.Networking;
 
 public class NewLANGameWindow : MonoBehaviour {
 
@@ -32,9 +33,9 @@ public class NewLANGameWindow : MonoBehaviour {
     public Button hostButton;
     public Button serverButton;
 
-    //variable to hold the room name input field
-    public TMP_InputField roomNameInputField;
-    public TextMeshProUGUI roomNamePlaceholder;
+    //variable to hold the game name input field
+    public TMP_InputField gameNameInputField;
+    public TextMeshProUGUI gameNamePlaceholder;
 
     //variable to hold the Team row
     public GameObject teamOneRow;
@@ -79,8 +80,8 @@ public class NewLANGameWindow : MonoBehaviour {
     private string defaultPurplePlayerName = "Purple Player";
     private string defaultBluePlayerName = "Blue Player";
 
-    //variables to hold the default room name
-    private string defaultRoomName = "defaultRoom";
+    //variables to hold the default game name
+    private string defaulGameName = "defaultGame";
 
     //variable to hold the team state
     public bool teamsEnabled
@@ -150,8 +151,8 @@ public class NewLANGameWindow : MonoBehaviour {
 
     }
 
-    //variable to hold the room name
-    public string roomName
+    //variable to hold the game name
+    public string gameName
     {
 
         get;
@@ -196,7 +197,10 @@ public class NewLANGameWindow : MonoBehaviour {
     private Color selectedButtonColor = new Color(240.0f / 255.0f, 240.0f / 255.0f, 20.0f / 255.0f, 255.0f / 255.0f);
 
     //event for creating a new game
-    public UnityEvent OnCreateNewLANGame = new UnityEvent();
+    public ConnectionEvent OnCreateNewLANGame = new ConnectionEvent();
+
+    //event class for passing lan connection info
+    public class ConnectionEvent : UnityEvent<LANConnectionInfo> { };
 
     //events for opening and closing the window
     public UnityEvent OnOpenPanel = new UnityEvent();
@@ -213,8 +217,8 @@ public class NewLANGameWindow : MonoBehaviour {
         //set the default player names
         SetDefaultPlayerNames();
 
-        //set the default room name
-        SetDefaultRoomName();
+        //set the default game name
+        SetDefaultGameName();
 
         //set the default team state
         SetTeamsToNo();
@@ -309,11 +313,11 @@ public class NewLANGameWindow : MonoBehaviour {
 
     }
 
-    //this function sets the default room name
-    private void SetDefaultRoomName()
+    //this function sets the default game name
+    private void SetDefaultGameName()
     {
 
-        roomNamePlaceholder.text = defaultRoomName;
+        gameNamePlaceholder.text = defaulGameName;
 
     }
 
@@ -811,18 +815,18 @@ public class NewLANGameWindow : MonoBehaviour {
 
         }
 
-        if (roomNameInputField.text == "")
+        if (gameNameInputField.text == "")
         {
 
-            //set the room name to the placeholder
-            roomName = roomNamePlaceholder.text;
+            //set the game name to the placeholder
+            gameName = gameNamePlaceholder.text;
 
         }
         else
         {
 
-            //set the room name to the input text
-            roomName = roomNameInputField.text;
+            //set the game name to the input text
+            gameName = gameNameInputField.text;
 
         }
     
@@ -831,8 +835,34 @@ public class NewLANGameWindow : MonoBehaviour {
         CloseWindow();
 
         //invoke the new game event
-        OnCreateNewLANGame.Invoke();
+        OnCreateNewLANGame.Invoke(CurrentNewGameConnectionInfo());
 
+    }
+
+    //this function generates a LANConnectionInfo from the current game setup
+    private LANConnectionInfo CurrentNewGameConnectionInfo()
+    {
+
+        return new LANConnectionInfo(
+            NetworkManager.singleton.networkAddress.ToString(),
+            NetworkManager.singleton.networkPort,
+            gameName,
+            teamsEnabled,
+            true,   //since this is a new game, the player is alive
+            localControlGreen,
+            true,   //since this is a new game, the player is alive
+            localControlRed,
+            true,   //since this is a new game, the player is alive
+            localControlPurple,
+            true,   //since this is a new game, the player is alive
+            localControlBlue,
+            0,  //since this is a new game, planets are zero
+            0,  //since this is a new game, planets are zero
+            0,  //since this is a new game, planets are zero
+            0,  //since this is a new game, planets are zero
+            planetCount,
+            GameManager.startingGameYear
+            );
     }
 
     //this function resolves OnDestroy

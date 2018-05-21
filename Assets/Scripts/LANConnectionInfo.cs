@@ -5,29 +5,34 @@ using UnityEngine;
 public struct LANConnectionInfo {
 
     //variables
-    public string ipAddress;
-    public int port;
-    //public string gameName;
+    public string ipAddress { get; private set; }
+    public int port { get; private set; }
+    public string gameName { get; private set; }
+    public bool teamsEnabled { get; private set; }
 
-    /*
-    public bool greenPlayerIsAlive;
-    public bool greenPlayerIsTaken;
-    public bool redPlayerIsAlive;
-    public bool redPlayerIsTaken;
-    public bool purplePlayerIsAlive;
-    public bool purplePlayerIsTaken;
-    public bool bluePlayerIsAlive;
-    public bool bluePlayerIsTaken;
-    public int greenPlayerPlanets;
-    public int redPlayerPlanets;
-    public int purplePlayerPlanets;
-    public int bluePlayerPlanets;
-    public int gameYear;
-    */
+    public bool greenPlayerIsAlive { get; private set; }
+    public bool greenPlayerIsTaken { get; private set; }
+    public bool redPlayerIsAlive { get; private set; }
+    public bool redPlayerIsTaken { get; private set; }
+    public bool purplePlayerIsAlive { get; private set; }
+    public bool purplePlayerIsTaken { get; private set; }
+    public bool bluePlayerIsAlive { get; private set; }
+    public bool bluePlayerIsTaken { get; private set; }
+    public int greenPlayerPlanets { get; private set; }
+    public int redPlayerPlanets { get; private set; }
+    public int purplePlayerPlanets { get; private set; }
+    public int bluePlayerPlanets { get; private set; }
+    public int victoryPlanets { get; private set; }
+    public int gameYear { get; private set; }
 
-    //contructor
+    public string broadcastDataString { get; private set; }
+
+
+    //contructor for using received broadcast data
     public LANConnectionInfo(string fromAddress, string data)
     {
+        Debug.Log("LANConnection data string = " + data);
+
         //temporary variable to hold the parts of the fromAddress string
         string[] fromAddressParts = fromAddress.Split(new char[] { ':' });
 
@@ -38,11 +43,20 @@ public struct LANConnectionInfo {
         string[] dataParts = data.Split(new char[] { ':' });
 
         //set the variables from the data string
-        System.Int32.TryParse(dataParts[2], out port);
+        port = System.Int32.Parse(dataParts[1]);
 
-        //gameName = dataParts[1];
-        /*
-        if (dataParts[2] == "Y")
+        gameName = dataParts[2];
+
+        if (dataParts[3] == "true")
+        {
+            teamsEnabled = true;
+        }
+        else
+        {
+            teamsEnabled = false;
+        }
+
+        if (dataParts[4] == "true")
         {
             greenPlayerIsAlive = true;
         }
@@ -51,7 +65,7 @@ public struct LANConnectionInfo {
             greenPlayerIsAlive = false;
         }
 
-        if (dataParts[3] == "Y")
+        if (dataParts[5] == "true")
         {
             greenPlayerIsTaken = true;
         }
@@ -60,7 +74,7 @@ public struct LANConnectionInfo {
             greenPlayerIsTaken = false;
         }
 
-        if (dataParts[4] == "Y")
+        if (dataParts[6] == "true")
         {
             redPlayerIsAlive = true;
         }
@@ -69,7 +83,7 @@ public struct LANConnectionInfo {
             redPlayerIsAlive = false;
         }
 
-        if (dataParts[5] == "Y")
+        if (dataParts[7] == "true")
         {
             redPlayerIsTaken = true;
         }
@@ -78,7 +92,7 @@ public struct LANConnectionInfo {
             redPlayerIsTaken = false;
         }
 
-        if (dataParts[6] == "Y")
+        if (dataParts[8] == "true")
         {
             purplePlayerIsAlive = true;
         }
@@ -87,7 +101,7 @@ public struct LANConnectionInfo {
             purplePlayerIsAlive = false;
         }
 
-        if (dataParts[7] == "Y")
+        if (dataParts[9] == "true")
         {
             purplePlayerIsTaken = true;
         }
@@ -96,7 +110,7 @@ public struct LANConnectionInfo {
             purplePlayerIsTaken = false;
         }
 
-        if (dataParts[8] == "Y")
+        if (dataParts[10] == "true")
         {
             bluePlayerIsAlive = true;
         }
@@ -105,7 +119,7 @@ public struct LANConnectionInfo {
             bluePlayerIsAlive = false;
         }
 
-        if (dataParts[9] == "Y")
+        if (dataParts[11] == "true")
         {
             bluePlayerIsTaken = true;
         }
@@ -115,13 +129,65 @@ public struct LANConnectionInfo {
 
         }
 
-        greenPlayerPlanets = System.Int32.Parse(dataParts[10]);
-        redPlayerPlanets = System.Int32.Parse(dataParts[11]);
-        purplePlayerPlanets = System.Int32.Parse(dataParts[12]);
-        bluePlayerPlanets = System.Int32.Parse(dataParts[13]);
+        greenPlayerPlanets = System.Int32.Parse(dataParts[12]);
+        redPlayerPlanets = System.Int32.Parse(dataParts[13]);
+        purplePlayerPlanets = System.Int32.Parse(dataParts[14]);
+        bluePlayerPlanets = System.Int32.Parse(dataParts[15]);
 
-        gameYear = System.Int32.Parse(dataParts[14]);
-        */
+        victoryPlanets = System.Int32.Parse(dataParts[16]);
+        gameYear = System.Int32.Parse(dataParts[17]);
+
+        this.broadcastDataString = data;
+
+    }
+
+    //this constructor is for populating from a newly created game
+    public LANConnectionInfo(string newIPAddress, int newPort, string newGameName, bool newTeamsEnabled, bool newGreenPlayerIsAlive,
+        bool newGreenPlayerIsTaken, bool newRedPlayerIsAlive, bool newRedPlayerIsTaken, bool newPurplePlayerIsAlive,
+        bool newPurplePlayerIsTaken, bool newBluePlayerIsAlive, bool newBluePlayerIsTaken, int newGreenPlayerPlanets,
+        int newRedPlayerPlanets, int newPurplePlayerPlanets, int newBluePlayerPlanets, int newVictoryPlanets, int newGameYear)
+    {
+
+        this.ipAddress = newIPAddress;
+        this.port = newPort;
+        this.gameName = newGameName;
+        this.teamsEnabled = newTeamsEnabled;
+        this.greenPlayerIsAlive = newGreenPlayerIsAlive;
+        this.greenPlayerIsTaken = newGreenPlayerIsTaken;
+        this.redPlayerIsAlive = newRedPlayerIsAlive;
+        this.redPlayerIsTaken = newRedPlayerIsTaken;
+        this.purplePlayerIsAlive = newPurplePlayerIsAlive;
+        this.purplePlayerIsTaken = newPurplePlayerIsTaken;
+        this.bluePlayerIsAlive = newBluePlayerIsAlive;
+        this.bluePlayerIsTaken = newBluePlayerIsTaken;
+        this.greenPlayerPlanets = newGreenPlayerPlanets;
+        this.redPlayerPlanets = newRedPlayerPlanets;
+        this.purplePlayerPlanets = newPurplePlayerPlanets;
+        this.bluePlayerPlanets = newBluePlayerPlanets;
+        this.gameYear = newGameYear;
+        this.victoryPlanets = newVictoryPlanets;
+
+        this.broadcastDataString = ipAddress + ":" +
+            port.ToString() + ":" +
+            gameName + ":" +
+            teamsEnabled.ToString().ToLowerInvariant() + ":" +
+            greenPlayerIsAlive.ToString().ToLowerInvariant() + ":" +
+            greenPlayerIsTaken.ToString().ToLowerInvariant() + ":" +
+            redPlayerIsAlive.ToString().ToLowerInvariant() + ":" +
+            redPlayerIsTaken.ToString().ToLowerInvariant() + ":" +
+            purplePlayerIsAlive.ToString().ToLowerInvariant() + ":" +
+            purplePlayerIsTaken.ToString().ToLowerInvariant() + ":" +
+            bluePlayerIsAlive.ToString().ToLowerInvariant() + ":" +
+            bluePlayerIsTaken.ToString().ToLowerInvariant() + ":" +
+            greenPlayerPlanets.ToString() + ":" +
+            redPlayerPlanets.ToString() + ":" +
+            purplePlayerPlanets.ToString() + ":" +
+            bluePlayerPlanets.ToString() + ":" +
+            victoryPlanets.ToString() + ":" +
+            gameYear.ToString() + ":";
+
+        Debug.Log("string created = " + broadcastDataString);
+
     }
 
 }

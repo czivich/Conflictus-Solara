@@ -190,7 +190,7 @@ public class DefaultUnitNames : MonoBehaviour {
 		redBirdOfPreyNames [1] = "Corsair";
 		redBirdOfPreyNames [2] = "Rogue";
 		redBirdOfPreyNames [3] = "Barbosa";
-		redBirdOfPreyNames [4] = "Sparrow";
+		redBirdOfPreyNames [4] = "Drake";
 
 		redDestroyerNames = new string[GameManager.maxShipsPerClass];
 		redDestroyerNames [0] = "Independence";

@@ -161,7 +161,7 @@ public class GameManager : NetworkBehaviour {
 	}
 
 	//variable to track the game year - the year will increment every cycle of turns
-	private int startingGameYear = 2201;
+	public static readonly int startingGameYear = 2201;
 	public int gameYear {
 
 		get;

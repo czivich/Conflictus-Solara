@@ -11,6 +11,10 @@ public class LocalNetworkDiscovery : NetworkDiscovery {
     private GameObject uiManager;
     private GameObject networkManager;
 
+    //variables to hold the local server/client state
+    //private bool localIsServer;
+    //private bool localIsClient;
+    //private LANConnectionInfo localLANConnectionInfo;
 
     //variable for timout duration
     private float timeout = 5.0f;
@@ -19,17 +23,18 @@ public class LocalNetworkDiscovery : NetworkDiscovery {
     public Dictionary<LANConnectionInfo, float> lanGames { get; private set; }
 
     //string for custom game data
-    //format to be port,gameName, green alive, greenTaken, red alive, redTaken, purple alive, purpleTaken, blue alive, blueTaken,
-    //green planets, red planets, purple planets, blue planets, year
-    //example "7777,Y,Y,Y,N,Y,N,Y,N,2,3,2,2,2208"
-    //private string gameData;
+    //format to be ipAddress, port,gameName, teams, green alive, greenTaken, red alive, redTaken, purple alive, purpleTaken, blue alive,
+    //blueTaken, green planets, red planets, purple planets, blue planets, year
+    //example "192.168.1.75, 7777:false:true:true:true:false:true:false:true:false:2:3:2:2:2208:"
+    private string gameData;
 
     //event for announcing discovery of a network game
     public LANGameDiscoveryEvent OnDiscoveredLANGame = new LANGameDiscoveryEvent();
 
     //event for updating a previously discovered LAN game
+    public LANGameDiscoveryEvent OnReceivedUpdateToLANGame = new LANGameDiscoveryEvent();
 
-    //event for announcin time out of a LAN game
+    //event for announcing time out of a LAN game
     public LANGameDiscoveryEvent OnLANGameTimedOut = new LANGameDiscoveryEvent();
 
 
@@ -38,28 +43,18 @@ public class LocalNetworkDiscovery : NetworkDiscovery {
 
 
     //unityActions
-    private UnityAction dedicatedServerAction;
-    private UnityAction localHostAction;
+    private UnityAction<LANConnectionInfo> dedicatedServerAction;
+    private UnityAction<LANConnectionInfo> localHostAction;
     private UnityAction localClientAction;
 
     //coroutine for checking for games
     private Coroutine discoveryCoroutine;
 
+    //placeholder connection info
+    LANConnectionInfo placeholderConnectionInfo;
+
 	// Use this for initialization
 	public void Init () {
-
-        /*
-        isServer = true;
-        base.Initialize();
-       // StartAsClient();
-        //temp
-        gameData = "7777,DogGame,Y,Y,Y,N,Y,N,Y,N,2,3,2,2,2208";
-
-        StartBroadcast();
-
-        */
-        // gameData = "7777,DogGame,Y,Y,Y,N,Y,N,Y,N,2,3,2,2,2208";
-        //Init(true, true);
 
         //get the manager
         uiManager = GameObject.FindGameObjectWithTag("UIManager");
@@ -67,6 +62,9 @@ public class LocalNetworkDiscovery : NetworkDiscovery {
 
         //set the dictionary
         lanGames = new Dictionary<LANConnectionInfo, float>();
+
+        //set the placeholder
+        placeholderConnectionInfo = new LANConnectionInfo("", 0, "", false,false, false, false, false, false, false, false, false, 0, 0, 0, 0, 0, 0);
 
         //set actions
         SetActions();
@@ -79,9 +77,9 @@ public class LocalNetworkDiscovery : NetworkDiscovery {
     //this function sets the unityActions
     private void SetActions()
     {
-        dedicatedServerAction = () => { StartDiscovery(true, false); };
-        localHostAction = () => { StartDiscovery(true, true); };
-        localClientAction = () => { StartDiscovery(false, true); };
+        dedicatedServerAction = (connectionInfo) => { StartDiscovery(true, false, connectionInfo); };
+        localHostAction = (connectionInfo) => { StartDiscovery(true, true, connectionInfo); };
+        localClientAction = () => { StartDiscovery(false, true, placeholderConnectionInfo); };
 
     }
 
@@ -103,58 +101,29 @@ public class LocalNetworkDiscovery : NetworkDiscovery {
     }
 
     //use this for initialization
-    public void StartDiscovery(bool initAsServer, bool initAsClient)
+    public void StartDiscovery(bool initAsServer, bool initAsClient, LANConnectionInfo connectionInfo)
     {
-        /*
-        //check if we are initializing as the server
-        if(initAsServer == true)
-        {
-            //set the isServer flag
-            isServer = true;
 
-        }
-        else
-        {
-            //set the isServer flag
-            isServer = false;
-        }
-
-        //check if we are a client
-        if (initAsClient == true)
-        {
-            //set the isServer flag
-            isClient = true;
-
-        }
-        else
-        {
-            //set the isServer flag
-            isClient = false;
-        }
-        */
+        //cache the local info in case we need to restart discovery
+        //localIsClient = initAsClient;
+        //localIsServer = initAsServer;
+        //localLANConnectionInfo = connectionInfo;
 
         //initialize the base class
         base.Initialize();
-        /*
-        //check if we are a server
-        if(isServer == true)
-        {
-            //start the broadcast
-            StartBroadcast();
-
-        }
-        else if(isClient == true)
-        {
-            //start the coroutine
-            StartCoroutine(CLeanUpExpiredEntires());
-        }
-
-    */
 
         //check if we are a server
         if(initAsServer == true)
         {
+
+            //set the broadcast data based on the passed connection info
+            broadcastData = connectionInfo.broadcastDataString;
+
             StartAsServer();
+
+            Debug.Log("broadcastData = " + broadcastData);
+
+            StartCoroutine(BroadcastMessage());
         }
 
         //check if we are a client
@@ -169,25 +138,15 @@ public class LocalNetworkDiscovery : NetworkDiscovery {
 
     }
 
-    //this function starts broadcasting
-    private void StartBroadcast()
+    private IEnumerator BroadcastMessage()
     {
-        //first stop any broadcast that is in progress
-        StopBroadcast();
 
-        //set the isServer flag again because StopBroadcast clears it
+        while (true)
+        {
+            Debug.Log("broadcastData = " + broadcastData);
 
-
-        //set the broadcast data
-        //broadcastData = gameData;
-
-        //call the base initialize function
-        base.Initialize();
-
-        //start the base as server
-        //base.StartAsServer();
-
-        
+            yield return new WaitForSeconds(timeout);
+        }
     }
 
     //this function stops discovery activities
@@ -236,8 +195,6 @@ public class LocalNetworkDiscovery : NetworkDiscovery {
                                 
             }
 
-            //Debug.Log("Coroutine BroadcastData = " + broadcastData.ToString());
-
             //wait for another timout cycle to run the coroutine again
             yield return new WaitForSeconds(timeout);
 
@@ -256,16 +213,58 @@ public class LocalNetworkDiscovery : NetworkDiscovery {
         //get the connection info for the received data
         LANConnectionInfo receivedInfo = new LANConnectionInfo(fromAddress, data);
 
+
         //check if the receivedInfo is in the dictionary
-        if(lanGames.ContainsKey(receivedInfo) == false)
+        if (lanGames.ContainsKey(receivedInfo) == false)
         {
-            Debug.Log("received info = " + receivedInfo.ipAddress + ", " + receivedInfo.port);
 
-            //the key is not in the dictionary.  We need to add it
-            lanGames.Add(receivedInfo, Time.time + timeout);
+            //flag to see if we find an update
+            bool foundUpdate = false;
 
-            //invoke the discovered game event
-            OnDiscoveredLANGame.Invoke(receivedInfo);
+            //key to edit if we find an update
+            LANConnectionInfo keyToUpdate = receivedInfo;
+
+            //check if this is an update of an existing game
+            //we will consider it the same game if the ipAddress, port, and name are all the same
+            foreach (KeyValuePair<LANConnectionInfo, float> entry in lanGames)
+            {
+                if (entry.Key.ipAddress == receivedInfo.ipAddress 
+                    && entry.Key.port == receivedInfo.port
+                    && entry.Key.gameName == receivedInfo.gameName)
+                {
+                    //we have an existing game for this ipAddress, port, and name
+                    //invoke the update event
+                    OnReceivedUpdateToLANGame.Invoke(receivedInfo);
+
+                    //store this entry
+                    keyToUpdate = entry.Key;
+
+                    //set the found update flag
+                    foundUpdate = true;
+                }
+            }
+
+            //check if we found an update
+            if (foundUpdate == true)
+            {
+                //if we found an update, we want to remove the old entry from the dictionary and add the new one
+                lanGames.Remove(keyToUpdate);
+
+                //add the new entry
+                lanGames.Add(receivedInfo, Time.time + timeout);
+            }
+            else
+            {
+               
+                Debug.Log("received info from address = " + receivedInfo.ipAddress + ", " + receivedInfo.port);
+                Debug.Log("received data = " + data);
+                //the key is not in the dictionary.  We need to add it
+                lanGames.Add(receivedInfo, Time.time + timeout);
+
+                //invoke the discovered game event
+                OnDiscoveredLANGame.Invoke(receivedInfo);
+
+            }
 
         }
         else

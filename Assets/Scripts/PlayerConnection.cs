@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
-public class PlayerConnection : NetworkLobbyPlayer {
+public class PlayerConnection : NetworkBehaviour {
 
     //manager
     private GameManager gameManager;

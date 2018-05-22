@@ -127,7 +127,7 @@ public class LocalNetworkDiscovery : NetworkDiscovery {
         }
 
         //check if we are a client
-        if (initAsClient == true)
+        else if (initAsClient == true)
         {
             StartAsClient();
 

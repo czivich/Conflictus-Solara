@@ -1051,7 +1051,7 @@ public class UINavigationMainMenu : MonoBehaviour {
 			CurrentUIState = UIState.MainMenu;
 
 			//returnUIState = UIState.Selection;
-			returnSelectable = MainMenuButtons[5];
+			returnSelectable = MainMenuButtons[8];
 
 			//returnSelectable = null;
 			delayReturnToSelectableCount = 2;
@@ -1065,7 +1065,7 @@ public class UINavigationMainMenu : MonoBehaviour {
 			CurrentUIState = UIState.MainMenu;
 
 			//returnUIState = UIState.Selection;
-			returnSelectable = MainMenuButtons[6];
+			returnSelectable = MainMenuButtons[9];
 
 			//returnSelectable = null;
 			delayReturnToSelectableCount = 2;
@@ -1080,7 +1080,7 @@ public class UINavigationMainMenu : MonoBehaviour {
 			CurrentUIState = UIState.MainMenu;
 
 			//returnUIState = UIState.Selection;
-			returnSelectable = MainMenuButtons[7];
+			returnSelectable = MainMenuButtons[10];
 
 			//returnSelectable = null;
 			delayReturnToSelectableCount = 2;

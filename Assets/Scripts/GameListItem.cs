@@ -41,6 +41,12 @@ public class GameListItem : MonoBehaviour {
 
     private Color32 playerIsDeadColor = new Color32(0, 0, 0, 255);
 
+    //event for clicking the game button
+    public static ConnectionEvent OnJoinLANGame = new ConnectionEvent();
+
+    //event class for passing lan connection info
+    public class ConnectionEvent : UnityEvent<LANConnectionInfo>{ };
+
     //unityActions
     private UnityAction<LANConnectionInfo> connectionUpdateAction;
 
@@ -79,6 +85,9 @@ public class GameListItem : MonoBehaviour {
     {
         //add listener for receiving an update
         networkManager.GetComponent<LocalNetworkDiscovery>().OnReceivedUpdateToLANGame.AddListener(connectionUpdateAction);
+
+        //add listener for clicking the game button
+        gameSelectButton.onClick.AddListener(JoinGame);
     }
 
     //this function sets the connection info
@@ -225,6 +234,14 @@ public class GameListItem : MonoBehaviour {
         }
 
     }
+
+    //this function joins a game
+    private void JoinGame()
+    {
+    
+        //invoke the event
+        OnJoinLANGame.Invoke(this.lanConnectionInfo);
+    }
     
     //this function handles onDestroy
     private void OnDestroy()
@@ -235,7 +252,17 @@ public class GameListItem : MonoBehaviour {
     //this function removes event listeners
     private void RemoveEventListeners()
     {
-        //remove listener for receiving an update
-        networkManager.GetComponent<LocalNetworkDiscovery>().OnReceivedUpdateToLANGame.RemoveListener(connectionUpdateAction);
+        if (networkManager != null)
+        {
+            //remove listener for receiving an update
+            networkManager.GetComponent<LocalNetworkDiscovery>().OnReceivedUpdateToLANGame.RemoveListener(connectionUpdateAction);
+
+        }
+
+        if(gameSelectButton != null)
+        {
+            //remove listener for clicking the game button
+            gameSelectButton.onClick.RemoveListener(JoinGame);
+        }
     }
 }

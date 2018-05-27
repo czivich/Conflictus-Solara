@@ -151,7 +151,9 @@ public class MainMenuManager : MonoBehaviour {
 		uiManagerMainMenu.GetComponent<About> ().Init ();
         uiManagerMainMenu.GetComponent<NewLANGameWindow>().Init();
         uiManagerMainMenu.GetComponent<LANGameList>().Init();
+        uiManagerMainMenu.GetComponent<LobbyLANGamePanel>().Init();
 
+        networkManager.GetComponent<CustomNetworkManager>().Init();
         networkManager.GetComponent<NetworkInterface>().Init();
         networkManager.GetComponent<LocalNetworkDiscovery>().Init();
 

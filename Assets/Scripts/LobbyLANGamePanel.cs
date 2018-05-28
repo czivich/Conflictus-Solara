@@ -240,6 +240,7 @@ public class LobbyLANGamePanel : MonoBehaviour {
             {
                 _redPlayerName = value;
                 redPlayerNameText.text = _redPlayerName;
+                redPlayerInputField.text = _redPlayerName;
             }
         }
     }
@@ -261,6 +262,7 @@ public class LobbyLANGamePanel : MonoBehaviour {
             {
                 _purplePlayerName = value;
                 purplePlayerNameText.text = _purplePlayerName;
+                purplePlayerInputField.text = _purplePlayerName;
             }
         }
     }
@@ -282,6 +284,7 @@ public class LobbyLANGamePanel : MonoBehaviour {
             {
                 _bluePlayerName = value;
                 bluePlayerNameText.text = _bluePlayerName;
+                bluePlayerInputField.text = _bluePlayerName;
             }
         }
     }
@@ -480,6 +483,39 @@ public class LobbyLANGamePanel : MonoBehaviour {
     }
 
     public bool bluePlayerIsTaken
+    {
+
+        get;
+        private set;
+
+    }
+
+    //these bools track whether a player is alive and should be part of the game
+    public bool greenPlayerIsAlive
+    {
+
+        get;
+        private set;
+
+    }
+
+    public bool redPlayerIsAlive
+    {
+
+        get;
+        private set;
+
+    }
+
+    public bool purplePlayerIsAlive
+    {
+
+        get;
+        private set;
+
+    }
+
+    public bool bluePlayerIsAlive
     {
 
         get;
@@ -749,6 +785,11 @@ public class LobbyLANGamePanel : MonoBehaviour {
         //add listener for blue connection update
         NetworkLobbyLAN.OnUpdateBluePlayerConnection.AddListener(GetBluePlayerConnection);
 
+        //add listener for ready buttons
+        readyGreenPlayerButton.onClick.AddListener(ResolveReadyGreenButtonClick);
+        readyRedPlayerButton.onClick.AddListener(ResolveReadyRedButtonClick);
+        readyPurplePlayerButton.onClick.AddListener(ResolveReadyPurpleButtonClick);
+        readyBluePlayerButton.onClick.AddListener(ResolveReadyBlueButtonClick);
     }
 
     //this function will open the window
@@ -1060,6 +1101,9 @@ public class LobbyLANGamePanel : MonoBehaviour {
             //update the input field status
             SetGreenPlayerInputStatus();
 
+            //make the ready button not interactable
+            readyGreenPlayerButton.interactable = false;
+
             //unhighlight the button
             UnhighlightButton(localGreenPlayerButton);
 
@@ -1071,6 +1115,9 @@ public class LobbyLANGamePanel : MonoBehaviour {
 
             //update the input field status
             SetGreenPlayerInputStatus();
+
+            //make the ready button interactable
+            readyGreenPlayerButton.interactable = true;
 
             //highlight the button
             HighlightButton(localGreenPlayerButton);
@@ -1096,6 +1143,9 @@ public class LobbyLANGamePanel : MonoBehaviour {
             //update the input field status
             SetRedPlayerInputStatus();
 
+            //make the ready button not interactable
+            readyRedPlayerButton.interactable = false;
+
             //unhighlight the button
             UnhighlightButton(localRedPlayerButton);
 
@@ -1107,6 +1157,9 @@ public class LobbyLANGamePanel : MonoBehaviour {
 
             //update the input field status
             SetRedPlayerInputStatus();
+
+            //make the ready button interactable
+            readyRedPlayerButton.interactable = true;
 
             //highlight the button
             HighlightButton(localRedPlayerButton);
@@ -1131,6 +1184,9 @@ public class LobbyLANGamePanel : MonoBehaviour {
             //update the input field status
             SetPurplePlayerInputStatus();
 
+            //make the ready button not interactable
+            readyPurplePlayerButton.interactable = false;
+
             //unhighlight the button
             UnhighlightButton(localPurplePlayerButton);
 
@@ -1142,6 +1198,9 @@ public class LobbyLANGamePanel : MonoBehaviour {
 
             //update the input field status
             SetPurplePlayerInputStatus();
+
+            //make the ready button interactable
+            readyPurplePlayerButton.interactable = true;
 
             //highlight the button
             HighlightButton(localPurplePlayerButton);
@@ -1167,6 +1226,9 @@ public class LobbyLANGamePanel : MonoBehaviour {
             //update the input field status
             SetBluePlayerInputStatus();
 
+            //make the ready button not interactable
+            readyBluePlayerButton.interactable = false;
+
             //unhighlight the button
             UnhighlightButton(localBluePlayerButton);
 
@@ -1179,6 +1241,9 @@ public class LobbyLANGamePanel : MonoBehaviour {
             //update the input field status
             SetBluePlayerInputStatus();
 
+            //make the ready button interactable
+            readyBluePlayerButton.interactable = true;
+
             //highlight the button
             HighlightButton(localBluePlayerButton);
 
@@ -1186,6 +1251,162 @@ public class LobbyLANGamePanel : MonoBehaviour {
 
         //set the create game button status
         SetCreateGameButtonStatus();
+
+    }
+    
+    //this function resolves a ready green button click
+    private void ResolveReadyGreenButtonClick()
+    {
+        
+        //check if the player flag is ready
+        if (readyGreen == true)
+        {
+
+            //we are turning it off
+            readyGreen = false;
+
+            //update the input field status
+            greenPlayerInputField.interactable = true;
+
+            //make the local button interactable
+            localGreenPlayerButton.interactable = true;
+
+            //unhighlight the button
+            UnhighlightButton(readyGreenPlayerButton);
+
+        }
+        else
+        {
+            //the else condition is that we are turning it on
+            readyGreen = true;
+
+            //update the input field status
+            greenPlayerInputField.interactable = false;
+
+            //make the local button not interactable
+            localGreenPlayerButton.interactable = false;
+
+            //highlight the button
+            HighlightButton(readyGreenPlayerButton);
+
+        }
+
+    }
+
+    //this function resolves a ready red button click
+    private void ResolveReadyRedButtonClick()
+    {
+
+        //check if the player flag is ready
+        if (readyRed == true)
+        {
+
+            //we are turning it off
+            readyRed = false;
+
+            //update the input field status
+            redPlayerInputField.interactable = true;
+
+            //make the local button interactable
+            localRedPlayerButton.interactable = true;
+
+            //unhighlight the button
+            UnhighlightButton(readyRedPlayerButton);
+
+        }
+        else
+        {
+            //the else condition is that we are turning it on
+            readyRed = true;
+
+            //update the input field status
+            redPlayerInputField.interactable = false;
+
+            //make the local button not interactable
+            localRedPlayerButton.interactable = false;
+
+            //highlight the button
+            HighlightButton(readyRedPlayerButton);
+
+        }
+
+    }
+
+    //this function resolves a ready purple button click
+    private void ResolveReadyPurpleButtonClick()
+    {
+
+        //check if the player flag is ready
+        if (readyPurple == true)
+        {
+
+            //we are turning it off
+            readyPurple = false;
+
+            //update the input field status
+            purplePlayerInputField.interactable = true;
+
+            //make the local button interactable
+            localPurplePlayerButton.interactable = true;
+
+            //unhighlight the button
+            UnhighlightButton(readyPurplePlayerButton);
+
+        }
+        else
+        {
+            //the else condition is that we are turning it on
+            readyPurple = true;
+
+            //update the input field status
+            purplePlayerInputField.interactable = false;
+
+            //make the local button not interactable
+            localPurplePlayerButton.interactable = false;
+
+            //highlight the button
+            HighlightButton(readyPurplePlayerButton);
+
+        }
+
+    }
+
+    //this function resolves a ready blue button click
+    private void ResolveReadyBlueButtonClick()
+    {
+
+        //check if the player flag is ready
+        if (readyBlue == true)
+        {
+
+            //we are turning it off
+            readyBlue = false;
+
+            //update the input field status
+            bluePlayerInputField.interactable = true;
+
+            //make the local button interactable
+            localBluePlayerButton.interactable = true;
+
+            //unhighlight the button
+            UnhighlightButton(readyBluePlayerButton);
+
+        }
+        else
+        {
+            //the else condition is that we are turning it on
+            readyBlue = true;
+
+            //update the input field status
+            bluePlayerInputField.interactable = false;
+
+            //make the local button not interactable
+            localBluePlayerButton.interactable = false;
+
+            //highlight the button
+            HighlightButton(readyBluePlayerButton);
+
+        }
 
     }
 
@@ -1334,20 +1555,27 @@ public class LobbyLANGamePanel : MonoBehaviour {
             {
                 //turn on the local button
                 localGreenPlayerButton.gameObject.SetActive(true);
+                localGreenPlayerButton.interactable = true;
+
                 //highlight the local button
                 HighlightButton(localGreenPlayerButton);
+
+                //set the local flag to true
+                localControlGreen = true;
 
                 //turn off the local text
                 localGreenPlayerText.gameObject.SetActive(false);
 
                 //turn on the input field
                 greenPlayerInputField.gameObject.SetActive(true);
+                greenPlayerInputField.interactable = true;
 
                 //turn off the static player name
                 greenPlayerNameText.gameObject.SetActive(false);
 
                 //turn on the player ready button
                 readyGreenPlayerButton.gameObject.SetActive(true);
+                readyGreenPlayerButton.interactable = true;
 
                 //turn off the static ready text
                 readyGreenPlayerText.gameObject.SetActive(false);
@@ -1355,24 +1583,33 @@ public class LobbyLANGamePanel : MonoBehaviour {
             }
             else
             {
-                //turn off the local button
-                localGreenPlayerButton.gameObject.SetActive(false);
+                //turn on the local button
+                localGreenPlayerButton.gameObject.SetActive(true);
+                localGreenPlayerButton.interactable = true;
 
-                //turn on the local text and set it to network
-                localGreenPlayerText.gameObject.SetActive(true);
-                localGreenPlayerText.text = "Network";
+                //unhighlight the local button
+                UnhighlightButton(localGreenPlayerButton);
 
-                //turn off the input field
-                greenPlayerInputField.gameObject.SetActive(false);
+                //set the local flag
+                localControlGreen = false;
 
-                //turn on the static player name
-                greenPlayerNameText.gameObject.SetActive(true);
+                //turn off the local text
+                localGreenPlayerText.gameObject.SetActive(false);
 
-                //turn off the player ready button
-                readyGreenPlayerButton.gameObject.SetActive(false);
+                //turn on the input field
+                greenPlayerInputField.gameObject.SetActive(true);
+                greenPlayerInputField.interactable = false;
 
-                //turn on the static ready text
-                readyGreenPlayerText.gameObject.SetActive(true);
+                //turn off the static player name
+                greenPlayerNameText.gameObject.SetActive(false);
+
+                //turn on the player ready button
+                readyGreenPlayerButton.gameObject.SetActive(true);
+                readyGreenPlayerButton.interactable = false;
+
+                //turn off the static ready text
+                readyGreenPlayerText.gameObject.SetActive(false);
+
             }
         }
         else
@@ -1386,6 +1623,9 @@ public class LobbyLANGamePanel : MonoBehaviour {
                 //turn on the local text and set it to network
                 localGreenPlayerText.gameObject.SetActive(true);
                 localGreenPlayerText.text = "Network";
+
+                //set the local flag
+                localControlGreen = false;
 
                 //turn off the input field
                 greenPlayerInputField.gameObject.SetActive(false);
@@ -1405,18 +1645,27 @@ public class LobbyLANGamePanel : MonoBehaviour {
                 //the player is not under control by someone on the network
                 //turn on the local button
                 localGreenPlayerButton.gameObject.SetActive(true);
+                localGreenPlayerButton.interactable = true;
+
+                //unhighlight the local button
+                UnhighlightButton(localGreenPlayerButton);
+
+                //set the local flag
+                localControlGreen = false;
 
                 //turn off the local text
                 localGreenPlayerText.gameObject.SetActive(false);
 
                 //turn on the input field
                 greenPlayerInputField.gameObject.SetActive(true);
+                greenPlayerInputField.interactable = false;
 
                 //turn off the static player name
                 greenPlayerNameText.gameObject.SetActive(false);
 
                 //turn on the player ready button
                 readyGreenPlayerButton.gameObject.SetActive(true);
+                readyGreenPlayerButton.interactable = false;
 
                 //turn off the static ready text
                 readyGreenPlayerText.gameObject.SetActive(false);
@@ -1429,149 +1678,394 @@ public class LobbyLANGamePanel : MonoBehaviour {
     //this function sets the red player row based on availability status
     private void SetRedPlayerRowByAvailability()
     {
-        if (redPlayerIsTaken == true)
+        //check if we are the server
+        if (this.isServer == true)
         {
-            //the player is under control by someone on the network
-            //turn off the local button
-            localRedPlayerButton.gameObject.SetActive(false);
+            //we are the server - this means that taken players are taken by us
+            if (redPlayerIsTaken == true)
+            {
+                //turn on the local button
+                localRedPlayerButton.gameObject.SetActive(true);
+                localRedPlayerButton.interactable = true;
 
-            //turn on the local text and set it to network
-            localRedPlayerText.gameObject.SetActive(true);
-            localRedPlayerText.text = "Network";
+                //highlight the local button
+                HighlightButton(localRedPlayerButton);
 
-            //turn off the input field
-            redPlayerInputField.gameObject.SetActive(false);
+                //set local flag
+                localControlRed = true;
 
-            //turn on the static player name
-            redPlayerNameText.gameObject.SetActive(true);
+                //turn off the local text
+                localRedPlayerText.gameObject.SetActive(false);
 
-            //turn off the player ready button
-            readyRedPlayerButton.gameObject.SetActive(false);
+                //turn on the input field
+                redPlayerInputField.gameObject.SetActive(true);
+                redPlayerInputField.interactable = true;
 
-            //turn on the static ready text
-            readyRedPlayerText.gameObject.SetActive(true);
+                //turn off the static player name
+                redPlayerNameText.gameObject.SetActive(false);
 
+                //turn on the player ready button
+                readyRedPlayerButton.gameObject.SetActive(true);
+                readyRedPlayerButton.interactable = true;
+
+                //turn off the static ready text
+                readyRedPlayerText.gameObject.SetActive(false);
+
+            }
+            else
+            {
+                //turn on the local button
+                localRedPlayerButton.gameObject.SetActive(true);
+                localRedPlayerButton.interactable = true;
+
+                //unhighlight the local button
+                UnhighlightButton(localRedPlayerButton);
+
+                //set local flag
+                localControlRed = false;
+
+                //turn off the local text
+                localRedPlayerText.gameObject.SetActive(false);
+
+                //turn on the input field
+                redPlayerInputField.gameObject.SetActive(true);
+                redPlayerInputField.interactable = false;
+
+                //turn off the static player name
+                redPlayerNameText.gameObject.SetActive(false);
+
+                //turn on the player ready button
+                readyRedPlayerButton.gameObject.SetActive(true);
+                readyRedPlayerButton.interactable = false;
+
+                //turn off the static ready text
+                readyRedPlayerText.gameObject.SetActive(false);
+
+            }
         }
         else
         {
-            //the player is not under control by someone on the network
-            //turn on the local button
-            localRedPlayerButton.gameObject.SetActive(true);
+            if (redPlayerIsTaken == true)
+            {
+                //the player is under control by someone on the network
+                //turn off the local button
+                localRedPlayerButton.gameObject.SetActive(false);
 
-            //turn off the local text
-            localRedPlayerText.gameObject.SetActive(false);
+                //turn on the local text and set it to network
+                localRedPlayerText.gameObject.SetActive(true);
+                localRedPlayerText.text = "Network";
 
-            //turn on the input field
-            redPlayerInputField.gameObject.SetActive(true);
+                //set local flag
+                localControlRed = false;
 
-            //turn off the static player name
-            redPlayerNameText.gameObject.SetActive(false);
+                //turn off the input field
+                redPlayerInputField.gameObject.SetActive(false);
 
-            //turn on the player ready button
-            readyRedPlayerButton.gameObject.SetActive(true);
+                //turn on the static player name
+                redPlayerNameText.gameObject.SetActive(true);
 
-            //turn off the static ready text
-            readyRedPlayerText.gameObject.SetActive(false);
+                //turn off the player ready button
+                readyRedPlayerButton.gameObject.SetActive(false);
+
+                //turn on the static ready text
+                readyRedPlayerText.gameObject.SetActive(true);
+
+            }
+            else
+            {
+                //the player is not under control by someone on the network
+                //turn on the local button
+                localRedPlayerButton.gameObject.SetActive(true);
+                localRedPlayerButton.interactable = true;
+
+                //unhighlight the local button
+                UnhighlightButton(localRedPlayerButton);
+
+                //set local flag
+                localControlRed = false;
+
+                //turn off the local text
+                localRedPlayerText.gameObject.SetActive(false);
+
+                //turn on the input field
+                redPlayerInputField.gameObject.SetActive(true);
+                redPlayerInputField.interactable = false;
+
+                //turn off the static player name
+                redPlayerNameText.gameObject.SetActive(false);
+
+                //turn on the player ready button
+                readyRedPlayerButton.gameObject.SetActive(true);
+                readyRedPlayerButton.interactable = false;
+
+                //turn off the static ready text
+                readyRedPlayerText.gameObject.SetActive(false);
+            }
+
         }
 
     }
+
 
     //this function sets the purple player row based on availability status
     private void SetPurplePlayerRowByAvailability()
     {
-        if (purplePlayerIsTaken == true)
+        //check if we are the server
+        if (this.isServer == true)
         {
-            //the player is under control by someone on the network
-            //turn off the local button
-            localPurplePlayerButton.gameObject.SetActive(false);
+            //we are the server - this means that taken players are taken by us
+            if (purplePlayerIsTaken == true)
+            {
+                //turn on the local button
+                localPurplePlayerButton.gameObject.SetActive(true);
+                localPurplePlayerButton.interactable = true;
 
-            //turn on the local text and set it to network
-            localPurplePlayerText.gameObject.SetActive(true);
-            localPurplePlayerText.text = "Network";
+                //highlight the local button
+                HighlightButton(localPurplePlayerButton);
 
-            //turn off the input field
-            purplePlayerInputField.gameObject.SetActive(false);
+                //set local flag
+                localControlPurple = true;
 
-            //turn on the static player name
-            purplePlayerNameText.gameObject.SetActive(true);
+                //turn off the local text
+                localPurplePlayerText.gameObject.SetActive(false);
 
-            //turn off the player ready button
-            readyPurplePlayerButton.gameObject.SetActive(false);
+                //turn on the input field
+                purplePlayerInputField.gameObject.SetActive(true);
+                purplePlayerInputField.interactable = true;
 
-            //turn on the static ready text
-            readyPurplePlayerText.gameObject.SetActive(true);
+                //turn off the static player name
+                purplePlayerNameText.gameObject.SetActive(false);
 
+                //turn on the player ready button
+                readyPurplePlayerButton.gameObject.SetActive(true);
+                readyPurplePlayerButton.interactable = true;
+
+                //turn off the static ready text
+                readyPurplePlayerText.gameObject.SetActive(false);
+
+            }
+            else
+            {
+                //turn on the local button
+                localPurplePlayerButton.gameObject.SetActive(true);
+                localPurplePlayerButton.interactable = true;
+
+                //unhighlight the local button
+                UnhighlightButton(localPurplePlayerButton);
+
+                //set local flag
+                localControlPurple = false;
+
+                //turn off the local text
+                localPurplePlayerText.gameObject.SetActive(false);
+
+                //turn on the input field
+                purplePlayerInputField.gameObject.SetActive(true);
+                purplePlayerInputField.interactable = false;
+
+                //turn off the static player name
+                purplePlayerNameText.gameObject.SetActive(false);
+
+                //turn on the player ready button
+                readyPurplePlayerButton.gameObject.SetActive(true);
+                readyPurplePlayerButton.interactable = false;
+
+                //turn off the static ready text
+                readyPurplePlayerText.gameObject.SetActive(false);
+
+            }
         }
         else
         {
-            //the player is not under control by someone on the network
-            //turn on the local button
-            localPurplePlayerButton.gameObject.SetActive(true);
+            if (purplePlayerIsTaken == true)
+            {
+                //the player is under control by someone on the network
+                //turn off the local button
+                localPurplePlayerButton.gameObject.SetActive(false);
 
-            //turn off the local text
-            localPurplePlayerText.gameObject.SetActive(false);
+                //turn on the local text and set it to network
+                localPurplePlayerText.gameObject.SetActive(true);
+                localPurplePlayerText.text = "Network";
 
-            //turn on the input field
-            purplePlayerInputField.gameObject.SetActive(true);
+                //set local flag
+                localControlPurple = false;
 
-            //turn off the static player name
-            purplePlayerNameText.gameObject.SetActive(false);
+                //turn off the input field
+                purplePlayerInputField.gameObject.SetActive(false);
 
-            //turn on the player ready button
-            readyPurplePlayerButton.gameObject.SetActive(true);
+                //turn on the static player name
+                purplePlayerNameText.gameObject.SetActive(true);
 
-            //turn off the static ready text
-            readyPurplePlayerText.gameObject.SetActive(false);
+                //turn off the player ready button
+                readyPurplePlayerButton.gameObject.SetActive(false);
+
+                //turn on the static ready text
+                readyPurplePlayerText.gameObject.SetActive(true);
+
+            }
+            else
+            {
+                //the player is not under control by someone on the network
+                //turn on the local button
+                localPurplePlayerButton.gameObject.SetActive(true);
+                localPurplePlayerButton.interactable = true;
+
+                //unhighlight the local button
+                UnhighlightButton(localPurplePlayerButton);
+
+                //set local flag
+                localControlPurple = false;
+
+                //turn off the local text
+                localPurplePlayerText.gameObject.SetActive(false);
+
+                //turn on the input field
+                purplePlayerInputField.gameObject.SetActive(true);
+                purplePlayerInputField.interactable = false;
+
+                //turn off the static player name
+                purplePlayerNameText.gameObject.SetActive(false);
+
+                //turn on the player ready button
+                readyPurplePlayerButton.gameObject.SetActive(true);
+                readyPurplePlayerButton.interactable = false;
+
+                //turn off the static ready text
+                readyPurplePlayerText.gameObject.SetActive(false);
+            }
+
         }
 
     }
 
+
     //this function sets the blue player row based on availability status
     private void SetBluePlayerRowByAvailability()
     {
-        if (bluePlayerIsTaken == true)
+        //check if we are the server
+        if (this.isServer == true)
         {
-            //the player is under control by someone on the network
-            //turn off the local button
-            localBluePlayerButton.gameObject.SetActive(false);
+            //we are the server - this means that taken players are taken by us
+            if (bluePlayerIsTaken == true)
+            {
+                //turn on the local button
+                localBluePlayerButton.gameObject.SetActive(true);
+                localBluePlayerButton.interactable = true;
 
-            //turn on the local text and set it to network
-            localBluePlayerText.gameObject.SetActive(true);
-            localBluePlayerText.text = "Network";
+                //highlight the local button
+                HighlightButton(localBluePlayerButton);
 
-            //turn off the input field
-            bluePlayerInputField.gameObject.SetActive(false);
+                //set local flag
+                localControlBlue = true;
 
-            //turn on the static player name
-            bluePlayerNameText.gameObject.SetActive(true);
+                //turn off the local text
+                localBluePlayerText.gameObject.SetActive(false);
 
-            //turn off the player ready button
-            readyBluePlayerButton.gameObject.SetActive(false);
+                //turn on the input field
+                bluePlayerInputField.gameObject.SetActive(true);
+                bluePlayerInputField.interactable = true;
 
-            //turn on the static ready text
-            readyBluePlayerText.gameObject.SetActive(true);
+                //turn off the static player name
+                bluePlayerNameText.gameObject.SetActive(false);
 
+                //turn on the player ready button
+                readyBluePlayerButton.gameObject.SetActive(true);
+                readyBluePlayerButton.interactable = true;
+
+                //turn off the static ready text
+                readyBluePlayerText.gameObject.SetActive(false);
+
+            }
+            else
+            {
+                //turn on the local button
+                localBluePlayerButton.gameObject.SetActive(true);
+                localBluePlayerButton.interactable = true;
+
+                //unhighlight the local button
+                UnhighlightButton(localBluePlayerButton);
+
+                //set local flag
+                localControlBlue = false;
+
+                //turn off the local text
+                localBluePlayerText.gameObject.SetActive(false);
+
+                //turn on the input field
+                bluePlayerInputField.gameObject.SetActive(true);
+                bluePlayerInputField.interactable = false;
+
+                //turn off the static player name
+                bluePlayerNameText.gameObject.SetActive(false);
+
+                //turn on the player ready button
+                readyBluePlayerButton.gameObject.SetActive(true);
+                readyBluePlayerButton.interactable = false;
+
+                //turn off the static ready text
+                readyBluePlayerText.gameObject.SetActive(false);
+
+            }
         }
         else
         {
-            //the player is not under control by someone on the network
-            //turn on the local button
-            localBluePlayerButton.gameObject.SetActive(true);
+            if (bluePlayerIsTaken == true)
+            {
+                //the player is under control by someone on the network
+                //turn off the local button
+                localBluePlayerButton.gameObject.SetActive(false);
 
-            //turn off the local text
-            localBluePlayerText.gameObject.SetActive(false);
+                //turn on the local text and set it to network
+                localBluePlayerText.gameObject.SetActive(true);
+                localBluePlayerText.text = "Network";
 
-            //turn on the input field
-            bluePlayerInputField.gameObject.SetActive(true);
+                //set local flag
+                localControlBlue = false;
 
-            //turn off the static player name
-            bluePlayerNameText.gameObject.SetActive(false);
+                //turn off the input field
+                bluePlayerInputField.gameObject.SetActive(false);
 
-            //turn on the player ready button
-            readyBluePlayerButton.gameObject.SetActive(true);
+                //turn on the static player name
+                bluePlayerNameText.gameObject.SetActive(true);
 
-            //turn off the static ready text
-            readyBluePlayerText.gameObject.SetActive(false);
+                //turn off the player ready button
+                readyBluePlayerButton.gameObject.SetActive(false);
+
+                //turn on the static ready text
+                readyBluePlayerText.gameObject.SetActive(true);
+
+            }
+            else
+            {
+                //the player is not under control by someone on the network
+                //turn on the local button
+                localBluePlayerButton.gameObject.SetActive(true);
+                localBluePlayerButton.interactable = true;
+
+                //unhighlight the local button
+                UnhighlightButton(localBluePlayerButton);
+
+                //set local flag
+                localControlBlue = false;
+
+                //turn off the local text
+                localBluePlayerText.gameObject.SetActive(false);
+
+                //turn on the input field
+                bluePlayerInputField.gameObject.SetActive(true);
+                bluePlayerInputField.interactable = false;
+
+                //turn off the static player name
+                bluePlayerNameText.gameObject.SetActive(false);
+
+                //turn on the player ready button
+                readyBluePlayerButton.gameObject.SetActive(true);
+                readyBluePlayerButton.interactable = false;
+
+                //turn off the static ready text
+                readyBluePlayerText.gameObject.SetActive(false);
+            }
+
         }
 
     }
@@ -1857,6 +2351,30 @@ public class LobbyLANGamePanel : MonoBehaviour {
 
         //remove listener for blue connection update
         NetworkLobbyLAN.OnUpdateBluePlayerConnection.RemoveListener(GetBluePlayerConnection);
+
+        if(readyGreenPlayerButton != null)
+        {
+            //remove listener for ready buttons
+            readyGreenPlayerButton.onClick.RemoveListener(ResolveReadyGreenButtonClick);
+        }
+
+        if (readyRedPlayerButton != null)
+        {
+            //remove listener for ready buttons
+            readyRedPlayerButton.onClick.RemoveListener(ResolveReadyRedButtonClick);
+        }
+
+        if (readyPurplePlayerButton != null)
+        {
+            //remove listener for ready buttons
+            readyPurplePlayerButton.onClick.RemoveListener(ResolveReadyPurpleButtonClick);
+        }
+
+        if (readyBluePlayerButton != null)
+        {
+            //remove listener for ready buttons
+            readyBluePlayerButton.onClick.RemoveListener(ResolveReadyBlueButtonClick);
+        }
 
     }
 }

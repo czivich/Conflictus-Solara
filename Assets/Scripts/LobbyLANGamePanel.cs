@@ -629,6 +629,11 @@ public class LobbyLANGamePanel : MonoBehaviour {
     public UnityEvent OnOpenPanel = new UnityEvent();
     public UnityEvent OnClosePanel = new UnityEvent();
 
+    //event for requesting local control
+    public UnityEvent OnRequestLocalControlGreen = new UnityEvent();
+    public UnityEvent OnRelinquishLocalControlGreen = new UnityEvent();
+
+
     //unityActions
     private UnityAction<LANConnectionInfo> createLANGameAction;
     private UnityAction<LANConnectionInfo> joinLANGameAction;
@@ -790,6 +795,8 @@ public class LobbyLANGamePanel : MonoBehaviour {
         readyRedPlayerButton.onClick.AddListener(ResolveReadyRedButtonClick);
         readyPurplePlayerButton.onClick.AddListener(ResolveReadyPurpleButtonClick);
         readyBluePlayerButton.onClick.AddListener(ResolveReadyBlueButtonClick);
+
+        
     }
 
     //this function will open the window
@@ -1022,16 +1029,177 @@ public class LobbyLANGamePanel : MonoBehaviour {
     //this function sets the green player input field status
     private void SetGreenPlayerInputStatus()
     {
-
-        //check if the flag is set
-        if (localControlGreen == true)
+        //check if the player is taken
+        if(greenPlayerIsTaken == true)
         {
-            greenPlayerInputField.interactable = true;
+            //check if the player is taken by local
+            if(localControlGreen == true)
+            {
+                //check if the the player is ready
+                if(readyGreen == true)
+                {
+                    //if the player is ready, the field must not be interactable
+                    greenPlayerInputField.gameObject.SetActive(true);
+                    greenPlayerInputField.interactable = false;
+
+                    greenPlayerNameText.gameObject.SetActive(false);
+                    
+                }
+                else
+                {
+                    //the else is that we are controlling the local player, but not ready
+                    greenPlayerInputField.gameObject.SetActive(true);
+                    greenPlayerInputField.interactable = true;
+
+                    greenPlayerNameText.gameObject.SetActive(false);
+
+                }
+            }
+            else
+            {
+                //the else is that the player is taken by someone else
+                greenPlayerInputField.gameObject.SetActive(false);
+                greenPlayerInputField.interactable = false;
+
+                greenPlayerNameText.gameObject.SetActive(true);
+            }
 
         }
         else
         {
+            //the else is that the player is not taken
+            greenPlayerInputField.gameObject.SetActive(true);
             greenPlayerInputField.interactable = false;
+
+            greenPlayerNameText.gameObject.SetActive(false);
+
+        }
+
+    }
+
+    //this function sets the green player local button status
+    private void SetGreenPlayerLocalButtonStatus()
+    {
+        //check if the player is taken
+        if (greenPlayerIsTaken == true)
+        {
+            //check if the player is taken by local
+            if (localControlGreen == true)
+            {
+                //check if the the player is ready
+                if (readyGreen == true)
+                {
+                    //if the player is ready, the button must not be interactable
+                    localGreenPlayerButton.gameObject.SetActive(true);
+                    localGreenPlayerButton.interactable = false;
+                    HighlightButton(localGreenPlayerButton);
+
+                    localGreenPlayerText.gameObject.SetActive(false);
+
+                }
+                else
+                {
+                    //the else is that we are controlling the local player, but not ready
+                    localGreenPlayerButton.gameObject.SetActive(true);
+                    localGreenPlayerButton.interactable = true;
+                    HighlightButton(localGreenPlayerButton);
+
+                    localGreenPlayerText.gameObject.SetActive(false);
+
+                }
+            }
+            else
+            {
+                //the else is that the player is taken by someone else
+                localGreenPlayerButton.gameObject.SetActive(false);
+                localGreenPlayerButton.interactable = false;
+                UnhighlightButton(localGreenPlayerButton);
+
+                localGreenPlayerText.gameObject.SetActive(true);
+            }
+
+        }
+        else
+        {
+            //the else is that the player is not taken
+            localGreenPlayerButton.gameObject.SetActive(true);
+            localGreenPlayerButton.interactable = true;
+            UnhighlightButton(localGreenPlayerButton);
+
+            localGreenPlayerText.gameObject.SetActive(false);
+
+        }
+
+    }
+
+    //this function sets the green player ready button status
+    private void SetGreenPlayerReadyButtonStatus()
+    {
+        //check if the player is taken
+        if (greenPlayerIsTaken == true)
+        {
+            //check if the player is taken by local
+            if (localControlGreen == true)
+            {
+                //check if the the player is ready
+                if (readyGreen == true)
+                {
+                    //if the player is ready, the button must be interactable
+                    readyGreenPlayerButton.gameObject.SetActive(true);
+                    readyGreenPlayerButton.interactable = true;
+                    HighlightButton(readyGreenPlayerButton);
+
+                    readyGreenPlayerText.gameObject.SetActive(false);
+
+                }
+                else
+                {
+                    //the else is that we are controlling the local player, but not ready
+                    readyGreenPlayerButton.gameObject.SetActive(true);
+                    readyGreenPlayerButton.interactable = true;
+                    UnhighlightButton(readyGreenPlayerButton);
+
+                    readyGreenPlayerText.gameObject.SetActive(false);
+
+                }
+            }
+            else
+            {
+                //the else is that the player is taken by someone else
+                //check if the player is ready
+                if (readyGreen == true)
+                {
+                    //the player is ready
+                    readyGreenPlayerButton.gameObject.SetActive(false);
+                    readyGreenPlayerButton.interactable = false;
+                    UnhighlightButton(readyGreenPlayerButton);
+
+                    readyGreenPlayerText.gameObject.SetActive(true);
+
+                }
+                else
+                {
+                    //the player is not ready
+                    readyGreenPlayerButton.gameObject.SetActive(false);
+                    readyGreenPlayerButton.interactable = false;
+                    UnhighlightButton(readyGreenPlayerButton);
+
+                    readyGreenPlayerText.gameObject.SetActive(true);
+
+                }
+
+            }
+
+        }
+        else
+        {
+            //the else is that the player is not taken
+            readyGreenPlayerButton.gameObject.SetActive(true);
+            readyGreenPlayerButton.interactable = false;
+            UnhighlightButton(readyGreenPlayerButton);
+
+            readyGreenPlayerText.gameObject.SetActive(false);
+
         }
 
     }
@@ -1094,33 +1262,16 @@ public class LobbyLANGamePanel : MonoBehaviour {
         //check if the player flag is local
         if (localControlGreen == true)
         {
-
-            //if there is control, we need to turn it off
-            localControlGreen = false;
-
-            //update the input field status
-            SetGreenPlayerInputStatus();
-
-            //make the ready button not interactable
-            readyGreenPlayerButton.interactable = false;
-
-            //unhighlight the button
-            UnhighlightButton(localGreenPlayerButton);
+            //invoke the relinquish event
+            Debug.Log("LobbyLANGamePanel Relinquishing Local Green Control");
+            OnRelinquishLocalControlGreen.Invoke();
 
         }
         else
         {
-            //the else condition is that we are turning it on
-            localControlGreen = true;
-
-            //update the input field status
-            SetGreenPlayerInputStatus();
-
-            //make the ready button interactable
-            readyGreenPlayerButton.interactable = true;
-
-            //highlight the button
-            HighlightButton(localGreenPlayerButton);
+            //invoke the request event
+            Debug.Log("LobbyLANGamePanel Requesting Local Green Control");
+            OnRequestLocalControlGreen.Invoke();
 
         }
 
@@ -2146,6 +2297,9 @@ public class LobbyLANGamePanel : MonoBehaviour {
     private void GetGreenPlayerReadyStatus()
     {
         readyGreen = networkManager.GetComponentInChildren<NetworkLobbyLAN>().greenPlayerReady;
+
+        //update the ready button status
+        SetGreenPlayerReadyButtonStatus();
     }
 
     //this function updates the red player ready status
@@ -2169,7 +2323,58 @@ public class LobbyLANGamePanel : MonoBehaviour {
     //this function gets the green connection
     private void GetGreenPlayerConnection()
     {
+
+        Debug.Log("LobbyLANGamePanel GetGreenPlayerConnection");
+
+        //set the green player connection
         greenPlayerConnection = networkManager.GetComponentInChildren<NetworkLobbyLAN>().greenPlayerConnection;
+
+        //check if the connection is null
+        if(greenPlayerConnection == null)
+        {
+            //the player is null
+            //this means that the player is not taken
+            greenPlayerIsTaken = false;
+
+            //the player can't be local
+            localControlGreen = false;
+
+        }
+        else
+        {
+            //the connection is not null
+            //check if the green player connection is the local player connection
+            if (greenPlayerConnection == networkManager.GetComponentInChildren<NetworkLobbyLAN>().localPlayerConnection)
+            {
+
+                //mark the player as taken
+                greenPlayerIsTaken = true;
+
+                //green player is local
+                localControlGreen = true;
+
+            }
+            else
+            {
+                //the else is that the connection is not local
+                //mark the player as taken
+                greenPlayerIsTaken = true;
+
+                //green player is not local
+                localControlGreen = false;
+            }
+
+        }
+                
+        //update the input field status
+        SetGreenPlayerInputStatus();
+
+        //update the local button status
+        SetGreenPlayerLocalButtonStatus();
+
+        //update the ready button status
+        SetGreenPlayerReadyButtonStatus();
+
     }
 
     //this function gets the red connection
@@ -2189,6 +2394,7 @@ public class LobbyLANGamePanel : MonoBehaviour {
     {
         bluePlayerConnection = networkManager.GetComponentInChildren<NetworkLobbyLAN>().bluePlayerConnection;
     }
+
 
     //this function resolves OnDestroy
     private void OnDestroy()

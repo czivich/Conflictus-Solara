@@ -52,10 +52,13 @@ public class NetworkLobbyLAN : NetworkBehaviour {
             else
             {
                 _greenPlayerConnection = value;
+                Debug.Log("GreenPlayerConnectionSet");
                 if (this.isServer == true)
                 {
+                    Debug.Log("GreenPlayerConnectionSetOnServer");
                     if (_greenPlayerConnection != null)
                     {
+                        Debug.Log("GreenPlayerConnectionSetOnServerSendRPC");
                         RpcUpdateGreenPlayerConnection(_greenPlayerConnection.gameObject);
                     }
                     else
@@ -549,10 +552,13 @@ public class NetworkLobbyLAN : NetworkBehaviour {
     private bool delayFrame = false;
 
     //this is the local player connection on this machine
-    private PlayerConnection localPlayerConnection;
+    public PlayerConnection localPlayerConnection { get; private set; }
 
     public static ConnectionEvent OnRequestRPCUpdate = new ConnectionEvent();
-    
+    public static ConnectionEvent OnRequestLocalControl = new ConnectionEvent();
+    public static ConnectionEvent OnRequestActionCommand = new ConnectionEvent();
+
+
     //class for passing connections
     public class ConnectionEvent : UnityEvent<PlayerConnection, NetworkInstanceId> { };
 
@@ -580,6 +586,12 @@ public class NetworkLobbyLAN : NetworkBehaviour {
 
     //unityActions
     private UnityAction<PlayerConnection, NetworkInstanceId> playerConnectionUpdateRPCAction;
+    private UnityAction<PlayerConnection, NetworkInstanceId> playerConnectionGiveClientAuthorityAction;
+    private UnityAction<PlayerConnection, NetworkInstanceId> playerConnectionCommandRequestAction;
+
+    //action for holding function to call when authority is started
+    private System.Action<GameObject, NetworkInstanceId> startAuthorityAction;
+    
 
     // Use this for initialization
     private void Start () {
@@ -648,6 +660,28 @@ public class NetworkLobbyLAN : NetworkBehaviour {
             }
 
         };
+
+        playerConnectionGiveClientAuthorityAction = (playerConnection, netId) => {
+
+            //check if the netID matches this object
+            if (netId == this.GetComponent<NetworkIdentity>().netId)
+            {
+                Debug.Log("NetworkLobbyLAN CmdGiveClientAuthority");
+                CmdGiveClientAuthority(playerConnection.gameObject, netId);
+            }
+
+        };
+
+        playerConnectionCommandRequestAction = (playerConnection, netId) => {
+
+            //check if the netID matches this object
+            if (netId == this.GetComponent<NetworkIdentity>().netId)
+            {
+                Debug.Log("NetworkLobbyLAN CmdGiveClientAuthority");
+                CmdCallRequestedAction(playerConnection.gameObject, netId);
+            }
+
+        };
     }
 	
     //this function adds event listeners
@@ -655,6 +689,20 @@ public class NetworkLobbyLAN : NetworkBehaviour {
     {
         //add listener for requesting RPC update
         PlayerConnection.OnRequestRPCUpdate.AddListener(playerConnectionUpdateRPCAction);
+
+        //add listener for requesting local control of green player
+        uiManager.GetComponent<LobbyLANGamePanel>().OnRequestLocalControlGreen.AddListener(RequestLocalControlGreen);
+       
+        //add listener for relinquishing local control of green player
+        uiManager.GetComponent<LobbyLANGamePanel>().OnRelinquishLocalControlGreen.AddListener(RelinquishLocalControlGreen);
+        
+        //add listener for giving client authority
+        PlayerConnection.OnRequestClientAuthority.AddListener(playerConnectionGiveClientAuthorityAction);
+
+        //add listener for calling action
+        PlayerConnection.OnRequestActionCommand.AddListener(playerConnectionCommandRequestAction);
+
+
     }
 
     //this function sets the local player connection
@@ -673,6 +721,8 @@ public class NetworkLobbyLAN : NetworkBehaviour {
             }
 
         }
+
+        Debug.Log("LocalPlayerConnection = " + localPlayerConnection.gameObject.name);
     }
 
     //this function gets data from the server game creation
@@ -720,12 +770,120 @@ public class NetworkLobbyLAN : NetworkBehaviour {
 
     }
 
+    //this function requests setting the green player to local control
+    private void RequestLocalControlGreen()
+    {
+        Debug.Log("NetworkLobbyLAN Requesting Local Green Control");
+        //invoke the local control event
+        OnRequestLocalControl.Invoke(localPlayerConnection, this.netId);
+
+
+        Debug.Log("NetworkLobbyLAN Past Request for Control");
+        Debug.Log("NetworkLobbyLAN hasAuthority = " + hasAuthority.ToString());
+
+        //set the start authority action
+        startAuthorityAction = CallCmdSetGreenPlayerConnection;
+
+        //check if we now have local authority over this object - we should
+        if (this.hasAuthority == true)
+        {
+            Debug.Log("NetworkLobbyLAN CmdSetGreenPlayerConnection");
+            //call a command to update the green connection to local control
+            CmdSetGreenPlayerConnection(localPlayerConnection.gameObject, this.netId);
+
+            //after calling the start authority action, we can surrender authority
+            Debug.Log("NetworkLobbyLAN CmdRemoveClientAuthority");
+            CmdRemoveClientAuthority(localPlayerConnection.gameObject, this.netId);
+        }
+
+    }
+
+    //this function removes local control for green
+    private void RelinquishLocalControlGreen()
+    {
+        Debug.Log("NetworkLobbyLAN Relinquishing Local Green Control");
+        //invoke the local control event
+        OnRequestLocalControl.Invoke(localPlayerConnection, this.netId);
+
+
+        Debug.Log("NetworkLobbyLAN Past Request for Control");
+        Debug.Log("NetworkLobbyLAN hasAuthority = " + hasAuthority.ToString());
+
+        //set the start authority action
+        startAuthorityAction = CallCmdClearGreenPlayerConnection;
+
+        //check if we now have local authority over this object - we should
+        if (this.hasAuthority == true)
+        {
+            Debug.Log("NetworkLobbyLAN CmdClearGreenPlayerConnection");
+            //call a command to clear green control
+            CmdClearGreenPlayerConnection(localPlayerConnection.gameObject, this.netId);
+
+            //after calling the start authority action, we can surrender authority
+            Debug.Log("NetworkLobbyLAN CmdRemoveClientAuthority");
+            CmdRemoveClientAuthority(localPlayerConnection.gameObject, this.netId);
+        }
+
+    }
+
+    //this function overrides on start authority, so once authority starts it will be called
+    public override void OnStartAuthority()
+    {
+        Debug.Log("Overriding OnStartAuthority!");
+
+        //call the base function
+        base.OnStartAuthority();
+
+        Debug.Log("NetworkLobbyLAN hasAuthority = " + hasAuthority.ToString());
+
+        //check if we now have local authority over this object - we should
+        if (this.hasAuthority == true) {
+
+
+            //call the cached action - only if we are not the server
+            if (isServer == false)
+            {
+                Debug.Log("NetworkLobbyLAN startAuthorityAction");
+                //startAuthorityAction(localPlayerConnection.gameObject, this.netId);
+                OnRequestActionCommand.Invoke(localPlayerConnection, this.netId);
+
+                //after calling the start authority action, we can surrender authority
+                Debug.Log("NetworkLobbyLAN CmdRemoveClientAuthority");
+
+                CmdRemoveClientAuthority(localPlayerConnection.gameObject, this.netId);
+            }
+
+        }
+
+    }
+
+    //this function calls the SetGreenPlayerConnection command
+    private void CallCmdSetGreenPlayerConnection(GameObject playerConnectionGameObject, NetworkInstanceId netId)
+    {
+        //call the command
+        CmdSetGreenPlayerConnection(playerConnectionGameObject, netId);
+    }
+
+    //this function calls the ClearGreenPlayerConnection command
+    private void CallCmdClearGreenPlayerConnection(GameObject playerConnectionGameObject, NetworkInstanceId netId)
+    {
+        //call the command
+        CmdClearGreenPlayerConnection(playerConnectionGameObject, netId);
+    }
+
+    //this function calls the action command passed to it
+    [Command]
+    private void CmdCallRequestedAction(GameObject playerConnectionGameObject, NetworkInstanceId netId)
+    {
+        //call the command
+        startAuthorityAction(playerConnectionGameObject, netId);
+    }
+
     //this function updates the game name
     [ClientRpc]
     private void RpcUpdateGameName(string serverGameName)
     {
         gameName = serverGameName;
-        Debug.Log("RPC GameName = " + gameName);
     }
 
     //this function updates the teams
@@ -839,6 +997,7 @@ public class NetworkLobbyLAN : NetworkBehaviour {
     {
         if (serverGreenPlayerConnectionObject != null)
         {
+            Debug.Log("NetworkLobbyLAN RpcUpdateGreenPlayerConnection");
             greenPlayerConnection = serverGreenPlayerConnectionObject.GetComponent<PlayerConnection>();
         }
         else
@@ -894,8 +1053,6 @@ public class NetworkLobbyLAN : NetworkBehaviour {
     [Command]
     private void CmdUpdateAllRPCs()
     {
-        //this.GetComponent<NetworkIdentity>().AssignClientAuthority(connectionToClient);
-
         //the server calls all the RPCs
         RpcUpdateGameName(gameName);
         RpcUpdateTeamsEnabled(teamsEnabled);
@@ -934,8 +1091,42 @@ public class NetworkLobbyLAN : NetworkBehaviour {
             RpcUpdateBluePlayerConnection(bluePlayerConnection.gameObject);
         }
 
-        //this.GetComponent<NetworkIdentity>().RemoveClientAuthority(connectionToClient);
+    }
 
+    //this function gives authority over the game object to the requesting connection
+    [Command]
+    private void CmdGiveClientAuthority(GameObject playerConnectionGameObject, NetworkInstanceId netId)
+    {
+        //assign authority to the client
+        Debug.Log("NetworkLobbyLAN GiveClientAuthority");
+        this.GetComponent<NetworkIdentity>().AssignClientAuthority(playerConnectionGameObject.GetComponent<PlayerConnection>().connectionToClient);
+    }
+
+    //this function removes authority over the game object from the requesting connection
+    [Command]
+    private void CmdRemoveClientAuthority(GameObject playerConnectionGameObject, NetworkInstanceId netId)
+    {
+        //assign authority to the client
+        Debug.Log("NetworkLobbyLAN RemoveClientAuthority");
+        this.GetComponent<NetworkIdentity>().RemoveClientAuthority(playerConnectionGameObject.GetComponent<PlayerConnection>().connectionToClient);
+    }
+
+    //this function sets the green player connection
+    [Command]
+    private void CmdSetGreenPlayerConnection(GameObject playerConnectionGameObject, NetworkInstanceId netId)
+    {
+        //set the green connection
+        Debug.Log("NetworkLobbyLAN CmdSetGreenPlayerConnection");
+        greenPlayerConnection = playerConnectionGameObject.GetComponent<PlayerConnection>();
+
+    }
+    
+    //this function clears the green player connection
+    [Command]
+    private void CmdClearGreenPlayerConnection(GameObject playerConnectionGameObject, NetworkInstanceId netId)
+    {
+        //clear the green connection
+        greenPlayerConnection = null;
 
     }
 
@@ -950,6 +1141,21 @@ public class NetworkLobbyLAN : NetworkBehaviour {
     {
         //remove listener for requesting RPC update
         PlayerConnection.OnRequestRPCUpdate.RemoveListener(playerConnectionUpdateRPCAction);
+
+        if(uiManager != null)
+        {
+            //remove listener for requesting local control of green player
+            uiManager.GetComponent<LobbyLANGamePanel>().OnRequestLocalControlGreen.RemoveListener(RequestLocalControlGreen);
+
+            //remove listener for relinquishing local control of green player
+            uiManager.GetComponent<LobbyLANGamePanel>().OnRelinquishLocalControlGreen.RemoveListener(RelinquishLocalControlGreen);
+        }
+
+        //remove listener for giving client authority
+        PlayerConnection.OnRequestClientAuthority.RemoveListener(playerConnectionGiveClientAuthorityAction);
+
+        //remove listener for calling action
+        PlayerConnection.OnRequestActionCommand.RemoveListener(playerConnectionCommandRequestAction);
     }
 
 }

@@ -23,13 +23,16 @@ public class PlayerConnection : NetworkBehaviour {
     public bool localBluePlayer { get; private set; }
 
     public static ConnectionEvent OnRequestRPCUpdate = new ConnectionEvent();
-    public static ConnectionEvent OnRequestLocalAuthority = new ConnectionEvent();
+    public static ConnectionEvent OnRequestClientAuthority = new ConnectionEvent();
+    public static ConnectionEvent OnRequestActionCommand = new ConnectionEvent();
 
     //class for passing connections
     public class ConnectionEvent : UnityEvent<PlayerConnection, NetworkInstanceId> { };
-
+    
     //unityActions
     private UnityAction<PlayerConnection, NetworkInstanceId> playerConnectionUpdateRPCAction;
+    private UnityAction<PlayerConnection, NetworkInstanceId> playerConnectionRequestClientAuthorityAction;
+    private UnityAction<PlayerConnection, NetworkInstanceId> actionCommandRequestAction;
 
     // Use this for initialization
     private void Start () {
@@ -68,6 +71,9 @@ public class PlayerConnection : NetworkBehaviour {
     private void SetActions()
     {
         playerConnectionUpdateRPCAction = (playerConnection, netId) => { ResolveRPCUpdate(playerConnection, netId); };
+        playerConnectionRequestClientAuthorityAction = (playerConnection, netId) => { ResolveClientAuthorityRequest(playerConnection, netId); };
+
+        actionCommandRequestAction = (playerConnection, netId) => { ResolveActionCommandRequest(playerConnection, netId); };
     }
 
     //this function adds event listeners
@@ -75,6 +81,14 @@ public class PlayerConnection : NetworkBehaviour {
     {
         //add listener for lobby requesting RPC update
         NetworkLobbyLAN.OnRequestRPCUpdate.AddListener(playerConnectionUpdateRPCAction);
+
+        //add listener for a client requesting to control a player
+        NetworkLobbyLAN.OnRequestLocalControl.AddListener(playerConnectionRequestClientAuthorityAction);
+
+        //add listener for a client requesting an action
+        NetworkLobbyLAN.OnRequestActionCommand.AddListener(actionCommandRequestAction);
+
+
     }
 
     //this function handles a request for Lobby info
@@ -90,12 +104,27 @@ public class PlayerConnection : NetworkBehaviour {
     }
 
     //this function handles a request for Lobby info
-    private void ResolveLobbyRequest(PlayerConnection playerConnection, NetworkInstanceId netId)
+    private void ResolveClientAuthorityRequest(PlayerConnection playerConnection, NetworkInstanceId netId)
     {
+        Debug.Log("PlayerConnection ResolveClientAuthorityRequest");
         //check if this is the player connection and is the local player connection
         if (playerConnection == this && playerConnection.isLocalPlayer == true)
         {
-            CmdRequestLocalAuthority(playerConnection.gameObject, netId);
+            Debug.Log("PlayerConnection CmdRequestClientAuthority");
+            CmdRequestClientAuthority(playerConnection.gameObject, netId);
+        }
+    }
+
+    //this function handles a request for an action
+    private void ResolveActionCommandRequest(PlayerConnection playerConnection, NetworkInstanceId netId)
+    {
+        Debug.Log("PlayerConnection ResolveActionCommandRequest");
+
+        //check if this is the player connection and is the local player connection
+        if (playerConnection == this && playerConnection.isLocalPlayer == true)
+        {
+            Debug.Log("PlayerConnection CmdRequestClientAuthority");
+            CmdRequestActionCalled(playerConnection.gameObject, netId);
         }
     }
 
@@ -109,10 +138,19 @@ public class PlayerConnection : NetworkBehaviour {
 
     //this command requests local authority for the requested object
     [Command]
-    private void CmdRequestLocalAuthority(GameObject playerConnectionGameObject, NetworkInstanceId netId)
+    private void CmdRequestClientAuthority(GameObject playerConnectionGameObject, NetworkInstanceId netId)
     {
+        Debug.Log("PlayerConnection OnRequestClientAuthority");
         //invoke the event on the server side
-        OnRequestLocalAuthority.Invoke(playerConnectionGameObject.GetComponent<PlayerConnection>(), netId);
+        OnRequestClientAuthority.Invoke(playerConnectionGameObject.GetComponent<PlayerConnection>(), netId);
+    }
+
+    //this command requests an action be called
+    [Command]
+    private void CmdRequestActionCalled(GameObject playerConnectionGameObject, NetworkInstanceId netId)
+    {
+        Debug.Log("PlayerConnection OnRequestActionCommand");
+        OnRequestActionCommand.Invoke(playerConnectionGameObject.GetComponent<PlayerConnection>(),netId);
     }
 
 
@@ -130,6 +168,11 @@ public class PlayerConnection : NetworkBehaviour {
             //remove listener for lobby requesting RPC update
             NetworkLobbyLAN.OnRequestRPCUpdate.RemoveListener(playerConnectionUpdateRPCAction);
 
+            //remove listener for a client requesting to control a player
+            NetworkLobbyLAN.OnRequestLocalControl.RemoveListener(playerConnectionRequestClientAuthorityAction);
+
+            //remove listener for a client requesting an action
+            NetworkLobbyLAN.OnRequestActionCommand.RemoveListener(actionCommandRequestAction);
         }
     }
 }

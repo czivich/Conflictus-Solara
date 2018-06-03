@@ -691,11 +691,32 @@ public class NetworkLobbyLAN : NetworkBehaviour {
     //unityActions
     private UnityAction<PlayerConnection, NetworkInstanceId> playerConnectionUpdateRPCAction;
 
+    private UnityAction<PlayerConnection, NetworkInstanceId, int> playerConnectionUpdateVictoryPlanetCountAction;
+    private UnityAction<PlayerConnection, NetworkInstanceId, bool> playerConnectionUpdateTeamStatusAction;
+
     private UnityAction<PlayerConnection, NetworkInstanceId> playerConnectionRequestControlGreenAction;
     private UnityAction<PlayerConnection, NetworkInstanceId> playerConnectionRelinquishControlGreenAction;
     private UnityAction<PlayerConnection, NetworkInstanceId, string> playerConnectionRenameGreenAction;
     private UnityAction<PlayerConnection, NetworkInstanceId> playerConnectionSetGreenToReadyAction;
     private UnityAction<PlayerConnection, NetworkInstanceId> playerConnectionSetGreenToNotReadyAction;
+
+    private UnityAction<PlayerConnection, NetworkInstanceId> playerConnectionRequestControlRedAction;
+    private UnityAction<PlayerConnection, NetworkInstanceId> playerConnectionRelinquishControlRedAction;
+    private UnityAction<PlayerConnection, NetworkInstanceId, string> playerConnectionRenameRedAction;
+    private UnityAction<PlayerConnection, NetworkInstanceId> playerConnectionSetRedToReadyAction;
+    private UnityAction<PlayerConnection, NetworkInstanceId> playerConnectionSetRedToNotReadyAction;
+
+    private UnityAction<PlayerConnection, NetworkInstanceId> playerConnectionRequestControlPurpleAction;
+    private UnityAction<PlayerConnection, NetworkInstanceId> playerConnectionRelinquishControlPurpleAction;
+    private UnityAction<PlayerConnection, NetworkInstanceId, string> playerConnectionRenamePurpleAction;
+    private UnityAction<PlayerConnection, NetworkInstanceId> playerConnectionSetPurpleToReadyAction;
+    private UnityAction<PlayerConnection, NetworkInstanceId> playerConnectionSetPurpleToNotReadyAction;
+
+    private UnityAction<PlayerConnection, NetworkInstanceId> playerConnectionRequestControlBlueAction;
+    private UnityAction<PlayerConnection, NetworkInstanceId> playerConnectionRelinquishControlBlueAction;
+    private UnityAction<PlayerConnection, NetworkInstanceId, string> playerConnectionRenameBlueAction;
+    private UnityAction<PlayerConnection, NetworkInstanceId> playerConnectionSetBlueToReadyAction;
+    private UnityAction<PlayerConnection, NetworkInstanceId> playerConnectionSetBlueToNotReadyAction;
 
 
     // Use this for initialization
@@ -766,6 +787,20 @@ public class NetworkLobbyLAN : NetworkBehaviour {
 
         };
 
+        playerConnectionUpdateVictoryPlanetCountAction = (playerConnection, netId, newPlanetCount) => {
+
+            ResolveRequestUpdateVictoryPlanetCount(playerConnection, netId, newPlanetCount);
+
+        };
+
+        playerConnectionUpdateTeamStatusAction = (playerConnection, netId, newTeamStatus) => {
+
+            ResolveRequestUpdateTeamStatus(playerConnection, netId, newTeamStatus);
+
+        };
+
+
+
         playerConnectionRequestControlGreenAction = (playerConnection, netId) => {
 
             ResolveRequestLocalControlGreen(playerConnection, netId);
@@ -795,6 +830,101 @@ public class NetworkLobbyLAN : NetworkBehaviour {
             ResolveSetGreenToNotReady(playerConnection, netId);
 
         };
+
+
+
+        playerConnectionRequestControlRedAction = (playerConnection, netId) => {
+
+            ResolveRequestLocalControlRed(playerConnection, netId);
+
+        };
+
+        playerConnectionRelinquishControlRedAction = (playerConnection, netId) => {
+
+            ResolveRelinquishLocalControlRed(playerConnection, netId);
+
+        };
+
+        playerConnectionRenameRedAction = (playerConnection, netId, newName) => {
+
+            ResolveUpdateRedPlayerName(playerConnection, netId, newName);
+
+        };
+
+        playerConnectionSetRedToReadyAction = (playerConnection, netId) => {
+
+            ResolveSetRedToReady(playerConnection, netId);
+
+        };
+
+        playerConnectionSetRedToNotReadyAction = (playerConnection, netId) => {
+
+            ResolveSetRedToNotReady(playerConnection, netId);
+
+        };
+
+
+        playerConnectionRequestControlPurpleAction = (playerConnection, netId) => {
+
+            ResolveRequestLocalControlPurple(playerConnection, netId);
+
+        };
+
+        playerConnectionRelinquishControlPurpleAction = (playerConnection, netId) => {
+
+            ResolveRelinquishLocalControlPurple(playerConnection, netId);
+
+        };
+
+        playerConnectionRenamePurpleAction = (playerConnection, netId, newName) => {
+
+            ResolveUpdatePurplePlayerName(playerConnection, netId, newName);
+
+        };
+
+        playerConnectionSetPurpleToReadyAction = (playerConnection, netId) => {
+
+            ResolveSetPurpleToReady(playerConnection, netId);
+
+        };
+
+        playerConnectionSetPurpleToNotReadyAction = (playerConnection, netId) => {
+
+            ResolveSetPurpleToNotReady(playerConnection, netId);
+
+        };
+
+
+        playerConnectionRequestControlBlueAction = (playerConnection, netId) => {
+
+            ResolveRequestLocalControlBlue(playerConnection, netId);
+
+        };
+
+        playerConnectionRelinquishControlBlueAction = (playerConnection, netId) => {
+
+            ResolveRelinquishLocalControlBlue(playerConnection, netId);
+
+        };
+
+        playerConnectionRenameBlueAction = (playerConnection, netId, newName) => {
+
+            ResolveUpdateBluePlayerName(playerConnection, netId, newName);
+
+        };
+
+        playerConnectionSetBlueToReadyAction = (playerConnection, netId) => {
+
+            ResolveSetBlueToReady(playerConnection, netId);
+
+        };
+
+        playerConnectionSetBlueToNotReadyAction = (playerConnection, netId) => {
+
+            ResolveSetBlueToNotReady(playerConnection, netId);
+
+        };
+
     }
 	
     //this function adds event listeners
@@ -802,6 +932,13 @@ public class NetworkLobbyLAN : NetworkBehaviour {
     {
         //add listener for requesting RPC update
         PlayerConnection.OnRequestRPCUpdate.AddListener(playerConnectionUpdateRPCAction);
+
+        //add listener for updating victory planet count
+        PlayerConnection.OnUpdateVictoryPlanetCount.AddListener(playerConnectionUpdateVictoryPlanetCountAction);
+
+        //add listener for updating the team status
+        PlayerConnection.OnUpdateTeamStatus.AddListener(playerConnectionUpdateTeamStatusAction);
+
 
         //add listener for player requesting control of green
         PlayerConnection.OnRequestLocalControlGreen.AddListener(playerConnectionRequestControlGreenAction);
@@ -817,6 +954,54 @@ public class NetworkLobbyLAN : NetworkBehaviour {
 
         //add listener for player updating green name
         PlayerConnection.OnUpdateGreenPlayerName.AddListener(playerConnectionRenameGreenAction);
+
+
+        //add listener for player requesting control of red
+        PlayerConnection.OnRequestLocalControlRed.AddListener(playerConnectionRequestControlRedAction);
+
+        //add listener for player relinquishing control of red
+        PlayerConnection.OnRelinquishLocalControlRed.AddListener(playerConnectionRelinquishControlRedAction);
+  
+        //add listener for player setting red to ready
+        PlayerConnection.OnSetRedPlayerToReady.AddListener(playerConnectionSetRedToReadyAction);
+
+        //add listener for player setting red to not ready
+        PlayerConnection.OnSetRedPlayerToNotReady.AddListener(playerConnectionSetRedToNotReadyAction);
+
+        //add listener for player updating red name
+        PlayerConnection.OnUpdateRedPlayerName.AddListener(playerConnectionRenameRedAction);
+
+
+        //add listener for player requesting control of purple
+        PlayerConnection.OnRequestLocalControlPurple.AddListener(playerConnectionRequestControlPurpleAction);
+
+        //add listener for player relinquishing control of purple
+        PlayerConnection.OnRelinquishLocalControlPurple.AddListener(playerConnectionRelinquishControlPurpleAction);
+
+        //add listener for player setting purple to ready
+        PlayerConnection.OnSetPurplePlayerToReady.AddListener(playerConnectionSetPurpleToReadyAction);
+
+        //add listener for player setting purple to not ready
+        PlayerConnection.OnSetPurplePlayerToNotReady.AddListener(playerConnectionSetPurpleToNotReadyAction);
+
+        //add listener for player updating purple name
+        PlayerConnection.OnUpdatePurplePlayerName.AddListener(playerConnectionRenamePurpleAction);
+
+
+        //add listener for player requesting control of blue
+        PlayerConnection.OnRequestLocalControlBlue.AddListener(playerConnectionRequestControlBlueAction);
+
+        //add listener for player relinquishing control of blue
+        PlayerConnection.OnRelinquishLocalControlBlue.AddListener(playerConnectionRelinquishControlBlueAction);
+
+        //add listener for player setting blue to ready
+        PlayerConnection.OnSetBluePlayerToReady.AddListener(playerConnectionSetBlueToReadyAction);
+
+        //add listener for player setting blue to not ready
+        PlayerConnection.OnSetBluePlayerToNotReady.AddListener(playerConnectionSetBlueToNotReadyAction);
+
+        //add listener for player updating blue name
+        PlayerConnection.OnUpdateBluePlayerName.AddListener(playerConnectionRenameBlueAction);
 
     }
 
@@ -884,6 +1069,56 @@ public class NetworkLobbyLAN : NetworkBehaviour {
 
     }
 
+    //this function resolves a request from a player connection (should be the host) to update the planet count
+    private void ResolveRequestUpdateVictoryPlanetCount(PlayerConnection requestingPlayerConnection, NetworkInstanceId requestingNetId, int newPlanetCount)
+    {
+        //check to make sure this is the server
+        if(isServer == true)
+        {
+
+            //check if the requesting connection is the server
+            if(requestingPlayerConnection.isServer == true)
+            {
+                //check if the new value is within the limits
+                if (newPlanetCount <= uiManager.GetComponent<LobbyLANGamePanel>().maxPlanetValue &&
+                    newPlanetCount >= uiManager.GetComponent<LobbyLANGamePanel>().minPlanetValue)
+                {
+                    //update the planet count
+                    victoryPlanets = newPlanetCount;
+                }
+                else
+                {
+                    Debug.LogError("Attempted to change the victory planets to an invalid value");
+                }
+            }
+            else
+            {
+                Debug.LogError("A non-server player connection tried to change the victory planet count");
+            }
+
+        }
+    }
+
+    //this function resolves a request from a player connection to change the team status
+    private void ResolveRequestUpdateTeamStatus(PlayerConnection requestingPlayerConnection, NetworkInstanceId requestingNetId, bool newTeamStatus)
+    {
+        //check to make sure this is the server
+        if (isServer == true)
+        {
+
+            //check if the requesting connection is the server
+            if (requestingPlayerConnection.isServer == true)
+            {
+                //update the team status
+                teamsEnabled = newTeamStatus;
+            }
+            else
+            {
+                Debug.LogError("A non-server player connection tried to change the team status");
+            }
+
+        }
+    }
 
     //this function resolves a request from a player connection to take local control of green
     private void ResolveRequestLocalControlGreen(PlayerConnection requestingPlayerConnection, NetworkInstanceId requestingNetId)
@@ -1023,6 +1258,420 @@ public class NetworkLobbyLAN : NetworkBehaviour {
         }
     }
 
+
+    //this function resolves a request from a player connection to take local control of red
+    private void ResolveRequestLocalControlRed(PlayerConnection requestingPlayerConnection, NetworkInstanceId requestingNetId)
+    {
+
+        //this function should only be able to be called on the server, because the event that triggers it from
+        //playerConnection is a command.  Nevertheless, we'll check to make sure we are the server
+        if (isServer == true)
+        {
+            //check if the red player is available
+            if (redPlayerConnection == null)
+            {
+                //there is no red player connection currently, so it is available
+                redPlayerConnection = requestingPlayerConnection;
+
+            }
+            else
+            {
+                //else the red player is already taken, so we should not allow the requesting player connection to have it
+                Debug.LogError("Client Requested Control of Red when it was already taken");
+            }
+
+        }
+
+    }
+
+    //this function resolves a request from a player connection to give up local control of red
+    private void ResolveRelinquishLocalControlRed(PlayerConnection requestingPlayerConnection, NetworkInstanceId requestingNetId)
+    {
+
+        //this function should only be able to be called on the server, because the event that triggers it from
+        //playerConnection is a command.  Nevertheless, we'll check to make sure we are the server
+        if (isServer == true)
+        {
+            //check if the red player is available
+            if (redPlayerConnection == null)
+            {
+                //there is no red player connection currently, so we can't give it up
+                Debug.LogError("Client Relinquished Control of Red when it was not taken");
+
+            }
+            else
+            {
+                //else the green player is taken, so we should allow the requesting player connection to give it up if they are the current controller
+                if (redPlayerConnection == requestingPlayerConnection)
+                {
+                    //the requesting player is the current controller - we can give it up
+                    redPlayerConnection = null;
+                }
+                else
+                {
+                    //the else condition is that a different player owns green - the requesting player can't make him give it up
+                    Debug.LogError("Client Relinquished Red when a different player controlled red");
+                }
+
+            }
+
+        }
+
+    }
+
+    //this function resolves a request to set red to ready
+    private void ResolveSetRedToReady(PlayerConnection requestingPlayerConnection, NetworkInstanceId requestingNetId)
+    {
+        //check if this is the server
+        if (isServer == true)
+        {
+            //check to make sure the red player connection is controlled by the requesting player connection
+            if (redPlayerConnection == requestingPlayerConnection)
+            {
+
+                //check to make sure the player is not already ready
+                if (redPlayerReady == false)
+                {
+                    //set the red player to ready
+                    redPlayerReady = true;
+                }
+                else
+                {
+                    Debug.LogError("Red player tried to set to ready when it was already ready");
+                }
+
+            }
+            else
+            {
+                Debug.LogError("A connection that didn't control red tried to change ready status");
+            }
+        }
+    }
+
+    //this function resolves a request to set red to not ready
+    private void ResolveSetRedToNotReady(PlayerConnection requestingPlayerConnection, NetworkInstanceId requestingNetId)
+    {
+        //check if this is the server
+        if (isServer == true)
+        {
+            //check to make sure the red player connection is controlled by the requesting player connection
+            if (redPlayerConnection == requestingPlayerConnection)
+            {
+
+                //check to make sure the player is ready
+                if (redPlayerReady == true)
+                {
+                    //set the red player to not ready
+                    redPlayerReady = false;
+                }
+                else
+                {
+                    Debug.LogError("Red player tried to set to not ready when it was already not ready");
+                }
+
+            }
+            else
+            {
+                Debug.LogError("A connection that didn't control red tried to change ready status");
+            }
+        }
+    }
+
+    //this function resolves a request to update the red player name
+    private void ResolveUpdateRedPlayerName(PlayerConnection requestingPlayerConnection, NetworkInstanceId requestingNetId, string newName)
+    {
+        //check if this is the server
+        if (isServer == true)
+        {
+            //check to make sure the red player connection is controlled by the requesting player connection
+            if (redPlayerConnection == requestingPlayerConnection)
+            {
+                //rename the player
+                redPlayerName = newName;
+            }
+            else
+            {
+                Debug.LogError("A connection that didn't control red tried to change red name");
+            }
+        }
+    }
+
+
+
+    //this function resolves a request from a player connection to take local control of purple
+    private void ResolveRequestLocalControlPurple(PlayerConnection requestingPlayerConnection, NetworkInstanceId requestingNetId)
+    {
+
+        //this function should only be able to be called on the server, because the event that triggers it from
+        //playerConnection is a command.  Nevertheless, we'll check to make sure we are the server
+        if (isServer == true)
+        {
+            //check if the purple player is available
+            if (purplePlayerConnection == null)
+            {
+                //there is no red player connection currently, so it is available
+                purplePlayerConnection = requestingPlayerConnection;
+
+            }
+            else
+            {
+                //else the purple player is already taken, so we should not allow the requesting player connection to have it
+                Debug.LogError("Client Requested Control of Purple when it was already taken");
+            }
+
+        }
+
+    }
+
+    //this function resolves a request from a player connection to give up local control of purple
+    private void ResolveRelinquishLocalControlPurple(PlayerConnection requestingPlayerConnection, NetworkInstanceId requestingNetId)
+    {
+
+        //this function should only be able to be called on the server, because the event that triggers it from
+        //playerConnection is a command.  Nevertheless, we'll check to make sure we are the server
+        if (isServer == true)
+        {
+            //check if the purple player is available
+            if (purplePlayerConnection == null)
+            {
+                //there is no purple player connection currently, so we can't give it up
+                Debug.LogError("Client Relinquished Control of Purple when it was not taken");
+
+            }
+            else
+            {
+                //else the purple player is taken, so we should allow the requesting player connection to give it up if they are the current controller
+                if (purplePlayerConnection == requestingPlayerConnection)
+                {
+                    //the requesting player is the current controller - we can give it up
+                    purplePlayerConnection = null;
+                }
+                else
+                {
+                    //the else condition is that a different player owns purple - the requesting player can't make him give it up
+                    Debug.LogError("Client Relinquished Purple when a different player controlled purple");
+                }
+
+            }
+
+        }
+
+    }
+
+    //this function resolves a request to set purple to ready
+    private void ResolveSetPurpleToReady(PlayerConnection requestingPlayerConnection, NetworkInstanceId requestingNetId)
+    {
+        //check if this is the server
+        if (isServer == true)
+        {
+            //check to make sure the purple player connection is controlled by the requesting player connection
+            if (purplePlayerConnection == requestingPlayerConnection)
+            {
+
+                //check to make sure the player is not already ready
+                if (purplePlayerReady == false)
+                {
+                    //set the red player to ready
+                    purplePlayerReady = true;
+                }
+                else
+                {
+                    Debug.LogError("Purple player tried to set to ready when it was already ready");
+                }
+
+            }
+            else
+            {
+                Debug.LogError("A connection that didn't control purple tried to change ready status");
+            }
+        }
+    }
+
+    //this function resolves a request to set purple to not ready
+    private void ResolveSetPurpleToNotReady(PlayerConnection requestingPlayerConnection, NetworkInstanceId requestingNetId)
+    {
+        //check if this is the server
+        if (isServer == true)
+        {
+            //check to make sure the purple player connection is controlled by the requesting player connection
+            if (purplePlayerConnection == requestingPlayerConnection)
+            {
+
+                //check to make sure the player is ready
+                if (purplePlayerReady == true)
+                {
+                    //set the purple player to not ready
+                    purplePlayerReady = false;
+                }
+                else
+                {
+                    Debug.LogError("Purple player tried to set to not ready when it was already not ready");
+                }
+
+            }
+            else
+            {
+                Debug.LogError("A connection that didn't control purple tried to change ready status");
+            }
+        }
+    }
+
+    //this function resolves a request to update the purple player name
+    private void ResolveUpdatePurplePlayerName(PlayerConnection requestingPlayerConnection, NetworkInstanceId requestingNetId, string newName)
+    {
+        //check if this is the server
+        if (isServer == true)
+        {
+            //check to make sure the purple player connection is controlled by the requesting player connection
+            if (purplePlayerConnection == requestingPlayerConnection)
+            {
+                //rename the player
+                purplePlayerName = newName;
+            }
+            else
+            {
+                Debug.LogError("A connection that didn't control purple tried to change purple name");
+            }
+        }
+    }
+
+
+    //this function resolves a request from a player connection to take local control of blue
+    private void ResolveRequestLocalControlBlue(PlayerConnection requestingPlayerConnection, NetworkInstanceId requestingNetId)
+    {
+
+        //this function should only be able to be called on the server, because the event that triggers it from
+        //playerConnection is a command.  Nevertheless, we'll check to make sure we are the server
+        if (isServer == true)
+        {
+            //check if the blue player is available
+            if (bluePlayerConnection == null)
+            {
+                //there is no red player connection currently, so it is available
+                bluePlayerConnection = requestingPlayerConnection;
+
+            }
+            else
+            {
+                //else the blue player is already taken, so we should not allow the requesting player connection to have it
+                Debug.LogError("Client Requested Control of Blue when it was already taken");
+            }
+
+        }
+
+    }
+
+    //this function resolves a request from a player connection to give up local control of blue
+    private void ResolveRelinquishLocalControlBlue(PlayerConnection requestingPlayerConnection, NetworkInstanceId requestingNetId)
+    {
+
+        //this function should only be able to be called on the server, because the event that triggers it from
+        //playerConnection is a command.  Nevertheless, we'll check to make sure we are the server
+        if (isServer == true)
+        {
+            //check if the blue player is available
+            if (bluePlayerConnection == null)
+            {
+                //there is no blue player connection currently, so we can't give it up
+                Debug.LogError("Client Relinquished Control of Blue when it was not taken");
+
+            }
+            else
+            {
+                //else the blue player is taken, so we should allow the requesting player connection to give it up if they are the current controller
+                if (bluePlayerConnection == requestingPlayerConnection)
+                {
+                    //the requesting player is the current controller - we can give it up
+                    bluePlayerConnection = null;
+                }
+                else
+                {
+                    //the else condition is that a different player owns blue - the requesting player can't make him give it up
+                    Debug.LogError("Client Relinquished Blue when a different player controlled blue");
+                }
+
+            }
+
+        }
+
+    }
+
+    //this function resolves a request to set blue to ready
+    private void ResolveSetBlueToReady(PlayerConnection requestingPlayerConnection, NetworkInstanceId requestingNetId)
+    {
+        //check if this is the server
+        if (isServer == true)
+        {
+            //check to make sure the blue player connection is controlled by the requesting player connection
+            if (bluePlayerConnection == requestingPlayerConnection)
+            {
+
+                //check to make sure the player is not already ready
+                if (bluePlayerReady == false)
+                {
+                    //set the blue player to ready
+                    bluePlayerReady = true;
+                }
+                else
+                {
+                    Debug.LogError("Blue player tried to set to ready when it was already ready");
+                }
+
+            }
+            else
+            {
+                Debug.LogError("A connection that didn't control blue tried to change ready status");
+            }
+        }
+    }
+
+    //this function resolves a request to set blue to not ready
+    private void ResolveSetBlueToNotReady(PlayerConnection requestingPlayerConnection, NetworkInstanceId requestingNetId)
+    {
+        //check if this is the server
+        if (isServer == true)
+        {
+            //check to make sure the blue player connection is controlled by the requesting player connection
+            if (bluePlayerConnection == requestingPlayerConnection)
+            {
+
+                //check to make sure the player is ready
+                if (bluePlayerReady == true)
+                {
+                    //set the blue player to not ready
+                    bluePlayerReady = false;
+                }
+                else
+                {
+                    Debug.LogError("Blue player tried to set to not ready when it was already not ready");
+                }
+
+            }
+            else
+            {
+                Debug.LogError("A connection that didn't control blue tried to change ready status");
+            }
+        }
+    }
+
+    //this function resolves a request to update the blue player name
+    private void ResolveUpdateBluePlayerName(PlayerConnection requestingPlayerConnection, NetworkInstanceId requestingNetId, string newName)
+    {
+        //check if this is the server
+        if (isServer == true)
+        {
+            //check to make sure the blue player connection is controlled by the requesting player connection
+            if (bluePlayerConnection == requestingPlayerConnection)
+            {
+                //rename the player
+                bluePlayerName = newName;
+            }
+            else
+            {
+                Debug.LogError("A connection that didn't control blue tried to change blue name");
+            }
+        }
+    }
 
     //this function updates the game name
     [ClientRpc]
@@ -1303,6 +1952,12 @@ public class NetworkLobbyLAN : NetworkBehaviour {
         //remove listener for requesting RPC update
         PlayerConnection.OnRequestRPCUpdate.RemoveListener(playerConnectionUpdateRPCAction);
 
+        //remove listener for updating victory planet count
+        PlayerConnection.OnUpdateVictoryPlanetCount.RemoveListener(playerConnectionUpdateVictoryPlanetCountAction);
+
+        //remove listener for updating the team status
+        PlayerConnection.OnUpdateTeamStatus.RemoveListener(playerConnectionUpdateTeamStatusAction);
+
         //remove listener for player requesting control of green
         PlayerConnection.OnRequestLocalControlGreen.RemoveListener(playerConnectionRequestControlGreenAction);
 
@@ -1317,6 +1972,54 @@ public class NetworkLobbyLAN : NetworkBehaviour {
 
         //remove listener for player updating green name
         PlayerConnection.OnUpdateGreenPlayerName.RemoveListener(playerConnectionRenameGreenAction);
+
+
+        //remove listener for player requesting control of red
+        PlayerConnection.OnRequestLocalControlRed.RemoveListener(playerConnectionRequestControlRedAction);
+
+        //remove listener for player relinquishing control of red
+        PlayerConnection.OnRelinquishLocalControlRed.RemoveListener(playerConnectionRelinquishControlRedAction);
+
+        //remove listener for player setting red to ready
+        PlayerConnection.OnSetRedPlayerToReady.RemoveListener(playerConnectionSetRedToReadyAction);
+
+        //remove listener for player setting red to not ready
+        PlayerConnection.OnSetRedPlayerToNotReady.RemoveListener(playerConnectionSetRedToNotReadyAction);
+
+        //remove listener for player updating red name
+        PlayerConnection.OnUpdateRedPlayerName.RemoveListener(playerConnectionRenameRedAction);
+
+
+        //remove listener for player requesting control of purple
+        PlayerConnection.OnRequestLocalControlPurple.RemoveListener(playerConnectionRequestControlPurpleAction);
+
+        //remove listener for player relinquishing control of purple
+        PlayerConnection.OnRelinquishLocalControlPurple.RemoveListener(playerConnectionRelinquishControlPurpleAction);
+
+        //remove listener for player setting purple to ready
+        PlayerConnection.OnSetPurplePlayerToReady.RemoveListener(playerConnectionSetPurpleToReadyAction);
+
+        //remove listener for player setting purple to not ready
+        PlayerConnection.OnSetPurplePlayerToNotReady.RemoveListener(playerConnectionSetPurpleToNotReadyAction);
+
+        //remove listener for player updating purple name
+        PlayerConnection.OnUpdatePurplePlayerName.RemoveListener(playerConnectionRenamePurpleAction);
+
+
+        //remove listener for player requesting control of blue
+        PlayerConnection.OnRequestLocalControlBlue.RemoveListener(playerConnectionRequestControlBlueAction);
+
+        //remove listener for player relinquishing control of blue
+        PlayerConnection.OnRelinquishLocalControlBlue.RemoveListener(playerConnectionRelinquishControlBlueAction);
+
+        //remove listener for player setting blue to ready
+        PlayerConnection.OnSetBluePlayerToReady.RemoveListener(playerConnectionSetBlueToReadyAction);
+
+        //remove listener for player setting blue to not ready
+        PlayerConnection.OnSetBluePlayerToNotReady.RemoveListener(playerConnectionSetBlueToNotReadyAction);
+
+        //remove listener for player updating blue name
+        PlayerConnection.OnUpdateBluePlayerName.RemoveListener(playerConnectionRenameBlueAction);
 
     }
 

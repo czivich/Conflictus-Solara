@@ -8,7 +8,6 @@ using UnityEngine.Events;
 public class GameListItem : MonoBehaviour {
 
     //manager
-    private GameObject uiManager;
     private GameObject networkManager;
 
     //variables for list item elements
@@ -54,7 +53,6 @@ public class GameListItem : MonoBehaviour {
     public void Init(LANConnectionInfo connectionInfo)
     {
         //get the manager
-        uiManager = GameObject.FindGameObjectWithTag("UIManager");
         networkManager = GameObject.FindGameObjectWithTag("NetworkManager");
 
         //set the connection info

@@ -9,7 +9,6 @@ using UnityEngine.UI;
 public class LANGameList : MonoBehaviour {
 
     //manager
-    private GameObject uiManager;
     private GameObject networkManager;
 
     //variable to hold the panel
@@ -44,7 +43,6 @@ public class LANGameList : MonoBehaviour {
     public void Init () {
         
         //get the manager
-        uiManager = GameObject.FindGameObjectWithTag("UIManager");
         networkManager = GameObject.FindGameObjectWithTag("NetworkManager");
 
         //set actions

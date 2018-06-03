@@ -26,8 +26,7 @@ public class LocalNetworkDiscovery : NetworkDiscovery {
     //format to be ipAddress, port,gameName, teams, green alive, greenTaken, red alive, redTaken, purple alive, purpleTaken, blue alive,
     //blueTaken, green planets, red planets, purple planets, blue planets, year
     //example "192.168.1.75, 7777:false:true:true:true:false:true:false:true:false:2:3:2:2:2208:"
-    private string gameData;
-
+    
     //event for announcing discovery of a network game
     public LANGameDiscoveryEvent OnDiscoveredLANGame = new LANGameDiscoveryEvent();
 
@@ -98,7 +97,33 @@ public class LocalNetworkDiscovery : NetworkDiscovery {
         //add listener for closing the LANGameList window
         uiManager.GetComponent<LANGameList>().OnClosePanel.AddListener(StopDiscovery);
 
-    }
+        //add listeners for lobby updates
+        NetworkLobbyLAN.OnUpdateGameName.AddListener(UpdateBroadcastMessageFromLobbyInfo);
+        NetworkLobbyLAN.OnUpdateTeamsEnabled.AddListener(UpdateBroadcastMessageFromLobbyInfo);
+        NetworkLobbyLAN.OnUpdateVictoryPlanets.AddListener(UpdateBroadcastMessageFromLobbyInfo);
+        NetworkLobbyLAN.OnUpdateGameYear.AddListener(UpdateBroadcastMessageFromLobbyInfo);
+        NetworkLobbyLAN.OnUpdateGreenPlayerName.AddListener(UpdateBroadcastMessageFromLobbyInfo);
+        NetworkLobbyLAN.OnUpdateRedPlayerName.AddListener(UpdateBroadcastMessageFromLobbyInfo);
+        NetworkLobbyLAN.OnUpdatePurplePlayerName.AddListener(UpdateBroadcastMessageFromLobbyInfo);
+        NetworkLobbyLAN.OnUpdateBluePlayerName.AddListener(UpdateBroadcastMessageFromLobbyInfo);
+        NetworkLobbyLAN.OnUpdateGreenPlayerPlanets.AddListener(UpdateBroadcastMessageFromLobbyInfo);
+        NetworkLobbyLAN.OnUpdateRedPlayerPlanets.AddListener(UpdateBroadcastMessageFromLobbyInfo);
+        NetworkLobbyLAN.OnUpdatePurplePlayerPlanets.AddListener(UpdateBroadcastMessageFromLobbyInfo);
+        NetworkLobbyLAN.OnUpdateBluePlayerPlanets.AddListener(UpdateBroadcastMessageFromLobbyInfo);
+        NetworkLobbyLAN.OnUpdateGreenPlayerReady.AddListener(UpdateBroadcastMessageFromLobbyInfo);
+        NetworkLobbyLAN.OnUpdateRedPlayerReady.AddListener(UpdateBroadcastMessageFromLobbyInfo);
+        NetworkLobbyLAN.OnUpdatePurplePlayerReady.AddListener(UpdateBroadcastMessageFromLobbyInfo);
+        NetworkLobbyLAN.OnUpdateBluePlayerReady.AddListener(UpdateBroadcastMessageFromLobbyInfo);
+        NetworkLobbyLAN.OnUpdateGreenPlayerConnection.AddListener(UpdateBroadcastMessageFromLobbyInfo);
+        NetworkLobbyLAN.OnUpdateRedPlayerConnection.AddListener(UpdateBroadcastMessageFromLobbyInfo);
+        NetworkLobbyLAN.OnUpdatePurplePlayerConnection.AddListener(UpdateBroadcastMessageFromLobbyInfo);
+        NetworkLobbyLAN.OnUpdateBluePlayerConnection.AddListener(UpdateBroadcastMessageFromLobbyInfo);
+        NetworkLobbyLAN.OnUpdateGreenPlayerAlive.AddListener(UpdateBroadcastMessageFromLobbyInfo);
+        NetworkLobbyLAN.OnUpdateRedPlayerAlive.AddListener(UpdateBroadcastMessageFromLobbyInfo);
+        NetworkLobbyLAN.OnUpdatePurplePlayerAlive.AddListener(UpdateBroadcastMessageFromLobbyInfo);
+        NetworkLobbyLAN.OnUpdateBluePlayerAlive.AddListener(UpdateBroadcastMessageFromLobbyInfo);
+
+}
 
     //use this for initialization
     public void StartDiscovery(bool initAsServer, bool initAsClient, LANConnectionInfo connectionInfo)
@@ -108,7 +133,7 @@ public class LocalNetworkDiscovery : NetworkDiscovery {
         //localIsClient = initAsClient;
         //localIsServer = initAsServer;
         //localLANConnectionInfo = connectionInfo;
-
+        
         //initialize the base class
         base.Initialize();
 
@@ -277,6 +302,84 @@ public class LocalNetworkDiscovery : NetworkDiscovery {
 
     }
 
+    //this function updates the broadcast data from the network lobby
+    private void UpdateBroadcastMessageFromLobbyInfo()
+    {
+        //check if we are the server
+        if(isServer == true)
+        {
+
+            //define the taken states
+            bool greenPlayerTaken;
+            bool redPlayerTaken;
+            bool purplePlayerTaken;
+            bool bluePlayerTaken;
+
+            if (networkManager.GetComponentInChildren<NetworkLobbyLAN>().greenPlayerConnection == null)
+            {
+                greenPlayerTaken = false;
+            }
+            else
+            {
+                greenPlayerTaken = true;
+
+            }
+
+            if (networkManager.GetComponentInChildren<NetworkLobbyLAN>().redPlayerConnection == null)
+            {
+                redPlayerTaken = false;
+            }
+            else
+            {
+                redPlayerTaken = true;
+
+            }
+
+            if (networkManager.GetComponentInChildren<NetworkLobbyLAN>().purplePlayerConnection == null)
+            {
+                purplePlayerTaken = false;
+            }
+            else
+            {
+                purplePlayerTaken = true;
+
+            }
+
+            if (networkManager.GetComponentInChildren<NetworkLobbyLAN>().bluePlayerConnection == null)
+            {
+                bluePlayerTaken = false;
+            }
+            else
+            {
+                bluePlayerTaken = true;
+
+            }
+
+            //update the broadcast message
+            broadcastData = new LANConnectionInfo(
+                NetworkManager.singleton.networkAddress.ToString(),
+                NetworkManager.singleton.networkPort,
+                networkManager.GetComponentInChildren<NetworkLobbyLAN>().gameName,
+                networkManager.GetComponentInChildren<NetworkLobbyLAN>().teamsEnabled,
+                networkManager.GetComponentInChildren<NetworkLobbyLAN>().greenPlayerAlive,
+                greenPlayerTaken,
+                networkManager.GetComponentInChildren<NetworkLobbyLAN>().redPlayerAlive,
+                redPlayerTaken,
+                networkManager.GetComponentInChildren<NetworkLobbyLAN>().purplePlayerAlive,
+                purplePlayerTaken,
+                networkManager.GetComponentInChildren<NetworkLobbyLAN>().bluePlayerAlive,
+                bluePlayerTaken,
+                networkManager.GetComponentInChildren<NetworkLobbyLAN>().greenPlayerPlanets,
+                networkManager.GetComponentInChildren<NetworkLobbyLAN>().redPlayerPlanets,
+                networkManager.GetComponentInChildren<NetworkLobbyLAN>().purplePlayerPlanets,
+                networkManager.GetComponentInChildren<NetworkLobbyLAN>().bluePlayerPlanets,
+                networkManager.GetComponentInChildren<NetworkLobbyLAN>().gameYear,
+                networkManager.GetComponentInChildren<NetworkLobbyLAN>().victoryPlanets
+                ).broadcastDataString;
+
+        }
+    }
+
     //this function handles OnDestroy
     private void OnDestroy()
     {
@@ -303,7 +406,32 @@ public class LocalNetworkDiscovery : NetworkDiscovery {
 
         }
 
+        //remove listeners for lobby updates
+        NetworkLobbyLAN.OnUpdateGameName.RemoveListener(UpdateBroadcastMessageFromLobbyInfo);
+        NetworkLobbyLAN.OnUpdateTeamsEnabled.RemoveListener(UpdateBroadcastMessageFromLobbyInfo);
+        NetworkLobbyLAN.OnUpdateVictoryPlanets.RemoveListener(UpdateBroadcastMessageFromLobbyInfo);
+        NetworkLobbyLAN.OnUpdateGameYear.RemoveListener(UpdateBroadcastMessageFromLobbyInfo);
+        NetworkLobbyLAN.OnUpdateGreenPlayerName.RemoveListener(UpdateBroadcastMessageFromLobbyInfo);
+        NetworkLobbyLAN.OnUpdateRedPlayerName.RemoveListener(UpdateBroadcastMessageFromLobbyInfo);
+        NetworkLobbyLAN.OnUpdatePurplePlayerName.RemoveListener(UpdateBroadcastMessageFromLobbyInfo);
+        NetworkLobbyLAN.OnUpdateBluePlayerName.RemoveListener(UpdateBroadcastMessageFromLobbyInfo);
+        NetworkLobbyLAN.OnUpdateGreenPlayerPlanets.RemoveListener(UpdateBroadcastMessageFromLobbyInfo);
+        NetworkLobbyLAN.OnUpdateRedPlayerPlanets.RemoveListener(UpdateBroadcastMessageFromLobbyInfo);
+        NetworkLobbyLAN.OnUpdatePurplePlayerPlanets.RemoveListener(UpdateBroadcastMessageFromLobbyInfo);
+        NetworkLobbyLAN.OnUpdateBluePlayerPlanets.RemoveListener(UpdateBroadcastMessageFromLobbyInfo);
+        NetworkLobbyLAN.OnUpdateGreenPlayerReady.RemoveListener(UpdateBroadcastMessageFromLobbyInfo);
+        NetworkLobbyLAN.OnUpdateRedPlayerReady.RemoveListener(UpdateBroadcastMessageFromLobbyInfo);
+        NetworkLobbyLAN.OnUpdatePurplePlayerReady.RemoveListener(UpdateBroadcastMessageFromLobbyInfo);
+        NetworkLobbyLAN.OnUpdateBluePlayerReady.RemoveListener(UpdateBroadcastMessageFromLobbyInfo);
+        NetworkLobbyLAN.OnUpdateGreenPlayerConnection.RemoveListener(UpdateBroadcastMessageFromLobbyInfo);
+        NetworkLobbyLAN.OnUpdateRedPlayerConnection.RemoveListener(UpdateBroadcastMessageFromLobbyInfo);
+        NetworkLobbyLAN.OnUpdatePurplePlayerConnection.RemoveListener(UpdateBroadcastMessageFromLobbyInfo);
+        NetworkLobbyLAN.OnUpdateBluePlayerConnection.RemoveListener(UpdateBroadcastMessageFromLobbyInfo);
+        NetworkLobbyLAN.OnUpdateGreenPlayerAlive.RemoveListener(UpdateBroadcastMessageFromLobbyInfo);
+        NetworkLobbyLAN.OnUpdateRedPlayerAlive.RemoveListener(UpdateBroadcastMessageFromLobbyInfo);
+        NetworkLobbyLAN.OnUpdatePurplePlayerAlive.RemoveListener(UpdateBroadcastMessageFromLobbyInfo);
+        NetworkLobbyLAN.OnUpdateBluePlayerAlive.RemoveListener(UpdateBroadcastMessageFromLobbyInfo);
+
     }
   	
-
 }

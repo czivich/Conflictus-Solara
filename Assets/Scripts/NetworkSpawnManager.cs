@@ -7,8 +7,8 @@ using UnityEngine.Events;
 public class NetworkSpawnManager : NetworkBehaviour {
     
     //manager
-    private GameObject uiManager;
-    private GameObject networkManager;
+    //private GameObject uiManager;
+    //private GameObject networkManager;
 
     //gameObject for network lobby prefab
     public GameObject networkLobbyLANPrefab;
@@ -21,8 +21,8 @@ public class NetworkSpawnManager : NetworkBehaviour {
     public void Init () {
 
         //get the manager
-        uiManager = GameObject.FindGameObjectWithTag("UIManager");
-        networkManager = GameObject.FindGameObjectWithTag("NetworkManager");
+        //uiManager = GameObject.FindGameObjectWithTag("UIManager");
+        //networkManager = GameObject.FindGameObjectWithTag("NetworkManager");
         
         //set the name
         this.name = "NetworkSpawnManager";

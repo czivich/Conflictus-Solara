@@ -633,6 +633,10 @@ public class LobbyLANGamePanel : MonoBehaviour {
     //event for requesting local control
     public UnityEvent OnRequestLocalControlGreen = new UnityEvent();
     public UnityEvent OnRelinquishLocalControlGreen = new UnityEvent();
+
+    //event for setting ready status
+    public UnityEvent OnGreenPlayerReady = new UnityEvent();
+    public UnityEvent OnGreenPlayerNotReady = new UnityEvent();
     
     //event class for passing string
     public class StringEvent : UnityEvent<string> { };
@@ -1426,31 +1430,36 @@ public class LobbyLANGamePanel : MonoBehaviour {
         {
 
             //we are turning it off
-            readyGreen = false;
+            OnGreenPlayerNotReady.Invoke();
+
+           // readyGreen = false;
 
             //update the input field status
-            greenPlayerInputField.interactable = true;
+            //greenPlayerInputField.interactable = true;
 
             //make the local button interactable
-            localGreenPlayerButton.interactable = true;
+            //localGreenPlayerButton.interactable = true;
 
             //unhighlight the button
-            UnhighlightButton(readyGreenPlayerButton);
+            //UnhighlightButton(readyGreenPlayerButton);
 
         }
         else
         {
             //the else condition is that we are turning it on
-            readyGreen = true;
+            OnGreenPlayerReady.Invoke();
+
+
+            //readyGreen = true;
 
             //update the input field status
-            greenPlayerInputField.interactable = false;
+            //greenPlayerInputField.interactable = false;
 
             //make the local button not interactable
-            localGreenPlayerButton.interactable = false;
+            //localGreenPlayerButton.interactable = false;
 
             //highlight the button
-            HighlightButton(readyGreenPlayerButton);
+            //HighlightButton(readyGreenPlayerButton);
 
         }
 
@@ -2319,6 +2328,13 @@ public class LobbyLANGamePanel : MonoBehaviour {
 
         //update the ready button status
         SetGreenPlayerReadyButtonStatus();
+
+        //update the input field status
+        SetGreenPlayerInputStatus();
+
+        //update the local button status
+        SetGreenPlayerLocalButtonStatus();
+
     }
 
     //this function updates the red player ready status

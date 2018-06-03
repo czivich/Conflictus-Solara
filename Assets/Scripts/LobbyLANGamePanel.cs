@@ -156,6 +156,7 @@ public class LobbyLANGamePanel : MonoBehaviour {
             else
             {
                 _planetCount = value;
+                planetCountToggle.GetComponentInChildren<TextMeshProUGUI>().text = _planetCount.ToString();
                 planetValueText.text = _planetCount.ToString();
             }
         }
@@ -632,11 +633,17 @@ public class LobbyLANGamePanel : MonoBehaviour {
     //event for requesting local control
     public UnityEvent OnRequestLocalControlGreen = new UnityEvent();
     public UnityEvent OnRelinquishLocalControlGreen = new UnityEvent();
+    
+    //event class for passing string
+    public class StringEvent : UnityEvent<string> { };
 
+    //event for entering player names
+    public StringEvent OnEnterGreenPlayerName = new StringEvent();
 
     //unityActions
     private UnityAction<LANConnectionInfo> createLANGameAction;
     private UnityAction<LANConnectionInfo> joinLANGameAction;
+    private UnityAction<string> greenPlayerInputAction;
 
     // Use this for initialization
     public void Init()
@@ -687,6 +694,8 @@ public class LobbyLANGamePanel : MonoBehaviour {
             ResolveEnterLobby(connectionInfo);
 
         };
+
+        greenPlayerInputAction = (greenNameString) => { ResolveEnterGreenPlayerName(greenNameString); };
 
     }
 
@@ -795,6 +804,9 @@ public class LobbyLANGamePanel : MonoBehaviour {
         readyRedPlayerButton.onClick.AddListener(ResolveReadyRedButtonClick);
         readyPurplePlayerButton.onClick.AddListener(ResolveReadyPurpleButtonClick);
         readyBluePlayerButton.onClick.AddListener(ResolveReadyBlueButtonClick);
+
+        //add listener for ending green name input
+        greenPlayerInputField.onEndEdit.AddListener(greenPlayerInputAction);
 
         
     }
@@ -2221,6 +2233,13 @@ public class LobbyLANGamePanel : MonoBehaviour {
 
     }
 
+    //this function resolves entering a green player name
+    private void ResolveEnterGreenPlayerName(string newGreenPlayerName)
+    {
+        //invoke the new name event
+        OnEnterGreenPlayerName.Invoke(newGreenPlayerName);
+    }
+
     //this function updates the game name
     private void GetGameName()
     {
@@ -2580,6 +2599,12 @@ public class LobbyLANGamePanel : MonoBehaviour {
         {
             //remove listener for ready buttons
             readyBluePlayerButton.onClick.RemoveListener(ResolveReadyBlueButtonClick);
+        }
+
+        if(greenPlayerInputField != null)
+        {
+            //remove listener for ending green name input
+            greenPlayerInputField.onEndEdit.RemoveListener(greenPlayerInputAction);
         }
 
     }

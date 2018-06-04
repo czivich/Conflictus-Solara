@@ -78,6 +78,15 @@ public class CustomNetworkManager : NetworkManager {
 
     }
 
+    //this function callback is for when a client stops a connection
+    public override void OnStopClient()
+    {
+        //call the base function
+        base.OnStopClient();
+
+
+    }
+
     //this function gets the local IP adress
     public static string GetLocalIPAddress()
     {

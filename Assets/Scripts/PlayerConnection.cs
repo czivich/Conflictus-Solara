@@ -239,6 +239,9 @@ public class PlayerConnection : NetworkBehaviour {
         NetworkLobbyLAN.OnUpdatePurplePlayerConnection.AddListener(UpdatePlayerControlStatus);
         NetworkLobbyLAN.OnUpdateBluePlayerConnection.AddListener(UpdatePlayerControlStatus);
 
+        //add listener for client stopping
+        networkManager.GetComponent<NetworkInterface>().OnStopClient.AddListener(ResolveStopClient);
+
     }
 
     //this function handles a request for Lobby info
@@ -295,6 +298,39 @@ public class PlayerConnection : NetworkBehaviour {
             localBluePlayer = false;
         }
         
+    }
+
+    //this function checks to see what players we are controlling and relinquishes any of them when this player connection is destroyed
+    private void RelinquishAllPlayerControl()
+    {
+        if(localGreenPlayer == true)
+        {
+            CmdRelinquishLocalControlGreen(this.gameObject, this.netId);
+        }
+
+        if (localRedPlayer == true)
+        {
+            CmdRelinquishLocalControlRed(this.gameObject, this.netId);
+        }
+
+        if (localPurplePlayer == true)
+        {
+            CmdRelinquishLocalControlPurple(this.gameObject, this.netId);
+        }
+
+        if (localBluePlayer == true)
+        {
+            CmdRelinquishLocalControlBlue(this.gameObject, this.netId);
+        }
+    }
+
+    //this function resolves stopping the client
+    private void ResolveStopClient()
+    {
+        if (this.isLocalPlayer == true)
+        {
+            RelinquishAllPlayerControl();
+        }
     }
 
     //this command requests an RPC update for the requested object
@@ -581,6 +617,12 @@ public class PlayerConnection : NetworkBehaviour {
             NetworkLobbyLAN.OnUpdateRedPlayerConnection.RemoveListener(UpdatePlayerControlStatus);
             NetworkLobbyLAN.OnUpdatePurplePlayerConnection.RemoveListener(UpdatePlayerControlStatus);
             NetworkLobbyLAN.OnUpdateBluePlayerConnection.RemoveListener(UpdatePlayerControlStatus);
+
+            if(networkManager != null)
+            {
+                //remove listener for client stopping
+                networkManager.GetComponent<NetworkInterface>().OnStopClient.RemoveListener(ResolveStopClient);
+            }
         }
 
     }

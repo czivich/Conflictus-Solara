@@ -23,6 +23,7 @@ public class NetworkInterface : MonoBehaviour {
     public ConnectionEvent OnCreateLANGameAsHost = new ConnectionEvent();
     public ConnectionEvent OnCreateLANGameAsServer = new ConnectionEvent();
     public ConnectionEvent OnJoinLANGameAsClient = new ConnectionEvent();
+    public UnityEvent OnStopClient = new UnityEvent();
 
     //class for passing connections
     public class ConnectionEvent : UnityEvent<LANConnectionInfo> { };
@@ -60,6 +61,11 @@ public class NetworkInterface : MonoBehaviour {
 
         //add listener for clicking a join LAN Game button
         GameListItem.OnJoinLANGame.AddListener(joinedLANGameAction);
+
+        //add listeners for leaving the lobby
+        uiManager.GetComponent<LobbyLANGamePanel>().OnExitLobbyToGameList.AddListener(ResolveLeaveLANGame);
+        uiManager.GetComponent<LobbyLANGamePanel>().OnExitLobbyToMain.AddListener(ResolveLeaveLANGame);
+
 
     }
 
@@ -135,6 +141,16 @@ public class NetworkInterface : MonoBehaviour {
 
     }
 
+    //this function resolves leaving a lan game
+    private void ResolveLeaveLANGame()
+    {
+        //invoke the stop client event
+        OnStopClient.Invoke(); 
+
+        //stop client
+        customNetworkManager.StopClient();
+    }
+
     //this function handles OnDestroy
     private void OnDestroy()
     {
@@ -148,6 +164,10 @@ public class NetworkInterface : MonoBehaviour {
         {
             //remove listener for creating LAN game as host
             uiManager.GetComponent<NewLANGameWindow>().OnCreateNewLANGame.RemoveListener(newLANGameCreatedAction);
+
+            //remove listeners for leaving the lobby
+            uiManager.GetComponent<LobbyLANGamePanel>().OnExitLobbyToGameList.RemoveListener(ResolveLeaveLANGame);
+            uiManager.GetComponent<LobbyLANGamePanel>().OnExitLobbyToMain.RemoveListener(ResolveLeaveLANGame);
 
         }
 

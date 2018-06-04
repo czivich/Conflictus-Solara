@@ -37,6 +37,7 @@ public class LANGameList : MonoBehaviour {
     //unityactions
     private UnityAction<LANConnectionInfo> connectionInfoCreateGameListItemAction;
     private UnityAction<LANConnectionInfo> connectionInfoDeleteGameListItemAction;
+    private UnityAction<LANConnectionInfo> connectionInfoCloseGameListAction;
 
 
     // Use this for initialization
@@ -58,7 +59,7 @@ public class LANGameList : MonoBehaviour {
     {
         connectionInfoCreateGameListItemAction = (connectionInfo) => { CreateGameListItem(connectionInfo); };
         connectionInfoDeleteGameListItemAction = (connectionInfo) => { DeleteGameListItem(connectionInfo); };
-
+        connectionInfoCloseGameListAction = (connectionInfo) => { ResolveJoinGame(); };
     }
 
     //this function adds event listeners
@@ -76,6 +77,9 @@ public class LANGameList : MonoBehaviour {
 
         //add listener for a network game timing out
         networkManager.GetComponent<LocalNetworkDiscovery>().OnLANGameTimedOut.AddListener(connectionInfoDeleteGameListItemAction);
+
+        //add listener for the picking a game list item
+        GameListItem.OnJoinLANGameEarly.AddListener(connectionInfoCloseGameListAction);
 
     }
 
@@ -183,6 +187,17 @@ public class LANGameList : MonoBehaviour {
         
     }
 
+    //this function resolves joining a LAN game
+    private void ResolveJoinGame()
+    {
+        //check if the panel is open
+        if(gameListPanel.activeInHierarchy == true)
+        {
+            //close the panel
+            CloseWindow();
+        }
+    }
+
     //this function handles onDestroy
     private void OnDestroy()
     {
@@ -219,6 +234,9 @@ public class LANGameList : MonoBehaviour {
             networkManager.GetComponent<LocalNetworkDiscovery>().OnLANGameTimedOut.RemoveListener(connectionInfoDeleteGameListItemAction);
 
         }
+
+        //remove listener for the picking a game list item
+        GameListItem.OnJoinLANGameEarly.RemoveListener(connectionInfoCloseGameListAction);
     }
 }
 

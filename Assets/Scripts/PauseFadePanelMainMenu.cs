@@ -79,6 +79,11 @@ public class PauseFadePanelMainMenu : MonoBehaviour {
         uiManager.GetComponent<LANGameList>().OnOpenPanel.AddListener(EnablePauseFadePanel);
         uiManager.GetComponent<LANGameList>().OnClosePanel.AddListener(DisablePauseFadePanel);
 
+        //add listeners for the lobby
+        uiManager.GetComponent<LobbyLANGamePanel>().OnOpenPanel.AddListener(EnablePauseFadePanel);
+        uiManager.GetComponent<LobbyLANGamePanel>().OnClosePanel.AddListener(DisablePauseFadePanel);
+
+
         //start with the panel disabled
         DisablePauseFadePanel();
 
@@ -201,6 +206,10 @@ public class PauseFadePanelMainMenu : MonoBehaviour {
         //remove listeners for the lan game list
         uiManager.GetComponent<LANGameList>().OnOpenPanel.RemoveListener(EnablePauseFadePanel);
         uiManager.GetComponent<LANGameList>().OnClosePanel.RemoveListener(DisablePauseFadePanel);
+
+        //remove listeners for the lobby
+        uiManager.GetComponent<LobbyLANGamePanel>().OnOpenPanel.RemoveListener(EnablePauseFadePanel);
+        uiManager.GetComponent<LobbyLANGamePanel>().OnClosePanel.RemoveListener(DisablePauseFadePanel);
     }
 
 }

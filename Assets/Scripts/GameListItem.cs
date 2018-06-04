@@ -42,6 +42,8 @@ public class GameListItem : MonoBehaviour {
 
     //event for clicking the game button
     public static ConnectionEvent OnJoinLANGame = new ConnectionEvent();
+    public static ConnectionEvent OnJoinLANGameEarly = new ConnectionEvent();
+
 
     //event class for passing lan connection info
     public class ConnectionEvent : UnityEvent<LANConnectionInfo>{ };
@@ -236,7 +238,9 @@ public class GameListItem : MonoBehaviour {
     //this function joins a game
     private void JoinGame()
     {
-    
+        //invoke the early event
+        OnJoinLANGameEarly.Invoke(this.lanConnectionInfo);
+
         //invoke the event
         OnJoinLANGame.Invoke(this.lanConnectionInfo);
     }

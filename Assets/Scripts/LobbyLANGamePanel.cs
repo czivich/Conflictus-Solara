@@ -677,6 +677,10 @@ public class LobbyLANGamePanel : MonoBehaviour {
     //event for passing team status change
     public BoolEvent OnUpdateTeamsEnabled = new BoolEvent();
 
+    //events for exiting the lobby
+    public UnityEvent OnExitLobbyToMain = new UnityEvent();
+    public UnityEvent OnExitLobbyToGameList = new UnityEvent();
+
     //unityActions
     private UnityAction<LANConnectionInfo> createLANGameAction;
     private UnityAction<LANConnectionInfo> joinLANGameAction;
@@ -755,7 +759,7 @@ public class LobbyLANGamePanel : MonoBehaviour {
         uiManager.GetComponent<NewLANGameWindow>().OnCreateNewLANGame.AddListener(createLANGameAction);
 
         //add a listener for the exit button to close the window
-        exitWindowButton.onClick.AddListener(CloseWindow);
+        exitWindowButton.onClick.AddListener(ExitLobbyToMain);
 
         //add a listener for clicking the teamsYesButton
         teamsYesButton.onClick.AddListener(SetTeamsToYes);
@@ -782,7 +786,7 @@ public class LobbyLANGamePanel : MonoBehaviour {
         localBluePlayerButton.onClick.AddListener(ResolveLocalBlueButtonClick);
 
         //add a listener for clicking the cancel button
-        exitLobbyButton.onClick.AddListener(CloseWindow);
+        exitLobbyButton.onClick.AddListener(ExitLobbyToGameList);
 
         //add listener for game name update
         NetworkLobbyLAN.OnUpdateGameName.AddListener(GetGameName);
@@ -3060,6 +3064,29 @@ public class LobbyLANGamePanel : MonoBehaviour {
     }
 
 
+    //this function resolves exiting out of the lobby to the main menu
+    private void ExitLobbyToMain()
+    {
+        //invoke the event
+        OnExitLobbyToMain.Invoke();
+
+        //close the window
+        CloseWindow();
+
+    }
+
+    //this function resolves exiting out of the lobby to the game list
+    private void ExitLobbyToGameList()
+    {
+
+        //invoke the event
+        OnExitLobbyToGameList.Invoke();
+
+        //close the window
+        CloseWindow();
+
+    }
+
     //this function resolves OnDestroy
     private void OnDestroy()
     {
@@ -3085,7 +3112,7 @@ public class LobbyLANGamePanel : MonoBehaviour {
         {
 
             //remove a listener for the exit button to close the window
-            exitWindowButton.onClick.RemoveListener(CloseWindow);
+            exitWindowButton.onClick.RemoveListener(ExitLobbyToMain);
 
         }
 
@@ -3126,7 +3153,7 @@ public class LobbyLANGamePanel : MonoBehaviour {
         {
 
             //remove a listener for clicking the cancel button
-            exitLobbyButton.onClick.RemoveListener(CloseWindow);
+            exitLobbyButton.onClick.RemoveListener(ExitLobbyToGameList);
 
         }
 

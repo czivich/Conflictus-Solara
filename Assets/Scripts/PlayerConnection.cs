@@ -16,11 +16,14 @@ public class PlayerConnection : NetworkBehaviour {
     //this holds the parent object in the hierarchy
     public GameObject parentObject;
 
+    //this bool tracks whether we intend to disconnect client
+    private bool isDisconnecting;
+
     //bools to track if the players are locally controlled
-    public bool localGreenPlayer { get; private set; }
-    public bool localRedPlayer { get; private set; }
-    public bool localPurplePlayer { get; private set; }
-    public bool localBluePlayer { get; private set; }
+    public bool isLocalGreenPlayer { get; private set; }
+    public bool isLocalRedPlayer { get; private set; }
+    public bool isLocalPurplePlayer { get; private set; }
+    public bool isLocalBluePlayer { get; private set; }
 
     public static ConnectionEvent OnRequestRPCUpdate = new ConnectionEvent();
 
@@ -50,6 +53,9 @@ public class PlayerConnection : NetworkBehaviour {
     public static ConnectionEvent OnSetBluePlayerToReady = new ConnectionEvent();
     public static ConnectionEvent OnSetBluePlayerToNotReady = new ConnectionEvent();
     public static ConnectionStringEvent OnUpdateBluePlayerName = new ConnectionStringEvent();
+
+    //this event is for announcing that the player that is leaving has relinquished all control
+    public static UnityEvent OnReadyToStopClient = new UnityEvent();
 
     //class for passing connections
     public class ConnectionEvent : UnityEvent<PlayerConnection, NetworkInstanceId> { };
@@ -259,43 +265,86 @@ public class PlayerConnection : NetworkBehaviour {
     //this function updates the player control status
     private void UpdatePlayerControlStatus()
     {
+        Debug.Log("UpdatePlayerControlStatus");
         if(networkManager.GetComponentInChildren<NetworkLobbyLAN>().greenPlayerConnection == this)
         {
-            localGreenPlayer = true;
+            Debug.Log("localGreenPlayer = true");
+            isLocalGreenPlayer = true;
         }
         else
         {
-            localGreenPlayer = false;
+            Debug.Log("localGreenPlayer = false");
+            isLocalGreenPlayer = false;
+
+            //check if all local players are false and we are trying to leave
+            if(isDisconnecting == true && isLocalGreenPlayer == false && isLocalRedPlayer == false && isLocalPurplePlayer == false && isLocalBluePlayer == false)
+            {
+                //clear the flag so this doesn't trigger 4X
+                isDisconnecting = false;
+
+                //all control is relinquished - invoke the event
+                OnReadyToStopClient.Invoke();
+            }
         }
 
 
         if (networkManager.GetComponentInChildren<NetworkLobbyLAN>().redPlayerConnection == this)
         {
-            localRedPlayer = true;
+            isLocalRedPlayer = true;
         }
         else
         {
-            localRedPlayer = false;
+            isLocalRedPlayer = false;
+
+            //check if all local players are false and we are trying to leave
+            if (isDisconnecting == true && isLocalGreenPlayer == false && isLocalRedPlayer == false && isLocalPurplePlayer == false && isLocalBluePlayer == false)
+            {
+                //clear the flag so this doesn't trigger 4X
+                isDisconnecting = false;
+
+                //all control is relinquished - invoke the event
+                OnReadyToStopClient.Invoke();
+            }
         }
 
 
         if (networkManager.GetComponentInChildren<NetworkLobbyLAN>().purplePlayerConnection == this)
         {
-            localPurplePlayer = true;
+            isLocalPurplePlayer = true;
         }
         else
         {
-            localPurplePlayer = false;
+            isLocalPurplePlayer = false;
+
+            //check if all local players are false and we are trying to leave
+            if (isDisconnecting == true && isLocalGreenPlayer == false && isLocalRedPlayer == false && isLocalPurplePlayer == false && isLocalBluePlayer == false)
+            {
+                //clear the flag so this doesn't trigger 4X
+                isDisconnecting = false;
+
+                //all control is relinquished - invoke the event
+                OnReadyToStopClient.Invoke();
+            }
         }
 
 
         if (networkManager.GetComponentInChildren<NetworkLobbyLAN>().bluePlayerConnection == this)
         {
-            localBluePlayer = true;
+            isLocalBluePlayer = true;
         }
         else
         {
-            localBluePlayer = false;
+            isLocalBluePlayer = false;
+
+            //check if all local players are false and we are trying to leave
+            if (isDisconnecting == true && isLocalGreenPlayer == false && isLocalRedPlayer == false && isLocalPurplePlayer == false && isLocalBluePlayer == false)
+            {
+                //clear the flag so this doesn't trigger 4X
+                isDisconnecting = false;
+
+                //all control is relinquished - invoke the event
+                OnReadyToStopClient.Invoke();
+            }
         }
         
     }
@@ -303,22 +352,24 @@ public class PlayerConnection : NetworkBehaviour {
     //this function checks to see what players we are controlling and relinquishes any of them when this player connection is destroyed
     private void RelinquishAllPlayerControl()
     {
-        if(localGreenPlayer == true)
+        Debug.Log("RelinquishAllPlayerControl");
+        if(isLocalGreenPlayer == true)
         {
+            Debug.Log("CmdRelinquishLocalControlGreen called");
             CmdRelinquishLocalControlGreen(this.gameObject, this.netId);
         }
 
-        if (localRedPlayer == true)
+        if (isLocalRedPlayer == true)
         {
             CmdRelinquishLocalControlRed(this.gameObject, this.netId);
         }
 
-        if (localPurplePlayer == true)
+        if (isLocalPurplePlayer == true)
         {
             CmdRelinquishLocalControlPurple(this.gameObject, this.netId);
         }
 
-        if (localBluePlayer == true)
+        if (isLocalBluePlayer == true)
         {
             CmdRelinquishLocalControlBlue(this.gameObject, this.netId);
         }
@@ -327,8 +378,13 @@ public class PlayerConnection : NetworkBehaviour {
     //this function resolves stopping the client
     private void ResolveStopClient()
     {
+        Debug.Log("ResolveStopClient called");
         if (this.isLocalPlayer == true)
         {
+            //set the isDisconnecting flag to true
+            isDisconnecting = true;
+
+            Debug.Log("RelinquishAllPlayerControl");
             RelinquishAllPlayerControl();
         }
     }
@@ -370,6 +426,7 @@ public class PlayerConnection : NetworkBehaviour {
     [Command]
     private void CmdRelinquishLocalControlGreen(GameObject requestingPlayerConnectionGameObject, NetworkInstanceId requestingNetId)
     {
+        Debug.Log("Relinquish Green Command");
         //invoke an event relinquishing control of the green player
         OnRelinquishLocalControlGreen.Invoke(requestingPlayerConnectionGameObject.GetComponent<PlayerConnection>(), requestingNetId);
     }

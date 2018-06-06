@@ -66,6 +66,9 @@ public class NetworkInterface : MonoBehaviour {
         uiManager.GetComponent<LobbyLANGamePanel>().OnExitLobbyToGameList.AddListener(ResolveLeaveLANGame);
         uiManager.GetComponent<LobbyLANGamePanel>().OnExitLobbyToMain.AddListener(ResolveLeaveLANGame);
 
+        //add listener for a player connection ready to stop client
+        PlayerConnection.OnReadyToStopClient.AddListener(ResolveStopClient);
+
 
     }
 
@@ -147,6 +150,12 @@ public class NetworkInterface : MonoBehaviour {
         //invoke the stop client event
         OnStopClient.Invoke(); 
 
+
+    }
+
+    //this function stops the client
+    private void ResolveStopClient()
+    {
         //stop client
         customNetworkManager.StopClient();
     }
@@ -173,6 +182,9 @@ public class NetworkInterface : MonoBehaviour {
 
         //remove listener for clicking a join LAN Game button
         GameListItem.OnJoinLANGame.RemoveListener(joinedLANGameAction);
+
+        //remove listener for a player connection ready to stop client
+        PlayerConnection.OnReadyToStopClient.RemoveListener(ResolveStopClient);
 
     }
 

@@ -1166,6 +1166,7 @@ public class NetworkLobbyLAN : NetworkBehaviour {
                 //else the green player is taken, so we should allow the requesting player connection to give it up if they are the current controller
                 if(greenPlayerConnection == requestingPlayerConnection)
                 {
+                    Debug.Log("set green player to null");
                     //the requesting player is the current controller - we can give it up
                     greenPlayerConnection = null;
                 }

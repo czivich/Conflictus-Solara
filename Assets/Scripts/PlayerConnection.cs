@@ -98,6 +98,7 @@ public class PlayerConnection : NetworkBehaviour {
     private UnityAction setBluePlayerToNotReadyAction;
     private UnityAction<string> stringUpdateBluePlayerNameAction;
 
+    private UnityAction<PlayerConnection, NetworkInstanceId> playerConnectionDisconnectAction;
 
     // Use this for initialization
     private void Start () {
@@ -127,7 +128,16 @@ public class PlayerConnection : NetworkBehaviour {
 
         }
 
+        if(this.isServer == true)
+        {
+            //set server actions
+            SetServerActions();
 
+            //add listeners
+            AddServerEventListeners();
+
+        }
+        
     }
 
     //this function sets unityActions
@@ -161,6 +171,12 @@ public class PlayerConnection : NetworkBehaviour {
         setBluePlayerToNotReadyAction = () => { CmdSetBluePlayerToNotReady(this.gameObject, this.netId); };
         stringUpdateBluePlayerNameAction = (newName) => { CmdUpdateBluePlayerName(this.gameObject, this.netId, newName); };
 
+    }
+
+    //this function sets server action
+    private void SetServerActions()
+    {
+        playerConnectionDisconnectAction = (playerConnection, netId) => { ResolveDisconnectingPlayer(playerConnection, netId); };
     }
 
     //this function adds event listeners
@@ -248,6 +264,19 @@ public class PlayerConnection : NetworkBehaviour {
         //add listener for client stopping
         networkManager.GetComponent<NetworkInterface>().OnStopClient.AddListener(ResolveStopClient);
 
+    }
+
+    //this function adds listeners for the server version of these objects
+    private void AddServerEventListeners()
+    {
+        //add listener for a disconnecting player
+        CustomNetworkManager.OnPlayerDisconnecting.AddListener(playerConnectionDisconnectAction);
+
+        //add listeners for the lobby player connections being updated
+        NetworkLobbyLAN.OnUpdateGreenPlayerConnection.AddListener(UpdatePlayerControlStatus);
+        NetworkLobbyLAN.OnUpdateRedPlayerConnection.AddListener(UpdatePlayerControlStatus);
+        NetworkLobbyLAN.OnUpdatePurplePlayerConnection.AddListener(UpdatePlayerControlStatus);
+        NetworkLobbyLAN.OnUpdateBluePlayerConnection.AddListener(UpdatePlayerControlStatus);
     }
 
     //this function handles a request for Lobby info
@@ -386,6 +415,19 @@ public class PlayerConnection : NetworkBehaviour {
 
             Debug.Log("RelinquishAllPlayerControl");
             RelinquishAllPlayerControl();
+        }
+    }
+
+    //this function resolves a disconnect signal to see if this is the disconnecting player
+    private void ResolveDisconnectingPlayer(PlayerConnection playerConnection, NetworkInstanceId netId)
+    {
+        //check if the disconnecting player is this player
+        if(playerConnection == this)
+        {
+            Debug.Log("Resolving DisconnectingPlayer");
+            //relinquish all player control
+            RelinquishAllPlayerControl();
+
         }
     }
 
@@ -583,6 +625,11 @@ public class PlayerConnection : NetworkBehaviour {
     private void OnDestroy()
     {
         RemoveEventListeners();
+
+        if(this.isServer == true)
+        {
+            Debug.Log("OnDestroy PlayerConnection");
+        }
     }
 
     //this function removes event listeners
@@ -680,6 +727,19 @@ public class PlayerConnection : NetworkBehaviour {
                 //remove listener for client stopping
                 networkManager.GetComponent<NetworkInterface>().OnStopClient.RemoveListener(ResolveStopClient);
             }
+        }
+
+        if(this.isServer == true)
+        {
+            //remove listener for a disconnecting player
+            CustomNetworkManager.OnPlayerDisconnecting.RemoveListener(playerConnectionDisconnectAction);
+
+            //remove listeners for the lobby player connections being updated
+            NetworkLobbyLAN.OnUpdateGreenPlayerConnection.RemoveListener(UpdatePlayerControlStatus);
+            NetworkLobbyLAN.OnUpdateRedPlayerConnection.RemoveListener(UpdatePlayerControlStatus);
+            NetworkLobbyLAN.OnUpdatePurplePlayerConnection.RemoveListener(UpdatePlayerControlStatus);
+            NetworkLobbyLAN.OnUpdateBluePlayerConnection.RemoveListener(UpdatePlayerControlStatus);
+
         }
 
     }

@@ -1169,6 +1169,9 @@ public class NetworkLobbyLAN : NetworkBehaviour {
                     Debug.Log("set green player to null");
                     //the requesting player is the current controller - we can give it up
                     greenPlayerConnection = null;
+
+                    //rename the player to default
+                    greenPlayerName = uiManager.GetComponent<LobbyLANGamePanel>().defaultGreenPlayerName;
                 }
                 else
                 {
@@ -1307,6 +1310,9 @@ public class NetworkLobbyLAN : NetworkBehaviour {
                 {
                     //the requesting player is the current controller - we can give it up
                     redPlayerConnection = null;
+
+                    //rename the player to default
+                    redPlayerName = uiManager.GetComponent<LobbyLANGamePanel>().defaultRedPlayerName;
                 }
                 else
                 {
@@ -1446,6 +1452,9 @@ public class NetworkLobbyLAN : NetworkBehaviour {
                 {
                     //the requesting player is the current controller - we can give it up
                     purplePlayerConnection = null;
+
+                    //rename the player to default
+                    purplePlayerName = uiManager.GetComponent<LobbyLANGamePanel>().defaultPurplePlayerName;
                 }
                 else
                 {
@@ -1584,6 +1593,9 @@ public class NetworkLobbyLAN : NetworkBehaviour {
                 {
                     //the requesting player is the current controller - we can give it up
                     bluePlayerConnection = null;
+
+                    //rename the player to default
+                    bluePlayerName = uiManager.GetComponent<LobbyLANGamePanel>().defaultBluePlayerName;
                 }
                 else
                 {

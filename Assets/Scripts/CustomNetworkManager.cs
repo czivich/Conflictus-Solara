@@ -15,6 +15,11 @@ public class CustomNetworkManager : NetworkManager {
     //gameobject parent for connections
     public GameObject playerConnectionParent;
 
+    public static ConnectionEvent OnPlayerDisconnecting = new ConnectionEvent();
+
+    //class for passing connections
+    public class ConnectionEvent : UnityEvent<PlayerConnection, NetworkInstanceId> { };
+
     //unityActions
     private UnityAction<LANConnectionInfo> joinLANGameSetIPAddressAction;
 
@@ -76,6 +81,45 @@ public class CustomNetworkManager : NetworkManager {
         //add the player for connection
         NetworkServer.AddPlayerForConnection(conn, playerConnection, playerControllerId);
 
+    }
+
+    //this function removes the player connection object when a client leaves the game
+    public override void OnServerRemovePlayer(NetworkConnection conn, PlayerController player)
+    {
+
+        Debug.Log("OnServerRemovePlayer");
+
+        //call the base function
+        base.OnServerRemovePlayer(conn, player);
+
+
+
+    }
+
+    //this function overrides the server disconnect
+    public override void OnServerDisconnect(NetworkConnection conn)
+    {
+
+        
+        Debug.Log("OnServerDisconnect");
+
+        //loop through the playerControllers
+        for (int i = 0; i <  conn.playerControllers.Count; i++)
+        {
+            //check if the controller has a playerConnection
+            if(conn.playerControllers[i].gameObject.GetComponent<PlayerConnection>() == true)
+            {
+                Debug.Log(conn.playerControllers[i].gameObject.name + " disconnecting");
+                //invoke the disconnecting event
+                OnPlayerDisconnecting.Invoke(conn.playerControllers[i].gameObject.GetComponent<PlayerConnection>(),
+                    conn.playerControllers[i].gameObject.GetComponent<PlayerConnection>().netId);
+            }
+            
+        }
+                
+        //call the base function
+        base.OnServerDisconnect(conn);
+        
     }
 
     //this function callback is for when a client stops a connection

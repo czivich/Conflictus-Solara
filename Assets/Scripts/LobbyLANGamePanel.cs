@@ -105,10 +105,10 @@ public class LobbyLANGamePanel : MonoBehaviour {
     public TextMeshProUGUI readyBluePlayerText;
 
     //variables to hold the default player names
-    private string defaultGreenPlayerName = "Green Player";
-    private string defaultRedPlayerName = "Red Player";
-    private string defaultPurplePlayerName = "Purple Player";
-    private string defaultBluePlayerName = "Blue Player";
+    public readonly string defaultGreenPlayerName = "Green Player";
+    public readonly string defaultRedPlayerName = "Red Player";
+    public readonly string defaultPurplePlayerName = "Purple Player";
+    public readonly string defaultBluePlayerName = "Blue Player";
 
     //variable to hold the team state
     private bool _teamsEnabled;

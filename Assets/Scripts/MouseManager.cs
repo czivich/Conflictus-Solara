@@ -2301,6 +2301,34 @@ public class MouseManager : MonoBehaviour {
 		Camera.main.orthographicSize = Mathf.Clamp (Camera.main.orthographicSize - 
 			Camera.main.orthographicSize * Input.GetAxis ("Mouse ScrollWheel") * zoomSpeed * mouseZoomDirection, minMainCameraSize, maxMainCameraSize);
 
+        //check if there is a touch screen pinch zoom happening as well
+        if(Input.touchCount == 2)
+        {
+
+            //store touches
+            Touch touchZero = Input.GetTouch(0);
+            Touch touchOne = Input.GetTouch(1);
+
+            // Find the position in the previous frame of each touch.
+            Vector2 touchZeroPrevPosition = touchZero.position - touchZero.deltaPosition;
+            Vector2 touchOnePrevPosition = touchOne.position - touchOne.deltaPosition;
+
+            // Find the magnitude of the vector (the distance) between the touches in each frame.
+            float prevTouchDeltaMagnitude = (touchZeroPrevPosition - touchOnePrevPosition).magnitude;
+            float touchDeltaMagnitude = (touchZero.position - touchOne.position).magnitude;
+
+            // Find the difference in the distances between each frame.
+            float deltaMagnitudeDifference = prevTouchDeltaMagnitude - touchDeltaMagnitude;
+
+            //change the orthographic size based on the change in distance between the touches.
+            Camera.main.orthographicSize += deltaMagnitudeDifference * zoomSpeed * mouseZoomDirection;
+
+            //change the orthographic size based on the change in distance between the touches, clamping it to the min/max values
+            Camera.main.orthographicSize = Mathf.Clamp(Camera.main.orthographicSize + deltaMagnitudeDifference * zoomSpeed * mouseZoomDirection, 
+                minMainCameraSize, maxMainCameraSize);
+
+        }
+
 		//here is the math that gets to the new camera positions
 		//oldDeltaZ / oldOrthoSize = newDeltaZ / newOrthoSize
 		//newDeltaZ = oldDeltaZ * newOrthoSize/oldOrthoSize

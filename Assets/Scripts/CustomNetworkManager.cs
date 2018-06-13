@@ -96,6 +96,22 @@ public class CustomNetworkManager : NetworkManager {
 
     }
 
+    //this function overrides onClientConnect
+    public override void OnClientConnect(NetworkConnection conn)
+    {
+        //right now nothing is changed - but this is where I can pass a message in the ClientScene.AddPlayer call
+        
+        if (!clientLoadedScene)
+        {
+            // Ready/AddPlayer is usually triggered by a scene load completing. if no scene was loaded, then Ready/AddPlayer it here instead.
+            ClientScene.Ready(conn);
+            if (this.autoCreatePlayer)
+            {
+                ClientScene.AddPlayer(0);
+            }
+        }
+    }
+
     //this function overrides the server disconnect
     public override void OnServerDisconnect(NetworkConnection conn)
     {

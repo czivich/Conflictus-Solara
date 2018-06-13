@@ -12,6 +12,8 @@ public class PlayerConnection : NetworkBehaviour {
 
     //private GameManager gameManager;
 
+    //this is the device unique ID used for checking if a reconnecting client can reclaim a playerConnection
+    private string deviceUID;
 
     //this holds the parent object in the hierarchy
     public GameObject parentObject;
@@ -176,7 +178,10 @@ public class PlayerConnection : NetworkBehaviour {
     //this function sets server action
     private void SetServerActions()
     {
-        playerConnectionDisconnectAction = (playerConnection, netId) => { ResolveDisconnectingPlayer(playerConnection, netId); };
+        if (this.isServer == true)
+        {
+            playerConnectionDisconnectAction = (playerConnection, netId) => { ResolveDisconnectingPlayer(playerConnection, netId); };
+        }
     }
 
     //this function adds event listeners
@@ -264,19 +269,32 @@ public class PlayerConnection : NetworkBehaviour {
         //add listener for client stopping
         networkManager.GetComponent<NetworkInterface>().OnStopClient.AddListener(ResolveStopClient);
 
+
     }
 
     //this function adds listeners for the server version of these objects
     private void AddServerEventListeners()
     {
-        //add listener for a disconnecting player
-        CustomNetworkManager.OnPlayerDisconnecting.AddListener(playerConnectionDisconnectAction);
+        if (this.isServer == true)
+        {
+            //add listener for a disconnecting player
+            CustomNetworkManager.OnPlayerDisconnecting.AddListener(playerConnectionDisconnectAction);
 
-        //add listeners for the lobby player connections being updated
-        NetworkLobbyLAN.OnUpdateGreenPlayerConnection.AddListener(UpdatePlayerControlStatus);
-        NetworkLobbyLAN.OnUpdateRedPlayerConnection.AddListener(UpdatePlayerControlStatus);
-        NetworkLobbyLAN.OnUpdatePurplePlayerConnection.AddListener(UpdatePlayerControlStatus);
-        NetworkLobbyLAN.OnUpdateBluePlayerConnection.AddListener(UpdatePlayerControlStatus);
+            //add listeners for the lobby player connections being updated
+            NetworkLobbyLAN.OnUpdateGreenPlayerConnection.AddListener(UpdatePlayerControlStatus);
+            NetworkLobbyLAN.OnUpdateRedPlayerConnection.AddListener(UpdatePlayerControlStatus);
+            NetworkLobbyLAN.OnUpdatePurplePlayerConnection.AddListener(UpdatePlayerControlStatus);
+            NetworkLobbyLAN.OnUpdateBluePlayerConnection.AddListener(UpdatePlayerControlStatus);
+
+        }
+
+    }
+
+    //OnStartServer
+    public override void OnStartServer()
+    {
+        SetServerActions();
+        AddServerEventListeners();
     }
 
     //this function handles a request for Lobby info

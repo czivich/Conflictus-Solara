@@ -659,8 +659,14 @@ public class NetworkLobbyLAN : NetworkBehaviour {
 
     public static ConnectionEvent OnRequestRPCUpdate = new ConnectionEvent();
 
+    public static ConnectionInfoEvent OnStartAsServer = new ConnectionInfoEvent();
+
     //class for passing connections
     public class ConnectionEvent : UnityEvent<PlayerConnection, NetworkInstanceId> { };
+
+    //class for passing LAN Connection Info
+    public class ConnectionInfoEvent : UnityEvent<LANConnectionInfo> { };
+
 
     //these events fire off when the RPCs have updated values, so the client can update the UI
     public static UnityEvent OnUpdateGameName = new UnityEvent();
@@ -926,7 +932,8 @@ public class NetworkLobbyLAN : NetworkBehaviour {
         };
 
     }
-	
+
+
     //this function adds event listeners
     private void AddEventListeners()
     {
@@ -1005,6 +1012,93 @@ public class NetworkLobbyLAN : NetworkBehaviour {
 
     }
 
+    //this function overrides the OnStartServer
+    public override void OnStartServer()
+    {
+        //call the base function
+        base.OnStartServer();
+
+        if (this.isServer == true)
+        {
+            Debug.Log("OnStartServer Override");
+            //invoke the event that we're starting the server
+            OnStartAsServer.Invoke(GetConnectionInfoForCurrentLobby());
+        }
+
+    }
+
+    //this function returns a connectionInfo for the current lobby setup
+    private LANConnectionInfo GetConnectionInfoForCurrentLobby()
+    {
+        //define the taken states
+        bool greenPlayerTaken;
+        bool redPlayerTaken;
+        bool purplePlayerTaken;
+        bool bluePlayerTaken;
+
+        if (this.greenPlayerConnection == null)
+        {
+            greenPlayerTaken = false;
+        }
+        else
+        {
+            greenPlayerTaken = true;
+
+        }
+
+        if (this.redPlayerConnection == null)
+        {
+            redPlayerTaken = false;
+        }
+        else
+        {
+            redPlayerTaken = true;
+
+        }
+
+        if (this.purplePlayerConnection == null)
+        {
+            purplePlayerTaken = false;
+        }
+        else
+        {
+            purplePlayerTaken = true;
+
+        }
+
+        if (this.bluePlayerConnection == null)
+        {
+            bluePlayerTaken = false;
+        }
+        else
+        {
+            bluePlayerTaken = true;
+
+        }
+
+        //update the broadcast message
+        return new LANConnectionInfo(
+            NetworkManager.singleton.networkAddress.ToString(),
+            NetworkManager.singleton.networkPort,
+            this.gameName,
+            this.teamsEnabled,
+            this.greenPlayerAlive,
+            greenPlayerTaken,
+            this.redPlayerAlive,
+            redPlayerTaken,
+            this.purplePlayerAlive,
+            purplePlayerTaken,
+            this.bluePlayerAlive,
+            bluePlayerTaken,
+            this.greenPlayerPlanets,
+            this.redPlayerPlanets,
+            this.purplePlayerPlanets,
+            this.bluePlayerPlanets,
+            this.victoryPlanets,
+            this.gameYear
+            );
+    }
+
     //this function sets the local player connection
     private void SetLocalPlayerConnection()
     {
@@ -1049,8 +1143,14 @@ public class NetworkLobbyLAN : NetworkBehaviour {
         purplePlayerPlanets = 0;
         bluePlayerPlanets = 0;
 
+        //for a new game, all players will be alive
+        greenPlayerAlive = true;
+        redPlayerAlive = true;
+        purplePlayerAlive = true;
+        bluePlayerAlive = true;
+
         //determine which players are under host control
-        if(uiManager.GetComponent<NewLANGameWindow>().localControlGreen == true)
+        if (uiManager.GetComponent<NewLANGameWindow>().localControlGreen == true)
         {
             greenPlayerConnection = localPlayerConnection;
         }

@@ -45,6 +45,7 @@ public class LocalNetworkDiscovery : NetworkDiscovery {
     private UnityAction<LANConnectionInfo> dedicatedServerAction;
     private UnityAction<LANConnectionInfo> localHostAction;
     private UnityAction localClientAction;
+    private UnityAction<LANConnectionInfo> newServerDiscoveryAction;
 
     //coroutine for checking for games
     private Coroutine discoveryCoroutine;
@@ -79,7 +80,17 @@ public class LocalNetworkDiscovery : NetworkDiscovery {
         dedicatedServerAction = (connectionInfo) => { StartDiscovery(true, false, connectionInfo); };
         localHostAction = (connectionInfo) => { StartDiscovery(true, true, connectionInfo); };
         localClientAction = () => { StartDiscovery(false, true, placeholderConnectionInfo); };
-
+        newServerDiscoveryAction = (connectionInfo) =>
+        {
+            Debug.Log("NewServerDiscoveryAction check if we are running already");
+            //check if we are not already discovering
+            if (this.running == false)
+            {
+                //start discovery as the new server
+                Debug.Log("Start Discovery as New Server!");
+                StartDiscovery(true, true, connectionInfo);
+            }
+        };
     }
 
     //this function adds event listeners
@@ -123,6 +134,8 @@ public class LocalNetworkDiscovery : NetworkDiscovery {
         NetworkLobbyLAN.OnUpdatePurplePlayerAlive.AddListener(UpdateBroadcastMessageFromLobbyInfo);
         NetworkLobbyLAN.OnUpdateBluePlayerAlive.AddListener(UpdateBroadcastMessageFromLobbyInfo);
 
+        //add listener for starting as new server
+        NetworkLobbyLAN.OnStartAsServer.AddListener(newServerDiscoveryAction);
 }
 
     //use this for initialization
@@ -149,6 +162,9 @@ public class LocalNetworkDiscovery : NetworkDiscovery {
             Debug.Log("broadcastData = " + broadcastData);
 
             StartCoroutine(BroadcastMessage());
+
+            
+            
         }
 
         //check if we are a client
@@ -373,8 +389,8 @@ public class LocalNetworkDiscovery : NetworkDiscovery {
                 networkManager.GetComponentInChildren<NetworkLobbyLAN>().redPlayerPlanets,
                 networkManager.GetComponentInChildren<NetworkLobbyLAN>().purplePlayerPlanets,
                 networkManager.GetComponentInChildren<NetworkLobbyLAN>().bluePlayerPlanets,
-                networkManager.GetComponentInChildren<NetworkLobbyLAN>().gameYear,
-                networkManager.GetComponentInChildren<NetworkLobbyLAN>().victoryPlanets
+                networkManager.GetComponentInChildren<NetworkLobbyLAN>().victoryPlanets,
+                networkManager.GetComponentInChildren<NetworkLobbyLAN>().gameYear
                 ).broadcastDataString;
 
         }
@@ -432,6 +448,8 @@ public class LocalNetworkDiscovery : NetworkDiscovery {
         NetworkLobbyLAN.OnUpdatePurplePlayerAlive.RemoveListener(UpdateBroadcastMessageFromLobbyInfo);
         NetworkLobbyLAN.OnUpdateBluePlayerAlive.RemoveListener(UpdateBroadcastMessageFromLobbyInfo);
 
+        //remove listener for starting as new server
+        NetworkLobbyLAN.OnStartAsServer.RemoveListener(newServerDiscoveryAction);
     }
   	
 }

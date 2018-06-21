@@ -654,6 +654,9 @@ public class NetworkLobbyLAN : NetworkBehaviour {
     //this flag is for the 1 frame delay
     private bool delayFrame = false;
 
+    //this flag is for getting the startup game state as a host
+    private bool isNewGame = false;
+
     //this is the local player connection on this machine
     public PlayerConnection localPlayerConnection { get; private set; }
 
@@ -694,6 +697,8 @@ public class NetworkLobbyLAN : NetworkBehaviour {
     public static UnityEvent OnUpdatePurplePlayerAlive = new UnityEvent();
     public static UnityEvent OnUpdateBluePlayerAlive = new UnityEvent();
 
+    public static UnityEvent OnFinishedInitialGameSetup = new UnityEvent();
+
     //unityActions
     private UnityAction<PlayerConnection, NetworkInstanceId> playerConnectionUpdateRPCAction;
 
@@ -724,10 +729,14 @@ public class NetworkLobbyLAN : NetworkBehaviour {
     private UnityAction<PlayerConnection, NetworkInstanceId> playerConnectionSetBlueToReadyAction;
     private UnityAction<PlayerConnection, NetworkInstanceId> playerConnectionSetBlueToNotReadyAction;
 
+    private UnityAction<PlayerConnection, NetworkInstanceId> playerConnectionServerPlayerStartAction;
+
 
     // Use this for initialization
     private void Start () {
-        
+
+        Debug.Log("Start");
+
         //get the managers
         uiManager = GameObject.FindGameObjectWithTag("UIManager");
         networkManager = GameObject.FindGameObjectWithTag("NetworkManager");
@@ -751,6 +760,8 @@ public class NetworkLobbyLAN : NetworkBehaviour {
     {
         if(delayFrame == true)
         {
+            Debug.Log("FirstUpdate");
+
             //set the local player connection
             SetLocalPlayerConnection();
 
@@ -765,8 +776,8 @@ public class NetworkLobbyLAN : NetworkBehaviour {
             {
                 //TODO: check if this is a new game or not
                 //get the data from the new game setup window
-                GetDataFromNewGameSetup();
-
+                //GetDataFromNewGameSetup();
+                isNewGame = true;
             }
             else
             {
@@ -931,6 +942,12 @@ public class NetworkLobbyLAN : NetworkBehaviour {
 
         };
 
+        playerConnectionServerPlayerStartAction = (playerConnection, netId) => {
+
+            ResolveServerPlayerStart(playerConnection, netId);
+
+        };
+
     }
 
 
@@ -1010,6 +1027,16 @@ public class NetworkLobbyLAN : NetworkBehaviour {
         //add listener for player updating blue name
         PlayerConnection.OnUpdateBluePlayerName.AddListener(playerConnectionRenameBlueAction);
 
+        //add listener for server player starting
+        PlayerConnection.OnServerPlayerStart.AddListener(playerConnectionServerPlayerStartAction);
+
+    }
+
+    //this function resolves a server player starting
+    private void ResolveServerPlayerStart(PlayerConnection requestingPlayerConnection, NetworkInstanceId requestingNetId)
+    {
+        SetLocalPlayerConnection();
+        GetDataFromNewGameSetup();
     }
 
     //this function overrides the OnStartServer
@@ -1021,6 +1048,11 @@ public class NetworkLobbyLAN : NetworkBehaviour {
         if (this.isServer == true)
         {
             Debug.Log("OnStartServer Override");
+            //networkManager = GameObject.FindGameObjectWithTag("NetworkManager");
+            //uiManager = GameObject.FindGameObjectWithTag("UIManager");
+            //SetLocalPlayerConnection();
+            //GetDataFromNewGameSetup();
+
             //invoke the event that we're starting the server
             OnStartAsServer.Invoke(GetConnectionInfoForCurrentLobby());
         }
@@ -1102,9 +1134,10 @@ public class NetworkLobbyLAN : NetworkBehaviour {
     //this function sets the local player connection
     private void SetLocalPlayerConnection()
     {
-
+        Debug.Log("SetLocalPlayerConnection");
+        Debug.Log("connections = " + networkManager.transform.Find("PlayerConnections").transform.childCount);
         //loop through all game objects in the PlayerConnections object
-        for(int i = 0; i < networkManager.transform.Find("PlayerConnections").transform.childCount; i++)
+        for (int i = 0; i < networkManager.transform.Find("PlayerConnections").transform.childCount; i++)
         {
             //check if the Player Connection is local
             if(networkManager.transform.Find("PlayerConnections").transform.GetChild(i).GetComponent<PlayerConnection>().isLocalPlayer == true)
@@ -1121,50 +1154,61 @@ public class NetworkLobbyLAN : NetworkBehaviour {
     //this function gets data from the server game creation
     private void GetDataFromNewGameSetup()
     {
-        gameName = uiManager.GetComponent<NewLANGameWindow>().gameName;
-        teamsEnabled = uiManager.GetComponent<NewLANGameWindow>().teamsEnabled;
-        victoryPlanets = uiManager.GetComponent<NewLANGameWindow>().planetCount;
-        gameYear = GameManager.startingGameYear;
-
-        greenPlayerName = uiManager.GetComponent<NewLANGameWindow>().greenPlayerName;
-        redPlayerName = uiManager.GetComponent<NewLANGameWindow>().redPlayerName;
-        purplePlayerName = uiManager.GetComponent<NewLANGameWindow>().purplePlayerName;
-        bluePlayerName = uiManager.GetComponent<NewLANGameWindow>().bluePlayerName;
-
-        //for a new game setup, no players will be ready to start
-        greenPlayerReady = false;
-        redPlayerReady = false;
-        purplePlayerReady = false;
-        bluePlayerReady = false;
-
-        //for a new game, no players will have planets
-        greenPlayerPlanets = 0;
-        redPlayerPlanets = 0;
-        purplePlayerPlanets = 0;
-        bluePlayerPlanets = 0;
-
-        //for a new game, all players will be alive
-        greenPlayerAlive = true;
-        redPlayerAlive = true;
-        purplePlayerAlive = true;
-        bluePlayerAlive = true;
-
-        //determine which players are under host control
-        if (uiManager.GetComponent<NewLANGameWindow>().localControlGreen == true)
+        //check if this is a new game
+        if (isNewGame == true)
         {
-            greenPlayerConnection = localPlayerConnection;
-        }
-        if (uiManager.GetComponent<NewLANGameWindow>().localControlRed == true)
-        {
-            redPlayerConnection = localPlayerConnection;
-        }
-        if (uiManager.GetComponent<NewLANGameWindow>().localControlPurple == true)
-        {
-            purplePlayerConnection = localPlayerConnection;
-        }
-        if (uiManager.GetComponent<NewLANGameWindow>().localControlBlue == true)
-        {
-            bluePlayerConnection = localPlayerConnection;
+            Debug.Log("Get Data from Setup");
+            isNewGame = false;
+
+            gameName = uiManager.GetComponent<NewLANGameWindow>().gameName;
+            teamsEnabled = uiManager.GetComponent<NewLANGameWindow>().teamsEnabled;
+            victoryPlanets = uiManager.GetComponent<NewLANGameWindow>().planetCount;
+            gameYear = GameManager.startingGameYear;
+
+            greenPlayerName = uiManager.GetComponent<NewLANGameWindow>().greenPlayerName;
+            redPlayerName = uiManager.GetComponent<NewLANGameWindow>().redPlayerName;
+            purplePlayerName = uiManager.GetComponent<NewLANGameWindow>().purplePlayerName;
+            bluePlayerName = uiManager.GetComponent<NewLANGameWindow>().bluePlayerName;
+
+            //for a new game setup, no players will be ready to start
+            greenPlayerReady = false;
+            redPlayerReady = false;
+            purplePlayerReady = false;
+            bluePlayerReady = false;
+
+            //for a new game, no players will have planets
+            greenPlayerPlanets = 0;
+            redPlayerPlanets = 0;
+            purplePlayerPlanets = 0;
+            bluePlayerPlanets = 0;
+
+            //for a new game, all players will be alive
+            greenPlayerAlive = true;
+            redPlayerAlive = true;
+            purplePlayerAlive = true;
+            bluePlayerAlive = true;
+
+            //determine which players are under host control
+            if (uiManager.GetComponent<NewLANGameWindow>().localControlGreen == true)
+            {
+                greenPlayerConnection = localPlayerConnection;
+            }
+            if (uiManager.GetComponent<NewLANGameWindow>().localControlRed == true)
+            {
+                redPlayerConnection = localPlayerConnection;
+            }
+            if (uiManager.GetComponent<NewLANGameWindow>().localControlPurple == true)
+            {
+                purplePlayerConnection = localPlayerConnection;
+            }
+            if (uiManager.GetComponent<NewLANGameWindow>().localControlBlue == true)
+            {
+                bluePlayerConnection = localPlayerConnection;
+            }
+
+            Debug.Log("Get Data from Setup Finished");
+            OnFinishedInitialGameSetup.Invoke();
+
         }
 
     }
@@ -1202,6 +1246,7 @@ public class NetworkLobbyLAN : NetworkBehaviour {
     //this function resolves a request from a player connection to change the team status
     private void ResolveRequestUpdateTeamStatus(PlayerConnection requestingPlayerConnection, NetworkInstanceId requestingNetId, bool newTeamStatus)
     {
+        Debug.Log("requestingPlayerConnection is " + requestingPlayerConnection.gameObject.name + " new team status is " + newTeamStatus);
         //check to make sure this is the server
         if (isServer == true)
         {
@@ -2133,6 +2178,9 @@ public class NetworkLobbyLAN : NetworkBehaviour {
 
         //remove listener for player updating blue name
         PlayerConnection.OnUpdateBluePlayerName.RemoveListener(playerConnectionRenameBlueAction);
+
+        //remove listener for server player starting
+        PlayerConnection.OnServerPlayerStart.RemoveListener(playerConnectionServerPlayerStartAction);
 
     }
 

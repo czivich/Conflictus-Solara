@@ -23,6 +23,10 @@ public class CustomNetworkManager : NetworkManager {
     //unityActions
     private UnityAction<LANConnectionInfo> joinLANGameSetIPAddressAction;
 
+    private float timer;
+    private GameObject disconnectObject;
+    private NetworkConnection disconnectConn;
+
 	// Use this for initialization
 	public void Init () {
 
@@ -36,6 +40,29 @@ public class CustomNetworkManager : NetworkManager {
         //add event listeners
         AddEventListeners();
 
+    }
+
+    private void Update()
+    {
+        if(timer > 0f)
+        {
+            timer -= Time.deltaTime;
+
+            if(timer <= 0)
+            {
+                Debug.Log(disconnectObject.name + " disconnecting");
+                //invoke the disconnecting event
+                OnPlayerDisconnecting.Invoke(disconnectObject.GetComponent<PlayerConnection>(),
+                    disconnectObject.GetComponent<PlayerConnection>().netId);
+
+                NetworkServer.DestroyPlayersForConnection(disconnectConn);
+                if (disconnectConn.lastError != NetworkError.Ok)
+                {
+                    if (LogFilter.logError) { Debug.LogError("ServerDisconnected due to error: " + disconnectConn.lastError); }
+                }
+            }
+
+        }
     }
 
     //this function sets unity Actions
@@ -72,6 +99,17 @@ public class CustomNetworkManager : NetworkManager {
 
     }
 
+    //this function overrides startHost
+    public override NetworkClient StartHost()
+    {
+        NetworkClient clientToReturn = base.StartHost();
+
+        SetIPAddressToLocal();
+
+        return clientToReturn;
+
+    }
+
     //this function adds the player connection object when a client joins the game
     public override void OnServerAddPlayer(NetworkConnection conn, short playerControllerId)
     {
@@ -97,10 +135,11 @@ public class CustomNetworkManager : NetworkManager {
     }
 
     //this function overrides onClientConnect
+    
     public override void OnClientConnect(NetworkConnection conn)
     {
         //right now nothing is changed - but this is where I can pass a message in the ClientScene.AddPlayer call
-        
+
         if (!clientLoadedScene)
         {
             // Ready/AddPlayer is usually triggered by a scene load completing. if no scene was loaded, then Ready/AddPlayer it here instead.
@@ -111,6 +150,7 @@ public class CustomNetworkManager : NetworkManager {
             }
         }
     }
+    
 
     //this function overrides the server disconnect
     public override void OnServerDisconnect(NetworkConnection conn)
@@ -125,17 +165,33 @@ public class CustomNetworkManager : NetworkManager {
             //check if the controller has a playerConnection
             if(conn.playerControllers[i].gameObject.GetComponent<PlayerConnection>() == true)
             {
+                /*
                 Debug.Log(conn.playerControllers[i].gameObject.name + " disconnecting");
                 //invoke the disconnecting event
                 OnPlayerDisconnecting.Invoke(conn.playerControllers[i].gameObject.GetComponent<PlayerConnection>(),
                     conn.playerControllers[i].gameObject.GetComponent<PlayerConnection>().netId);
+                */
+                Debug.Log("Disconnect Timer Starting!!!");
+                timer = 30f;
+                disconnectObject = conn.playerControllers[i].gameObject;
+
             }
             
         }
-                
+
         //call the base function
-        base.OnServerDisconnect(conn);
-        
+        //base.OnServerDisconnect(conn);
+
+        //this is the base function:
+        /*
+        NetworkServer.DestroyPlayersForConnection(conn);
+        if (conn.lastError != NetworkError.Ok)
+        {
+            if (LogFilter.logError) { Debug.LogError("ServerDisconnected due to error: " + conn.lastError); }
+        }
+        */
+        disconnectConn = conn;
+
     }
 
     //this function callback is for when a client stops a connection

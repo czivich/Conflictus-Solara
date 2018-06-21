@@ -56,6 +56,10 @@ public class PlayerConnection : NetworkBehaviour {
     public static ConnectionEvent OnSetBluePlayerToNotReady = new ConnectionEvent();
     public static ConnectionStringEvent OnUpdateBluePlayerName = new ConnectionStringEvent();
 
+
+    public static ConnectionEvent OnServerPlayerStart = new ConnectionEvent();
+
+
     //this event is for announcing that the player that is leaving has relinquished all control
     public static UnityEvent OnReadyToStopClient = new UnityEvent();
 
@@ -137,6 +141,8 @@ public class PlayerConnection : NetworkBehaviour {
 
             //add listeners
             AddServerEventListeners();
+
+            OnServerPlayerStart.Invoke(this, this.netId);
 
         }
         

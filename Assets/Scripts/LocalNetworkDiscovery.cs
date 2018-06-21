@@ -49,12 +49,19 @@ public class LocalNetworkDiscovery : NetworkDiscovery {
 
     //coroutine for checking for games
     private Coroutine discoveryCoroutine;
+    private Coroutine broadcastCoroutine;
+    private Coroutine checkForBroadcastStoppedCoroutine;
 
     //placeholder connection info
     LANConnectionInfo placeholderConnectionInfo;
 
-	// Use this for initialization
-	public void Init () {
+    //flag for having to restart the broadcast
+    private bool shouldRestartBroadcast = false;
+    private LANConnectionInfo restartConnectionInfo;
+
+
+    // Use this for initialization
+    public void Init () {
 
         //get the manager
         uiManager = GameObject.FindGameObjectWithTag("UIManager");
@@ -84,7 +91,7 @@ public class LocalNetworkDiscovery : NetworkDiscovery {
         {
             Debug.Log("NewServerDiscoveryAction check if we are running already");
             //check if we are not already discovering
-            if (this.running == false)
+            if (NetworkTransport.IsBroadcastDiscoveryRunning() == false)
             {
                 //start discovery as the new server
                 Debug.Log("Start Discovery as New Server!");
@@ -136,6 +143,9 @@ public class LocalNetworkDiscovery : NetworkDiscovery {
 
         //add listener for starting as new server
         NetworkLobbyLAN.OnStartAsServer.AddListener(newServerDiscoveryAction);
+
+        //add listener for initial setup
+        NetworkLobbyLAN.OnFinishedInitialGameSetup.AddListener(UpdateBroadcastMessageFromLobbyInfo);
 }
 
     //use this for initialization
@@ -161,7 +171,7 @@ public class LocalNetworkDiscovery : NetworkDiscovery {
 
             Debug.Log("broadcastData = " + broadcastData);
 
-            StartCoroutine(BroadcastMessage());
+            broadcastCoroutine = StartCoroutine(BroadcastMessage());
 
             
             
@@ -186,7 +196,105 @@ public class LocalNetworkDiscovery : NetworkDiscovery {
         {
             Debug.Log("broadcastData = " + broadcastData);
 
+            Debug.Log("isRunning = " + NetworkTransport.IsBroadcastDiscoveryRunning());
+
             yield return new WaitForSeconds(timeout);
+        }
+    }
+
+    private IEnumerator CheckForBroadcastStopped()
+    {
+
+        while (shouldRestartBroadcast == true)
+        {
+            //check if the network discovery is running
+            if(NetworkTransport.IsBroadcastDiscoveryRunning() == false)
+            {
+                Debug.Log("Broadcast has stopped");
+
+                //clear the flag
+                shouldRestartBroadcast = false;
+
+                //stop broadcast coroutine 
+                StopCoroutine(broadcastCoroutine);
+
+                //define the taken states
+                bool greenPlayerTaken;
+                bool redPlayerTaken;
+                bool purplePlayerTaken;
+                bool bluePlayerTaken;
+
+                if (networkManager.GetComponentInChildren<NetworkLobbyLAN>().greenPlayerConnection == null)
+                {
+                    greenPlayerTaken = false;
+                }
+                else
+                {
+                    greenPlayerTaken = true;
+
+                }
+
+                if (networkManager.GetComponentInChildren<NetworkLobbyLAN>().redPlayerConnection == null)
+                {
+                    redPlayerTaken = false;
+                }
+                else
+                {
+                    redPlayerTaken = true;
+
+                }
+
+                if (networkManager.GetComponentInChildren<NetworkLobbyLAN>().purplePlayerConnection == null)
+                {
+                    purplePlayerTaken = false;
+                }
+                else
+                {
+                    purplePlayerTaken = true;
+
+                }
+
+                if (networkManager.GetComponentInChildren<NetworkLobbyLAN>().bluePlayerConnection == null)
+                {
+                    bluePlayerTaken = false;
+                }
+                else
+                {
+                    bluePlayerTaken = true;
+
+                }
+
+                //update the broadcast message
+                restartConnectionInfo = new LANConnectionInfo(
+                    NetworkManager.singleton.networkAddress.ToString(),
+                    NetworkManager.singleton.networkPort,
+                    networkManager.GetComponentInChildren<NetworkLobbyLAN>().gameName,
+                    networkManager.GetComponentInChildren<NetworkLobbyLAN>().teamsEnabled,
+                    networkManager.GetComponentInChildren<NetworkLobbyLAN>().greenPlayerAlive,
+                    greenPlayerTaken,
+                    networkManager.GetComponentInChildren<NetworkLobbyLAN>().redPlayerAlive,
+                    redPlayerTaken,
+                    networkManager.GetComponentInChildren<NetworkLobbyLAN>().purplePlayerAlive,
+                    purplePlayerTaken,
+                    networkManager.GetComponentInChildren<NetworkLobbyLAN>().bluePlayerAlive,
+                    bluePlayerTaken,
+                    networkManager.GetComponentInChildren<NetworkLobbyLAN>().greenPlayerPlanets,
+                    networkManager.GetComponentInChildren<NetworkLobbyLAN>().redPlayerPlanets,
+                    networkManager.GetComponentInChildren<NetworkLobbyLAN>().purplePlayerPlanets,
+                    networkManager.GetComponentInChildren<NetworkLobbyLAN>().bluePlayerPlanets,
+                    networkManager.GetComponentInChildren<NetworkLobbyLAN>().victoryPlanets,
+                    networkManager.GetComponentInChildren<NetworkLobbyLAN>().gameYear
+                    );
+                broadcastData = restartConnectionInfo.broadcastDataString;
+                
+               
+
+                //the broadcast is stopped - we can restart it
+                StartDiscovery(true, false, restartConnectionInfo);
+
+            }
+
+            yield return new WaitForSeconds(.10f);
         }
     }
 
@@ -253,12 +361,12 @@ public class LocalNetworkDiscovery : NetworkDiscovery {
 
         //get the connection info for the received data
         LANConnectionInfo receivedInfo = new LANConnectionInfo(fromAddress, data);
-
+        Debug.Log("received data = " + data);
 
         //check if the receivedInfo is in the dictionary
         if (lanGames.ContainsKey(receivedInfo) == false)
         {
-
+            Debug.Log("NotInDictionary");
             //flag to see if we find an update
             bool foundUpdate = false;
 
@@ -273,6 +381,7 @@ public class LocalNetworkDiscovery : NetworkDiscovery {
                     && entry.Key.port == receivedInfo.port
                     && entry.Key.gameName == receivedInfo.gameName)
                 {
+                    Debug.Log("ReceivedUpdate");
                     //we have an existing game for this ipAddress, port, and name
                     //invoke the update event
                     OnReceivedUpdateToLANGame.Invoke(receivedInfo);
@@ -321,79 +430,24 @@ public class LocalNetworkDiscovery : NetworkDiscovery {
     //this function updates the broadcast data from the network lobby
     private void UpdateBroadcastMessageFromLobbyInfo()
     {
+        Debug.Log("UpdateBroadcastMessage");
         //check if we are the server
-        if(isServer == true)
+        if (isServer == true)
         {
+            Debug.Log("UpdateBroadcastMessage is server");
+            
+            //stop the broadcast
+            StopBroadcast();
 
-            //define the taken states
-            bool greenPlayerTaken;
-            bool redPlayerTaken;
-            bool purplePlayerTaken;
-            bool bluePlayerTaken;
+            //restart discovery
+            shouldRestartBroadcast = true;
 
-            if (networkManager.GetComponentInChildren<NetworkLobbyLAN>().greenPlayerConnection == null)
-            {
-                greenPlayerTaken = false;
-            }
-            else
-            {
-                greenPlayerTaken = true;
-
-            }
-
-            if (networkManager.GetComponentInChildren<NetworkLobbyLAN>().redPlayerConnection == null)
-            {
-                redPlayerTaken = false;
-            }
-            else
-            {
-                redPlayerTaken = true;
-
-            }
-
-            if (networkManager.GetComponentInChildren<NetworkLobbyLAN>().purplePlayerConnection == null)
-            {
-                purplePlayerTaken = false;
-            }
-            else
-            {
-                purplePlayerTaken = true;
-
-            }
-
-            if (networkManager.GetComponentInChildren<NetworkLobbyLAN>().bluePlayerConnection == null)
-            {
-                bluePlayerTaken = false;
-            }
-            else
-            {
-                bluePlayerTaken = true;
-
-            }
-
-            //update the broadcast message
-            broadcastData = new LANConnectionInfo(
-                NetworkManager.singleton.networkAddress.ToString(),
-                NetworkManager.singleton.networkPort,
-                networkManager.GetComponentInChildren<NetworkLobbyLAN>().gameName,
-                networkManager.GetComponentInChildren<NetworkLobbyLAN>().teamsEnabled,
-                networkManager.GetComponentInChildren<NetworkLobbyLAN>().greenPlayerAlive,
-                greenPlayerTaken,
-                networkManager.GetComponentInChildren<NetworkLobbyLAN>().redPlayerAlive,
-                redPlayerTaken,
-                networkManager.GetComponentInChildren<NetworkLobbyLAN>().purplePlayerAlive,
-                purplePlayerTaken,
-                networkManager.GetComponentInChildren<NetworkLobbyLAN>().bluePlayerAlive,
-                bluePlayerTaken,
-                networkManager.GetComponentInChildren<NetworkLobbyLAN>().greenPlayerPlanets,
-                networkManager.GetComponentInChildren<NetworkLobbyLAN>().redPlayerPlanets,
-                networkManager.GetComponentInChildren<NetworkLobbyLAN>().purplePlayerPlanets,
-                networkManager.GetComponentInChildren<NetworkLobbyLAN>().bluePlayerPlanets,
-                networkManager.GetComponentInChildren<NetworkLobbyLAN>().victoryPlanets,
-                networkManager.GetComponentInChildren<NetworkLobbyLAN>().gameYear
-                ).broadcastDataString;
+            //need to completely stop before restarting
+            //StartDiscovery(true, false, newConnectionInfo);
+            checkForBroadcastStoppedCoroutine = StartCoroutine(CheckForBroadcastStopped());
 
         }
+
     }
 
     //this function handles OnDestroy
@@ -450,6 +504,9 @@ public class LocalNetworkDiscovery : NetworkDiscovery {
 
         //remove listener for starting as new server
         NetworkLobbyLAN.OnStartAsServer.RemoveListener(newServerDiscoveryAction);
+
+        //remove listener for initial setup
+        NetworkLobbyLAN.OnFinishedInitialGameSetup.RemoveListener(UpdateBroadcastMessageFromLobbyInfo);
     }
   	
 }

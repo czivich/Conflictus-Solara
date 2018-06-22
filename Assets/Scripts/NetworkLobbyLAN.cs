@@ -655,7 +655,7 @@ public class NetworkLobbyLAN : NetworkBehaviour {
     private bool delayFrame = false;
 
     //this flag is for getting the startup game state as a host
-    private bool isNewGame = false;
+    private bool isNewLANGame = false;
 
     //this is the local player connection on this machine
     private PlayerConnection _localPlayerConnection;
@@ -796,10 +796,13 @@ public class NetworkLobbyLAN : NetworkBehaviour {
             //check if we are the server
             if (isServer == true)
             {
-                //TODO: check if this is a new game or not
-                //get the data from the new game setup window
-                //GetDataFromNewGameSetup();
-                isNewGame = true;
+                //check if this is a new game or not
+                if(uiManager.GetComponent<MainMenuManager>().gameType == MainMenuManager.GameType.NewLANGame)
+                {
+                    //set the new LAN game flag
+                    isNewLANGame = true;
+                }
+
             }
             else
             {
@@ -1070,13 +1073,11 @@ public class NetworkLobbyLAN : NetworkBehaviour {
         if (this.isServer == true)
         {
             Debug.Log("OnStartServer Override");
-            //networkManager = GameObject.FindGameObjectWithTag("NetworkManager");
-            //uiManager = GameObject.FindGameObjectWithTag("UIManager");
-            //SetLocalPlayerConnection();
-            //GetDataFromNewGameSetup();
 
             //invoke the event that we're starting the server
             OnStartAsServer.Invoke(GetConnectionInfoForCurrentLobby());
+
+            GetDataFromNewGameSetup();
         }
 
     }
@@ -1176,10 +1177,11 @@ public class NetworkLobbyLAN : NetworkBehaviour {
     //this function gets data from the server game creation
     private void GetDataFromNewGameSetup()
     {
+        Debug.Log("GetDataFromNewGameSetup");
         //check if this is a new game
-        if (isNewGame == true)
+        if (isNewLANGame == true)
         {
-            isNewGame = false;
+            isNewLANGame = false;
 
             gameName = uiManager.GetComponent<NewLANGameWindow>().gameName;
             teamsEnabled = uiManager.GetComponent<NewLANGameWindow>().teamsEnabled;

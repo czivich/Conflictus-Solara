@@ -46,6 +46,7 @@ public class LocalNetworkDiscovery : NetworkDiscovery {
     private UnityAction<LANConnectionInfo> localHostAction;
     private UnityAction localClientAction;
     private UnityAction<LANConnectionInfo> newServerDiscoveryAction;
+    private UnityAction exitLANGameLobbyAction;
 
     //coroutine for checking for games
     private Coroutine discoveryCoroutine;
@@ -98,6 +99,17 @@ public class LocalNetworkDiscovery : NetworkDiscovery {
                 StartDiscovery(true, true, connectionInfo);
             }
         };
+
+        exitLANGameLobbyAction = () =>
+        {
+            //check if we are the server
+            if (isServer == true)
+            {
+                StopBroadcast();
+                StopAllCoroutines();
+            }
+        };
+
     }
 
     //this function adds event listeners
@@ -146,7 +158,11 @@ public class LocalNetworkDiscovery : NetworkDiscovery {
 
         //add listener for initial setup
         NetworkLobbyLAN.OnFinishedInitialGameSetup.AddListener(UpdateBroadcastMessageFromLobbyInfo);
-}
+
+        //add listener for leaving LAN Game Lobby
+        uiManager.GetComponent<LobbyLANGamePanel>().OnExitLobbyToGameList.AddListener(exitLANGameLobbyAction);
+        uiManager.GetComponent<LobbyLANGamePanel>().OnExitLobbyToMain.AddListener(exitLANGameLobbyAction);
+    }
 
     //use this for initialization
     public void StartDiscovery(bool initAsServer, bool initAsClient, LANConnectionInfo connectionInfo)
@@ -431,16 +447,21 @@ public class LocalNetworkDiscovery : NetworkDiscovery {
         //check if we are the server
         if (isServer == true)
         {
-         
-            //stop the broadcast
-            StopBroadcast();
 
-            //restart discovery
-            shouldRestartBroadcast = true;
+            //check if we are currently broadcasting
+            if (NetworkTransport.IsBroadcastDiscoveryRunning() == true)
+            {
+                //stop the broadcast
+                StopBroadcast();
 
-            //need to completely stop before restarting
-            //StartDiscovery(true, false, newConnectionInfo);
-            checkForBroadcastStoppedCoroutine = StartCoroutine(CheckForBroadcastStopped());
+                //restart discovery
+                shouldRestartBroadcast = true;
+
+                //need to completely stop before restarting
+                //StartDiscovery(true, false, newConnectionInfo);
+                checkForBroadcastStoppedCoroutine = StartCoroutine(CheckForBroadcastStopped());
+
+            }
 
         }
 
@@ -469,6 +490,10 @@ public class LocalNetworkDiscovery : NetworkDiscovery {
 
             //remove listener for closing the LANGameList window
             uiManager.GetComponent<LANGameList>().OnClosePanel.RemoveListener(StopDiscovery);
+
+            //remove listener for leaving LAN Game Lobby
+            uiManager.GetComponent<LobbyLANGamePanel>().OnExitLobbyToGameList.RemoveListener(exitLANGameLobbyAction);
+            uiManager.GetComponent<LobbyLANGamePanel>().OnExitLobbyToMain.RemoveListener(exitLANGameLobbyAction);
 
         }
 

@@ -38,10 +38,6 @@ public class CustomNetworkManager : NetworkManager {
     //unityActions
     private UnityAction<LANConnectionInfo> joinLANGameSetIPAddressAction;
 
-    private float timer;
-    private GameObject disconnectObject;
-    private NetworkConnection disconnectConn;
-
 	// Use this for initialization
 	public void Init () {
 
@@ -370,7 +366,6 @@ public class CustomNetworkManager : NetworkManager {
             if (LogFilter.logError) { Debug.LogError("ServerDisconnected due to error: " + conn.lastError); }
         }
         */
-        disconnectConn = conn;
 
     }
 
@@ -382,6 +377,18 @@ public class CustomNetworkManager : NetworkManager {
 
 
     }
+
+    //this overrides on StopHost
+    public override void OnStopHost()
+    {
+        base.OnStopHost();
+
+        //clear the dictionaries
+        deviceIDConnections.Clear();
+        connectionTimer.Clear();
+        playerConnectionsConnected.Clear();
+        playerConnectionsForDisconnect.Clear();
+}
 
     //this function gets the local IP adress
     public static string GetLocalIPAddress()

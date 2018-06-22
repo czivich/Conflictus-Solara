@@ -142,7 +142,11 @@ public class PlayerConnection : NetworkBehaviour {
             //add listeners
             AddServerEventListeners();
 
+            Debug.Log("serverPlayer Start");
+
             OnServerPlayerStart.Invoke(this, this.netId);
+
+            
 
         }
         

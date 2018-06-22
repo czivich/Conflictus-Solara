@@ -26,8 +26,10 @@ public class MainMenuManager : MonoBehaviour {
 
 		NewLocalGame,
 		LoadLocalGame,
-		NewNetworkGame,
-		LoadNetworkGame,
+		NewLANGame,
+        LoadLANGame,
+        NewInternetGame,
+        LoadInternetGame,
 
 	}
 
@@ -68,6 +70,7 @@ public class MainMenuManager : MonoBehaviour {
 	private UnityAction<string> stringDeleteFileAction;
 	private UnityAction exitGameAction;
 	private UnityAction<string> stringLoadFileAction;
+    private UnityAction<LANConnectionInfo> connectionNewLANGameAction;
 
 
 	// Use this for initialization
@@ -165,8 +168,9 @@ public class MainMenuManager : MonoBehaviour {
 		stringDeleteFileAction = (fileName) => {DeleteSaveFile(fileName);};
 		exitGameAction = () => {ExitGame ();};
 		stringLoadFileAction = (fileName) => {LoadLocalGame(fileName);};
+        connectionNewLANGameAction = (connection) => { SetGameTypeToNewLAN(); };
 
-	}
+    }
 
 	//this function adds event listeners
 	private void AddEventListeners(){
@@ -188,6 +192,9 @@ public class MainMenuManager : MonoBehaviour {
 
 		//add listener for the fade in completing
 		uiManagerMainMenu.GetComponent<SceneTransitionFadePanel>().OnFadeInComplete.AddListener(EnableMainMenuButtons);
+
+        //add listener for creating a new LAN game
+        uiManagerMainMenu.GetComponent<NewLANGameWindow>().OnCreateNewLANGame.AddListener(connectionNewLANGameAction);
 
 	}
 
@@ -246,6 +253,17 @@ public class MainMenuManager : MonoBehaviour {
 
 	}
 
+    //this function sets the game type to a new LAN game
+    private void SetGameTypeToNewLAN()
+    {
+        gameType = GameType.NewLANGame;
+    }
+    
+    //this function sets the game type to Load LAN game
+    private void SetGameTypeToLoadLAN()
+    {
+        gameType = GameType.LoadLANGame;
+    }
 	//this function deletes a file from the saves directory
 	private void DeleteSaveFile(string fileName){
 
@@ -303,7 +321,10 @@ public class MainMenuManager : MonoBehaviour {
 			//remove listener for the fade in completing
 			uiManagerMainMenu.GetComponent<SceneTransitionFadePanel>().OnFadeInComplete.RemoveListener(EnableMainMenuButtons);
 
-		}
+            //remove listener for creating a new LAN game
+            uiManagerMainMenu.GetComponent<NewLANGameWindow>().OnCreateNewLANGame.RemoveListener(connectionNewLANGameAction);
+
+        }
 
 	}
 

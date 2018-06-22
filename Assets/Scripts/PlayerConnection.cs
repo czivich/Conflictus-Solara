@@ -318,15 +318,12 @@ public class PlayerConnection : NetworkBehaviour {
     //this function updates the player control status
     private void UpdatePlayerControlStatus()
     {
-        Debug.Log("UpdatePlayerControlStatus");
         if(networkManager.GetComponentInChildren<NetworkLobbyLAN>().greenPlayerConnection == this)
         {
-            Debug.Log("localGreenPlayer = true");
             isLocalGreenPlayer = true;
         }
         else
         {
-            Debug.Log("localGreenPlayer = false");
             isLocalGreenPlayer = false;
 
             //check if all local players are false and we are trying to leave
@@ -405,10 +402,8 @@ public class PlayerConnection : NetworkBehaviour {
     //this function checks to see what players we are controlling and relinquishes any of them when this player connection is destroyed
     private void RelinquishAllPlayerControl()
     {
-        Debug.Log("RelinquishAllPlayerControl");
         if(isLocalGreenPlayer == true)
         {
-            Debug.Log("CmdRelinquishLocalControlGreen called");
             CmdRelinquishLocalControlGreen(this.gameObject, this.netId);
         }
 
@@ -431,13 +426,11 @@ public class PlayerConnection : NetworkBehaviour {
     //this function resolves stopping the client
     private void ResolveStopClient()
     {
-        Debug.Log("ResolveStopClient called");
         if (this.isLocalPlayer == true)
         {
             //set the isDisconnecting flag to true
             isDisconnecting = true;
 
-            Debug.Log("RelinquishAllPlayerControl");
             RelinquishAllPlayerControl();
         }
     }
@@ -448,7 +441,6 @@ public class PlayerConnection : NetworkBehaviour {
         //check if the disconnecting player is this player
         if(playerConnection == this)
         {
-            Debug.Log("Resolving DisconnectingPlayer");
             //relinquish all player control
             RelinquishAllPlayerControl();
 
@@ -492,7 +484,6 @@ public class PlayerConnection : NetworkBehaviour {
     [Command]
     private void CmdRelinquishLocalControlGreen(GameObject requestingPlayerConnectionGameObject, NetworkInstanceId requestingNetId)
     {
-        Debug.Log("Relinquish Green Command");
         //invoke an event relinquishing control of the green player
         OnRelinquishLocalControlGreen.Invoke(requestingPlayerConnectionGameObject.GetComponent<PlayerConnection>(), requestingNetId);
     }

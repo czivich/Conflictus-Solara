@@ -617,6 +617,8 @@ public class LobbyLANGamePanel : MonoBehaviour {
 
     }
 
+    private PlayerConnection localPlayerConnection;
+
     //color for selected button tab
     private Color selectedButtonColor = new Color(240.0f / 255.0f, 240.0f / 255.0f, 20.0f / 255.0f, 255.0f / 255.0f);
 
@@ -860,6 +862,8 @@ public class LobbyLANGamePanel : MonoBehaviour {
         purplePlayerInputField.onEndEdit.AddListener(purplePlayerInputAction);
         bluePlayerInputField.onEndEdit.AddListener(bluePlayerInputAction);
 
+        //add listener for local player connection update
+        NetworkLobbyLAN.OnUpdateLocalPlayerConnection.AddListener(ResolveUpdateLocalPlayerConnection);
 
     }
 
@@ -915,9 +919,24 @@ public class LobbyLANGamePanel : MonoBehaviour {
 
         //resolve the host status
         ResolveHostStatus();
+
         
         //open the window
         OpenWindow();
+    }
+
+    //this function resolves the local player connection being set
+    private void ResolveUpdateLocalPlayerConnection()
+    {
+        //set the player connection
+        localPlayerConnection = networkManager.GetComponentInChildren<NetworkLobbyLAN>().localPlayerConnection;
+
+        //check if the local player controls any colors
+        GetGreenPlayerConnection();
+        GetRedPlayerConnection();
+        GetPurplePlayerConnection();
+        GetBluePlayerConnection();
+
     }
 
     //this function sets the default player names
@@ -3248,7 +3267,10 @@ public class LobbyLANGamePanel : MonoBehaviour {
         //remove listener for blue connection update
         NetworkLobbyLAN.OnUpdateBluePlayerConnection.RemoveListener(GetBluePlayerConnection);
 
-        if(readyGreenPlayerButton != null)
+        //remove listener for local player connection update
+        NetworkLobbyLAN.OnUpdateLocalPlayerConnection.RemoveListener(ResolveUpdateLocalPlayerConnection);
+
+        if (readyGreenPlayerButton != null)
         {
             //remove listener for ready buttons
             readyGreenPlayerButton.onClick.RemoveListener(ResolveReadyGreenButtonClick);

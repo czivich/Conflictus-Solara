@@ -361,12 +361,10 @@ public class LocalNetworkDiscovery : NetworkDiscovery {
 
         //get the connection info for the received data
         LANConnectionInfo receivedInfo = new LANConnectionInfo(fromAddress, data);
-        Debug.Log("received data = " + data);
 
         //check if the receivedInfo is in the dictionary
         if (lanGames.ContainsKey(receivedInfo) == false)
         {
-            Debug.Log("NotInDictionary");
             //flag to see if we find an update
             bool foundUpdate = false;
 
@@ -381,7 +379,7 @@ public class LocalNetworkDiscovery : NetworkDiscovery {
                     && entry.Key.port == receivedInfo.port
                     && entry.Key.gameName == receivedInfo.gameName)
                 {
-                    Debug.Log("ReceivedUpdate");
+
                     //we have an existing game for this ipAddress, port, and name
                     //invoke the update event
                     OnReceivedUpdateToLANGame.Invoke(receivedInfo);
@@ -430,12 +428,10 @@ public class LocalNetworkDiscovery : NetworkDiscovery {
     //this function updates the broadcast data from the network lobby
     private void UpdateBroadcastMessageFromLobbyInfo()
     {
-        Debug.Log("UpdateBroadcastMessage");
         //check if we are the server
         if (isServer == true)
         {
-            Debug.Log("UpdateBroadcastMessage is server");
-            
+         
             //stop the broadcast
             StopBroadcast();
 

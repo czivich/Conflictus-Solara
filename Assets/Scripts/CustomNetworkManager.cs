@@ -5,6 +5,7 @@ using System.Net.Sockets;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.Events;
+using System.Linq;
 
 public class CustomNetworkManager : NetworkManager {
 
@@ -14,6 +15,20 @@ public class CustomNetworkManager : NetworkManager {
 
     //gameobject parent for connections
     public GameObject playerConnectionParent;
+
+    //dictionary to keep track of players and device IDs for reconnecting
+    private Dictionary<string, GameObject> deviceIDConnections = new Dictionary<string, GameObject>();
+    private Dictionary<GameObject, float> connectionTimer = new Dictionary<GameObject, float>();
+    private Dictionary<NetworkConnection,GameObject> playerConnectionsConnected = new Dictionary<NetworkConnection, GameObject>();
+    private Dictionary<NetworkConnection, GameObject> playerConnectionsForDisconnect = new Dictionary<NetworkConnection, GameObject>();
+
+    //default disconnect timeout time
+    private float disconnectTimout = 30.0f;
+
+    private List<GameObject> gameObjectsToRemove = new List<GameObject>();
+    private List<string> deviceIDsToRemove = new List<string>();
+    private List<NetworkConnection> connsectionsToRemove = new List<NetworkConnection>();
+
 
     public static ConnectionEvent OnPlayerDisconnecting = new ConnectionEvent();
 
@@ -44,6 +59,85 @@ public class CustomNetworkManager : NetworkManager {
 
     private void Update()
     {
+        //loop through the connections
+        foreach (KeyValuePair<string, GameObject> entry in deviceIDConnections)
+        {
+
+            //check if the entry value is on the disconnect dictionary
+            if (playerConnectionsForDisconnect.ContainsValue(entry.Value))
+            {
+                //the gameObject is disconnected
+                //update the timeout remaining
+                connectionTimer[entry.Value] -= Time.deltaTime;
+
+                //check if the value is now less than 0
+                if (connectionTimer[entry.Value] <= 0.0f)
+                {
+                    //the connection has timed out
+
+                    Debug.Log(entry.Value.name + " disconnecting");
+
+                    //add the disconnecting object to the list
+                    gameObjectsToRemove.Add(entry.Value);
+                    deviceIDsToRemove.Add(entry.Key);
+
+                    //get the key for the playerConnectionsForDisconnect dictionary with the entry.Value value
+                    var myKey = playerConnectionsForDisconnect.FirstOrDefault(x => x.Value == entry.Value).Key;
+
+                    connsectionsToRemove.Add(myKey);
+
+                    //invoke the disconnecting event
+                    OnPlayerDisconnecting.Invoke(entry.Value.GetComponent<PlayerConnection>(),
+                        entry.Value.GetComponent<PlayerConnection>().netId);
+
+                    NetworkServer.DestroyPlayersForConnection(myKey);
+                    if (myKey.lastError != NetworkError.Ok)
+                    {
+                        if (LogFilter.logError) { Debug.LogError("ServerDisconnected due to error: " + myKey.lastError); }
+                    }
+
+                }
+
+            }
+            else
+            {
+                //else the connection is intact
+                connectionTimer[entry.Value] = disconnectTimout;
+
+            }
+
+        }
+
+        //loop through connections to remove and remove them
+        foreach(GameObject go in gameObjectsToRemove)
+        {
+            //remove the key from the timer dictionary
+            connectionTimer.Remove(go);
+                                
+        }
+            
+        //loop through connections to remove and remove them
+        foreach (string id in deviceIDsToRemove)
+        {
+            //remove the key from the timer dictionary
+            deviceIDConnections.Remove(id);
+                
+        }
+
+        //loop through connections to remove and remove them
+        foreach (NetworkConnection conn in connsectionsToRemove)
+        {
+            //remove the key from the timer dictionary
+            playerConnectionsForDisconnect.Remove(conn);
+
+        }
+
+        //clear the lists
+        gameObjectsToRemove.Clear();
+        deviceIDsToRemove.Clear();
+        connsectionsToRemove.Clear();
+        
+        /*
         if(timer > 0f)
         {
             timer -= Time.deltaTime;
@@ -63,6 +157,7 @@ public class CustomNetworkManager : NetworkManager {
             }
 
         }
+        */
     }
 
     //this function sets unity Actions
@@ -121,6 +216,63 @@ public class CustomNetworkManager : NetworkManager {
 
     }
 
+    //this function adds the player connection object when a client joins the game
+    public override void OnServerAddPlayer(NetworkConnection conn, short playerControllerId, NetworkReader extraMessageReader)
+    {
+        //due to some weird bug, I need to seek zero before using ReadString
+        extraMessageReader.SeekZero();
+        //extraMessageReader.ReadBytes(4);
+        //var myMsg = msg.ReadMessage<MyMessage>();
+
+        string extraMessageString = extraMessageReader.ReadString();
+
+        Debug.Log("Message reader String = " + extraMessageString);
+        
+        //due to some weird bug, I need to seek zero before using ReadString
+        extraMessageReader.SeekZero();
+
+
+        //check if the deviceID string is in the dictionary
+        if (deviceIDConnections.ContainsKey(extraMessageString) == true)
+        {
+            //we found a match - we want to reassociate an existing gameObject with this key
+            //instead of instantiating a new one
+            NetworkServer.AddPlayerForConnection(conn, deviceIDConnections[extraMessageString], playerControllerId);
+            playerConnectionsConnected.Add(conn, deviceIDConnections[extraMessageString]);
+
+
+            //check if the playerConnectionsForDisconnect dictionary has the game object as a value
+            if (playerConnectionsForDisconnect.ContainsValue(deviceIDConnections[extraMessageString]))
+            {
+
+                //it has the value - now we need to get the key
+                var myKey = playerConnectionsForDisconnect.FirstOrDefault(x => x.Value == deviceIDConnections[extraMessageString]).Key;
+
+                //remove that key
+                playerConnectionsForDisconnect.Remove(myKey);
+
+            }
+
+        }
+        else
+        {
+            //the else is that this is not in the dictionary - we need to create a new gameObject
+            
+            //create the player connection object
+            GameObject playerConnection = (GameObject)Instantiate(playerPrefab, Vector3.zero, Quaternion.identity);
+            
+            //add the new playerConnection to the dictionary
+            deviceIDConnections.Add(extraMessageString, playerConnection);
+            connectionTimer.Add(playerConnection, disconnectTimout);
+            playerConnectionsConnected.Add(conn, playerConnection);
+            
+
+            //add the player for connection
+            NetworkServer.AddPlayerForConnection(conn, playerConnection, playerControllerId);
+        }
+        
+    }
+
     //this function removes the player connection object when a client leaves the game
     public override void OnServerRemovePlayer(NetworkConnection conn, PlayerController player)
     {
@@ -139,6 +291,17 @@ public class CustomNetworkManager : NetworkManager {
     public override void OnClientConnect(NetworkConnection conn)
     {
         //right now nothing is changed - but this is where I can pass a message in the ClientScene.AddPlayer call
+        /*
+        if (!clientLoadedScene)
+        {
+            // Ready/AddPlayer is usually triggered by a scene load completing. if no scene was loaded, then Ready/AddPlayer it here instead.
+            ClientScene.Ready(conn);
+            if (m_AutoCreatePlayer)
+            {
+                ClientScene.AddPlayer(0);
+            }
+        }
+        */
 
         if (!clientLoadedScene)
         {
@@ -146,7 +309,20 @@ public class CustomNetworkManager : NetworkManager {
             ClientScene.Ready(conn);
             if (this.autoCreatePlayer)
             {
-                ClientScene.AddPlayer(0);
+                //System.Guid guid = System.Guid.NewGuid();
+
+                //Debug.Log("Guid String = " + guid.ToString());
+
+                //ClientScene.AddPlayer(null,0,new UnityEngine.Networking.NetworkSystem.StringMessage(guid.ToString()));
+
+
+                Debug.Log("device UID = " + SystemInfo.deviceUniqueIdentifier);
+
+                ClientScene.AddPlayer(null, 0, new UnityEngine.Networking.NetworkSystem.StringMessage(SystemInfo.deviceUniqueIdentifier));
+
+                //ClientScene.AddPlayer(null, 0, new UnityEngine.Networking.NetworkSystem.StringMessage("TEST"));
+
+
             }
         }
     }
@@ -155,10 +331,8 @@ public class CustomNetworkManager : NetworkManager {
     //this function overrides the server disconnect
     public override void OnServerDisconnect(NetworkConnection conn)
     {
-
-        
         Debug.Log("OnServerDisconnect");
-
+        
         //loop through the playerControllers
         for (int i = 0; i <  conn.playerControllers.Count; i++)
         {
@@ -171,9 +345,15 @@ public class CustomNetworkManager : NetworkManager {
                 OnPlayerDisconnecting.Invoke(conn.playerControllers[i].gameObject.GetComponent<PlayerConnection>(),
                     conn.playerControllers[i].gameObject.GetComponent<PlayerConnection>().netId);
                 */
-                Debug.Log("Disconnect Timer Starting!!!");
-                timer = 30f;
-                disconnectObject = conn.playerControllers[i].gameObject;
+                //Debug.Log("Disconnect Timer Starting!!!");
+                // timer = 30f;
+                //disconnectObject = conn.playerControllers[i].gameObject;
+
+                //remove the conneciton from the connected dictionary
+                playerConnectionsConnected.Remove(conn);
+
+                //add the connection to the disconnecting dictionary
+                playerConnectionsForDisconnect.Add(conn, conn.playerControllers[i].gameObject);
 
             }
             

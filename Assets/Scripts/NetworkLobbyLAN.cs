@@ -52,13 +52,13 @@ public class NetworkLobbyLAN : NetworkBehaviour {
             else
             {
                 _greenPlayerConnection = value;
-                Debug.Log("GreenPlayerConnectionSet");
+
                 if (this.isServer == true)
                 {
-                    Debug.Log("GreenPlayerConnectionSetOnServer");
+
                     if (_greenPlayerConnection != null)
                     {
-                        Debug.Log("GreenPlayerConnectionSetOnServerSendRPC");
+
                         RpcUpdateGreenPlayerConnection(_greenPlayerConnection.gameObject);
                     }
                     else
@@ -658,7 +658,27 @@ public class NetworkLobbyLAN : NetworkBehaviour {
     private bool isNewGame = false;
 
     //this is the local player connection on this machine
-    public PlayerConnection localPlayerConnection { get; private set; }
+    private PlayerConnection _localPlayerConnection;
+    public PlayerConnection localPlayerConnection
+    {
+        get
+        {
+            return _localPlayerConnection;
+        }
+        private set
+        {
+            if (value == _localPlayerConnection)
+            {
+                return;
+            }
+            else
+            {
+                _localPlayerConnection = value;
+                OnUpdateLocalPlayerConnection.Invoke();
+
+            }
+        }
+    }
 
     public static ConnectionEvent OnRequestRPCUpdate = new ConnectionEvent();
 
@@ -698,6 +718,8 @@ public class NetworkLobbyLAN : NetworkBehaviour {
     public static UnityEvent OnUpdateBluePlayerAlive = new UnityEvent();
 
     public static UnityEvent OnFinishedInitialGameSetup = new UnityEvent();
+
+    public static UnityEvent OnUpdateLocalPlayerConnection = new UnityEvent();
 
     //unityActions
     private UnityAction<PlayerConnection, NetworkInstanceId> playerConnectionUpdateRPCAction;
@@ -1134,7 +1156,7 @@ public class NetworkLobbyLAN : NetworkBehaviour {
     //this function sets the local player connection
     private void SetLocalPlayerConnection()
     {
-        Debug.Log("SetLocalPlayerConnection");
+
         Debug.Log("connections = " + networkManager.transform.Find("PlayerConnections").transform.childCount);
         //loop through all game objects in the PlayerConnections object
         for (int i = 0; i < networkManager.transform.Find("PlayerConnections").transform.childCount; i++)
@@ -1157,7 +1179,6 @@ public class NetworkLobbyLAN : NetworkBehaviour {
         //check if this is a new game
         if (isNewGame == true)
         {
-            Debug.Log("Get Data from Setup");
             isNewGame = false;
 
             gameName = uiManager.GetComponent<NewLANGameWindow>().gameName;
@@ -1206,7 +1227,6 @@ public class NetworkLobbyLAN : NetworkBehaviour {
                 bluePlayerConnection = localPlayerConnection;
             }
 
-            Debug.Log("Get Data from Setup Finished");
             OnFinishedInitialGameSetup.Invoke();
 
         }
@@ -1246,7 +1266,7 @@ public class NetworkLobbyLAN : NetworkBehaviour {
     //this function resolves a request from a player connection to change the team status
     private void ResolveRequestUpdateTeamStatus(PlayerConnection requestingPlayerConnection, NetworkInstanceId requestingNetId, bool newTeamStatus)
     {
-        Debug.Log("requestingPlayerConnection is " + requestingPlayerConnection.gameObject.name + " new team status is " + newTeamStatus);
+
         //check to make sure this is the server
         if (isServer == true)
         {
@@ -1311,7 +1331,6 @@ public class NetworkLobbyLAN : NetworkBehaviour {
                 //else the green player is taken, so we should allow the requesting player connection to give it up if they are the current controller
                 if(greenPlayerConnection == requestingPlayerConnection)
                 {
-                    Debug.Log("set green player to null");
                     //the requesting player is the current controller - we can give it up
                     greenPlayerConnection = null;
 

@@ -276,6 +276,7 @@ public class HexMapTile{
 		case TileType.PlanetX:
 			this.movementCost = 1.0f;
 			this.isPlanet = true;
+            this.isPassable = true;
 			break;
 		case TileType.MercuryLow:
 			this.movementCost = 1.0f;

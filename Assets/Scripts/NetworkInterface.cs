@@ -156,16 +156,34 @@ public class NetworkInterface : MonoBehaviour {
     //this function stops the client
     private void ResolveStopClient()
     {
-        //stop client
-        customNetworkManager.StopClient();
 
         //check if the network manager is the host
-        if(this.GetComponent<LocalNetworkDiscovery>().isServer == true)
+        if (this.GetComponent<LocalNetworkDiscovery>().isServer == true)
         {
-            Debug.Log("StopHost");
-            //stop the host
-            customNetworkManager.StopHost();
+            
+            if (customNetworkManager.IsClientConnected() == true)
+            {
+                Debug.Log("StopHost");
+                //stop the host
+                customNetworkManager.StopHost();
+            }
+            else
+            {
+                Debug.Log("StopServer");
+                //stop the server
+                customNetworkManager.StopServer();
+            }
+
         }
+        else
+        {
+            Debug.Log("StopClient");
+            //stop client
+            customNetworkManager.StopClient();
+
+        }
+
+
     }
 
     //this function handles OnDestroy

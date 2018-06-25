@@ -314,9 +314,9 @@ public class CustomNetworkManager : NetworkManager {
 
                 Debug.Log("device UID = " + SystemInfo.deviceUniqueIdentifier);
 
-                ClientScene.AddPlayer(null, 0, new UnityEngine.Networking.NetworkSystem.StringMessage(SystemInfo.deviceUniqueIdentifier));
+                //ClientScene.AddPlayer(null, 0, new UnityEngine.Networking.NetworkSystem.StringMessage(SystemInfo.deviceUniqueIdentifier));
 
-                //ClientScene.AddPlayer(null, 0, new UnityEngine.Networking.NetworkSystem.StringMessage("TEST"));
+                ClientScene.AddPlayer(null, 0, new UnityEngine.Networking.NetworkSystem.StringMessage("TEST"));
 
 
             }

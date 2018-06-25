@@ -430,8 +430,10 @@ public class PlayerConnection : NetworkBehaviour {
     //this function resolves stopping the client
     private void ResolveStopClient()
     {
+        Debug.Log("ResolveStopClient");
         if (this.isLocalPlayer == true)
         {
+            Debug.Log("ResolveStopClient - Local");
             //set the isDisconnecting flag to true
             isDisconnecting = true;
 
@@ -488,6 +490,7 @@ public class PlayerConnection : NetworkBehaviour {
     [Command]
     private void CmdRelinquishLocalControlGreen(GameObject requestingPlayerConnectionGameObject, NetworkInstanceId requestingNetId)
     {
+        Debug.Log("CmdRelinquishLocalControlGreen");
         //invoke an event relinquishing control of the green player
         OnRelinquishLocalControlGreen.Invoke(requestingPlayerConnectionGameObject.GetComponent<PlayerConnection>(), requestingNetId);
     }

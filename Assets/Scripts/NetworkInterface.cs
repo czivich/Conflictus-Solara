@@ -147,8 +147,32 @@ public class NetworkInterface : MonoBehaviour {
     //this function resolves leaving a lan game
     private void ResolveLeaveLANGame()
     {
-        //invoke the stop client event
-        OnStopClient.Invoke(); 
+        //check if the network manager is the host
+        if (this.GetComponent<LocalNetworkDiscovery>().isServer == true)
+        {
+
+            if (customNetworkManager.IsClientConnected() == true)
+            {
+                Debug.Log("StopHost");
+                //stop the host
+                customNetworkManager.StopHost();
+            }
+            else
+            {
+                Debug.Log("StopServer");
+                //stop the server
+                customNetworkManager.StopServer();
+            }
+
+        }
+        else
+        {
+            //invoke the stop client event
+            OnStopClient.Invoke();
+
+            //resolve the stop client
+            //ResolveStopClient();
+        }
 
 
     }

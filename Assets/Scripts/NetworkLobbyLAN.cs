@@ -769,6 +769,12 @@ public class NetworkLobbyLAN : NetworkBehaviour {
         //set the name
         this.name = "NetworkLobbyLAN";
 
+        //set actions
+        SetActions();
+
+        //add listeners
+        AddEventListeners();
+
         //set the 1 frame delay
         //need to delay running this by 1 frame because on the server, the lobby LAN is created
         //before the player connections, so it comes over first.  I need the player connections to 
@@ -787,11 +793,7 @@ public class NetworkLobbyLAN : NetworkBehaviour {
             //set the local player connection
             SetLocalPlayerConnection();
 
-            //set actions
-            SetActions();
 
-            //add listeners
-            AddEventListeners();
 
             //check if we are the server
             if (isServer == true)
@@ -1061,6 +1063,14 @@ public class NetworkLobbyLAN : NetworkBehaviour {
     private void ResolveServerPlayerStart(PlayerConnection requestingPlayerConnection, NetworkInstanceId requestingNetId)
     {
         SetLocalPlayerConnection();
+
+        //check if the requesting player is the local connection
+        if(requestingPlayerConnection == localPlayerConnection)
+        {
+            //set the isNewLANGame flag to true
+            isNewLANGame = true;
+        }
+
         GetDataFromNewGameSetup();
     }
 
@@ -1181,6 +1191,7 @@ public class NetworkLobbyLAN : NetworkBehaviour {
         //check if this is a new game
         if (isNewLANGame == true)
         {
+            Debug.Log("GetDataFromNewGameSetup newLANGame");
             isNewLANGame = false;
 
             gameName = uiManager.GetComponent<NewLANGameWindow>().gameName;

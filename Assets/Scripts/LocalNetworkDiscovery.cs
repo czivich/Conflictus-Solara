@@ -459,8 +459,8 @@ public class LocalNetworkDiscovery : NetworkDiscovery {
 
                 //need to completely stop before restarting
                 //StartDiscovery(true, false, newConnectionInfo);
-                checkForBroadcastStoppedCoroutine = StartCoroutine(CheckForBroadcastStopped());
-
+                //checkForBroadcastStoppedCoroutine = StartCoroutine(CheckForBroadcastStopped());
+                StartCoroutine(CheckForBroadcastStopped());
             }
 
         }

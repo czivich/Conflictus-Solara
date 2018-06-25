@@ -617,8 +617,6 @@ public class LobbyLANGamePanel : MonoBehaviour {
 
     }
 
-    private PlayerConnection localPlayerConnection;
-
     //color for selected button tab
     private Color selectedButtonColor = new Color(240.0f / 255.0f, 240.0f / 255.0f, 20.0f / 255.0f, 255.0f / 255.0f);
 
@@ -890,6 +888,7 @@ public class LobbyLANGamePanel : MonoBehaviour {
     //this function resolves joining the game
     private void ResolveEnterLobby(LANConnectionInfo connectionInfo)
     {
+        Debug.Log("ResolveEnterLobby");
         //set the fields from the connection info
         gameName = connectionInfo.gameName;
 
@@ -928,8 +927,6 @@ public class LobbyLANGamePanel : MonoBehaviour {
     //this function resolves the local player connection being set
     private void ResolveUpdateLocalPlayerConnection()
     {
-        //set the player connection
-        localPlayerConnection = networkManager.GetComponentInChildren<NetworkLobbyLAN>().localPlayerConnection;
 
         //check if the local player controls any colors
         GetGreenPlayerConnection();
@@ -2174,9 +2171,12 @@ public class LobbyLANGamePanel : MonoBehaviour {
     //this function sets the green player row based on availability status
     private void SetGreenPlayerRowByAvailability()
     {
+        Debug.Log("SetGreenPlayerRowByAvailability");
+
         //check if we are the server
         if (this.isServer == true)
         {
+            Debug.Log("SetGreenPlayerRowByAvailability is Server");
             //we are the server - this means that taken players are taken by us
             if (greenPlayerIsTaken == true)
             {

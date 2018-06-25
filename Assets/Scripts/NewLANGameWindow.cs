@@ -842,7 +842,7 @@ public class NewLANGameWindow : MonoBehaviour {
     //this function generates a LANConnectionInfo from the current game setup
     private LANConnectionInfo CurrentNewGameConnectionInfo()
     {
-
+        Debug.Log("CurrentNewGameConnectionInfo");
         return new LANConnectionInfo(
             NetworkManager.singleton.networkAddress.ToString(),
             NetworkManager.singleton.networkPort,

@@ -409,10 +409,16 @@ public class GraphicsManager : MonoBehaviour {
 		case HexMapTile.TileType.Pluto:
 			atlasCoordinate = new Vector2 (8, 9);
 			break;
-		case HexMapTile.TileType.PlanetX:
+		case HexMapTile.TileType.Charon:
 			atlasCoordinate = new Vector2 (9, 9);
 			break;
-		case HexMapTile.TileType.MercuryLow:
+        case HexMapTile.TileType.Eris:
+            atlasCoordinate = new Vector2(6, 1);
+            break;
+        case HexMapTile.TileType.Ceres:
+            atlasCoordinate = new Vector2(7, 1);
+            break;
+        case HexMapTile.TileType.MercuryLow:
 			atlasCoordinate = new Vector2 (0, 8);
 			break;
 		case HexMapTile.TileType.VenusLow:
@@ -439,10 +445,16 @@ public class GraphicsManager : MonoBehaviour {
 		case HexMapTile.TileType.PlutoLow:
 			atlasCoordinate = new Vector2 (8, 8);
 			break;
-		case HexMapTile.TileType.PlanetXLow:
+		case HexMapTile.TileType.CharonLow:
 			atlasCoordinate = new Vector2 (9, 8);
 			break;
-		case HexMapTile.TileType.Asteroid:
+        case HexMapTile.TileType.ErisLow:
+            atlasCoordinate = new Vector2(6, 0);
+            break;
+        case HexMapTile.TileType.CeresLow:
+            atlasCoordinate = new Vector2(7, 0);
+            break;
+            case HexMapTile.TileType.Asteroid:
 			//the asteroid case returns a random asteroid tile - there are 22 total tiles
 			//this will make the map look somewhat different each time
 			//it eliminates the need to specify which asteroid I want to place where

@@ -96,7 +96,9 @@ public class HexMapTile{
 		Uranus,
 		Neptune,
 		Pluto,
-		PlanetX,
+		Charon,
+        Eris,
+        Ceres,
 		MercuryLow,
 		VenusLow,
 		EarthLow,
@@ -106,7 +108,9 @@ public class HexMapTile{
 		UranusLow,
 		NeptuneLow,
 		PlutoLow,
-		PlanetXLow,
+		CharonLow,
+        ErisLow,
+        CeresLow,
 		RedWormhole,
 		BlueWormhole,
 		NeutralStarbase,
@@ -273,12 +277,22 @@ public class HexMapTile{
 			this.isPlanet = true;
 			this.isPassable = true;
 			break;
-		case TileType.PlanetX:
+		case TileType.Charon:
 			this.movementCost = 1.0f;
 			this.isPlanet = true;
             this.isPassable = true;
 			break;
-		case TileType.MercuryLow:
+        case TileType.Eris:
+            this.movementCost = 1.0f;
+            this.isPlanet = true;
+            this.isPassable = true;
+            break;
+        case TileType.Ceres:
+            this.movementCost = 1.0f;
+            this.isPlanet = true;
+            this.isPassable = true;
+            break;
+            case TileType.MercuryLow:
 			this.movementCost = 1.0f;
 			this.isPlanet = true;
 			this.isPassable = true;
@@ -322,12 +336,22 @@ public class HexMapTile{
 			this.isPlanet = true;
 			this.isPassable = true;
 			break;
-		case TileType.PlanetXLow:
+		case TileType.CharonLow:
 			this.movementCost = 1.0f;
 			this.isPlanet = true;
 			this.isPassable = true;
 			break;
-		case TileType.BlueWormhole:
+        case TileType.ErisLow:
+            this.movementCost = 1.0f;
+            this.isPlanet = true;
+            this.isPassable = true;
+            break;
+        case TileType.CeresLow:
+            this.movementCost = 1.0f;
+            this.isPlanet = true;
+            this.isPassable = true;
+            break;
+            case TileType.BlueWormhole:
 			this.movementCost = 1.0f;
 			this.isPlanet = false;
 			this.isPassable = true;
@@ -574,11 +598,19 @@ public class HexMapTile{
 			this.tileType = TileType.PlutoLow;
 			break;
 
-		case TileType.PlanetX:
-			this.tileType = TileType.PlanetXLow;
+		case TileType.Charon:
+			this.tileType = TileType.CharonLow;
 			break;
 
-		default:
+        case TileType.Eris:
+            this.tileType = TileType.ErisLow;
+            break;
+
+        case TileType.Ceres:
+            this.tileType = TileType.CeresLow;
+            break;
+
+            default:
 			break;
 
 		}
@@ -681,15 +713,31 @@ public class HexMapTile{
 			planetString = "Pluto";
 			break;
 
-		case HexMapTile.TileType.PlanetX:
-			planetString = "PlanetX";
+		case HexMapTile.TileType.Charon:
+			planetString = "Charon";
 			break;
 
-		case HexMapTile.TileType.PlanetXLow:
-			planetString = "PlanetX";
+		case HexMapTile.TileType.CharonLow:
+			planetString = "Charon";
 			break;
 
-		default:
+        case HexMapTile.TileType.Eris:
+            planetString = "Eris";
+            break;
+
+        case HexMapTile.TileType.ErisLow:
+            planetString = "Eris";
+            break;
+
+        case HexMapTile.TileType.Ceres:
+            planetString = "Ceres";
+            break;
+
+        case HexMapTile.TileType.CeresLow:
+            planetString = "Ceres";
+            break;
+
+            default:
 			planetString = "Not A Planet!";
 			break;
 

@@ -497,6 +497,9 @@ public class LocalNetworkDiscovery : NetworkDiscovery {
 
         }
 
+        //set this action again because something is getting lost in the scene transition
+        SetActions();
+
         //remove listeners for lobby updates
         NetworkLobbyLAN.OnUpdateGameName.RemoveListener(UpdateBroadcastMessageFromLobbyInfo);
         NetworkLobbyLAN.OnUpdateTeamsEnabled.RemoveListener(UpdateBroadcastMessageFromLobbyInfo);

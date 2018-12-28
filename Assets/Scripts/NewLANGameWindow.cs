@@ -102,12 +102,12 @@ public class NewLANGameWindow : MonoBehaviour {
     }
 
     //variables to hold the default planet counts
-    private int defaultPlanetsTeamsYes = 8;
-    private int defaultPlanetsTeamsNo = 7;
+    private int defaultPlanetsTeamsYes = 10;
+    private int defaultPlanetsTeamsNo = 9;
 
     //variables to hold the min and max planet values
-    private int minPlanetValue = 6;
-    private int maxPlanetValue = 10;
+    private int minPlanetValue = 8;
+    private int maxPlanetValue = 12;
 
     //variable to hold the host state
     public bool localHost

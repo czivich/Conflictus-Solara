@@ -271,10 +271,16 @@ public class TileMap : MonoBehaviour {
 		List<Hex> PlutoTiles = new List<Hex>();
 		PlutoTiles.Add (new Hex (-5, 15, -10));
 
-		List<Hex> PlanetXTiles = new List<Hex>();
-		PlanetXTiles.Add (new Hex (22, 15, -37));
+		List<Hex> CharonTiles = new List<Hex>();
+		CharonTiles.Add (new Hex (22, 15, -37));
 
-		List<Hex> AsteroidTiles = new List<Hex>();
+        List<Hex> ErisTiles = new List<Hex>();
+        ErisTiles.Add(new Hex(1, 29, -30));
+
+        List<Hex> CeresTiles = new List<Hex>();
+        CeresTiles.Add(new Hex(15, 1, -16));
+
+        List<Hex> AsteroidTiles = new List<Hex>();
 		AsteroidTiles.Add (new Hex (3, 24, -27));
 		AsteroidTiles.Add (new Hex (3, 23, -26));
 		AsteroidTiles.Add (new Hex (4, 23, -27));
@@ -419,10 +425,18 @@ public class TileMap : MonoBehaviour {
 				else if (PlutoTiles.Contains (hexArray [hexArrayIndex])) {
 					currentHexTileType = HexMapTile.TileType.Pluto;
 				} 
-				else if (PlanetXTiles.Contains (hexArray [hexArrayIndex])) {
-					currentHexTileType = HexMapTile.TileType.PlanetX;
-				} 
-				else if (AsteroidTiles.Contains (hexArray [hexArrayIndex])) {
+				else if (CharonTiles.Contains (hexArray [hexArrayIndex])) {
+					currentHexTileType = HexMapTile.TileType.Charon;
+				}
+                else if (ErisTiles.Contains(hexArray[hexArrayIndex]))
+                {
+                    currentHexTileType = HexMapTile.TileType.Eris;
+                }
+                else if (CeresTiles.Contains(hexArray[hexArrayIndex]))
+                {
+                    currentHexTileType = HexMapTile.TileType.Ceres;
+                }
+                else if (AsteroidTiles.Contains (hexArray [hexArrayIndex])) {
 					currentHexTileType = HexMapTile.TileType.Asteroid;
 				} 
 				else if (SunTiles.Contains (hexArray [hexArrayIndex])) {

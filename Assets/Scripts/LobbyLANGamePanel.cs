@@ -163,12 +163,12 @@ public class LobbyLANGamePanel : MonoBehaviour {
     }
 
     //variables to hold the default planet counts
-    public readonly int defaultPlanetsTeamsYes = 8;
-    public readonly int defaultPlanetsTeamsNo = 7;
+    public readonly int defaultPlanetsTeamsYes = 10;
+    public readonly int defaultPlanetsTeamsNo = 9;
 
     //variables to hold the min and max planet values
-    public readonly int minPlanetValue = 6;
-    public readonly int maxPlanetValue = 10;
+    public readonly int minPlanetValue = 8;
+    public readonly int maxPlanetValue = 12;
 
     //variable to hold the game year
     private int _gameYear;

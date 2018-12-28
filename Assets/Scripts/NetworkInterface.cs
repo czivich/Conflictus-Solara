@@ -230,6 +230,9 @@ public class NetworkInterface : MonoBehaviour {
 
         }
 
+        //set this action again because something is getting lost in the scene transition
+        SetActions();
+
         //remove listener for clicking a join LAN Game button
         GameListItem.OnJoinLANGame.RemoveListener(joinedLANGameAction);
 

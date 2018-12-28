@@ -417,6 +417,8 @@ public class UIManager : MonoBehaviour {
 		//set the text size to the auto-size value
 		textElement.fontSize = textSize;
 
+        //Debug.Log(textElement.text + " font size = " + textElement.fontSize);
+
 	}
 
 	//this function sets the alert string

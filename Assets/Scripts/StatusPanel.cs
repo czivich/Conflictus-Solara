@@ -163,7 +163,6 @@ public class StatusPanel : MonoBehaviour {
 		starshipSectionNames = shipStatusPanel.transform.Find("StarshipSection").Find("StarshipSectionContent").GetComponentsInChildren<TextMeshProUGUI>();
 		fleetTotalNames = shipStatusPanel.transform.Find("TotalsRow").Find("TotalSectionContent").GetComponentsInChildren<TextMeshProUGUI>();
 
-
 		//set the default to ship status, so that clicking the planet status triggers a change
 		StatusPanelState = PanelState.shipStatus;
 
@@ -329,11 +328,14 @@ public class StatusPanel : MonoBehaviour {
 			string planetText = rawImage.transform.parent.parent.GetComponentInChildren<TextMeshProUGUI> ().text;
 
 			//need to convert planet X to planetX
+            //this is no longer necesssary since planet X became Charon
+            /*
 			if (planetText == "Planet X") {
 
-				planetText = "PlanetX";
+				planetText = "Charon";
 
 			}
+            */
 
 			//invoke the rawImage event, converting the planetText string to the tileType enum
 			OnSetPlanetIcon.Invoke((HexMapTile.TileType)Enum.Parse(typeof(HexMapTile.TileType),planetText,true),rawImage);
@@ -389,7 +391,7 @@ public class StatusPanel : MonoBehaviour {
 
 		}
 
-		int numberPlanets = 10;
+		int numberPlanets = 12;
 
 		//iterate through the rows that have the planet data
 		for (int i = 0; i < numberPlanets; i++) {
@@ -397,12 +399,15 @@ public class StatusPanel : MonoBehaviour {
 			//get the name of the planet on this row
 			string planetName = planetStatusPanel.transform.GetChild (i + 1).GetChild (0).GetComponent<TextMeshProUGUI> ().text;
 
-			//if the planet is planetX, fix the string
-			if (planetName == "Planet X") {
+            //if the planet is planetX, fix the string
+            //this is no longer necesssary since planet X became Charon
+            /*
+            if (planetName == "Planet X") {
 
-				planetName = "PlanetX";
+				planetName = "Charon";
 
 			}
+            */
 
 			string planetOwnerColor;
 

@@ -1899,7 +1899,7 @@ public class GameManager : NetworkBehaviour {
 		uiManager.GetComponent<SceneTransitionFadePanel> ().Init ();
 		uiManager.GetComponent<VictoryPanel> ().Init ();
 		uiManager.GetComponent<ParticleManager> ().Init ();
-
+        uiManager.GetComponent<HexLabel>().Init();
 
 
 		uiManager.GetComponent<UINavigationMain> ().Init ();

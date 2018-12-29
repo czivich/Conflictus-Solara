@@ -120,7 +120,8 @@ public class UINavigationMainMenu : MonoBehaviour {
 	public Selectable[] SettingsScrollSensitivity;
 	public Selectable[] SettingsMusicVolume;
 	public Selectable[] SettingsSfxVolume;
-	public Selectable[] SettingsButtonsRow;
+    public Selectable[] SettingsHexLabelDisplay;
+    public Selectable[] SettingsButtonsRow;
 
 	public Selectable[] AboutGameButtons;
 
@@ -1259,7 +1260,7 @@ public class UINavigationMainMenu : MonoBehaviour {
         JoinLANGameGroup[1] = JoinLANGameButtonsRow;
 
 
-        SettingsGroup = new Selectable[9][];
+        SettingsGroup = new Selectable[10][];
 		SettingsGroup[0] = SettingsResolutionDropdown;
 		SettingsGroup[1] = SettingsResolutionApply;
 		SettingsGroup[2] = SettingsFullScreenToggle;
@@ -1268,7 +1269,8 @@ public class UINavigationMainMenu : MonoBehaviour {
 		SettingsGroup[5] = SettingsScrollSensitivity;
 		SettingsGroup[6] = SettingsMusicVolume;
 		SettingsGroup[7] = SettingsSfxVolume;
-		SettingsGroup[8] = SettingsButtonsRow;
+        SettingsGroup[8] = SettingsHexLabelDisplay;
+		SettingsGroup[9] = SettingsButtonsRow;
 
 		AboutGroup = new Selectable[1][];
 		AboutGroup [0] = AboutGameButtons;
@@ -1519,7 +1521,14 @@ public class UINavigationMainMenu : MonoBehaviour {
 			verticalCycling = false;
 			selectablesWrap = false;
 
-		} else if (CurrentSelectables == SettingsButtonsRow){
+		}else if (CurrentSelectables == SettingsHexLabelDisplay)
+        {
+
+            horizontalCycling = false;
+            verticalCycling = false;
+            selectablesWrap = false;
+
+        } else if (CurrentSelectables == SettingsButtonsRow){
 
 			horizontalCycling = true;
 			verticalCycling = false;

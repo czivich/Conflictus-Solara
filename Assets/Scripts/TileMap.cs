@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using TMPro;
 
 //since we're building a mesh with this class, make it require a mesh filter, mesh renderer, and mesh collider
 [ExecuteInEditMode]
@@ -134,6 +135,19 @@ public class TileMap : MonoBehaviour {
 		private set;
 
 	}
+
+    //this holds the prefab for the textMeshPro hex label
+    public GameObject prefabHexLabel;
+
+    //this holds the hex label parent object 
+    public GameObject hexLabelParent;
+
+    //this is the list of hex labels
+    public List<GameObject> hexLabelList
+    {
+        get;
+        private set;
+    }
 
 	// Use this for initialization
 	public void Init () {
@@ -370,6 +384,9 @@ public class TileMap : MonoBehaviour {
 		NeutralStarbaseTiles.Add (new Hex (14, 21, -35));
 		NeutralStarbaseTiles.Add (new Hex (-4, 21, -17));
 
+        //create hexLabelList
+        hexLabelList = new List<GameObject>();
+
 		//int q, r;
 		int hexArrayIndex = 0;
 		for (int r = 0; r < Size_z; r++) {
@@ -472,6 +489,7 @@ public class TileMap : MonoBehaviour {
 				HexMap.Add(hexArray [hexArrayIndex],new HexMapTile(hexArray [hexArrayIndex],hexArrayIndex,this,currentHexTileType));
 				//Debug.Log("hexArrayIndex + " + hexArrayIndex + ", tiletype: " + currentHexTileType);
 				hexArrayIndex++;
+
 			}
 		}
 
@@ -578,12 +596,33 @@ public class TileMap : MonoBehaviour {
 		//mesh_collider.sharedMesh.Clear ();
 		mesh_collider.sharedMesh = mesh;
 
-		//Debug.Log ("Done Mesh!");
+        //Debug.Log ("Done Mesh!");
 
-		//invoke the create tilemap event
-		OnCreateTileMap.Invoke(this);
+        //create the hex labels
+        CreateHexLabels(hexArray);
+
+
+        //invoke the create tilemap event
+        OnCreateTileMap.Invoke(this);
 
 	}
+
+    //this function creates the hexLabels
+    private void CreateHexLabels(Hex[] hexArray)
+    {
+        //iterate through each hex
+        for(int i = 0; i < hexArray.Length; i++)
+        {
+            //create a hex label at each hex center
+            GameObject newLabel = Instantiate(prefabHexLabel, HexToWorldCoordinates(hexArray[i]), Quaternion.identity, hexLabelParent.transform);
+
+            //update the text label for the new label
+            newLabel.GetComponentInChildren<TextMeshPro>().text = OffsetCoord.OffsetCoordToString(OffsetCoord.RoffsetFromCube(OffsetCoord.ODD, hexArray[i]));
+
+            hexLabelList.Add(newLabel);
+
+        }
+    }
 
 	//let'd create a helper function that converts hex coordinates to worldspace coordinates
 	public Vector3 HexToWorldCoordinates(Hex hex){

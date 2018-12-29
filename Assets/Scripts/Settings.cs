@@ -89,9 +89,11 @@ public class Settings : MonoBehaviour {
 	//variable for the sfx volume value toggle
 	public Toggle sfxVolumeValue;
 
+    //variable for the hex label display toggle
+    public Toggle hexLabelDisplayToggle;
 
-	//this array holds scroll rects affected by mouseScroll
-	public ScrollRect[] scrollRects;
+    //this array holds scroll rects affected by mouseScroll
+    public ScrollRect[] scrollRects;
 
 
 	//this variable holds the supported screen resolutions
@@ -108,12 +110,14 @@ public class Settings : MonoBehaviour {
 	private const int mouseScrollSensitivityDefault = 32;
 	private const int musicVolumeDefault = 32;
 	private const int sfxVolumeDefault = 50;
+    private const bool hexLabelDisplayDefault = false;
 
 	private bool mouseZoomInverted;
 	private int mouseZoomSensitivity;
 	private int mouseScrollSensitivity;
 	private int musicVolume;
 	private int sfxVolume;
+    private bool hexLabelDisplay;
 
 	//event for opening window
 	public UnityEvent OnSettingsWindowOpened = new UnityEvent();
@@ -137,6 +141,9 @@ public class Settings : MonoBehaviour {
 
 	//class for passing bool event
 	public class MouseZoomSensitivityEvent : UnityEvent<int>{};
+
+    //event for toggling hex label display
+    public MouseInversionEvent OnChangeHexLabelDisplay = new MouseInversionEvent();
 
 	//scene index
 	private int mainSceneBuildIndex = 1;
@@ -165,6 +172,8 @@ public class Settings : MonoBehaviour {
 
 	private UnityAction<GameManager.ActionMode> actionModeButtonStatusAction;
 
+    private UnityAction<bool> boolSetHexLabelDisplayAction;
+
 
 	//settings file
 	private SettingsData settingsData;
@@ -186,6 +195,7 @@ public class Settings : MonoBehaviour {
 		public int mouseScrollSensitivity {get; private set;}
 		public int musicVolume {get; private set;}
 		public int sfxVolume {get; private set;}
+        public bool hexLabelDisplay { get; private set; }
 
 		//constructor
 		public SettingsData(){
@@ -199,6 +209,7 @@ public class Settings : MonoBehaviour {
 			this.mouseScrollSensitivity = settings.mouseScrollSensitivity;
 			this.musicVolume = settings.musicVolume;
 			this.sfxVolume = settings.sfxVolume;
+            this.hexLabelDisplay = settings.hexLabelDisplay;
 
 		}
 
@@ -232,7 +243,11 @@ public class Settings : MonoBehaviour {
 			writer.WriteValue (this.sfxVolume.ToString());
 			writer.WriteEndElement();
 
-		}
+            writer.WriteStartElement("hexLabelDisplay");
+            writer.WriteValue(this.hexLabelDisplay.ToString().ToLowerInvariant());
+            writer.WriteEndElement();
+
+        }
 
 		//this function is for load info
 		public void ReadXml(XmlReader reader){
@@ -256,8 +271,11 @@ public class Settings : MonoBehaviour {
 			//read the element and store value - sfxVolume
 			this.sfxVolume = reader.ReadElementContentAsInt();
 
-			//this last ReadEndElement is the SettingsData
-			reader.ReadEndElement();
+            //read the element and store value - hexLabelDisplay
+            this.hexLabelDisplay = reader.ReadElementContentAsBoolean();
+
+            //this last ReadEndElement is the SettingsData
+            reader.ReadEndElement();
 
 		}
 
@@ -270,6 +288,7 @@ public class Settings : MonoBehaviour {
 			this.mouseScrollSensitivity = Settings.mouseScrollSensitivityDefault;
 			this.musicVolume = Settings.musicVolumeDefault;
 			this.sfxVolume = Settings.sfxVolumeDefault;
+            this.hexLabelDisplay = Settings.hexLabelDisplayDefault;
 
 		}
 
@@ -311,6 +330,9 @@ public class Settings : MonoBehaviour {
 
 		//invoke the sfx volume event
 		OnChangeSfxVolume.Invoke((int)this.sfxVolume);
+
+        //invoke the display hex label event
+        OnChangeHexLabelDisplay.Invoke(this.hexLabelDisplay);
 
 	}
 
@@ -446,6 +468,9 @@ public class Settings : MonoBehaviour {
 		musicVolumeValue.GetComponentInChildren<TextMeshProUGUI> ().text = musicVolume.ToString();
 		sfxVolumeValue.GetComponentInChildren<TextMeshProUGUI> ().text = sfxVolume.ToString();
 
+        //set the hex label display toggle setting
+        hexLabelDisplayToggle.isOn = hexLabelDisplay;
+
 	}
 
 	//this function resolves clicking the apply button
@@ -547,8 +572,20 @@ public class Settings : MonoBehaviour {
 
 	}
 
-	//this is a helper function to return the settings base path
-	public static string SettingsFileBasePath(){
+    //this function resolves the display hex label toggle
+    private void ResolveHexLabelDisplayToggle(bool isDisplayed)
+    {
+
+        //set the toggle
+        hexLabelDisplay = isDisplayed;
+
+        //invoke the event
+        OnChangeHexLabelDisplay.Invoke(hexLabelDisplay);
+
+    }
+
+    //this is a helper function to return the settings base path
+    public static string SettingsFileBasePath(){
 
 		string filePath = System.IO.Path.Combine (Application.persistentDataPath, "Settings");
 
@@ -617,6 +654,7 @@ public class Settings : MonoBehaviour {
 		this.mouseScrollSensitivity = settingsData.mouseScrollSensitivity;
 		this.musicVolume = settingsData.musicVolume;
 		this.sfxVolume = settingsData.sfxVolume;
+        this.hexLabelDisplay = settingsData.hexLabelDisplay;
 
 	}
 
@@ -629,6 +667,7 @@ public class Settings : MonoBehaviour {
 		this.mouseScrollSensitivitySlider.value = Settings.mouseScrollSensitivityDefault;
 		this.musicVolumeSlider.value = Settings.musicVolumeDefault;
 		this.sfxVolumeSlider.value = Settings.sfxVolumeDefault;
+        this.hexLabelDisplayToggle.isOn = Settings.hexLabelDisplayDefault;
 
 	}
 
@@ -705,8 +744,11 @@ public class Settings : MonoBehaviour {
 
 		});
 
-		//set the save settings file action
-		settingsFileSaveAction = (() => {SaveSettings(settingsFileName);});
+        //set the hex label display toggle action
+        boolSetHexLabelDisplayAction = ((newToggleValue) => { ResolveHexLabelDisplayToggle(newToggleValue); });
+
+        //set the save settings file action
+        settingsFileSaveAction = (() => {SaveSettings(settingsFileName);});
 
 		//set the action for setting the button mode
 		actionModeButtonStatusAction = ((actionMode) => {SetSettingsButtonStatus(actionMode);});
@@ -754,8 +796,11 @@ public class Settings : MonoBehaviour {
 		sfxVolumeDownButton.onClick.AddListener(sfxVolumeDownButtonAction);
 		sfxVolumeSlider.onValueChanged.AddListener (floatSfxVolumeSliderAction);
 
-		//add listeners for saving settings
-		exitButton.onClick.AddListener(settingsFileSaveAction);
+        //add listener for hex label display toggle value change
+        hexLabelDisplayToggle.onValueChanged.AddListener(boolSetHexLabelDisplayAction);
+
+        //add listeners for saving settings
+        exitButton.onClick.AddListener(settingsFileSaveAction);
 		acceptButton.onClick.AddListener(settingsFileSaveAction);
 
 		//add listener for restore default button
@@ -907,6 +952,12 @@ public class Settings : MonoBehaviour {
 			sfxVolumeSlider.onValueChanged.RemoveListener (floatSfxVolumeSliderAction);
 
 		}
+
+        if(hexLabelDisplayToggle != null)
+        {
+            //remove listener for hex label display toggle value change
+            hexLabelDisplayToggle.onValueChanged.RemoveListener(boolSetHexLabelDisplayAction);
+        }
 
 		if (exitButton != null) {
 

@@ -212,7 +212,8 @@ public class UINavigationMain : MonoBehaviour {
 	public Selectable[] SettingsScrollSensitivity;
 	public Selectable[] SettingsMusicVolume;
 	public Selectable[] SettingsSfxVolume;
-	public Selectable[] SettingsButtonsRow;
+    public Selectable[] SettingsHexLabelDisplay;
+    public Selectable[] SettingsButtonsRow;
 
 	public Selectable[] ExitGameButtons;
 
@@ -2901,7 +2902,7 @@ public class UINavigationMain : MonoBehaviour {
 		FileDeletePromptGroup = new Selectable[1][];
 		FileDeletePromptGroup [0] = FileDeleteButtons;
 
-		SettingsGroup = new Selectable[9][];
+		SettingsGroup = new Selectable[10][];
 		SettingsGroup[0] = SettingsResolutionDropdown;
 		SettingsGroup[1] = SettingsResolutionApply;
 		SettingsGroup[2] = SettingsFullScreenToggle;
@@ -2910,7 +2911,8 @@ public class UINavigationMain : MonoBehaviour {
 		SettingsGroup[5] = SettingsScrollSensitivity;
 		SettingsGroup[6] = SettingsMusicVolume;
 		SettingsGroup[7] = SettingsSfxVolume;
-		SettingsGroup[8] = SettingsButtonsRow;
+        SettingsGroup[8] = SettingsHexLabelDisplay;
+        SettingsGroup[9] = SettingsButtonsRow;
 
 		ExitGamePromptGroup = new Selectable[1][];
 		ExitGamePromptGroup [0] = ExitGameButtons;
@@ -3347,7 +3349,16 @@ public class UINavigationMain : MonoBehaviour {
 			verticalCycling = false;
 			selectablesWrap = false;
 
-		} else if (CurrentSelectables == SettingsButtonsRow){
+		}
+        else if (CurrentSelectables == SettingsHexLabelDisplay)
+        {
+
+            horizontalCycling = false;
+            verticalCycling = false;
+            selectablesWrap = false;
+
+        }
+        else if (CurrentSelectables == SettingsButtonsRow){
 
 			horizontalCycling = true;
 			verticalCycling = false;

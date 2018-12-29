@@ -186,7 +186,7 @@ public struct LANConnectionInfo {
             victoryPlanets.ToString() + ":" +
             gameYear.ToString() + ":";
 
-        Debug.Log("string created = " + broadcastDataString);
+        //Debug.Log("string created = " + broadcastDataString);
 
     }
 

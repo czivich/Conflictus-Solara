@@ -964,6 +964,8 @@ public class EngineSection : MonoBehaviour {
 			distanceMovedThisTurn += distanceMovedThisMove;
 			CurrentMovementRange -= distanceMovedThisMove;
 
+            //Debug.Log("Distance Moved = " + distanceMovedThisTurn);
+
 			this.CalculateMovementRange (this.gameObject);
 
 

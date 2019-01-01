@@ -2490,7 +2490,7 @@ public class FileManager : MonoBehaviour  {
 							starshipLightTorpedos [i, j] = reader.ReadElementContentAsInt ();
 
 							//read element for heavy torpedos
-							destroyerHeavyTorpedos [i, j] = reader.ReadElementContentAsInt ();
+							starshipHeavyTorpedos [i, j] = reader.ReadElementContentAsInt ();
 
 							//read element for high usedTorpedoThisTurn
 							starshipUsedTorpedosThisTurn [i, j] = reader.ReadElementContentAsBoolean ();
